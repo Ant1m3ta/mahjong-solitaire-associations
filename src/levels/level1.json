@@ -1,0 +1,24 @@
+{
+  "levelId": "1",
+  "slotsDefault": 3,
+  "movesLimit": 12,
+  "categories": [
+    {
+      "categoryId": "Fruit",
+      "wordsData": [
+        { "wordId": "Apple" },
+        { "wordId": "Banana" },
+        { "wordId": "Cherry" },
+        { "wordId": "Date" }
+      ]
+    }
+  ],
+  "stock": [],
+  "board": [
+    { "x": 0, "y": 0, "z": 0, "cardId": "Apple" },
+    { "x": 2, "y": 0, "z": 0, "cardId": "Banana" },
+    { "x": 0, "y": 2, "z": 0, "cardId": "Cherry" },
+    { "x": 2, "y": 2, "z": 0, "cardId": "Date" },
+    { "x": 1, "y": 1, "z": 1, "cardId": "Fruit" }
+  ]
+}

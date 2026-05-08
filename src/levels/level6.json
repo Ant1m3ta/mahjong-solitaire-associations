@@ -1,0 +1,206 @@
+{
+  "levelId": "6",
+  "slotsDefault": 4,
+  "movesLimit": 200,
+  "categories": [
+    {
+      "categoryId": "Fruit",
+      "wordsData": [
+        { "wordId": "Apple" },
+        { "wordId": "Banana" },
+        { "wordId": "Cherry" },
+        { "wordId": "Date" }
+      ]
+    },
+    {
+      "categoryId": "Animal",
+      "wordsData": [
+        { "wordId": "Cat" },
+        { "wordId": "Dog" },
+        { "wordId": "Eagle" },
+        { "wordId": "Fox" }
+      ]
+    },
+    {
+      "categoryId": "Color",
+      "wordsData": [
+        { "wordId": "Red" },
+        { "wordId": "Blue" },
+        { "wordId": "Green" },
+        { "wordId": "Yellow" }
+      ]
+    },
+    {
+      "categoryId": "Tool",
+      "wordsData": [
+        { "wordId": "Hammer" },
+        { "wordId": "Saw" },
+        { "wordId": "Wrench" },
+        { "wordId": "Pliers" }
+      ]
+    },
+    {
+      "categoryId": "Metal",
+      "wordsData": [
+        { "wordId": "Iron" },
+        { "wordId": "Gold" },
+        { "wordId": "Silver" },
+        { "wordId": "Copper" }
+      ]
+    },
+    {
+      "categoryId": "Drink",
+      "wordsData": [
+        { "wordId": "Tea" },
+        { "wordId": "Coffee" },
+        { "wordId": "Juice" },
+        { "wordId": "Water" }
+      ]
+    },
+    {
+      "categoryId": "Music",
+      "wordsData": [
+        { "wordId": "Piano" },
+        { "wordId": "Guitar" },
+        { "wordId": "Drum" },
+        { "wordId": "Violin" }
+      ]
+    },
+    {
+      "categoryId": "Athletics",
+      "wordsData": [
+        { "wordId": "soccer_ball", "icon": true, "imageId": "athletics__soccer_ball" },
+        { "wordId": "baseball_glove", "icon": true, "imageId": "athletics__baseball_glove" },
+        { "wordId": "tennis_racket_ball", "icon": true, "imageId": "athletics__tennis_racket_ball" },
+        { "wordId": "basketball_ball", "icon": true, "imageId": "athletics__basketball_ball" }
+      ]
+    },
+    {
+      "categoryId": "Vehicles",
+      "wordsData": [
+        { "wordId": "airplane", "icon": true, "imageId": "vehicles__airplane" },
+        { "wordId": "boat", "icon": true, "imageId": "vehicles__boat" },
+        { "wordId": "steam_train", "icon": true, "imageId": "vehicles__steam_train" },
+        { "wordId": "red_car", "icon": true, "imageId": "vehicles__red_car" }
+      ]
+    },
+    {
+      "categoryId": "Creatures",
+      "wordsData": [
+        { "wordId": "three_headed_snake", "icon": true, "imageId": "creatures__three_headed_snake" },
+        { "wordId": "cute_purple_octo", "icon": true, "imageId": "creatures__cute_purple_octo" },
+        { "wordId": "cute_fire_dragon", "icon": true, "imageId": "creatures__cute_fire_dragon" },
+        { "wordId": "skeleton_knight", "icon": true, "imageId": "creatures__skeleton_knight" }
+      ]
+    },
+    {
+      "categoryId": "Blades",
+      "wordsData": [
+        { "wordId": "jagged_sword", "icon": true, "imageId": "blades__jagged_sword" },
+        { "wordId": "curved_sword", "icon": true, "imageId": "blades__curved_sword" },
+        { "wordId": "short_sabre", "icon": true, "imageId": "blades__short_sabre" },
+        { "wordId": "fencing_sword", "icon": true, "imageId": "blades__fencing_sword" }
+      ]
+    },
+    {
+      "categoryId": "Shapes",
+      "wordsData": [
+        { "wordId": "green_triangle", "icon": true, "imageId": "shapes__green_triangle" },
+        { "wordId": "blue_star", "icon": true, "imageId": "shapes__blue_star" },
+        { "wordId": "purple_diamond", "icon": true, "imageId": "shapes__purple_diamond" },
+        { "wordId": "blue_cube", "icon": true, "imageId": "shapes__blue_cube" }
+      ]
+    },
+    {
+      "categoryId": "Ornaments",
+      "wordsData": [
+        { "wordId": "pearl_bracelet", "icon": true, "imageId": "ornaments__pearl_bracelet" },
+        { "wordId": "striped_candy", "icon": true, "imageId": "ornaments__striped_candy" },
+        { "wordId": "potted_plant", "icon": true, "imageId": "ornaments__potted_plant" },
+        { "wordId": "blue_gem_pendant", "icon": true, "imageId": "ornaments__blue_gem_pendant" }
+      ]
+    },
+    {
+      "categoryId": "Fasteners",
+      "wordsData": [
+        { "wordId": "nut_hardware", "icon": true, "imageId": "fasteners__nut_hardware" },
+        { "wordId": "bolt", "icon": true, "imageId": "fasteners__bolt" },
+        { "wordId": "allen", "icon": true, "imageId": "fasteners__allen" },
+        { "wordId": "hook", "icon": true, "imageId": "fasteners__hook" }
+      ]
+    }
+  ],
+  "stock": ["Ornaments", "Shapes", "Blades", "Creatures", "Vehicles", "Athletics", "Music", "Drink", "Apple", "Cat", "Iron", "Coffee", "soccer_ball"],
+  "board": [
+    { "x": 0, "y": 0, "z": 0, "cardId": "Fruit" },
+    { "x": 0, "y": 0, "z": 1, "cardId": "Banana" },
+    { "x": 0, "y": 0, "z": 2, "cardId": "Saw" },
+    { "x": 0, "y": 0, "z": 3, "cardId": "Tea" },
+    { "x": 0, "y": 0, "z": 4, "cardId": "skeleton_knight" },
+    { "x": 0, "y": 0, "z": 5, "cardId": "pearl_bracelet" },
+
+    { "x": 6, "y": 0, "z": 0, "cardId": "Animal" },
+    { "x": 6, "y": 0, "z": 1, "cardId": "Dog" },
+    { "x": 6, "y": 0, "z": 2, "cardId": "Yellow" },
+    { "x": 6, "y": 0, "z": 3, "cardId": "airplane" },
+
+    { "x": 0, "y": 6, "z": 0, "cardId": "Color" },
+    { "x": 0, "y": 6, "z": 1, "cardId": "Hammer" },
+    { "x": 0, "y": 6, "z": 2, "cardId": "Juice" },
+    { "x": 0, "y": 6, "z": 3, "cardId": "Piano" },
+
+    { "x": 6, "y": 6, "z": 0, "cardId": "Tool" },
+    { "x": 6, "y": 6, "z": 1, "cardId": "Wrench" },
+    { "x": 6, "y": 6, "z": 2, "cardId": "Gold" },
+    { "x": 6, "y": 6, "z": 3, "cardId": "Water" },
+    { "x": 6, "y": 6, "z": 4, "cardId": "Drum" },
+    { "x": 6, "y": 6, "z": 5, "cardId": "cute_fire_dragon" },
+
+    { "x": 2, "y": 2, "z": 0, "cardId": "green_triangle" },
+    { "x": 4, "y": 2, "z": 0, "cardId": "blue_star" },
+    { "x": 2, "y": 4, "z": 0, "cardId": "purple_diamond" },
+    { "x": 4, "y": 4, "z": 0, "cardId": "blue_cube" },
+
+    { "x": 3, "y": 3, "z": 1, "cardId": "jagged_sword" },
+
+    { "x": 2, "y": 0, "z": 0, "cardId": "Metal" },
+    { "x": 2, "y": 0, "z": 1, "cardId": "Guitar" },
+    { "x": 2, "y": 0, "z": 2, "cardId": "Cherry" },
+    { "x": 2, "y": 0, "z": 3, "cardId": "Eagle" },
+
+    { "x": 4, "y": 0, "z": 0, "cardId": "Date" },
+    { "x": 4, "y": 0, "z": 1, "cardId": "tennis_racket_ball" },
+    { "x": 4, "y": 0, "z": 2, "cardId": "Fox" },
+    { "x": 4, "y": 0, "z": 3, "cardId": "Red" },
+
+    { "x": 0, "y": 2, "z": 0, "cardId": "Pliers" },
+    { "x": 0, "y": 2, "z": 1, "cardId": "Violin" },
+    { "x": 0, "y": 2, "z": 2, "cardId": "Silver" },
+    { "x": 0, "y": 2, "z": 3, "cardId": "curved_sword" },
+
+    { "x": 6, "y": 2, "z": 0, "cardId": "Copper" },
+    { "x": 6, "y": 2, "z": 1, "cardId": "basketball_ball" },
+    { "x": 6, "y": 2, "z": 2, "cardId": "short_sabre" },
+    { "x": 6, "y": 2, "z": 3, "cardId": "fencing_sword" },
+
+    { "x": 0, "y": 4, "z": 0, "cardId": "Blue" },
+    { "x": 0, "y": 4, "z": 1, "cardId": "cute_purple_octo" },
+    { "x": 0, "y": 4, "z": 2, "cardId": "Green" },
+    { "x": 0, "y": 4, "z": 3, "cardId": "bolt" },
+
+    { "x": 6, "y": 4, "z": 0, "cardId": "three_headed_snake" },
+    { "x": 6, "y": 4, "z": 1, "cardId": "striped_candy" },
+    { "x": 6, "y": 4, "z": 2, "cardId": "potted_plant" },
+    { "x": 6, "y": 4, "z": 3, "cardId": "blue_gem_pendant" },
+
+    { "x": 2, "y": 6, "z": 0, "cardId": "red_car" },
+    { "x": 2, "y": 6, "z": 1, "cardId": "steam_train" },
+    { "x": 2, "y": 6, "z": 2, "cardId": "boat" },
+    { "x": 2, "y": 6, "z": 3, "cardId": "baseball_glove" },
+
+    { "x": 4, "y": 6, "z": 0, "cardId": "Fasteners" },
+    { "x": 4, "y": 6, "z": 1, "cardId": "nut_hardware" },
+    { "x": 4, "y": 6, "z": 2, "cardId": "allen" },
+    { "x": 4, "y": 6, "z": 3, "cardId": "hook" }
+  ]
+}

@@ -1,0 +1,156 @@
+{
+  "levelId": "5",
+  "slotsDefault": 3,
+  "movesLimit": 160,
+  "categories": [
+    {
+      "categoryId": "Fruit",
+      "wordsData": [
+        { "wordId": "Apple" },
+        { "wordId": "Banana" },
+        { "wordId": "Cherry" },
+        { "wordId": "Date" }
+      ]
+    },
+    {
+      "categoryId": "Animal",
+      "wordsData": [
+        { "wordId": "Cat" },
+        { "wordId": "Dog" },
+        { "wordId": "Eagle" },
+        { "wordId": "Fox" }
+      ]
+    },
+    {
+      "categoryId": "Color",
+      "wordsData": [
+        { "wordId": "Red" },
+        { "wordId": "Blue" },
+        { "wordId": "Green" },
+        { "wordId": "Yellow" }
+      ]
+    },
+    {
+      "categoryId": "Tool",
+      "wordsData": [
+        { "wordId": "Hammer" },
+        { "wordId": "Saw" },
+        { "wordId": "Wrench" },
+        { "wordId": "Pliers" }
+      ]
+    },
+    {
+      "categoryId": "Metal",
+      "wordsData": [
+        { "wordId": "Iron" },
+        { "wordId": "Gold" },
+        { "wordId": "Silver" },
+        { "wordId": "Copper" }
+      ]
+    },
+    {
+      "categoryId": "Drink",
+      "wordsData": [
+        { "wordId": "Tea" },
+        { "wordId": "Coffee" },
+        { "wordId": "Juice" },
+        { "wordId": "Water" }
+      ]
+    },
+    {
+      "categoryId": "Music",
+      "wordsData": [
+        { "wordId": "Piano" },
+        { "wordId": "Guitar" },
+        { "wordId": "Drum" },
+        { "wordId": "Violin" }
+      ]
+    },
+    {
+      "categoryId": "Sport",
+      "wordsData": [
+        { "wordId": "Soccer" },
+        { "wordId": "Tennis" },
+        { "wordId": "Golf" },
+        { "wordId": "Hockey" }
+      ]
+    },
+    {
+      "categoryId": "Vehicle",
+      "wordsData": [
+        { "wordId": "Car" },
+        { "wordId": "Bus" },
+        { "wordId": "Train" },
+        { "wordId": "Bike" }
+      ]
+    },
+    {
+      "categoryId": "Athletics",
+      "wordsData": [
+        { "wordId": "soccer_ball", "icon": true, "imageId": "athletics__soccer_ball" },
+        { "wordId": "baseball_glove", "icon": true, "imageId": "athletics__baseball_glove" },
+        { "wordId": "tennis_racket_ball", "icon": true, "imageId": "athletics__tennis_racket_ball" },
+        { "wordId": "basketball_ball", "icon": true, "imageId": "athletics__basketball_ball" }
+      ]
+    },
+    {
+      "categoryId": "Vehicles",
+      "wordsData": [
+        { "wordId": "airplane", "icon": true, "imageId": "vehicles__airplane" },
+        { "wordId": "boat", "icon": true, "imageId": "vehicles__boat" },
+        { "wordId": "steam_train", "icon": true, "imageId": "vehicles__steam_train" },
+        { "wordId": "red_car", "icon": true, "imageId": "vehicles__red_car" }
+      ]
+    }
+  ],
+  "stock": ["Drink", "Music", "Athletics", "Apple", "Cat", "Hammer", "Metal", "Soccer", "Tea", "Drum", "Piano", "soccer_ball", "Iron", "Car", "Red"],
+  "board": [
+    { "x": 0, "y": 0, "z": 0, "cardId": "Fruit" },
+    { "x": 0, "y": 0, "z": 1, "cardId": "Banana" },
+    { "x": 0, "y": 0, "z": 2, "cardId": "Coffee" },
+    { "x": 0, "y": 0, "z": 3, "cardId": "Gold" },
+    { "x": 0, "y": 0, "z": 4, "cardId": "Saw" },
+
+    { "x": 6, "y": 0, "z": 0, "cardId": "Animal" },
+    { "x": 6, "y": 0, "z": 1, "cardId": "Cherry" },
+    { "x": 6, "y": 0, "z": 2, "cardId": "Pliers" },
+    { "x": 6, "y": 0, "z": 3, "cardId": "Tennis" },
+
+    { "x": 0, "y": 8, "z": 0, "cardId": "Color" },
+    { "x": 0, "y": 8, "z": 1, "cardId": "Wrench" },
+    { "x": 0, "y": 8, "z": 2, "cardId": "Green" },
+    { "x": 0, "y": 8, "z": 3, "cardId": "Bus" },
+
+    { "x": 6, "y": 8, "z": 0, "cardId": "Tool" },
+    { "x": 6, "y": 8, "z": 1, "cardId": "Yellow" },
+    { "x": 6, "y": 8, "z": 2, "cardId": "Eagle" },
+    { "x": 6, "y": 8, "z": 3, "cardId": "Train" },
+
+    { "x": 2, "y": 4, "z": 0, "cardId": "Sport" },
+    { "x": 2, "y": 4, "z": 1, "cardId": "Hockey" },
+    { "x": 2, "y": 4, "z": 2, "cardId": "Bike" },
+
+    { "x": 4, "y": 4, "z": 0, "cardId": "Vehicle" },
+    { "x": 4, "y": 4, "z": 1, "cardId": "Violin" },
+    { "x": 4, "y": 4, "z": 2, "cardId": "Golf" },
+
+    { "x": 2, "y": 8, "z": 0, "cardId": "Vehicles" },
+    { "x": 2, "y": 8, "z": 1, "cardId": "boat" },
+    { "x": 2, "y": 8, "z": 2, "cardId": "airplane" },
+    { "x": 2, "y": 8, "z": 3, "cardId": "steam_train" },
+
+    { "x": 2, "y": 0, "z": 0, "cardId": "Date" },
+    { "x": 4, "y": 0, "z": 0, "cardId": "Dog" },
+    { "x": 0, "y": 2, "z": 0, "cardId": "Blue" },
+    { "x": 2, "y": 2, "z": 0, "cardId": "baseball_glove" },
+    { "x": 4, "y": 2, "z": 0, "cardId": "Silver" },
+    { "x": 6, "y": 2, "z": 0, "cardId": "red_car" },
+    { "x": 0, "y": 4, "z": 0, "cardId": "Juice" },
+    { "x": 6, "y": 4, "z": 0, "cardId": "Water" },
+    { "x": 0, "y": 6, "z": 0, "cardId": "basketball_ball" },
+    { "x": 2, "y": 6, "z": 0, "cardId": "Guitar" },
+    { "x": 4, "y": 6, "z": 0, "cardId": "Fox" },
+    { "x": 6, "y": 6, "z": 0, "cardId": "tennis_racket_ball" },
+    { "x": 4, "y": 8, "z": 0, "cardId": "Copper" }
+  ]
+}

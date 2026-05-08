@@ -1,0 +1,68 @@
+{
+  "levelId": "4",
+  "slotsDefault": 4,
+  "movesLimit": 28,
+  "categories": [
+    {
+      "categoryId": "Fruit",
+      "wordsData": [
+        { "wordId": "Apple" },
+        { "wordId": "Banana" },
+        { "wordId": "Cherry" },
+        { "wordId": "Date" }
+      ]
+    },
+    {
+      "categoryId": "Animal",
+      "wordsData": [
+        { "wordId": "Cat" },
+        { "wordId": "Dog" },
+        { "wordId": "Eagle" },
+        { "wordId": "Fox" }
+      ]
+    },
+    {
+      "categoryId": "Color",
+      "wordsData": [
+        { "wordId": "Red" },
+        { "wordId": "Blue" },
+        { "wordId": "Green" },
+        { "wordId": "Yellow" }
+      ]
+    },
+    {
+      "categoryId": "Tool",
+      "wordsData": [
+        { "wordId": "Hammer" },
+        { "wordId": "Saw" },
+        { "wordId": "Wrench" },
+        { "wordId": "Pliers" }
+      ]
+    }
+  ],
+  "stock": [],
+  "board": [
+    { "x": 0, "y": 0, "z": 0, "cardId": "Banana" },
+    { "x": 2, "y": 0, "z": 0, "cardId": "Dog" },
+    { "x": 4, "y": 0, "z": 0, "cardId": "Blue" },
+    { "x": 6, "y": 0, "z": 0, "cardId": "Wrench" },
+    { "x": 0, "y": 2, "z": 0, "cardId": "Cherry" },
+    { "x": 2, "y": 2, "z": 0, "cardId": "Eagle" },
+    { "x": 4, "y": 2, "z": 0, "cardId": "Green" },
+    { "x": 6, "y": 2, "z": 0, "cardId": "Pliers" },
+    { "x": 0, "y": 4, "z": 0, "cardId": "Date" },
+    { "x": 2, "y": 4, "z": 0, "cardId": "Fox" },
+    { "x": 4, "y": 4, "z": 0, "cardId": "Yellow" },
+    { "x": 6, "y": 4, "z": 0, "cardId": "Saw" },
+
+    { "x": 1, "y": 1, "z": 1, "cardId": "Apple" },
+    { "x": 3, "y": 1, "z": 1, "cardId": "Color" },
+    { "x": 5, "y": 1, "z": 1, "cardId": "Cat" },
+    { "x": 1, "y": 3, "z": 1, "cardId": "Tool" },
+    { "x": 3, "y": 3, "z": 1, "cardId": "Red" },
+    { "x": 5, "y": 3, "z": 1, "cardId": "Hammer" },
+
+    { "x": 2, "y": 2, "z": 2, "cardId": "Fruit" },
+    { "x": 4, "y": 2, "z": 2, "cardId": "Animal" }
+  ]
+}

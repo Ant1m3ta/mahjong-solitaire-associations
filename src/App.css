@@ -1,0 +1,346 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #1a1a2e;
+  color: #e0e0e0;
+  user-select: none;
+  overflow: hidden;
+}
+
+.app {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 16px;
+  gap: 16px;
+  border-bottom: 1px solid #2a2a4a;
+}
+
+.container.header {
+  gap: 32px;
+  min-height: 130px;
+}
+
+.container.category-slots {
+  gap: 16px;
+  min-height: 130px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.container.board-container {
+  flex: 1;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 16px;
+  overflow: auto;
+}
+
+.container.footer {
+  gap: 24px;
+  padding: 10px 16px;
+  min-height: 60px;
+  border-bottom: none;
+}
+
+/* ================ Card ================ */
+.card {
+  width: 70px;
+  height: 100px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 6px;
+  background: #fafafa;
+  color: #1a1a2e;
+  border: 2px solid #888;
+  box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.45);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: default;
+  transition: transform 0.08s ease;
+  word-break: break-word;
+}
+
+.card.category {
+  background: linear-gradient(135deg, #ffd966, #f2a72e);
+  font-weight: 700;
+  border-color: #b88f00;
+  color: #1a1a2e;
+}
+
+.card.face-down {
+  background: repeating-linear-gradient(
+    45deg,
+    #3a3a5a,
+    #3a3a5a 8px,
+    #2e2e4a 8px,
+    #2e2e4a 16px
+  );
+  color: transparent;
+  border-color: #4a4a6a;
+  cursor: default;
+  /* Defensive: even if a parent forgets to set pointer-events: none,
+     covered cards should never intercept clicks. */
+  pointer-events: none;
+}
+
+.card.draggable {
+  cursor: grab;
+}
+.card.draggable:active {
+  cursor: grabbing;
+}
+.card.dragging {
+  opacity: 0.4;
+}
+.card.drop-target {
+  outline: 3px solid #6cf;
+  outline-offset: 2px;
+}
+.card.side-blocked {
+  filter: brightness(0.6) saturate(0.5);
+  cursor: not-allowed;
+}
+
+.card-label {
+  pointer-events: none;
+}
+
+.card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  display: block;
+}
+
+/* ================ Header ================ */
+.header-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.header-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.55;
+}
+
+.stock-pile {
+  width: 70px;
+  height: 100px;
+  position: relative;
+  cursor: pointer;
+}
+.stock-pile .card {
+  position: absolute;
+  inset: 0;
+}
+.stock-pile .count {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #ff5b5b;
+  color: white;
+  border-radius: 12px;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.hand {
+  width: 70px;
+  height: 100px;
+}
+
+.empty-slot {
+  background: transparent;
+  border: 2px dashed #4a4a6a;
+  color: #555;
+  box-shadow: none;
+  font-size: 11px;
+}
+
+.moves-value {
+  font-size: 22px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.moves-sep {
+  opacity: 0.4;
+  margin: 0 4px;
+  font-weight: 400;
+}
+
+/* ================ Category slots ================ */
+.category-slot {
+  position: relative;
+  width: 70px;
+  height: 100px;
+  border: 2px dashed #4a4a6a;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.category-slot.locked {
+  border-style: solid;
+  border-color: #888;
+}
+.category-slot.drop-target {
+  border-color: #6cf;
+  background: rgba(102, 204, 255, 0.12);
+}
+.category-slot .card {
+  pointer-events: none;
+}
+.category-slot .empty-slot-label {
+  font-size: 11px;
+  color: #555;
+}
+.category-slot .progress {
+  position: absolute;
+  bottom: -18px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 11px;
+  opacity: 0.7;
+  font-variant-numeric: tabular-nums;
+}
+
+.bonus-slot {
+  background: transparent;
+  border: 2px dashed #6cf;
+  color: #6cf;
+  font-size: 36px;
+  font-weight: 300;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  font-family: inherit;
+  transition: background 0.1s ease, transform 0.05s ease;
+}
+.bonus-slot:hover {
+  background: rgba(102, 204, 255, 0.12);
+}
+.bonus-slot:active {
+  transform: scale(0.96);
+}
+
+/* ================ Board ================ */
+.board-area {
+  position: relative;
+}
+
+/* ================ Footer ================ */
+.rollback-btn {
+  background: #ff7e36;
+  border: none;
+  color: white;
+  padding: 10px 28px;
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: 6px;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+}
+.rollback-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+.rollback-btn:not(:disabled):hover {
+  background: #ff8f50;
+}
+
+.level-picker {
+  display: flex;
+  gap: 8px;
+}
+.level-picker button {
+  background: #2a2a4a;
+  border: 1px solid #4a4a6a;
+  color: #ccc;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+}
+.level-picker button.active {
+  background: #6cf;
+  color: #1a1a2e;
+  border-color: #6cf;
+}
+
+/* ================ Overlay ================ */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 10, 25, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+.overlay-card {
+  background: #1a1a2e;
+  border: 1px solid #4a4a6a;
+  padding: 32px 48px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.6);
+}
+.overlay-card h1 {
+  margin: 0 0 8px;
+  font-size: 36px;
+}
+.overlay-subtitle {
+  margin: 0 0 20px;
+  opacity: 0.7;
+}
+.overlay-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+.overlay-buttons button {
+  padding: 10px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 6px;
+  border: 1px solid #4a4a6a;
+  background: #2a2a4a;
+  color: white;
+  cursor: pointer;
+}
+.overlay-buttons button.primary {
+  background: #6cf;
+  color: #1a1a2e;
+  border-color: #6cf;
+}

@@ -1,0 +1,34 @@
+{
+  "levelId": "2",
+  "slotsDefault": 3,
+  "movesLimit": 16,
+  "categories": [
+    {
+      "categoryId": "Fruit",
+      "wordsData": [
+        { "wordId": "Apple" },
+        { "wordId": "Banana" },
+        { "wordId": "Cherry" }
+      ]
+    },
+    {
+      "categoryId": "Animal",
+      "wordsData": [
+        { "wordId": "Cat" },
+        { "wordId": "Dog" },
+        { "wordId": "Eagle" }
+      ]
+    }
+  ],
+  "stock": [],
+  "board": [
+    { "x": 0, "y": 0, "z": 0, "cardId": "Banana" },
+    { "x": 2, "y": 0, "z": 0, "cardId": "Cherry" },
+    { "x": 0, "y": 2, "z": 0, "cardId": "Cat" },
+    { "x": 2, "y": 2, "z": 0, "cardId": "Dog" },
+    { "x": 4, "y": 4, "z": 0, "cardId": "Apple" },
+    { "x": 4, "y": 4, "z": 1, "cardId": "Eagle" },
+    { "x": 1, "y": 1, "z": 1, "cardId": "Fruit" },
+    { "x": 3, "y": 1, "z": 1, "cardId": "Animal" }
+  ]
+}

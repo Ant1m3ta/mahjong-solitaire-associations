@@ -1,7 +1,7 @@
 {
   "levelId": "8",
   "slotsDefault": 4,
-  "movesLimit": 400,
+  "movesLimit": 200,
   "categories": [
     {
       "categoryId": "Athletics",
@@ -10,8 +10,7 @@
         { "wordId": "baseball_glove", "icon": true, "imageId": "athletics__baseball_glove" },
         { "wordId": "tennis_racket_ball", "icon": true, "imageId": "athletics__tennis_racket_ball" },
         { "wordId": "basketball_ball", "icon": true, "imageId": "athletics__basketball_ball" },
-        { "wordId": "american_football", "icon": true, "imageId": "athletics__american_football" },
-        { "wordId": "fencing", "icon": true, "imageId": "athletics__fencing" }
+        { "wordId": "american_football", "icon": true, "imageId": "athletics__american_football" }
       ]
     },
     {
@@ -21,8 +20,7 @@
         { "wordId": "curved_sword", "icon": true, "imageId": "blades__curved_sword" },
         { "wordId": "short_sabre", "icon": true, "imageId": "blades__short_sabre" },
         { "wordId": "fencing_sword", "icon": true, "imageId": "blades__fencing_sword" },
-        { "wordId": "broadsword", "icon": true, "imageId": "blades__broadsword" },
-        { "wordId": "machete", "icon": true, "imageId": "blades__machete" }
+        { "wordId": "broadsword", "icon": true, "imageId": "blades__broadsword" }
       ]
     },
     {
@@ -32,8 +30,7 @@
         { "wordId": "three_headed_snake", "icon": true, "imageId": "creatures__three_headed_snake" },
         { "wordId": "skeleton_knight", "icon": true, "imageId": "creatures__skeleton_knight" },
         { "wordId": "cute_purple_octo", "icon": true, "imageId": "creatures__cute_purple_octo" },
-        { "wordId": "phoenix", "icon": true, "imageId": "creatures__phoenix" },
-        { "wordId": "unicorn", "icon": true, "imageId": "creatures__unicorn" }
+        { "wordId": "phoenix", "icon": true, "imageId": "creatures__phoenix" }
       ]
     },
     {
@@ -43,8 +40,7 @@
         { "wordId": "bolt", "icon": true, "imageId": "fasteners__bolt" },
         { "wordId": "hook", "icon": true, "imageId": "fasteners__hook" },
         { "wordId": "nut_hardware", "icon": true, "imageId": "fasteners__nut_hardware" },
-        { "wordId": "nail", "icon": true, "imageId": "fasteners__nail" },
-        { "wordId": "hex", "icon": true, "imageId": "fasteners__hex" }
+        { "wordId": "nail", "icon": true, "imageId": "fasteners__nail" }
       ]
     },
     {
@@ -53,9 +49,7 @@
         { "wordId": "blue_gem_pendant", "icon": true, "imageId": "ornaments__blue_gem_pendant" },
         { "wordId": "pearl_bracelet", "icon": true, "imageId": "ornaments__pearl_bracelet" },
         { "wordId": "potted_plant", "icon": true, "imageId": "ornaments__potted_plant" },
-        { "wordId": "striped_candy", "icon": true, "imageId": "ornaments__striped_candy" },
-        { "wordId": "blue_gem_ring", "icon": true, "imageId": "ornaments__blue_gem_ring" },
-        { "wordId": "heart_pendant", "icon": true, "imageId": "ornaments__heart_pendant" }
+        { "wordId": "striped_candy", "icon": true, "imageId": "ornaments__striped_candy" }
       ]
     },
     {
@@ -64,75 +58,7 @@
         { "wordId": "blue_cube", "icon": true, "imageId": "shapes__blue_cube" },
         { "wordId": "blue_star", "icon": true, "imageId": "shapes__blue_star" },
         { "wordId": "green_triangle", "icon": true, "imageId": "shapes__green_triangle" },
-        { "wordId": "purple_diamond", "icon": true, "imageId": "shapes__purple_diamond" },
-        { "wordId": "hexagon", "icon": true, "imageId": "shapes__hexagon" },
-        { "wordId": "gold_pyramid", "icon": true, "imageId": "shapes__gold_pyramid" }
-      ]
-    },
-    {
-      "categoryId": "Vehicles",
-      "wordsData": [
-        { "wordId": "airplane", "icon": true, "imageId": "vehicles__airplane" },
-        { "wordId": "boat", "icon": true, "imageId": "vehicles__boat" },
-        { "wordId": "steam_train", "icon": true, "imageId": "vehicles__steam_train" },
-        { "wordId": "red_car", "icon": true, "imageId": "vehicles__red_car" },
-        { "wordId": "monster_truck", "icon": true, "imageId": "vehicles__monster_truck" },
-        { "wordId": "purple_scooter", "icon": true, "imageId": "vehicles__purple_scooter" }
-      ]
-    },
-    {
-      "categoryId": "Instruments",
-      "wordsData": [
-        { "wordId": "acoustic_guitar", "icon": true, "imageId": "instruments__acoustic_guitar" },
-        { "wordId": "bagpipe", "icon": true, "imageId": "instruments__bagpipe" },
-        { "wordId": "banjo", "icon": true, "imageId": "instruments__banjo" },
-        { "wordId": "bassoon", "icon": true, "imageId": "instruments__bassoon" },
-        { "wordId": "cello", "icon": true, "imageId": "instruments__cello" },
-        { "wordId": "harp", "icon": true, "imageId": "instruments__harp" }
-      ]
-    },
-    {
-      "categoryId": "Symbols",
-      "wordsData": [
-        { "wordId": "at_sign", "icon": true, "imageId": "symbols__at_sign" },
-        { "wordId": "bell", "icon": true, "imageId": "symbols__bell" },
-        { "wordId": "dollar_sign", "icon": true, "imageId": "symbols__dollar_sign" },
-        { "wordId": "hashtag", "icon": true, "imageId": "symbols__hashtag" },
-        { "wordId": "heart_icon", "icon": true, "imageId": "symbols__heart_icon" },
-        { "wordId": "lightning_bolt", "icon": true, "imageId": "symbols__lightning_bolt" }
-      ]
-    },
-    {
-      "categoryId": "Sweets",
-      "wordsData": [
-        { "wordId": "brownie", "icon": true, "imageId": "sweets__brownie" },
-        { "wordId": "candy_corn", "icon": true, "imageId": "sweets__candy_corn" },
-        { "wordId": "caramel", "icon": true, "imageId": "sweets__caramel" },
-        { "wordId": "chocolate_bar", "icon": true, "imageId": "sweets__chocolate_bar" },
-        { "wordId": "chocolate_cake", "icon": true, "imageId": "sweets__chocolate_cake" },
-        { "wordId": "fudge", "icon": true, "imageId": "sweets__fudge" }
-      ]
-    },
-    {
-      "categoryId": "Headgear",
-      "wordsData": [
-        { "wordId": "armet", "icon": true, "imageId": "headgear__armet" },
-        { "wordId": "bascinet", "icon": true, "imageId": "headgear__bascinet" },
-        { "wordId": "bicycle_helmet", "icon": true, "imageId": "headgear__bicycle_helmet" },
-        { "wordId": "captain_hat", "icon": true, "imageId": "headgear__captain_hat" },
-        { "wordId": "cowboy_hat", "icon": true, "imageId": "headgear__cowboy_hat" },
-        { "wordId": "fedora_hat", "icon": true, "imageId": "headgear__fedora_hat" }
-      ]
-    },
-    {
-      "categoryId": "Containers",
-      "wordsData": [
-        { "wordId": "barrel", "icon": true, "imageId": "containers__barrel" },
-        { "wordId": "basket", "icon": true, "imageId": "containers__basket" },
-        { "wordId": "bin", "icon": true, "imageId": "containers__bin" },
-        { "wordId": "box", "icon": true, "imageId": "containers__box" },
-        { "wordId": "cabinet", "icon": true, "imageId": "containers__cabinet" },
-        { "wordId": "crate", "icon": true, "imageId": "containers__crate" }
+        { "wordId": "purple_diamond", "icon": true, "imageId": "shapes__purple_diamond" }
       ]
     },
     {
@@ -141,9 +67,7 @@
         { "wordId": "Apple" },
         { "wordId": "Banana" },
         { "wordId": "Orange" },
-        { "wordId": "Lemon" },
-        { "wordId": "Kiwi" },
-        { "wordId": "Mango" }
+        { "wordId": "Lemon" }
       ]
     },
     {
@@ -153,9 +77,7 @@
         { "wordId": "Action" },
         { "wordId": "Comedy" },
         { "wordId": "Horror" },
-        { "wordId": "Thriller" },
-        { "wordId": "Western" },
-        { "wordId": "Fantasy" }
+        { "wordId": "Thriller" }
       ]
     },
     {
@@ -165,9 +87,7 @@
         { "wordId": "Chair" },
         { "wordId": "Sofa" },
         { "wordId": "Table" },
-        { "wordId": "Closet" },
-        { "wordId": "Dresser" },
-        { "wordId": "Bookshelf" }
+        { "wordId": "Closet" }
       ]
     },
     {
@@ -177,9 +97,7 @@
         { "wordId": "Mozart" },
         { "wordId": "Beethoven" },
         { "wordId": "Chopin" },
-        { "wordId": "Schubert" },
-        { "wordId": "Vivaldi" },
-        { "wordId": "Wagner" }
+        { "wordId": "Schubert" }
       ]
     },
     {
@@ -189,8 +107,7 @@
         { "wordId": "Foggy" },
         { "wordId": "Snowy" },
         { "wordId": "Rainy" },
-        { "wordId": "Windy" },
-        { "wordId": "Stormy" }
+        { "wordId": "Windy" }
       ]
     },
     {
@@ -199,259 +116,82 @@
         { "wordId": "Rumba" },
         { "wordId": "Tango" },
         { "wordId": "Salsa" },
-        { "wordId": "Waltz" },
-        { "wordId": "Samba" },
-        { "wordId": "Flamenco" }
-      ]
-    },
-    {
-      "categoryId": "Fabrics",
-      "wordsData": [
-        { "wordId": "Flannel" },
-        { "wordId": "Cotton" },
-        { "wordId": "Silk" },
-        { "wordId": "Satin" },
-        { "wordId": "Velvet" },
-        { "wordId": "Linen" }
-      ]
-    },
-    {
-      "categoryId": "Dogs",
-      "wordsData": [
-        { "wordId": "Bulldog" },
-        { "wordId": "Doberman" },
-        { "wordId": "Husky" },
-        { "wordId": "Beagle" },
-        { "wordId": "Poodle" },
-        { "wordId": "Terrier" }
-      ]
-    },
-    {
-      "categoryId": "Food",
-      "wordsData": [
-        { "wordId": "Hot dog" },
-        { "wordId": "Pizza" },
-        { "wordId": "Burger" },
-        { "wordId": "Fries" },
-        { "wordId": "Nuggets" },
-        { "wordId": "Noodles" }
-      ]
-    },
-    {
-      "categoryId": "Fish",
-      "wordsData": [
-        { "wordId": "Goldfish" },
-        { "wordId": "Tuna" },
-        { "wordId": "Marlin" },
-        { "wordId": "Sardine" },
-        { "wordId": "Eel" },
-        { "wordId": "Mackerel" },
-        { "wordId": "Grouper" }
-      ]
-    },
-    {
-      "categoryId": "Trees",
-      "wordsData": [
-        { "wordId": "Palm" },
-        { "wordId": "Elm" },
-        { "wordId": "Baobab" },
-        { "wordId": "Oak" },
-        { "wordId": "Birch" },
-        { "wordId": "Maple" },
-        { "wordId": "Pine" }
-      ]
-    },
-    {
-      "categoryId": "Planets",
-      "wordsData": [
-        { "wordId": "Mercury" },
-        { "wordId": "Jupiter" },
-        { "wordId": "Saturn" },
-        { "wordId": "Uranus" },
-        { "wordId": "Neptune" },
-        { "wordId": "Mars" }
+        { "wordId": "Waltz" }
       ]
     }
   ],
   "stock": [],
   "board": [
-    { "x": 0, "y": 0, "z": 0, "cardId": "soccer_ball" },
-    { "x": 2, "y": 0, "z": 0, "cardId": "jagged_sword" },
-    { "x": 4, "y": 0, "z": 0, "cardId": "cute_fire_dragon" },
-    { "x": 6, "y": 0, "z": 0, "cardId": "allen" },
-    { "x": 8, "y": 0, "z": 0, "cardId": "blue_gem_pendant" },
-    { "x": 10, "y": 0, "z": 0, "cardId": "blue_cube" },
-    { "x": 12, "y": 0, "z": 0, "cardId": "airplane" },
-    { "x": 14, "y": 0, "z": 0, "cardId": "acoustic_guitar" },
-    { "x": 16, "y": 0, "z": 0, "cardId": "at_sign" },
-    { "x": 0, "y": 2, "z": 0, "cardId": "brownie" },
-    { "x": 2, "y": 2, "z": 0, "cardId": "armet" },
-    { "x": 4, "y": 2, "z": 0, "cardId": "barrel" },
-    { "x": 6, "y": 2, "z": 0, "cardId": "Apple" },
-    { "x": 8, "y": 2, "z": 0, "cardId": "Drama" },
-    { "x": 10, "y": 2, "z": 0, "cardId": "Bed" },
-    { "x": 12, "y": 2, "z": 0, "cardId": "Bach" },
-    { "x": 14, "y": 2, "z": 0, "cardId": "Sunny" },
-    { "x": 16, "y": 2, "z": 0, "cardId": "Rumba" },
-    { "x": 0, "y": 4, "z": 0, "cardId": "Flannel" },
-    { "x": 2, "y": 4, "z": 0, "cardId": "Bulldog" },
-    { "x": 4, "y": 4, "z": 0, "cardId": "Hot dog" },
-    { "x": 6, "y": 4, "z": 0, "cardId": "Goldfish" },
-    { "x": 8, "y": 4, "z": 0, "cardId": "Palm" },
-    { "x": 10, "y": 4, "z": 0, "cardId": "Mercury" },
-    { "x": 12, "y": 4, "z": 0, "cardId": "baseball_glove" },
-    { "x": 14, "y": 4, "z": 0, "cardId": "curved_sword" },
-    { "x": 16, "y": 4, "z": 0, "cardId": "three_headed_snake" },
-    { "x": 0, "y": 6, "z": 0, "cardId": "bolt" },
-    { "x": 2, "y": 6, "z": 0, "cardId": "pearl_bracelet" },
-    { "x": 4, "y": 6, "z": 0, "cardId": "blue_star" },
-    { "x": 6, "y": 6, "z": 0, "cardId": "boat" },
-    { "x": 8, "y": 6, "z": 0, "cardId": "bagpipe" },
-    { "x": 10, "y": 6, "z": 0, "cardId": "bell" },
-    { "x": 12, "y": 6, "z": 0, "cardId": "candy_corn" },
-    { "x": 14, "y": 6, "z": 0, "cardId": "bascinet" },
-    { "x": 16, "y": 6, "z": 0, "cardId": "basket" },
-    { "x": 0, "y": 8, "z": 0, "cardId": "Banana" },
-    { "x": 2, "y": 8, "z": 0, "cardId": "Action" },
-    { "x": 4, "y": 8, "z": 0, "cardId": "Chair" },
-    { "x": 6, "y": 8, "z": 0, "cardId": "Mozart" },
-    { "x": 8, "y": 8, "z": 0, "cardId": "Foggy" },
-    { "x": 10, "y": 8, "z": 0, "cardId": "Tango" },
-    { "x": 12, "y": 8, "z": 0, "cardId": "Cotton" },
-    { "x": 14, "y": 8, "z": 0, "cardId": "Doberman" },
-    { "x": 16, "y": 8, "z": 0, "cardId": "Pizza" },
-    { "x": 0, "y": 10, "z": 0, "cardId": "Tuna" },
-    { "x": 2, "y": 10, "z": 0, "cardId": "Elm" },
-    { "x": 4, "y": 10, "z": 0, "cardId": "Jupiter" },
-    { "x": 6, "y": 10, "z": 0, "cardId": "tennis_racket_ball" },
-    { "x": 8, "y": 10, "z": 0, "cardId": "short_sabre" },
-    { "x": 10, "y": 10, "z": 0, "cardId": "skeleton_knight" },
-    { "x": 12, "y": 10, "z": 0, "cardId": "hook" },
-    { "x": 14, "y": 10, "z": 0, "cardId": "potted_plant" },
-    { "x": 16, "y": 10, "z": 0, "cardId": "green_triangle" },
-    { "x": 0, "y": 12, "z": 0, "cardId": "steam_train" },
-    { "x": 2, "y": 12, "z": 0, "cardId": "banjo" },
-    { "x": 4, "y": 12, "z": 0, "cardId": "dollar_sign" },
-    { "x": 6, "y": 12, "z": 0, "cardId": "caramel" },
-    { "x": 8, "y": 12, "z": 0, "cardId": "bicycle_helmet" },
-    { "x": 10, "y": 12, "z": 0, "cardId": "bin" },
-    { "x": 12, "y": 12, "z": 0, "cardId": "Orange" },
-    { "x": 14, "y": 12, "z": 0, "cardId": "Comedy" },
-    { "x": 16, "y": 12, "z": 0, "cardId": "Sofa" },
+    { "x": 0, "y": 0, "z": 0, "cardId": "Weather" },
+    { "x": 2, "y": 0, "z": 0, "cardId": "soccer_ball" },
+    { "x": 4, "y": 0, "z": 0, "cardId": "jagged_sword" },
+    { "x": 6, "y": 0, "z": 0, "cardId": "cute_fire_dragon" },
+    { "x": 8, "y": 0, "z": 0, "cardId": "allen" },
+    { "x": 10, "y": 0, "z": 0, "cardId": "blue_gem_pendant" },
+    { "x": 0, "y": 2, "z": 0, "cardId": "blue_cube" },
+    { "x": 2, "y": 2, "z": 0, "cardId": "Apple" },
+    { "x": 4, "y": 2, "z": 0, "cardId": "Drama" },
+    { "x": 6, "y": 2, "z": 0, "cardId": "Bed" },
+    { "x": 8, "y": 2, "z": 0, "cardId": "Bach" },
+    { "x": 10, "y": 2, "z": 0, "cardId": "Sunny" },
+    { "x": 0, "y": 4, "z": 0, "cardId": "Rumba" },
+    { "x": 2, "y": 4, "z": 0, "cardId": "baseball_glove" },
+    { "x": 4, "y": 4, "z": 0, "cardId": "curved_sword" },
+    { "x": 6, "y": 4, "z": 0, "cardId": "three_headed_snake" },
+    { "x": 8, "y": 4, "z": 0, "cardId": "bolt" },
+    { "x": 10, "y": 4, "z": 0, "cardId": "pearl_bracelet" },
+    { "x": 0, "y": 6, "z": 0, "cardId": "blue_star" },
+    { "x": 2, "y": 6, "z": 0, "cardId": "Banana" },
+    { "x": 4, "y": 6, "z": 0, "cardId": "Action" },
+    { "x": 6, "y": 6, "z": 0, "cardId": "Chair" },
+    { "x": 8, "y": 6, "z": 0, "cardId": "Mozart" },
+    { "x": 10, "y": 6, "z": 0, "cardId": "Foggy" },
+    { "x": 0, "y": 8, "z": 0, "cardId": "Tango" },
+    { "x": 2, "y": 8, "z": 0, "cardId": "tennis_racket_ball" },
+    { "x": 4, "y": 8, "z": 0, "cardId": "short_sabre" },
+    { "x": 6, "y": 8, "z": 0, "cardId": "skeleton_knight" },
+    { "x": 8, "y": 8, "z": 0, "cardId": "hook" },
+    { "x": 10, "y": 8, "z": 0, "cardId": "Dances" },
 
-    { "x": 1, "y": 1, "z": 1, "cardId": "Beethoven" },
-    { "x": 3, "y": 1, "z": 1, "cardId": "Snowy" },
-    { "x": 5, "y": 1, "z": 1, "cardId": "Salsa" },
-    { "x": 7, "y": 1, "z": 1, "cardId": "Silk" },
-    { "x": 9, "y": 1, "z": 1, "cardId": "Husky" },
-    { "x": 11, "y": 1, "z": 1, "cardId": "Burger" },
-    { "x": 13, "y": 1, "z": 1, "cardId": "Marlin" },
-    { "x": 15, "y": 1, "z": 1, "cardId": "Baobab" },
-    { "x": 1, "y": 3, "z": 1, "cardId": "Saturn" },
-    { "x": 3, "y": 3, "z": 1, "cardId": "basketball_ball" },
-    { "x": 5, "y": 3, "z": 1, "cardId": "fencing_sword" },
-    { "x": 7, "y": 3, "z": 1, "cardId": "cute_purple_octo" },
-    { "x": 9, "y": 3, "z": 1, "cardId": "nut_hardware" },
-    { "x": 11, "y": 3, "z": 1, "cardId": "striped_candy" },
-    { "x": 13, "y": 3, "z": 1, "cardId": "purple_diamond" },
-    { "x": 15, "y": 3, "z": 1, "cardId": "red_car" },
-    { "x": 1, "y": 5, "z": 1, "cardId": "bassoon" },
-    { "x": 3, "y": 5, "z": 1, "cardId": "hashtag" },
-    { "x": 5, "y": 5, "z": 1, "cardId": "chocolate_bar" },
-    { "x": 7, "y": 5, "z": 1, "cardId": "captain_hat" },
-    { "x": 9, "y": 5, "z": 1, "cardId": "box" },
-    { "x": 11, "y": 5, "z": 1, "cardId": "Lemon" },
-    { "x": 13, "y": 5, "z": 1, "cardId": "Horror" },
-    { "x": 15, "y": 5, "z": 1, "cardId": "Table" },
-    { "x": 1, "y": 7, "z": 1, "cardId": "Chopin" },
-    { "x": 3, "y": 7, "z": 1, "cardId": "Rainy" },
-    { "x": 5, "y": 7, "z": 1, "cardId": "Waltz" },
-    { "x": 7, "y": 7, "z": 1, "cardId": "Satin" },
-    { "x": 9, "y": 7, "z": 1, "cardId": "Beagle" },
-    { "x": 11, "y": 7, "z": 1, "cardId": "Fries" },
-    { "x": 13, "y": 7, "z": 1, "cardId": "Sardine" },
-    { "x": 15, "y": 7, "z": 1, "cardId": "Oak" },
-    { "x": 1, "y": 9, "z": 1, "cardId": "Uranus" },
-    { "x": 3, "y": 9, "z": 1, "cardId": "american_football" },
-    { "x": 5, "y": 9, "z": 1, "cardId": "broadsword" },
-    { "x": 7, "y": 9, "z": 1, "cardId": "phoenix" },
-    { "x": 9, "y": 9, "z": 1, "cardId": "nail" },
-    { "x": 11, "y": 9, "z": 1, "cardId": "blue_gem_ring" },
-    { "x": 13, "y": 9, "z": 1, "cardId": "hexagon" },
-    { "x": 15, "y": 9, "z": 1, "cardId": "monster_truck" },
-    { "x": 1, "y": 11, "z": 1, "cardId": "cello" },
-    { "x": 3, "y": 11, "z": 1, "cardId": "heart_icon" },
-    { "x": 5, "y": 11, "z": 1, "cardId": "chocolate_cake" },
-    { "x": 7, "y": 11, "z": 1, "cardId": "cowboy_hat" },
-    { "x": 9, "y": 11, "z": 1, "cardId": "cabinet" },
-    { "x": 11, "y": 11, "z": 1, "cardId": "Kiwi" },
-    { "x": 13, "y": 11, "z": 1, "cardId": "Thriller" },
-    { "x": 15, "y": 11, "z": 1, "cardId": "Closet" },
+    { "x": 1, "y": 1, "z": 1, "cardId": "potted_plant" },
+    { "x": 3, "y": 1, "z": 1, "cardId": "Ornaments" },
+    { "x": 5, "y": 1, "z": 1, "cardId": "green_triangle" },
+    { "x": 7, "y": 1, "z": 1, "cardId": "Orange" },
+    { "x": 9, "y": 1, "z": 1, "cardId": "Comedy" },
+    { "x": 1, "y": 3, "z": 1, "cardId": "Sofa" },
+    { "x": 3, "y": 3, "z": 1, "cardId": "Beethoven" },
+    { "x": 5, "y": 3, "z": 1, "cardId": "Snowy" },
+    { "x": 7, "y": 3, "z": 1, "cardId": "Composer" },
+    { "x": 9, "y": 3, "z": 1, "cardId": "Salsa" },
+    { "x": 1, "y": 5, "z": 1, "cardId": "basketball_ball" },
+    { "x": 3, "y": 5, "z": 1, "cardId": "fencing_sword" },
+    { "x": 5, "y": 5, "z": 1, "cardId": "cute_purple_octo" },
+    { "x": 7, "y": 5, "z": 1, "cardId": "nut_hardware" },
+    { "x": 9, "y": 5, "z": 1, "cardId": "striped_candy" },
+    { "x": 1, "y": 7, "z": 1, "cardId": "purple_diamond" },
+    { "x": 3, "y": 7, "z": 1, "cardId": "Lemon" },
+    { "x": 5, "y": 7, "z": 1, "cardId": "Horror" },
+    { "x": 7, "y": 7, "z": 1, "cardId": "Shapes" },
+    { "x": 9, "y": 7, "z": 1, "cardId": "Table" },
 
-    { "x": 2, "y": 2, "z": 2, "cardId": "Schubert" },
-    { "x": 4, "y": 2, "z": 2, "cardId": "Windy" },
-    { "x": 6, "y": 2, "z": 2, "cardId": "Samba" },
-    { "x": 8, "y": 2, "z": 2, "cardId": "Velvet" },
-    { "x": 10, "y": 2, "z": 2, "cardId": "Poodle" },
-    { "x": 12, "y": 2, "z": 2, "cardId": "Nuggets" },
-    { "x": 14, "y": 2, "z": 2, "cardId": "Eel" },
-    { "x": 2, "y": 4, "z": 2, "cardId": "Birch" },
-    { "x": 4, "y": 4, "z": 2, "cardId": "Neptune" },
-    { "x": 6, "y": 4, "z": 2, "cardId": "Sweets" },
-    { "x": 8, "y": 4, "z": 2, "cardId": "fencing" },
-    { "x": 10, "y": 4, "z": 2, "cardId": "machete" },
-    { "x": 12, "y": 4, "z": 2, "cardId": "unicorn" },
-    { "x": 14, "y": 4, "z": 2, "cardId": "hex" },
-    { "x": 2, "y": 6, "z": 2, "cardId": "heart_pendant" },
-    { "x": 4, "y": 6, "z": 2, "cardId": "gold_pyramid" },
-    { "x": 6, "y": 6, "z": 2, "cardId": "purple_scooter" },
-    { "x": 8, "y": 6, "z": 2, "cardId": "Headgear" },
-    { "x": 10, "y": 6, "z": 2, "cardId": "harp" },
-    { "x": 12, "y": 6, "z": 2, "cardId": "lightning_bolt" },
-    { "x": 14, "y": 6, "z": 2, "cardId": "fudge" },
-    { "x": 2, "y": 8, "z": 2, "cardId": "fedora_hat" },
-    { "x": 4, "y": 8, "z": 2, "cardId": "crate" },
-    { "x": 6, "y": 8, "z": 2, "cardId": "Mango" },
-    { "x": 8, "y": 8, "z": 2, "cardId": "Western" },
-    { "x": 10, "y": 8, "z": 2, "cardId": "Containers" },
-    { "x": 12, "y": 8, "z": 2, "cardId": "Dresser" },
-    { "x": 14, "y": 8, "z": 2, "cardId": "Vivaldi" },
-    { "x": 2, "y": 10, "z": 2, "cardId": "Stormy" },
-    { "x": 4, "y": 10, "z": 2, "cardId": "Flamenco" },
-    { "x": 6, "y": 10, "z": 2, "cardId": "Linen" },
-    { "x": 8, "y": 10, "z": 2, "cardId": "Terrier" },
-    { "x": 10, "y": 10, "z": 2, "cardId": "Noodles" },
-    { "x": 12, "y": 10, "z": 2, "cardId": "Mackerel" },
-    { "x": 14, "y": 10, "z": 2, "cardId": "Maple" },
+    { "x": 2, "y": 2, "z": 2, "cardId": "Blades" },
+    { "x": 4, "y": 2, "z": 2, "cardId": "Chopin" },
+    { "x": 6, "y": 2, "z": 2, "cardId": "Rainy" },
+    { "x": 8, "y": 2, "z": 2, "cardId": "Cinema" },
+    { "x": 2, "y": 4, "z": 2, "cardId": "Waltz" },
+    { "x": 4, "y": 4, "z": 2, "cardId": "Creatures" },
+    { "x": 6, "y": 4, "z": 2, "cardId": "american_football" },
+    { "x": 8, "y": 4, "z": 2, "cardId": "broadsword" },
+    { "x": 2, "y": 6, "z": 2, "cardId": "Furniture" },
+    { "x": 4, "y": 6, "z": 2, "cardId": "phoenix" },
+    { "x": 6, "y": 6, "z": 2, "cardId": "nail" },
+    { "x": 8, "y": 6, "z": 2, "cardId": "Fasteners" },
 
-    { "x": 4, "y": 4, "z": 3, "cardId": "Dances" },
-    { "x": 6, "y": 4, "z": 3, "cardId": "Fish" },
-    { "x": 8, "y": 4, "z": 3, "cardId": "Trees" },
-    { "x": 10, "y": 4, "z": 3, "cardId": "Planets" },
-    { "x": 12, "y": 4, "z": 3, "cardId": "Fabrics" },
-    { "x": 4, "y": 6, "z": 3, "cardId": "Blades" },
-    { "x": 6, "y": 6, "z": 3, "cardId": "Creatures" },
-    { "x": 8, "y": 6, "z": 3, "cardId": "Fasteners" },
-    { "x": 10, "y": 6, "z": 3, "cardId": "Ornaments" },
-    { "x": 12, "y": 6, "z": 3, "cardId": "Shapes" },
-    { "x": 4, "y": 8, "z": 3, "cardId": "Dogs" },
-    { "x": 6, "y": 8, "z": 3, "cardId": "Vehicles" },
-    { "x": 8, "y": 8, "z": 3, "cardId": "Instruments" },
-    { "x": 10, "y": 8, "z": 3, "cardId": "Symbols" },
-    { "x": 12, "y": 8, "z": 3, "cardId": "Food" },
-
-    { "x": 4, "y": 4, "z": 4, "cardId": "Fruits" },
-    { "x": 12, "y": 4, "z": 4, "cardId": "Mars" },
-    { "x": 4, "y": 8, "z": 4, "cardId": "Fantasy" },
-    { "x": 12, "y": 8, "z": 4, "cardId": "Bookshelf" },
-
-    { "x": 5, "y": 5, "z": 4, "cardId": "Cinema" },
-    { "x": 7, "y": 5, "z": 4, "cardId": "Athletics" },
-    { "x": 9, "y": 5, "z": 4, "cardId": "Wagner" },
-    { "x": 11, "y": 5, "z": 4, "cardId": "Furniture" },
-    { "x": 5, "y": 7, "z": 4, "cardId": "Composer" },
-    { "x": 7, "y": 7, "z": 4, "cardId": "Grouper" },
-    { "x": 9, "y": 7, "z": 4, "cardId": "Pine" },
-    { "x": 11, "y": 7, "z": 4, "cardId": "Weather" }
+    { "x": 3, "y": 3, "z": 3, "cardId": "Athletics" },
+    { "x": 5, "y": 3, "z": 3, "cardId": "Thriller" },
+    { "x": 7, "y": 3, "z": 3, "cardId": "Closet" },
+    { "x": 3, "y": 5, "z": 3, "cardId": "Schubert" },
+    { "x": 5, "y": 5, "z": 3, "cardId": "Windy" },
+    { "x": 7, "y": 5, "z": 3, "cardId": "Fruits" }
   ]
 }

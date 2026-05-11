@@ -61,7 +61,7 @@ export function CardView({
       {!faceDown && card && card.isIcon && card.imageId ? (
         <img
           className="card-image"
-          src={`/images/${card.imageId}.png`}
+          src={`${import.meta.env.BASE_URL}images/${card.imageId}.png`}
           alt={card.word}
           draggable={false}
         />

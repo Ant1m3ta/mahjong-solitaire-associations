@@ -6,5 +6,6 @@ import level4 from './level4.json';
 import level5 from './level5.json';
 import level6 from './level6.json';
 import level7 from './level7.json';
+import level8 from './level8.json';
 
-export const LEVELS: LevelData[] = [level1, level2, level3, level4, level5, level6, level7] as LevelData[];
+export const LEVELS: LevelData[] = [level1, level2, level3, level4, level5, level6, level7, level8] as LevelData[];

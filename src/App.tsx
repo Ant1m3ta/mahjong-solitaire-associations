@@ -1,6 +1,7 @@
-import { useReducer, useState, useEffect } from 'react';
+import { useReducer, useState, useEffect, useMemo } from 'react';
 import { LEVELS } from './levels';
 import { makeInitialAppState, reduce } from './game/reducer';
+import { isDeadlocked } from './game/shuffle';
 import { Header } from './components/Header';
 import { CategorySlotsRow } from './components/CategorySlotsRow';
 import { Board } from './components/Board';
@@ -33,6 +34,11 @@ export function App() {
 
   const overlayDisabled = appState.outcome !== 'playing';
 
+  const deadlocked = useMemo(
+    () => appState.outcome === 'playing' && isDeadlocked(appState.state),
+    [appState.outcome, appState.state],
+  );
+
   return (
     <div className="app">
       <Header
@@ -53,6 +59,19 @@ export function App() {
         disabled={overlayDisabled}
         highlightUnplayable={highlightUnplayable}
       />
+
+      {deadlocked && (
+        <div className="stuck-banner" role="alert">
+          <span className="stuck-banner-text">No moves available</span>
+          <button
+            type="button"
+            className="stuck-banner-btn"
+            onClick={() => dispatch({ type: 'SHUFFLE' })}
+          >
+            Shuffle
+          </button>
+        </div>
+      )}
 
       {appState.outcome === 'won' && (
         <Overlay

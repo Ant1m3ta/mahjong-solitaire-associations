@@ -1,6 +1,7 @@
 import type { AppAction, AppState, GameState, LevelData } from '../types';
 import { buildInitialState } from './init';
 import { applyAction, isLost, isWon } from './moves';
+import { applyShuffle } from './shuffle';
 
 export function makeInitialAppState(level: LevelData): AppState {
   return {
@@ -22,6 +23,20 @@ export function reduce(app: AppState, action: AppAction): AppState {
       state: prev,
       history: app.history.slice(0, -1),
       outcome: 'playing',
+      lastError: null,
+    };
+  }
+  if (action.type === 'SHUFFLE') {
+    if (app.outcome !== 'playing') return app;
+    const newState = applyShuffle(app.state);
+    if (newState === app.state) return app;
+    let outcome: AppState['outcome'] = 'playing';
+    if (isWon(newState)) outcome = 'won';
+    else if (isLost(newState)) outcome = 'lost';
+    return {
+      state: newState,
+      history: [...app.history, app.state],
+      outcome,
       lastError: null,
     };
   }

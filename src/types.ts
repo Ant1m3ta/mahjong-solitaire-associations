@@ -76,7 +76,8 @@ export type AppAction =
   | Action
   | { type: 'ROLLBACK' }
   | { type: 'RESET'; level: LevelData }
-  | { type: 'ADD_BONUS_SLOT' };
+  | { type: 'ADD_BONUS_SLOT' }
+  | { type: 'SHUFFLE' };
 
 export type Outcome = 'playing' | 'won' | 'lost';
 

@@ -1,5 +1,5 @@
 import type { BoardSlot, Card, CategorySlot, GameState } from '../types';
-import { isSlotInteractive, isSlotRevealed } from './coverage';
+import { isSlotInteractive } from './coverage';
 import { canPlaceInCategorySlot, canPlaceOnBoardCard } from './moves';
 
 function hasValidSlotForCard(card: Card, slots: CategorySlot[]): boolean {
@@ -95,21 +95,16 @@ export function isDeadlocked(state: GameState): boolean {
   return true;
 }
 
-// Reshuffles all face-up cards: stock, hand (if any), and the top card of every
-// revealed slot (whether side-blocked or not). Stack heights and z-layers are
-// preserved — only top-of-stack identities change.
+// Reshuffles every card in play: stock, hand (if any), and every card in every
+// board stack — including buried ones. Board geometry is preserved: each slot
+// keeps its stack height and z-layers, dead slots stay dead; only the card
+// identities at each position change.
 export function applyShuffle(state: GameState): GameState {
   const pool: Card[] = [];
   if (state.hand) pool.push(state.hand);
   pool.push(...state.stock);
-
-  const revealedIndices: number[] = [];
-  for (let i = 0; i < state.boardSlots.length; i++) {
-    const s = state.boardSlots[i];
-    if (s.cards.length === 0) continue;
-    if (!isSlotRevealed(s, state.boardSlots)) continue;
-    pool.push(s.cards[s.cards.length - 1].card);
-    revealedIndices.push(i);
+  for (const s of state.boardSlots) {
+    for (const entry of s.cards) pool.push(entry.card);
   }
 
   if (pool.length < 2) return state;
@@ -120,16 +115,10 @@ export function applyShuffle(state: GameState): GameState {
   }
 
   let idx = 0;
-  const revealedSet = new Set(revealedIndices);
-  const newBoardSlots = state.boardSlots.map((s, i) => {
-    if (!revealedSet.has(i)) return s;
-    const oldTop = s.cards[s.cards.length - 1];
-    const newCards = [
-      ...s.cards.slice(0, -1),
-      { card: pool[idx++], z: oldTop.z },
-    ];
-    return { ...s, cards: newCards };
-  });
+  const newBoardSlots = state.boardSlots.map((s) => ({
+    ...s,
+    cards: s.cards.map((entry) => ({ card: pool[idx++], z: entry.z })),
+  }));
 
   const newHand: Card | null = state.hand ? pool[idx++] : null;
   const newStock = pool.slice(idx);

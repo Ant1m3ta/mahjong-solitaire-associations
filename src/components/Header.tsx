@@ -8,9 +8,10 @@ interface Props {
   state: GameState;
   dispatch: Dispatch<AppAction>;
   disabled: boolean;
+  highlightUnplayable: boolean;
 }
 
-export function Header({ state, dispatch, disabled }: Props) {
+export function Header({ state, dispatch, disabled, highlightUnplayable }: Props) {
   const stockEmpty = state.stock.length === 0;
   const handCard = state.hand;
 
@@ -41,11 +42,12 @@ export function Header({ state, dispatch, disabled }: Props) {
         <div className="hand">
           {handCard ? (() => {
             const stranded = !hasValidMoveForHandCard(handCard, state);
+            const dim = stranded && highlightUnplayable;
             return (
               <CardView
                 card={handCard}
-                draggable={!disabled && !stranded}
-                isLocked={stranded}
+                draggable={!disabled && (!stranded || !highlightUnplayable)}
+                isLocked={dim}
                 onDragStart={(e) => setDragSource(e, { kind: 'hand' })}
               />
             );

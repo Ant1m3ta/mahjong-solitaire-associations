@@ -297,6 +297,27 @@ body {
   border-color: #6cf;
 }
 
+.toggle-btn {
+  background: #2a2a4a;
+  border: 1px solid #4a4a6a;
+  color: #ccc;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  letter-spacing: 0.3px;
+}
+.toggle-btn:hover {
+  background: #34345a;
+}
+.toggle-btn.active {
+  background: #2d6b4a;
+  color: #e0f5e0;
+  border-color: #4a9c70;
+}
+
 /* ================ Overlay ================ */
 .overlay {
   position: fixed;

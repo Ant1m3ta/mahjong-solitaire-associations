@@ -7,9 +7,19 @@ interface Props {
   levels: LevelData[];
   currentLevelIdx: number;
   onLevelChange: (idx: number) => void;
+  highlightUnplayable: boolean;
+  onToggleHighlight: () => void;
 }
 
-export function Footer({ dispatch, canRollback, levels, currentLevelIdx, onLevelChange }: Props) {
+export function Footer({
+  dispatch,
+  canRollback,
+  levels,
+  currentLevelIdx,
+  onLevelChange,
+  highlightUnplayable,
+  onToggleHighlight,
+}: Props) {
   return (
     <div className="container footer">
       <div className="level-picker">
@@ -23,6 +33,14 @@ export function Footer({ dispatch, canRollback, levels, currentLevelIdx, onLevel
           </button>
         ))}
       </div>
+      <button
+        type="button"
+        className={`toggle-btn ${highlightUnplayable ? 'active' : ''}`}
+        onClick={onToggleHighlight}
+        title="Toggle dimming for cards that have nowhere to go"
+      >
+        {highlightUnplayable ? '☑' : '☐'} Highlight no-match
+      </button>
       <button
         className="rollback-btn"
         disabled={!canRollback}

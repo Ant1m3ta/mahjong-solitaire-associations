@@ -10,6 +10,7 @@ import { Overlay } from './components/Overlay';
 export function App() {
   const [levelIdx, setLevelIdx] = useState(0);
   const [appState, dispatch] = useReducer(reduce, LEVELS[0], makeInitialAppState);
+  const [highlightUnplayable, setHighlightUnplayable] = useState(true);
 
   useEffect(() => {
     if (appState.lastError) {
@@ -35,15 +36,27 @@ export function App() {
 
   return (
     <div className="app">
-      <Header state={appState.state} dispatch={dispatch} disabled={overlayDisabled} />
+      <Header
+        state={appState.state}
+        dispatch={dispatch}
+        disabled={overlayDisabled}
+        highlightUnplayable={highlightUnplayable}
+      />
       <CategorySlotsRow state={appState.state} dispatch={dispatch} disabled={overlayDisabled} />
-      <Board state={appState.state} dispatch={dispatch} disabled={overlayDisabled} />
+      <Board
+        state={appState.state}
+        dispatch={dispatch}
+        disabled={overlayDisabled}
+        highlightUnplayable={highlightUnplayable}
+      />
       <Footer
         dispatch={dispatch}
         canRollback={appState.history.length > 0}
         levels={LEVELS}
         currentLevelIdx={levelIdx}
         onLevelChange={handleLevelChange}
+        highlightUnplayable={highlightUnplayable}
+        onToggleHighlight={() => setHighlightUnplayable((v) => !v)}
       />
 
       {appState.outcome === 'won' && (

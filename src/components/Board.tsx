@@ -17,9 +17,10 @@ interface Props {
   state: GameState;
   dispatch: Dispatch<AppAction>;
   disabled: boolean;
+  highlightUnplayable: boolean;
 }
 
-export function Board({ state, dispatch, disabled }: Props) {
+export function Board({ state, dispatch, disabled, highlightUnplayable }: Props) {
   const [hoverSlot, setHoverSlot] = useState<string | null>(null);
 
   const { width, height, offsetY } = useMemo(() => {
@@ -90,9 +91,13 @@ export function Board({ state, dispatch, disabled }: Props) {
             const isTop = idx === topIdx;
             // Face-down only when truly covered from above.
             const faceDown = !(isTop && slotRevealed);
-            // Locked appearance: side-blocked OR stranded (no valid move).
-            const looksLocked = isTop && slotRevealed && (sideBlocked || slotStranded);
-            const draggable = isTop && slotRevealed && !sideBlocked && !slotStranded && !disabled;
+            // Locked appearance: side-blocked OR (stranded AND toggle on).
+            const looksLocked =
+              isTop && slotRevealed &&
+              (sideBlocked || (slotStranded && highlightUnplayable));
+            const draggable =
+              isTop && slotRevealed && !sideBlocked &&
+              (!slotStranded || !highlightUnplayable) && !disabled;
             // Drop targets only need slot to be revealed and not side-blocked;
             // stranded cards can still receive drops from other cards.
             const droppable = isTop && slotRevealed && !sideBlocked;

@@ -33,6 +33,25 @@ body {
 .container.header {
   gap: 32px;
   min-height: 130px;
+  position: relative;
+}
+
+.level-select {
+  position: absolute;
+  top: 12px;
+  left: 16px;
+  background: #2a2a4a;
+  border: 1px solid #4a4a6a;
+  color: #ccc;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+}
+.level-select:hover {
+  background: #34345a;
 }
 
 .container.category-slots {
@@ -275,26 +294,6 @@ body {
 }
 .rollback-btn:not(:disabled):hover {
   background: #ff8f50;
-}
-
-.level-picker {
-  display: flex;
-  gap: 8px;
-}
-.level-picker button {
-  background: #2a2a4a;
-  border: 1px solid #4a4a6a;
-  color: #ccc;
-  padding: 8px 16px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 13px;
-  font-weight: 600;
-}
-.level-picker button.active {
-  background: #6cf;
-  color: #1a1a2e;
-  border-color: #6cf;
 }
 
 .toggle-btn {

@@ -41,6 +41,9 @@ export function App() {
         dispatch={dispatch}
         disabled={overlayDisabled}
         highlightUnplayable={highlightUnplayable}
+        levels={LEVELS}
+        currentLevelIdx={levelIdx}
+        onLevelChange={handleLevelChange}
       />
       <CategorySlotsRow state={appState.state} dispatch={dispatch} disabled={overlayDisabled} />
       <Board
@@ -52,9 +55,6 @@ export function App() {
       <Footer
         dispatch={dispatch}
         canRollback={appState.history.length > 0}
-        levels={LEVELS}
-        currentLevelIdx={levelIdx}
-        onLevelChange={handleLevelChange}
         highlightUnplayable={highlightUnplayable}
         onToggleHighlight={() => setHighlightUnplayable((v) => !v)}
       />

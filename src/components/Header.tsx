@@ -1,5 +1,5 @@
 import type { Dispatch } from 'react';
-import type { AppAction, GameState } from '../types';
+import type { AppAction, GameState, LevelData } from '../types';
 import { CardView } from './CardView';
 import { setDragSource } from './dragData';
 import { hasValidMoveForHandCard } from '../game/moves';
@@ -9,14 +9,37 @@ interface Props {
   dispatch: Dispatch<AppAction>;
   disabled: boolean;
   highlightUnplayable: boolean;
+  levels: LevelData[];
+  currentLevelIdx: number;
+  onLevelChange: (idx: number) => void;
 }
 
-export function Header({ state, dispatch, disabled, highlightUnplayable }: Props) {
+export function Header({
+  state,
+  dispatch,
+  disabled,
+  highlightUnplayable,
+  levels,
+  currentLevelIdx,
+  onLevelChange,
+}: Props) {
   const stockEmpty = state.stock.length === 0;
   const handCard = state.hand;
 
   return (
     <div className="container header">
+      <select
+        className="level-select"
+        value={currentLevelIdx}
+        onChange={(e) => onLevelChange(Number(e.target.value))}
+      >
+        {levels.map((lvl, i) => (
+          <option key={lvl.levelId} value={i}>
+            Level {lvl.levelId}
+          </option>
+        ))}
+      </select>
+
       <div className="header-block">
         <div className="header-label">Stock</div>
         <div

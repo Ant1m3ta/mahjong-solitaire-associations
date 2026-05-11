@@ -9,7 +9,7 @@ import { Overlay } from './components/Overlay';
 export function App() {
   const [levelIdx, setLevelIdx] = useState(0);
   const [appState, dispatch] = useReducer(reduce, LEVELS[0], makeInitialAppState);
-  const [highlightUnplayable, setHighlightUnplayable] = useState(true);
+  const [highlightUnplayable, setHighlightUnplayable] = useState(false);
 
   useEffect(() => {
     if (appState.lastError) {

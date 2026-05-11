@@ -50,15 +50,21 @@ export function Header({
           onClick={onToggleHighlight}
           title="Toggle dimming for cards that have nowhere to go"
         >
-          {highlightUnplayable ? '☑' : '☐'} Highlight no-match
+          {highlightUnplayable ? '☑' : '☐'} Dim stuck
         </button>
         <button
           className="rollback-btn"
           disabled={!canRollback}
           onClick={() => dispatch({ type: 'ROLLBACK' })}
         >
-          ← Rollback
+          ← Undo
         </button>
+        <div className="moves-inline" title="Moves used / limit">
+          <span className="moves-inline-label">Moves</span>
+          <span className="moves-inline-value">
+            {state.movesUsed}<span className="moves-sep">/</span>{state.movesLimit}
+          </span>
+        </div>
       </div>
 
       <div className="header-blocks">
@@ -102,12 +108,6 @@ export function Header({
           </div>
         </div>
 
-        <div className="header-block">
-          <div className="header-label">Moves</div>
-          <div className="moves-value">
-            {state.movesUsed}<span className="moves-sep">/</span>{state.movesLimit}
-          </div>
-        </div>
       </div>
     </div>
   );

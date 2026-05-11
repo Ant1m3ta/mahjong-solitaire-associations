@@ -39,8 +39,9 @@ body {
 .header-controls {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
   flex-shrink: 0;
+  align-items: stretch;
 }
 
 .header-blocks {
@@ -56,10 +57,10 @@ body {
   background: #2a2a4a;
   border: 1px solid #4a4a6a;
   color: #ccc;
-  padding: 8px 12px;
-  border-radius: 6px;
+  padding: 4px 6px;
+  border-radius: 4px;
   cursor: pointer;
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 600;
   font-family: inherit;
 }
@@ -210,14 +211,9 @@ body {
   font-size: 11px;
 }
 
-.moves-value {
-  font-size: 22px;
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
-}
 .moves-sep {
   opacity: 0.4;
-  margin: 0 4px;
+  margin: 0 2px;
   font-weight: 400;
 }
 
@@ -287,12 +283,12 @@ body {
   background: #ff7e36;
   border: none;
   color: white;
-  padding: 10px 28px;
-  font-size: 14px;
+  padding: 4px 8px;
+  font-size: 11px;
   font-weight: 700;
-  border-radius: 6px;
+  border-radius: 4px;
   cursor: pointer;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
 }
 .rollback-btn:disabled {
   opacity: 0.35;
@@ -306,13 +302,13 @@ body {
   background: #2a2a4a;
   border: 1px solid #4a4a6a;
   color: #ccc;
-  padding: 8px 14px;
-  border-radius: 6px;
+  padding: 4px 8px;
+  border-radius: 4px;
   cursor: pointer;
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 600;
   font-family: inherit;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.2px;
 }
 .toggle-btn:hover {
   background: #34345a;
@@ -321,6 +317,27 @@ body {
   background: #2d6b4a;
   color: #e0f5e0;
   border-color: #4a9c70;
+}
+
+.moves-inline {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #ccc;
+  letter-spacing: 0.2px;
+}
+.moves-inline-label {
+  text-transform: uppercase;
+  opacity: 0.55;
+}
+.moves-inline-value {
+  font-size: 13px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
 }
 
 /* ================ Overlay ================ */

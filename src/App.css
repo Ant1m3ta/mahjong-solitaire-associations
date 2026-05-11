@@ -31,15 +31,28 @@ body {
 }
 
 .container.header {
-  gap: 32px;
+  gap: 16px;
   min-height: 130px;
-  position: relative;
+  justify-content: flex-start;
+}
+
+.header-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.header-blocks {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  min-width: 0;
 }
 
 .level-select {
-  position: absolute;
-  top: 12px;
-  left: 16px;
   background: #2a2a4a;
   border: 1px solid #4a4a6a;
   color: #ccc;
@@ -66,13 +79,6 @@ body {
   justify-content: center;
   padding: 16px;
   overflow: auto;
-}
-
-.container.footer {
-  gap: 24px;
-  padding: 10px 16px;
-  min-height: 60px;
-  border-bottom: none;
 }
 
 /* ================ Card ================ */
@@ -276,7 +282,7 @@ body {
   position: relative;
 }
 
-/* ================ Footer ================ */
+/* ================ Header buttons ================ */
 .rollback-btn {
   background: #ff7e36;
   border: none;

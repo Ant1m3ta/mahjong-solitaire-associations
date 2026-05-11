@@ -4,7 +4,6 @@ import { makeInitialAppState, reduce } from './game/reducer';
 import { Header } from './components/Header';
 import { CategorySlotsRow } from './components/CategorySlotsRow';
 import { Board } from './components/Board';
-import { Footer } from './components/Footer';
 import { Overlay } from './components/Overlay';
 
 export function App() {
@@ -41,9 +40,11 @@ export function App() {
         dispatch={dispatch}
         disabled={overlayDisabled}
         highlightUnplayable={highlightUnplayable}
+        onToggleHighlight={() => setHighlightUnplayable((v) => !v)}
         levels={LEVELS}
         currentLevelIdx={levelIdx}
         onLevelChange={handleLevelChange}
+        canRollback={appState.history.length > 0}
       />
       <CategorySlotsRow state={appState.state} dispatch={dispatch} disabled={overlayDisabled} />
       <Board
@@ -51,12 +52,6 @@ export function App() {
         dispatch={dispatch}
         disabled={overlayDisabled}
         highlightUnplayable={highlightUnplayable}
-      />
-      <Footer
-        dispatch={dispatch}
-        canRollback={appState.history.length > 0}
-        highlightUnplayable={highlightUnplayable}
-        onToggleHighlight={() => setHighlightUnplayable((v) => !v)}
       />
 
       {appState.outcome === 'won' && (

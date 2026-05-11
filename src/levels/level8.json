@@ -10,7 +10,8 @@
         { "wordId": "baseball_glove", "icon": true, "imageId": "athletics__baseball_glove" },
         { "wordId": "tennis_racket_ball", "icon": true, "imageId": "athletics__tennis_racket_ball" },
         { "wordId": "basketball_ball", "icon": true, "imageId": "athletics__basketball_ball" },
-        { "wordId": "american_football", "icon": true, "imageId": "athletics__american_football" }
+        { "wordId": "american_football", "icon": true, "imageId": "athletics__american_football" },
+        { "wordId": "fencing", "icon": true, "imageId": "athletics__fencing" }
       ]
     },
     {
@@ -20,7 +21,8 @@
         { "wordId": "curved_sword", "icon": true, "imageId": "blades__curved_sword" },
         { "wordId": "short_sabre", "icon": true, "imageId": "blades__short_sabre" },
         { "wordId": "fencing_sword", "icon": true, "imageId": "blades__fencing_sword" },
-        { "wordId": "broadsword", "icon": true, "imageId": "blades__broadsword" }
+        { "wordId": "broadsword", "icon": true, "imageId": "blades__broadsword" },
+        { "wordId": "machete", "icon": true, "imageId": "blades__machete" }
       ]
     },
     {
@@ -30,7 +32,8 @@
         { "wordId": "three_headed_snake", "icon": true, "imageId": "creatures__three_headed_snake" },
         { "wordId": "skeleton_knight", "icon": true, "imageId": "creatures__skeleton_knight" },
         { "wordId": "cute_purple_octo", "icon": true, "imageId": "creatures__cute_purple_octo" },
-        { "wordId": "phoenix", "icon": true, "imageId": "creatures__phoenix" }
+        { "wordId": "phoenix", "icon": true, "imageId": "creatures__phoenix" },
+        { "wordId": "unicorn", "icon": true, "imageId": "creatures__unicorn" }
       ]
     },
     {
@@ -40,7 +43,8 @@
         { "wordId": "bolt", "icon": true, "imageId": "fasteners__bolt" },
         { "wordId": "hook", "icon": true, "imageId": "fasteners__hook" },
         { "wordId": "nut_hardware", "icon": true, "imageId": "fasteners__nut_hardware" },
-        { "wordId": "nail", "icon": true, "imageId": "fasteners__nail" }
+        { "wordId": "nail", "icon": true, "imageId": "fasteners__nail" },
+        { "wordId": "hex", "icon": true, "imageId": "fasteners__hex" }
       ]
     },
     {
@@ -67,7 +71,9 @@
         { "wordId": "Apple" },
         { "wordId": "Banana" },
         { "wordId": "Orange" },
-        { "wordId": "Lemon" }
+        { "wordId": "Lemon" },
+        { "wordId": "Mango" },
+        { "wordId": "Kiwi" }
       ]
     },
     {
@@ -107,7 +113,8 @@
         { "wordId": "Foggy" },
         { "wordId": "Snowy" },
         { "wordId": "Rainy" },
-        { "wordId": "Windy" }
+        { "wordId": "Windy" },
+        { "wordId": "Stormy" }
       ]
     },
     {
@@ -116,13 +123,14 @@
         { "wordId": "Rumba" },
         { "wordId": "Tango" },
         { "wordId": "Salsa" },
-        { "wordId": "Waltz" }
+        { "wordId": "Waltz" },
+        { "wordId": "Samba" }
       ]
     }
   ],
-  "stock": [],
+  "stock": ["hex", "unicorn", "machete", "Kiwi", "Samba", "Stormy", "Dances", "Weather"],
   "board": [
-    { "x": 0, "y": 0, "z": 0, "cardId": "Weather" },
+    { "x": 0, "y": 0, "z": 0, "cardId": "fencing" },
     { "x": 2, "y": 0, "z": 0, "cardId": "soccer_ball" },
     { "x": 4, "y": 0, "z": 0, "cardId": "jagged_sword" },
     { "x": 6, "y": 0, "z": 0, "cardId": "cute_fire_dragon" },
@@ -151,7 +159,7 @@
     { "x": 4, "y": 8, "z": 0, "cardId": "short_sabre" },
     { "x": 6, "y": 8, "z": 0, "cardId": "skeleton_knight" },
     { "x": 8, "y": 8, "z": 0, "cardId": "hook" },
-    { "x": 10, "y": 8, "z": 0, "cardId": "Dances" },
+    { "x": 10, "y": 8, "z": 0, "cardId": "Mango" },
 
     { "x": 1, "y": 1, "z": 1, "cardId": "potted_plant" },
     { "x": 3, "y": 1, "z": 1, "cardId": "Ornaments" },

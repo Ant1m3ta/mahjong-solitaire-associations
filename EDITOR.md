@@ -33,6 +33,7 @@ EditorState { level, history, brush, currentLayer, ghostBelow, ghostAbove, erase
 - `src/editor/BoardCanvas.tsx` — half-tile click grid, layer switching, ghost layers, placement, erase.
 - `src/editor/fill.ts` — exposes `pools()` (icon + text + combined + byId) and `fillSkeleton()` which picks real categories (pinned first, else random from the combined pool) and assigns distinct words.
 - `src/editor/skeletonIO.ts` — serialize / parse `.skel.json` files; invariant validation on load.
+- `src/editor/unfill.ts` — converts a concrete `LevelData` back into a `SkeletonLevel` (letters assigned A, B, …; every category pinned to its real `categoryId`). Used by the "Load level…" dropdown.
 - `src/editor/save.ts` — concrete `LevelData` JSON download (Blob URL) + sessionStorage preview handoff.
 - `src/editor/validate.ts` — derived warnings (half-offset coverage gotcha, minZ != 0) + stats.
 - `src/editor/catalog/icons.json`, `words.json` — copied from Unity (`Assets/Editor/Tools/LevelsCategoriesReplacement/categories/`).
@@ -53,7 +54,7 @@ EditorState { level, history, brush, currentLayer, ghostBelow, ghostAbove, erase
 - [x] **Phase 8 — Skeleton I/O & pinning.** **Save .skel** writes a `.skel.json` file (schema `skeleton-v1`) — the editor's intent without real categories. **Load .skel** reads a skeleton file (validates shape and the invariant) and replaces editor state. Loading pushes a history snapshot so an accidental load can be undone. Per-category 📎 button opens a searchable picker over the combined text+icon catalog, filtered to ≥ `simpleCards` available words. Pinning a letter sets `SkeletonCategory.pinnedCategoryId`; fill respects it. The `kind` field on `SkeletonCategory` is gone — the picked real category's kind is determined at fill time.
 - [x] **Phase 7 — Validation panel.** Warnings: cards hidden at start by half-offset coverage; icon-category over-asking word count; info row when `minZ != 0` (reminder that Save/Play normalize automatically). Stats: board count, stock count, side-blocked count, covered count. (The "no category card" check is no longer needed — every category has exactly one by construction.)
 
-**Topbar action group:** `← Undo (n)` · `Normalize` · `Load .skel` · `Save .skel` · `Save .json` · `Play`. Undo is enabled iff history is non-empty; Normalize iff the board has cards; Save .skel iff the level is non-empty; Save .json / Play iff at least one category and one board card exist.
+**Topbar action group:** `← Undo (n)` · `Normalize` · `Load .skel` · `Load level…` · `Save .skel` · `Save .json` · `Play`. Undo is enabled iff history is non-empty; Normalize iff the board has cards; Save .skel iff the level is non-empty; Save .json / Play iff at least one category and one board card exist. `Load level…` lists the bundled `LEVELS` and converts the picked one back to a skeleton (every category pinned to its real id). Save .json suggests the next `level{LEVELS.length + 1}.json` filename — drop the file in `src/levels/` and add it to `src/levels/index.ts` to ship.
 
 Hotkeys: `↑`/`↓` (or `]`/`[`) layer up/down, `E` erase, `M` move, `Esc` cancel pick, `Tab` simple↔category, `1..9` select category by index, `⌘Z`/`Ctrl+Z` undo. Most keys ignored when typing in inputs; Undo works from inputs too.
 
@@ -68,7 +69,6 @@ Hotkeys: `↑`/`↓` (or `]`/`[`) layer up/down, `E` erase, `M` move, `Esc` canc
 Priority guess in parentheses.
 
 - **Drag-to-reorder stock** (low). Up/down arrows already work; drag is convenience.
-- **Load existing `levelN.json` back into the editor** (medium). Treat a concrete level as a skeleton with `pinnedCategoryId` on every category, letters auto-assigned `A`, `B`, … by category order. Useful for tweaking existing levels.
 - **localStorage autosave + restore** (low). The editor state already persists to **sessionStorage** (`editor.state.v1`) on every change and hydrates on mount, so the editor → game → editor round-trip and in-tab reloads survive. localStorage would extend that across tab close — a small follow-on.
 - **BFS solvability check** (low). Validation flags obviously unwinnable layouts but doesn't prove a level is solvable. A "Run solver" button could try.
 - **Re-roll button** (low). Same skeleton, re-run fill with a different RNG seed to pick different real categories.

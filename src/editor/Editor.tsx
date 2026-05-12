@@ -6,7 +6,9 @@ import { BoardCanvas } from './BoardCanvas';
 import { fillSkeleton, FillError } from './fill';
 import { downloadLevelJSON, storePreviewAndPlay } from './save';
 import { downloadSkeleton, parseSkeleton, readFileAsText, SkeletonParseError } from './skeletonIO';
+import { unfillLevel, UnfillError } from './unfill';
 import { validate } from './validate';
+import { LEVELS } from '../levels';
 
 export function Editor() {
   const [state, dispatch] = useReducer(reduceEditor, undefined, initialEditorState);
@@ -23,11 +25,17 @@ export function Editor() {
     persistEditorState(state);
   }, [state]);
 
+  function suggestedLevelFilename(): string {
+    const id = state.level.levelId?.trim();
+    if (id && id !== 'skeleton-1') return `${id}.json`;
+    return `level${LEVELS.length + 1}.json`;
+  }
+
   function handleSave() {
     try {
       const { level: normalized } = normalizeLevel(state.level);
       const filled = fillSkeleton(normalized);
-      downloadLevelJSON(filled, `${state.level.levelId || 'level'}.json`);
+      downloadLevelJSON(filled, suggestedLevelFilename());
       setFillError(null);
     } catch (e) {
       const msg = e instanceof FillError ? e.message : String(e);
@@ -65,6 +73,22 @@ export function Editor() {
     } catch (err) {
       const msg = err instanceof SkeletonParseError ? err.message : String(err);
       setFillError(`Load: ${msg}`);
+    }
+  }
+
+  function handleLoadBundled(e: React.ChangeEvent<HTMLSelectElement>) {
+    const idx = e.target.value;
+    e.target.value = '';
+    if (idx === '') return;
+    const level = LEVELS[Number(idx)];
+    if (!level) return;
+    try {
+      const skel = unfillLevel(level);
+      dispatch({ type: 'LOAD_SKELETON', level: skel });
+      setFillError(null);
+    } catch (err) {
+      const msg = err instanceof UnfillError ? err.message : String(err);
+      setFillError(`Load bundled: ${msg}`);
     }
   }
 
@@ -180,6 +204,19 @@ export function Editor() {
           >
             Load .skel
           </button>
+          <select
+            className="level-select"
+            value=""
+            onChange={handleLoadBundled}
+            title="Load a bundled level back into the editor (converts to a fully-pinned skeleton)"
+          >
+            <option value="">Load level…</option>
+            {LEVELS.map((lvl, i) => (
+              <option key={`${lvl.levelId}-${i}`} value={i}>
+                Level {lvl.levelId}
+              </option>
+            ))}
+          </select>
           <button
             className="editor-btn"
             disabled={state.level.categories.length === 0 && state.level.board.length === 0}
@@ -188,7 +225,12 @@ export function Editor() {
           >
             Save .skel
           </button>
-          <button className="editor-btn" disabled={saveDisabled} onClick={handleSave}>
+          <button
+            className="editor-btn"
+            disabled={saveDisabled}
+            onClick={handleSave}
+            title={`Downloads ${suggestedLevelFilename()}. Drop in src/levels/ and add to src/levels/index.ts to ship.`}
+          >
             Save .json
           </button>
           <button className="editor-btn primary" disabled={saveDisabled} onClick={handlePlay}>

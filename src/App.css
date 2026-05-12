@@ -337,6 +337,21 @@ body {
   text-align: center;
   display: inline-block;
 }
+.toggle-btn.editor-link.preview {
+  background: #6cf;
+  color: #1a1a2e;
+  border-color: #6cf;
+  font-weight: 700;
+}
+.toggle-btn.editor-link.preview:hover {
+  background: #8ad6ff;
+}
+.level-select.preview {
+  background: #2d4a6b;
+  border-color: #6cf;
+  color: #cce8ff;
+  font-weight: 700;
+}
 
 .moves-inline {
   display: flex;

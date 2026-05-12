@@ -14,6 +14,7 @@ interface Props {
   currentLevelIdx: number;
   onLevelChange: (idx: number) => void;
   canRollback: boolean;
+  previewLevelIdx: number | null;
 }
 
 export function Header({
@@ -26,7 +27,9 @@ export function Header({
   currentLevelIdx,
   onLevelChange,
   canRollback,
+  previewLevelIdx,
 }: Props) {
+  const playingPreview = previewLevelIdx !== null && currentLevelIdx === previewLevelIdx;
   const stockEmpty = state.stock.length === 0;
   const handCard = state.hand;
 
@@ -34,13 +37,13 @@ export function Header({
     <div className="container header">
       <div className="header-controls">
         <select
-          className="level-select"
+          className={`level-select${playingPreview ? ' preview' : ''}`}
           value={currentLevelIdx}
           onChange={(e) => onLevelChange(Number(e.target.value))}
         >
           {levels.map((lvl, i) => (
-            <option key={lvl.levelId} value={i}>
-              Level {lvl.levelId}
+            <option key={`${lvl.levelId}-${i}`} value={i}>
+              {previewLevelIdx === i ? `★ Editor preview (${lvl.levelId})` : `Level ${lvl.levelId}`}
             </option>
           ))}
         </select>
@@ -65,8 +68,12 @@ export function Header({
             {state.movesUsed}<span className="moves-sep">/</span>{state.movesLimit}
           </span>
         </div>
-        <a className="toggle-btn editor-link" href="#/editor" title="Open level editor">
-          ✏ Editor
+        <a
+          className={`toggle-btn editor-link${playingPreview ? ' preview' : ''}`}
+          href="#/editor"
+          title={playingPreview ? 'Back to the editor (this level was generated there)' : 'Open level editor'}
+        >
+          {playingPreview ? '← Back to editor' : '✏ Editor'}
         </a>
       </div>
 

@@ -39,7 +39,7 @@ EditorState { level, history, brush, currentLayer, ghostBelow, ghostAbove, erase
 - `src/editor/catalog/images.ts` — hand-maintained manifest of PNGs available under `public/images/`. Regen command in the file header.
 - `src/editor/Editor.css` — editor-only styles.
 
-`App.tsx` was extended: on mount it calls `consumePreviewLevel()` from sessionStorage; if present, prepends that level to the dropdown and starts there. The preview is read-once (cleared after consumption).
+`App.tsx` was extended: on mount it calls `consumePreviewLevel()` from sessionStorage; if present, prepends that level to the dropdown and starts there. The preview is read-once at the **module** scope (cached on first call) so React Strict Mode double-mounts don't strip it. When playing the preview, the level dropdown row reads `★ Editor preview (<levelId>)` and the header link flips to `← Back to editor` with the primary highlight — so it's obvious which level is yours and how to get back.
 
 ## Status (shipped)
 

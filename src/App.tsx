@@ -57,6 +57,7 @@ export function App() {
         currentLevelIdx={levelIdx}
         onLevelChange={handleLevelChange}
         canRollback={appState.history.length > 0}
+        previewLevelIdx={previewLevel ? 0 : null}
       />
       <CategorySlotsRow state={appState.state} dispatch={dispatch} disabled={overlayDisabled} />
       <Board

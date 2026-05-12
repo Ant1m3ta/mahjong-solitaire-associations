@@ -20,13 +20,23 @@ export function storePreviewAndPlay(level: LevelData) {
   window.location.hash = '#/?preview=1';
 }
 
+// Cached at module scope so a second call (Strict Mode double-mount, repeat
+// renders, etc.) returns the same value instead of reading an already-cleared
+// sessionStorage entry.
+let _cached: LevelData | null | undefined;
+
 export function consumePreviewLevel(): LevelData | null {
+  if (_cached !== undefined) return _cached;
   const raw = sessionStorage.getItem(PREVIEW_KEY);
-  if (!raw) return null;
   sessionStorage.removeItem(PREVIEW_KEY);
-  try {
-    return JSON.parse(raw) as LevelData;
-  } catch {
+  if (!raw) {
+    _cached = null;
     return null;
   }
+  try {
+    _cached = JSON.parse(raw) as LevelData;
+  } catch {
+    _cached = null;
+  }
+  return _cached;
 }

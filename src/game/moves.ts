@@ -231,12 +231,15 @@ function applyHandToBoard(
     targetSlot,
     [{ card: handCard, z: 0, revealed: true }],
   );
-  return {
-    ...state,
-    hand: null,
-    boardSlots: newBoardSlots,
-    movesUsed: state.movesUsed + 1,
-  };
+  return applyBoardChainCompletion(
+    {
+      ...state,
+      hand: null,
+      boardSlots: newBoardSlots,
+      movesUsed: state.movesUsed + 1,
+    },
+    to,
+  );
 }
 
 function applyBoardToBoard(
@@ -252,10 +255,46 @@ function applyBoardToBoard(
   const chain = getChainEntries(sourceSlot);
   const placedSlots = placeChainOnBoardSlot(state.boardSlots, targetSlot, chain);
   const newBoardSlots = removeChainFromSlot(placedSlots, sourceSlot, chain.length);
+  return applyBoardChainCompletion(
+    {
+      ...state,
+      boardSlots: newBoardSlots,
+      movesUsed: state.movesUsed + 1,
+    },
+    to,
+  );
+}
+
+// After a move grows a board chain, check whether the chain at `at` contains a
+// category card and every simple of that category. If so, remove the whole
+// chain from the board, consume the simples toward the win total, and clear
+// any category slot still locked to that category. Side-effect only — does not
+// cost an additional move.
+function applyBoardChainCompletion(
+  state: GameState,
+  at: { x: number; y: number },
+): GameState {
+  const slot = findSlot(state.boardSlots, at.x, at.y);
+  if (!slot) return state;
+  const chain = getChainEntries(slot);
+  if (chain.length < 2) return state;
+  const categoryEntry = chain.find((e) => e.card.isCategory);
+  if (!categoryEntry) return state;
+  const category = categoryEntry.card.category;
+  const simples = chain.filter((e) => !e.card.isCategory).map((e) => e.card);
+  if (simples.length !== countSimpleCardsInCategory(state.level, category)) return state;
+  const newBoardSlots = removeChainFromSlot(state.boardSlots, slot, chain.length);
+  const newConsumed = [...state.consumedSimple, ...simples];
+  const newCategorySlots = state.categorySlots.map((cs) =>
+    cs.lockedCategory === category
+      ? { lockedCategory: null, displayedCard: null, cardsConsumed: 0 }
+      : cs,
+  );
   return {
     ...state,
     boardSlots: newBoardSlots,
-    movesUsed: state.movesUsed + 1,
+    categorySlots: newCategorySlots,
+    consumedSimple: newConsumed,
   };
 }
 

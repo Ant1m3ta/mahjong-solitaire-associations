@@ -1,0 +1,4159 @@
+[
+  {
+    "categoryId": "Animals",
+    "wordsIds": [
+      "Cute lion",
+      "Cute pig",
+      "Cute monkey",
+      "Cute baby elephant",
+      "Cute fox",
+      "Cute rhino"
+    ]
+  },
+  {
+    "categoryId": "Burger",
+    "wordsIds": [
+      "Burger patty",
+      "Burger bun",
+      "Ketchup bottle",
+      "Cheese wedge"
+    ]
+  },
+  {
+    "categoryId": "Drinks",
+    "wordsIds": [
+      "Lemonade pitcher",
+      "Orange juice btl",
+      "Coffee cup",
+      "Soda cup"
+    ]
+  },
+  {
+    "categoryId": "Chess",
+    "wordsIds": [
+      "Chess pawn",
+      "Blue rook piece",
+      "Purple bishop",
+      "Chess queen piece"
+    ]
+  },
+  {
+    "categoryId": "Jewelry",
+    "wordsIds": [
+      "Heart pendant",
+      "Pearl bracelet",
+      "Blue gem ring",
+      "Blue earrings",
+      "Blue gem pendant",
+      "Pearl earrings",
+      "Heart ring"
+    ]
+  },
+  {
+    "categoryId": "Flowers",
+    "wordsIds": [
+      "Daisy flower",
+      "Orange lily",
+      "Red tulip",
+      "Red rose",
+      "Red flower",
+      "Pink flower",
+      "Purple flower"
+    ]
+  },
+  {
+    "categoryId": "Insects",
+    "wordsIds": [
+      "Mosquito",
+      "Ladybug",
+      "Ant",
+      "Moth",
+      "Dragonfly",
+      "Wasp"
+    ]
+  },
+  {
+    "categoryId": "Map",
+    "wordsIds": [
+      "Location marker",
+      "Globe location",
+      "Map location icon",
+      "Compass",
+      "Map pin",
+      "Compass star",
+      "Treasure map",
+      "Direction sign"
+    ]
+  },
+  {
+    "categoryId": "Emoji",
+    "wordsIds": [
+      "Smiley face",
+      "Smiling face",
+      "Shocked face",
+      "Red heart",
+      "Heart eyes face",
+      "Sad crying face",
+      "Praying hands",
+      "Thumbs up"
+    ]
+  },
+  {
+    "categoryId": "Reptiles",
+    "wordsIds": [
+      "Green chameleon",
+      "Crocodile",
+      "Orange lizard",
+      "Turtle",
+      "Pink gecko",
+      "Cute cobra",
+      "Orange snake"
+    ]
+  },
+  {
+    "categoryId": "Sports",
+    "wordsIds": [
+      "Hockey helmet",
+      "Baseball glove",
+      "American football",
+      "Tennis racket ball",
+      "Basketball ball",
+      "Soccer ball",
+      "Soccer cleats"
+    ]
+  },
+  {
+    "categoryId": "Furniture",
+    "wordsIds": [
+      "Armchair",
+      "Bookshelf",
+      "Chair",
+      "Dresser mirror",
+      "Coffee table"
+    ]
+  },
+  {
+    "categoryId": "Deck",
+    "wordsIds": [
+      "Ace of spades",
+      "King of hearts",
+      "Queen of diamonds",
+      "Jack of clubs",
+      "Seven of clubs",
+      "Ten of diamonds",
+      "Two of hearts",
+      "Five of spades"
+    ]
+  },
+  {
+    "categoryId": "Desserts",
+    "wordsIds": [
+      "Chocolate cake",
+      "Red cupcake",
+      "Fruit salad bowl",
+      "Pie ice cream",
+      "Pancakes syrup",
+      "Mint ice cream",
+      "Cherry milkshake"
+    ]
+  },
+  {
+    "categoryId": "Zodiac",
+    "wordsIds": [
+      "Ram head",
+      "Bull head",
+      "Gemini zodiac",
+      "Harvest goddess",
+      "Lion head icon",
+      "Scales of justice",
+      "Scorpion",
+      "Bow and arrow"
+    ]
+  },
+  {
+    "categoryId": "Wooden",
+    "wordsIds": [
+      "Wooden utensils",
+      "Rocking horse",
+      "Wooden elephant"
+    ]
+  },
+  {
+    "categoryId": "Compass",
+    "wordsIds": [
+      "Compass north",
+      "Compass south",
+      "Compass east",
+      "Compass west"
+    ]
+  },
+  {
+    "categoryId": "Vehicles",
+    "wordsIds": [
+      "Green convertible",
+      "School bus",
+      "Black suv",
+      "Monster truck"
+    ]
+  },
+  {
+    "categoryId": "Birds",
+    "wordsIds": [
+      "Blue bird",
+      "Owl",
+      "Colorful parrot",
+      "Pink flamingo",
+      "Cute penguin",
+      "Red cardinal",
+      "Rubber duck",
+      "Green hummingbird"
+    ]
+  },
+  {
+    "categoryId": "Wardrobe",
+    "wordsIds": [
+      "Denim jacket",
+      "Yellow dress",
+      "Green hoodie",
+      "Jeans pants",
+      "Purple beanie"
+    ]
+  },
+  {
+    "categoryId": "Transport",
+    "wordsIds": [
+      "Red car",
+      "Airplane",
+      "Steam train",
+      "Boat",
+      "Purple scooter"
+    ]
+  },
+  {
+    "categoryId": "Breads",
+    "wordsIds": [
+      "Rye bread",
+      "Bread brick",
+      "Braided bread",
+      "Flatbread",
+      "Baguette bread",
+      "Rye bread brick",
+      "Bread loaf",
+      "Pretzel"
+    ]
+  },
+  {
+    "categoryId": "Shapes",
+    "wordsIds": [
+      "Red circle",
+      "Gold pyramid",
+      "Blue cube",
+      "Green cylinder"
+    ]
+  },
+  {
+    "categoryId": "Elements",
+    "wordsIds": [
+      "Hydrogen tile",
+      "Helium element",
+      "Carbon element",
+      "Nitrogen tile",
+      "Oxygen tile",
+      "Sodium element",
+      "Chlorine element",
+      "Gold element icon"
+    ]
+  },
+  {
+    "categoryId": "Hats",
+    "wordsIds": [
+      "Pink wide hat",
+      "Red star cap",
+      "Fedora hat",
+      "Winter hat",
+      "Captain hat",
+      "Cowboy hat",
+      "Witch hat",
+      "Hard hat"
+    ]
+  },
+  {
+    "categoryId": "Luxury",
+    "wordsIds": [
+      "Champagne bucket",
+      "Handbag",
+      "Red sports car",
+      "Wristwatch"
+    ]
+  },
+  {
+    "categoryId": "Fruits",
+    "wordsIds": [
+      "Grapes",
+      "Red apple",
+      "Banana",
+      "Watermelon slice",
+      "Orange fruit",
+      "Plum",
+      "Kiwi fruit",
+      "Pineapple"
+    ]
+  },
+  {
+    "categoryId": "Rodents",
+    "wordsIds": [
+      "Mouse with cheese",
+      "Cute hamster",
+      "Squirrel acorn",
+      "Chipmunk acorn",
+      "Guinea pig",
+      "Cute mouse"
+    ]
+  },
+  {
+    "categoryId": "Primates",
+    "wordsIds": [
+      "Chimpanzee",
+      "Cute orange ape",
+      "Cute gorilla",
+      "Cute monkey",
+      "Cute lemur",
+      "Monkey mustache",
+      "Lion tamarin",
+      "Capuchin"
+    ]
+  },
+  {
+    "categoryId": "Toys",
+    "wordsIds": [
+      "Toy building blocks",
+      "Pink unicorn",
+      "Red robot"
+    ]
+  },
+  {
+    "categoryId": "Dress",
+    "wordsIds": [
+      "Red dress",
+      "Black dress",
+      "Floral dress",
+      "Pink dress",
+      "Purple dress",
+      "Polka dot dress"
+    ]
+  },
+  {
+    "categoryId": "Gym",
+    "wordsIds": [
+      "Treadmill",
+      "Dumbbell",
+      "Yoga mat"
+    ]
+  },
+  {
+    "categoryId": "Office",
+    "wordsIds": [
+      "Office chair",
+      "File binders",
+      "Laptop computer",
+      "Stapler"
+    ]
+  },
+  {
+    "categoryId": "Citrus",
+    "wordsIds": [
+      "Orange slices",
+      "Lime slice",
+      "Grapefruit slice"
+    ]
+  },
+  {
+    "categoryId": "Veggie",
+    "wordsIds": [
+      "Tomato",
+      "Broccoli",
+      "Carrot",
+      "Cabbage",
+      "Zucchini pair",
+      "Eggplant",
+      "Bell peppers",
+      "Potato"
+    ]
+  },
+  {
+    "categoryId": "Arctic",
+    "wordsIds": [
+      "Reindeer",
+      "Musk ox",
+      "Cute walrus",
+      "Polar bear"
+    ]
+  },
+  {
+    "categoryId": "Seafood",
+    "wordsIds": [
+      "Lobster",
+      "Two shrimp",
+      "Salmon steak",
+      "Clam pearl",
+      "Mussels",
+      "Blue crab",
+      "Pearl in shell",
+      "Squid"
+    ]
+  },
+  {
+    "categoryId": "Hot dog",
+    "wordsIds": [
+      "Hotdog bun",
+      "Mustard bottle",
+      "Sausage"
+    ]
+  },
+  {
+    "categoryId": "Cuties",
+    "wordsIds": [
+      "Cute chick",
+      "Cute puppy",
+      "Cute orange cat",
+      "Cute hamster",
+      "Cute bunny",
+      "Turtle",
+      "Pet hamster",
+      "Cartoon parrot"
+    ]
+  },
+  {
+    "categoryId": "Dogs",
+    "wordsIds": [
+      "Black puppy",
+      "Chihuahua puppy",
+      "Retriever puppy",
+      "Cute pug dog",
+      "Cute puppy dog",
+      "Spotted puppy",
+      "Cute puppy",
+      "Dachshund puppy"
+    ]
+  },
+  {
+    "categoryId": "Pairs",
+    "wordsIds": [
+      "Sneakers",
+      "Drumsticks",
+      "Gloves"
+    ]
+  },
+  {
+    "categoryId": "Camping",
+    "wordsIds": [
+      "Camping backpack",
+      "Director chair",
+      "Campfire"
+    ]
+  },
+  {
+    "categoryId": "Play",
+    "wordsIds": [
+      "Acoustic guitar",
+      "Grand piano",
+      "Drum set",
+      "Violin",
+      "Trumpet",
+      "Saxophone",
+      "Maracas",
+      "Tambourine"
+    ]
+  },
+  {
+    "categoryId": "Navigate",
+    "wordsIds": [
+      "Binoculars",
+      "Compass icon",
+      "Sextant"
+    ]
+  },
+  {
+    "categoryId": "Parrots",
+    "wordsIds": [
+      "Red parrot",
+      "Green parrot",
+      "Pink parrot",
+      "Lovebirds",
+      "Gray parrot",
+      "Rainbow parrot"
+    ]
+  },
+  {
+    "categoryId": "Hair",
+    "wordsIds": [
+      "Woman avatar",
+      "Girl braids",
+      "Woman afro face"
+    ]
+  },
+  {
+    "categoryId": "Seats",
+    "wordsIds": [
+      "Armchair",
+      "Rocking chair",
+      "Bean bag chair",
+      "Office chair"
+    ]
+  },
+  {
+    "categoryId": "Japan",
+    "wordsIds": [
+      "Torii gate",
+      "Cherry blossom",
+      "Noodle soup",
+      "Lucky cat",
+      "Geta sandals",
+      "Japanese pagodaa",
+      "Daruma doll",
+      "Matcha whisk bowl"
+    ]
+  },
+  {
+    "categoryId": "Titles",
+    "wordsIds": [
+      "Queen",
+      "Egyptian pharaoh",
+      "Prince turban",
+      "Chinese emperor",
+      "King",
+      "Turban prince"
+    ]
+  },
+  {
+    "categoryId": "Sound",
+    "wordsIds": [
+      "Ringing bell",
+      "Drum",
+      "Alarm clock",
+      "Whistle blowing",
+      "Maracas",
+      "Headphones icon",
+      "Trumpet notes",
+      "Acoustic guitar"
+    ]
+  },
+  {
+    "categoryId": "Herbs",
+    "wordsIds": [
+      "Purple flower",
+      "Herb leaves",
+      "Mint leaves",
+      "Green herb leaves",
+      "Herb branch",
+      "Parsley leaf"
+    ]
+  },
+  {
+    "categoryId": "Hoof",
+    "wordsIds": [
+      "Horse",
+      "Deer",
+      "Sheep",
+      "Zebra",
+      "Cow",
+      "Pig",
+      "Hippopotamus",
+      "Giraffe"
+    ]
+  },
+  {
+    "categoryId": "Swords",
+    "wordsIds": [
+      "Curved sabre",
+      "Long sword",
+      "Sword",
+      "Dagger",
+      "Short sabre",
+      "Fencing sword",
+      "Jagged sword",
+      "Curved sword"
+    ]
+  },
+  {
+    "categoryId": "No bones",
+    "wordsIds": [
+      "Cute jellyfish",
+      "Cute snail",
+      "Cute squid",
+      "Cute green worm",
+      "Cute octopus"
+    ]
+  },
+  {
+    "categoryId": "Eats",
+    "wordsIds": [
+      "Cheeseburger",
+      "French fries",
+      "Hot dog",
+      "Chicken drumstick",
+      "Pepperoni pizza",
+      "Onion rings",
+      "Taco",
+      "Mint ice cream"
+    ]
+  },
+  {
+    "categoryId": "Bouquet",
+    "wordsIds": [
+      "Pruning shears",
+      "Flower bouquet",
+      "Green tape roll",
+      "Plastic wrap roll",
+      "Glass vase",
+      "Price tag",
+      "Flower candy",
+      "Measuring tape"
+    ]
+  },
+  {
+    "categoryId": "Lipstick",
+    "wordsIds": [
+      "Pink lipstick",
+      "Nude lipstick",
+      "Plum lipstick",
+      "Brown lipstick",
+      "Purple lipstick",
+      "Red lipstick"
+    ]
+  },
+  {
+    "categoryId": "Western",
+    "wordsIds": [
+      "Cowboy hat",
+      "Sheriff badge",
+      "Cowboy boots",
+      "Covered wagon",
+      "Saddle",
+      "Red bandana"
+    ]
+  },
+  {
+    "categoryId": "Toppings",
+    "wordsIds": [
+      "Mixed nuts",
+      "Gummy bears",
+      "Whipped cream cherry",
+      "Pink marshmallows"
+    ]
+  },
+  {
+    "categoryId": "Keyboard",
+    "wordsIds": [
+      "Enter key",
+      "Esc key",
+      "Fn key",
+      "Shift key",
+      "One key keyboard",
+      "Ctrl key",
+      "Tab key",
+      "Power button"
+    ]
+  },
+  {
+    "categoryId": "Park",
+    "wordsIds": [
+      "Tree",
+      "Pet water fount",
+      "Picnic basket",
+      "Birdhouse icon",
+      "Park bench",
+      "Golden retriever"
+    ]
+  },
+  {
+    "categoryId": "Toolbox",
+    "wordsIds": [
+      "Tape measure",
+      "Utility knife",
+      "Nuts and screws",
+      "Hand saw",
+      "Wrench",
+      "Hammer tool",
+      "Pliers",
+      "Screwdriver"
+    ]
+  },
+  {
+    "categoryId": "Rocks",
+    "wordsIds": [
+      "Purple geode",
+      "Black crystal",
+      "Brown rock"
+    ]
+  },
+  {
+    "categoryId": "Monsters",
+    "wordsIds": [
+      "Three headed snake",
+      "Cute fire dragon",
+      "Cute purple octo",
+      "Skeleton knight"
+    ]
+  },
+  {
+    "categoryId": "Horse",
+    "wordsIds": [
+      "Stallion",
+      "Saddle",
+      "Horseshoe"
+    ]
+  },
+  {
+    "categoryId": "Polygons",
+    "wordsIds": [
+      "Red pentagon",
+      "Blue square",
+      "Green triangle",
+      "Blue star",
+      "Orange octagon",
+      "Purple diamond"
+    ]
+  },
+  {
+    "categoryId": "Cleaning",
+    "wordsIds": [
+      "Clean spray bottle",
+      "Rubber glove",
+      "Green blob",
+      "Dustpan brush",
+      "Bucket and sponge",
+      "Cleaning sponge",
+      "Mop",
+      "Toilet brush"
+    ]
+  },
+  {
+    "categoryId": "Coins",
+    "wordsIds": [
+      "Coin stack",
+      "Lion shield badge",
+      "King coin",
+      "Skull coin"
+    ]
+  },
+  {
+    "categoryId": "Police",
+    "wordsIds": [
+      "Police badge",
+      "Handcuffs",
+      "Police hat",
+      "Walkie talkie",
+      "Stop sign",
+      "Police car"
+    ]
+  },
+  {
+    "categoryId": "Lamp",
+    "wordsIds": [
+      "Desk lamp",
+      "Red lantern",
+      "Chandelier",
+      "Reading lamp"
+    ]
+  },
+  {
+    "categoryId": "Straight",
+    "wordsIds": [
+      "Straight ruler",
+      "Spirit level",
+      "Spaghetti bundle",
+      "Railway tracks",
+      "Wooden baton",
+      "Orange flag",
+      "Pool cue",
+      "Up arrow sign"
+    ]
+  },
+  {
+    "categoryId": "Xmas",
+    "wordsIds": [
+      "Christmas tree",
+      "Christmas stocking",
+      "Gift box"
+    ]
+  },
+  {
+    "categoryId": "Pig",
+    "wordsIds": [
+      "Cute pig",
+      "Cute pig pup",
+      "Cute black pig"
+    ]
+  },
+  {
+    "categoryId": "Hairs",
+    "wordsIds": [
+      "Woman afro face",
+      "Blonde woman icon",
+      "Punk avatar",
+      "Girl avatar",
+      "User avatar",
+      "Person avatar"
+    ]
+  },
+  {
+    "categoryId": "Aquatics",
+    "wordsIds": [
+      "Cute dolphin",
+      "Cute purple octo",
+      "Cute crab",
+      "Cute shark",
+      "Cute turtle",
+      "Pink jellyfish",
+      "Cute whale",
+      "Cute clownfish"
+    ]
+  },
+  {
+    "categoryId": "Tarot",
+    "wordsIds": [
+      "Brick tower",
+      "King on throne",
+      "Aquarius zodiac",
+      "Girl with lion"
+    ]
+  },
+  {
+    "categoryId": "Email",
+    "wordsIds": [
+      "Flagged mail",
+      "Email search",
+      "Mail download",
+      "Email attachment"
+    ]
+  },
+  {
+    "categoryId": "Meat",
+    "wordsIds": [
+      "Roast turkey",
+      "Raw steaks",
+      "Salami slices",
+      "Ham chunk"
+    ]
+  },
+  {
+    "categoryId": "Kettle",
+    "wordsIds": [
+      "Tea kettle",
+      "Electric kettle",
+      "Teapot"
+    ]
+  },
+  {
+    "categoryId": "Shoes",
+    "wordsIds": [
+      "Sneaker",
+      "Hiking boot",
+      "Ballet shoe",
+      "Rain boot",
+      "Dress shoe",
+      "Boot",
+      "Slipper",
+      "Striped espadrille"
+    ]
+  },
+  {
+    "categoryId": "Treats",
+    "wordsIds": [
+      "Chocolate cake",
+      "Mint ice cream",
+      "Cherry milkshake",
+      "Pie ice cream"
+    ]
+  },
+  {
+    "categoryId": "Slow",
+    "wordsIds": [
+      "Snail",
+      "Sloth on branch",
+      "Turtle"
+    ]
+  },
+  {
+    "categoryId": "Pasta",
+    "wordsIds": [
+      "Rotini pasta",
+      "Bow tie pasta",
+      "Spaghetti noodles",
+      "Cookie crackers"
+    ]
+  },
+  {
+    "categoryId": "Fastener",
+    "wordsIds": [
+      "Screw",
+      "Bolt and nut",
+      "Metal nail",
+      "Metal bolts"
+    ]
+  },
+  {
+    "categoryId": "Head",
+    "wordsIds": [
+      "Skull",
+      "Brain",
+      "Red hair",
+      "Ear"
+    ]
+  },
+  {
+    "categoryId": "Equidae",
+    "wordsIds": [
+      "Striped horse",
+      "Zebra",
+      "Donkey",
+      "Farm horse",
+      "Pony",
+      "Horse"
+    ]
+  },
+  {
+    "categoryId": "Oil",
+    "wordsIds": [
+      "Avocado oil",
+      "Sunflower oil",
+      "Olive oil bottle"
+    ]
+  },
+  {
+    "categoryId": "Big cats",
+    "wordsIds": [
+      "Tiger cub",
+      "Lion",
+      "Jaguar",
+      "Leopard",
+      "Snow leopard",
+      "Spotted leopard",
+      "Black panther",
+      "Lion cub"
+    ]
+  },
+  {
+    "categoryId": "Pay",
+    "wordsIds": [
+      "Wallet with cash",
+      "Card terminal",
+      "Credit card cad",
+      "Cash and coins",
+      "Piggy bank"
+    ]
+  },
+  {
+    "categoryId": "Ensemble",
+    "wordsIds": [
+      "Group singing",
+      "Dancing couple",
+      "Brass band duo",
+      "Choir singers",
+      "Drum players",
+      "String trio",
+      "Kids band",
+      "Mariachi band"
+    ]
+  },
+  {
+    "categoryId": "Violin",
+    "wordsIds": [
+      "Violin neck",
+      "Fiddle",
+      "Violin bow",
+      "Boxing glove"
+    ]
+  },
+  {
+    "categoryId": "Beach",
+    "wordsIds": [
+      "Sandcastle set",
+      "Sunscreen shades",
+      "Starfish shell",
+      "Palm island",
+      "Beach umbrella",
+      "Flip flops"
+    ]
+  },
+  {
+    "categoryId": "Egg",
+    "wordsIds": [
+      "Hen and eggs",
+      "Bird and nest",
+      "Duck and eggs",
+      "Turkey and eggs",
+      "Emu and eggs",
+      "Pigeon nest eggs",
+      "Pheasant and eggs",
+      "Quail and eggs"
+    ]
+  },
+  {
+    "categoryId": "Folklore",
+    "wordsIds": [
+      "Cute green dragon",
+      "Mermaid on rock",
+      "Unicorn",
+      "Green fairy",
+      "Werewolf moon",
+      "Fire phoenix",
+      "Yeti platypus",
+      "Garden gnome lamp"
+    ]
+  },
+  {
+    "categoryId": "Money",
+    "wordsIds": [
+      "Usd banknotes",
+      "Euro banknotes",
+      "Jpy banknotes",
+      "Cny banknotes",
+      "Chf banknotes",
+      "Gbp cash stack",
+      "Cad cash stack",
+      "Inr cash stack"
+    ]
+  },
+  {
+    "categoryId": "Writing",
+    "wordsIds": [
+      "Fountain pen",
+      "Mug with pens",
+      "Books and pencil",
+      "Ink and quill",
+      "Typewriter icon",
+      "Brown book"
+    ]
+  },
+  {
+    "categoryId": "Awards",
+    "wordsIds": [
+      "Trophy cup",
+      "Gramophone trophy",
+      "Gold medal",
+      "Lion statue"
+    ]
+  },
+  {
+    "categoryId": "Fluids",
+    "wordsIds": [
+      "Lemonade pitcher",
+      "Honey jar",
+      "Grapes wine glass",
+      "Oil bottle"
+    ]
+  },
+  {
+    "categoryId": "Bugs",
+    "wordsIds": [
+      "Cute ladybug",
+      "Grasshopper icon",
+      "Blue dragonfly",
+      "Cute bee"
+    ]
+  },
+  {
+    "categoryId": "Mechanic",
+    "wordsIds": [
+      "Car jump starter",
+      "Car jack",
+      "Tire and iron",
+      "Pressure gauge",
+      "Handheld drill",
+      "Wrench"
+    ]
+  },
+  {
+    "categoryId": "Sand",
+    "wordsIds": [
+      "Sand castle",
+      "Hourglass timer",
+      "Sand bucket shovel",
+      "Desert cactus"
+    ]
+  },
+  {
+    "categoryId": "Santa",
+    "wordsIds": [
+      "Santa face",
+      "Reindeer face",
+      "Nice list scroll",
+      "Christmas bells",
+      "Boots",
+      "Gift toy bag",
+      "Sleigh gifts",
+      "Christmas gifts"
+    ]
+  },
+  {
+    "categoryId": "Drupes",
+    "wordsIds": [
+      "Apricot",
+      "Cherries",
+      "Plum",
+      "Olives branch",
+      "Mango",
+      "Peach",
+      "Almonds",
+      "Avocado cucumber"
+    ]
+  },
+  {
+    "categoryId": "Cowboy",
+    "wordsIds": [
+      "Cowboy hat",
+      "Cowboy boots",
+      "Lasso rope",
+      "Saddle"
+    ]
+  },
+  {
+    "categoryId": "Beetles",
+    "wordsIds": [
+      "Stag beetle",
+      "Green beetle",
+      "Beetle",
+      "Beetle bug"
+    ]
+  },
+  {
+    "categoryId": "Yellow",
+    "wordsIds": [
+      "Bananas",
+      "School bus",
+      "Hard hat",
+      "Lemon slices",
+      "Sunflower",
+      "Light bulb",
+      "Taxi cab",
+      "Rubber duck"
+    ]
+  },
+  {
+    "categoryId": "Housing",
+    "wordsIds": [
+      "House icon",
+      "Red house",
+      "Apartment building",
+      "Log cabin"
+    ]
+  },
+  {
+    "categoryId": "Desktop",
+    "wordsIds": [
+      "Computer dashboard",
+      "Computer tower",
+      "Colorful keyboard",
+      "Cpu chip",
+      "Graphics card",
+      "Computer mouse",
+      "Ram module",
+      "Gaming headset"
+    ]
+  },
+  {
+    "categoryId": "Turtles",
+    "wordsIds": [
+      "Green turtle",
+      "Brown turtle",
+      "Red spotted turtle",
+      "Turtle on rock"
+    ]
+  },
+  {
+    "categoryId": "Baby",
+    "wordsIds": [
+      "Baby rattle",
+      "Pink teddy bear",
+      "Baby pacifier",
+      "Diaper"
+    ]
+  },
+  {
+    "categoryId": "Baking",
+    "wordsIds": [
+      "Stand mixer",
+      "Rolling pin dough",
+      "Baking ingredients",
+      "Kitchen utensils"
+    ]
+  },
+  {
+    "categoryId": "Beards",
+    "wordsIds": [
+      "Gray beard",
+      "Ginger dwarf head",
+      "Black beard"
+    ]
+  },
+  {
+    "categoryId": "Whiskers",
+    "wordsIds": [
+      "Orange cat head",
+      "Seal face",
+      "Dog face",
+      "Otter face",
+      "Mouse face"
+    ]
+  },
+  {
+    "categoryId": "Laundry",
+    "wordsIds": [
+      "Washing machine",
+      "Laundry basket",
+      "Ironing board",
+      "Stacked towels",
+      "Detergent bottles"
+    ]
+  },
+  {
+    "categoryId": "Neckwear",
+    "wordsIds": [
+      "Striped tie",
+      "Necklace",
+      "Polka dot bowtie",
+      "Scarf"
+    ]
+  },
+  {
+    "categoryId": "Sandwich",
+    "wordsIds": [
+      "Sliced bread",
+      "Lettuce tomato",
+      "Ham and cheese",
+      "Onion pickle",
+      "Avocado cucumber",
+      "Bacon strips",
+      "Ketchup mustard",
+      "Boiled egg leaf"
+    ]
+  },
+  {
+    "categoryId": "Wake up",
+    "wordsIds": [
+      "Alarm clock",
+      "Sunrise hills",
+      "Hot coffee mug"
+    ]
+  },
+  {
+    "categoryId": "Picnic",
+    "wordsIds": [
+      "Picnic basket",
+      "Picnic blanket",
+      "Stacked containers",
+      "Sandwich box",
+      "Thermos flask",
+      "Cutlery set",
+      "Orange juice btl",
+      "Cooler box"
+    ]
+  },
+  {
+    "categoryId": "Whistle",
+    "wordsIds": [
+      "Tea kettle",
+      "Toy train",
+      "Sound signal"
+    ]
+  },
+  {
+    "categoryId": "Candy",
+    "wordsIds": [
+      "Lollipop",
+      "Jellybean jar",
+      "Gummy bears",
+      "Chocolate bar"
+    ]
+  },
+  {
+    "categoryId": "Wings",
+    "wordsIds": [
+      "Falcon flying",
+      "Bat flying",
+      "Robin bird",
+      "Butterfly",
+      "Cute bee",
+      "Hummingbird",
+      "Grasshopper",
+      "Blue dragonfly"
+    ]
+  },
+  {
+    "categoryId": "Sign",
+    "wordsIds": [
+      "No cars sign",
+      "School crossing",
+      "Deer crossing sign",
+      "Turn right arrow",
+      "Pedestrian cross",
+      "Winding road sign"
+    ]
+  },
+  {
+    "categoryId": "Ruminant",
+    "wordsIds": [
+      "Camel",
+      "Giraffe",
+      "Goat on rock"
+    ]
+  },
+  {
+    "categoryId": "Fantasy",
+    "wordsIds": [
+      "Cute green dragon",
+      "Sword in stone",
+      "Wizard hat",
+      "Treasure chest",
+      "Griffin",
+      "Green fairy",
+      "Magic potion",
+      "Unicorn"
+    ]
+  },
+  {
+    "categoryId": "Canvas",
+    "wordsIds": [
+      "Landscape easel",
+      "Floral embroidery",
+      "Rolled scroll"
+    ]
+  },
+  {
+    "categoryId": "Mosaic",
+    "wordsIds": [
+      "Ornate tile",
+      "Mandala wheel",
+      "Mosaic bird frame",
+      "Geometric flower",
+      "Colorful stones",
+      "Stained glass tile",
+      "Color grid",
+      "Cracked glass"
+    ]
+  },
+  {
+    "categoryId": "Market",
+    "wordsIds": [
+      "Fruit basket",
+      "Food scale",
+      "Sausage stall",
+      "Farmer with apple"
+    ]
+  },
+  {
+    "categoryId": "Sailor",
+    "wordsIds": [
+      "Ship wheel",
+      "Broken compass",
+      "Pretzel knot",
+      "Binoculars"
+    ]
+  },
+  {
+    "categoryId": "Street",
+    "wordsIds": [
+      "Fire hydrant",
+      "Street lamp",
+      "Recycle bin",
+      "Manhole cover"
+    ]
+  },
+  {
+    "categoryId": "Studio",
+    "wordsIds": [
+      "Studio microphone",
+      "Headphones icon",
+      "Camera tripod"
+    ]
+  },
+  {
+    "categoryId": "Chair",
+    "wordsIds": [
+      "Armchair",
+      "Rocking chair",
+      "Bean bag chair",
+      "Office chair",
+      "Blue couch",
+      "Stool",
+      "Chaise lounge",
+      "Round ottoman"
+    ]
+  },
+  {
+    "categoryId": "Jeans",
+    "wordsIds": [
+      "Blue jeans",
+      "Bell bottom jeans",
+      "Denim shorts"
+    ]
+  },
+  {
+    "categoryId": "Pirate",
+    "wordsIds": [
+      "Pirate hat",
+      "Curved sword",
+      "Pirate hook",
+      "Treasure chest",
+      "Pirate flag",
+      "Cannon"
+    ]
+  },
+  {
+    "categoryId": "Neck",
+    "wordsIds": [
+      "Striped tie",
+      "Necklace",
+      "Polka dot bowtie",
+      "Striped scarf"
+    ]
+  },
+  {
+    "categoryId": "Chimera",
+    "wordsIds": [
+      "Golden griffin",
+      "Minotaur warrior",
+      "Sphinx"
+    ]
+  },
+  {
+    "categoryId": "Silver",
+    "wordsIds": [
+      "Teapot",
+      "Hand mirror",
+      "Pocket watch",
+      "Silver goblet"
+    ]
+  },
+  {
+    "categoryId": "Poultry",
+    "wordsIds": [
+      "Rooster",
+      "Turkey",
+      "Duck in puddle",
+      "Quail"
+    ]
+  },
+  {
+    "categoryId": "Headwear",
+    "wordsIds": [
+      "Pink wide hat",
+      "Red star cap",
+      "Fedora hat",
+      "Winter hat",
+      "Cowboy hat",
+      "Hard hat",
+      "Gold crown",
+      "Purple beret"
+    ]
+  },
+  {
+    "categoryId": "Rain",
+    "wordsIds": [
+      "Umbrella rain",
+      "Raincoat",
+      "Rain boots",
+      "Leaf with drops",
+      "Rain cloud",
+      "Pressure gauge"
+    ]
+  },
+  {
+    "categoryId": "Hoofed",
+    "wordsIds": [
+      "Horse",
+      "Deer",
+      "Sheep",
+      "Zebra",
+      "Cow",
+      "Pig",
+      "Hippopotamus",
+      "Giraffe"
+    ]
+  },
+  {
+    "categoryId": "Keys",
+    "wordsIds": [
+      "Golden key",
+      "Car key",
+      "Keyring",
+      "Two keys"
+    ]
+  },
+  {
+    "categoryId": "Heavy",
+    "wordsIds": [
+      "Barbell weights",
+      "Safe box",
+      "Anchor chain",
+      "Kettlebells",
+      "Big rock",
+      "Anvil and hammer"
+    ]
+  },
+  {
+    "categoryId": "Pond",
+    "wordsIds": [
+      "Frog on lilypad",
+      "Turtle on rock",
+      "Koi fish"
+    ]
+  },
+  {
+    "categoryId": "Singer",
+    "wordsIds": [
+      "Studio microphone",
+      "Headphones icon",
+      "Music stand",
+      "Guitar",
+      "Gramophone trophy",
+      "Speaker box"
+    ]
+  },
+  {
+    "categoryId": "Gadget",
+    "wordsIds": [
+      "Smartwatch",
+      "Wireless beacon",
+      "Wireless earbuds",
+      "Vr headset",
+      "Usb battery"
+    ]
+  },
+  {
+    "categoryId": "Olives",
+    "wordsIds": [
+      "Olive oil bottle",
+      "Olive bowl",
+      "Olive focaccia"
+    ]
+  },
+  {
+    "categoryId": "Build",
+    "wordsIds": [
+      "House icon",
+      "Office building",
+      "Castle tower",
+      "Barn silo",
+      "Pagoda temple",
+      "Church building",
+      "Futuristic igloo",
+      "School building"
+    ]
+  },
+  {
+    "categoryId": "Decorate",
+    "wordsIds": [
+      "Christmas wreath",
+      "Star ornament",
+      "Bell with bow",
+      "Christmas ornament"
+    ]
+  },
+  {
+    "categoryId": "Birthday",
+    "wordsIds": [
+      "Birthday cake",
+      "Party hat",
+      "Pinata",
+      "Gift stack",
+      "Party balloons",
+      "Party popper"
+    ]
+  },
+  {
+    "categoryId": "Ships",
+    "wordsIds": [
+      "Sailing ship",
+      "Fishing boat",
+      "Cruise ship",
+      "Inflatable boat",
+      "Rowboat",
+      "Cargo ship"
+    ]
+  },
+  {
+    "categoryId": "Numbers",
+    "wordsIds": [
+      "Yellow number 1",
+      "Red number 2",
+      "Green number 3",
+      "Purple number 4",
+      "Orange number 5",
+      "Red number 6",
+      "Cyan number 7",
+      "Green number 8"
+    ]
+  },
+  {
+    "categoryId": "Age",
+    "wordsIds": [
+      "Baby swaddled",
+      "Baby with rattle",
+      "Girl with teddy",
+      "Girl with book",
+      "Girl with headset",
+      "Grandma icon"
+    ]
+  },
+  {
+    "categoryId": "Gems",
+    "wordsIds": [
+      "Gem heart",
+      "Golden gem",
+      "Purple gem",
+      "Green gem"
+    ]
+  },
+  {
+    "categoryId": "Mail",
+    "wordsIds": [
+      "Mailbox full",
+      "Gift wrapped files",
+      "Mail bag"
+    ]
+  },
+  {
+    "categoryId": "Has red",
+    "wordsIds": [
+      "Tea kettle",
+      "Red apple",
+      "Fire hydrant",
+      "Red heart",
+      "High heels",
+      "Red rotary phone",
+      "Gift box",
+      "Red rose"
+    ]
+  },
+  {
+    "categoryId": "Tools",
+    "wordsIds": [
+      "Tape measure",
+      "Wrench",
+      "Hammer tool",
+      "Screwdriver"
+    ]
+  },
+  {
+    "categoryId": "Roots",
+    "wordsIds": [
+      "Carrot",
+      "Beetroot",
+      "Potatoes",
+      "Ginger root",
+      "Radish",
+      "Sweet potato",
+      "White radish",
+      "Turnip"
+    ]
+  },
+  {
+    "categoryId": "Neckline",
+    "wordsIds": [
+      "Dress form",
+      "Blue shirt",
+      "Pink tank top",
+      "Offshoulder top",
+      "Turtleneck sweater",
+      "Green tank top"
+    ]
+  },
+  {
+    "categoryId": "Anchors",
+    "wordsIds": [
+      "Anchor",
+      "Metal anchor",
+      "Black mushroom",
+      "Spiked anchor"
+    ]
+  },
+  {
+    "categoryId": "Crops",
+    "wordsIds": [
+      "Wheat bundle",
+      "Corn cobs",
+      "Potato plants",
+      "Grapes",
+      "Tomato plant",
+      "Lettuce",
+      "Green pumpkin",
+      "Rice plant"
+    ]
+  },
+  {
+    "categoryId": "Garments",
+    "wordsIds": [
+      "Tshirt blue",
+      "Blue pants",
+      "Shirt",
+      "Turtleneck sweater",
+      "Red dress",
+      "Shorts",
+      "Purple skirt",
+      "Hoodie"
+    ]
+  },
+  {
+    "categoryId": "Person",
+    "wordsIds": [
+      "Female scientist",
+      "Teacher board",
+      "Construction worker"
+    ]
+  },
+  {
+    "categoryId": "Lawn",
+    "wordsIds": [
+      "Lawn mower",
+      "Garden hose",
+      "Garden gnome",
+      "Wheelbarrow dirt"
+    ]
+  },
+  {
+    "categoryId": "Chef",
+    "wordsIds": [
+      "Chopping board",
+      "Cooking pot",
+      "Baking utensils"
+    ]
+  },
+  {
+    "categoryId": "Fluffy",
+    "wordsIds": [
+      "Fuzzy slippers",
+      "Cotton candy",
+      "Rolled towel",
+      "Chick in nest",
+      "Pink puffer ball",
+      "Bowl of popcorn",
+      "Cute sheep",
+      "Pink headphones"
+    ]
+  },
+  {
+    "categoryId": "Property",
+    "wordsIds": [
+      "Red house",
+      "Cash and coins",
+      "Red sports car",
+      "Wristwatch",
+      "Cruise ship",
+      "Blue gem ring",
+      "Handbag",
+      "House icon"
+    ]
+  },
+  {
+    "categoryId": "Squashes",
+    "wordsIds": [
+      "Pumpkin",
+      "Yellow squash",
+      "Zucchini",
+      "Acorn squash"
+    ]
+  },
+  {
+    "categoryId": "Legumes",
+    "wordsIds": [
+      "Gold coins pile",
+      "Dumplings",
+      "Kidney beans",
+      "Peas in pod",
+      "Peanuts",
+      "Black beans",
+      "Green peas",
+      "Green plates"
+    ]
+  },
+  {
+    "categoryId": "3D",
+    "wordsIds": [
+      "Blue cube",
+      "Gold pyramid",
+      "Purple cone",
+      "Green cylinder"
+    ]
+  },
+  {
+    "categoryId": "Vehicle",
+    "wordsIds": [
+      "Steam train",
+      "Red car",
+      "Airplane",
+      "Boat"
+    ]
+  },
+  {
+    "categoryId": "Omnivore",
+    "wordsIds": [
+      "Monkey",
+      "Cute fox",
+      "Cute raccoon",
+      "Crow",
+      "Cute pig",
+      "Cute mouse"
+    ]
+  },
+  {
+    "categoryId": "Vampire",
+    "wordsIds": [
+      "Bat in moon",
+      "Open coffin",
+      "Vampire cloak",
+      "Bloody goblet"
+    ]
+  },
+  {
+    "categoryId": "Pastry",
+    "wordsIds": [
+      "Chocolate cake",
+      "Red cupcake",
+      "Pie ice cream",
+      "Croissant",
+      "Chocolate donut",
+      "Chocolate eclair",
+      "Stacked macarons",
+      "Berry tart"
+    ]
+  },
+  {
+    "categoryId": "Landmark",
+    "wordsIds": [
+      "Colosseum",
+      "Statue of liberty",
+      "Clock tower",
+      "Taj mahal"
+    ]
+  },
+  {
+    "categoryId": "Plant",
+    "wordsIds": [
+      "Potted cactus",
+      "Potted plant",
+      "Orchid potted",
+      "Potted snake plant",
+      "Succulent box",
+      "Hanging plant",
+      "Smiling sunflower",
+      "Venus flytrap"
+    ]
+  },
+  {
+    "categoryId": "Clothes",
+    "wordsIds": [
+      "Purple skirt",
+      "Denim jacket",
+      "Jeans pants",
+      "Yellow dress",
+      "Green hoodie",
+      "Purple beanie"
+    ]
+  },
+  {
+    "categoryId": "Glasses",
+    "wordsIds": [
+      "Pink wine glass",
+      "Wine glass",
+      "Lime drink",
+      "Martini glass"
+    ]
+  },
+  {
+    "categoryId": "Wind",
+    "wordsIds": [
+      "Whirlwind",
+      "Weather vane rooster",
+      "Pinwheel spinner",
+      "Kite",
+      "Sailboat",
+      "Dandelion wind",
+      "Windsock",
+      "Falling leaves"
+    ]
+  },
+  {
+    "categoryId": "Crawlies",
+    "wordsIds": [
+      "Cute caterpillar",
+      "Cute spider",
+      "Ladybug",
+      "Snail"
+    ]
+  },
+  {
+    "categoryId": "Sea fish",
+    "wordsIds": [
+      "Red spotted fish",
+      "Colorful fish",
+      "Puffer fish",
+      "Blue fish",
+      "Clownfish",
+      "Purple fish"
+    ]
+  },
+  {
+    "categoryId": "Round",
+    "wordsIds": [
+      "Purple 8 ball",
+      "Pink donut",
+      "Clock face",
+      "Basketball ball"
+    ]
+  },
+  {
+    "categoryId": "Garage",
+    "wordsIds": [
+      "Car jump starter",
+      "Car jack",
+      "Tire and iron",
+      "Handheld drill"
+    ]
+  },
+  {
+    "categoryId": "Schools",
+    "wordsIds": [
+      "Pencil",
+      "Stack of books",
+      "Backpack",
+      "Globe stand",
+      "Chalkboard abc",
+      "Green ruler",
+      "School bus",
+      "Graduation cap"
+    ]
+  },
+  {
+    "categoryId": "Charger",
+    "wordsIds": [
+      "Smartphone icon",
+      "Laptop computer",
+      "Smartwatch",
+      "Wireless earbuds",
+      "Handheld console",
+      "Power bank"
+    ]
+  },
+  {
+    "categoryId": "Match",
+    "wordsIds": [
+      "Matchbox flame",
+      "Puzzle pieces",
+      "Dating app match",
+      "Striped socks"
+    ]
+  },
+  {
+    "categoryId": "Ads",
+    "wordsIds": [
+      "Tv sale ad",
+      "Newspaper ad",
+      "Burger signboard"
+    ]
+  },
+  {
+    "categoryId": "Woman",
+    "wordsIds": [
+      "Handbag",
+      "Pink lipstick",
+      "Sparkly heel",
+      "Makeup palette",
+      "Perfume bottle",
+      "Engagement ring",
+      "Dress on hanger",
+      "Compact powder"
+    ]
+  },
+  {
+    "categoryId": "Deserts",
+    "wordsIds": [
+      "Tropical island",
+      "Cactus",
+      "Camel",
+      "Scorpion"
+    ]
+  },
+  {
+    "categoryId": "Orange",
+    "wordsIds": [
+      "Orange slice",
+      "Basketball ball",
+      "Pumpkin"
+    ]
+  },
+  {
+    "categoryId": "Mall",
+    "wordsIds": [
+      "Shopping bag",
+      "Clothes hanging",
+      "Atm machine",
+      "Escalator",
+      "Payment terminal",
+      "Parking right sign",
+      "Sale store",
+      "Burger and soda"
+    ]
+  },
+  {
+    "categoryId": "Tribe",
+    "wordsIds": [
+      "Tribal mask",
+      "Teepee tent",
+      "Tiki totem",
+      "Drum"
+    ]
+  },
+  {
+    "categoryId": "Gift",
+    "wordsIds": [
+      "Gift box",
+      "Flower bouquet",
+      "Love letters",
+      "Ring box"
+    ]
+  },
+  {
+    "categoryId": "Toy",
+    "wordsIds": [
+      "Toy building blocks",
+      "Pink unicorn",
+      "Toy robot",
+      "Spinning top"
+    ]
+  },
+  {
+    "categoryId": "Screen",
+    "wordsIds": [
+      "Mobile profile",
+      "Laptop spreadsheet",
+      "Tablet drawing"
+    ]
+  },
+  {
+    "categoryId": "Strings",
+    "wordsIds": [
+      "Harp",
+      "Acoustic guitar",
+      "Violin",
+      "Electric bass",
+      "Mandolin",
+      "Banjo",
+      "Tanpura",
+      "Ukulele"
+    ]
+  },
+  {
+    "categoryId": "2 wheels",
+    "wordsIds": [
+      "Segway scooter",
+      "Scooter",
+      "Hoverboard",
+      "Red motorcycle",
+      "Bicycle",
+      "Electric scooter"
+    ]
+  },
+  {
+    "categoryId": "Temples",
+    "wordsIds": [
+      "Church",
+      "Mosque",
+      "Pagoda building",
+      "Hindu temple",
+      "Synagogue",
+      "Classical building"
+    ]
+  },
+  {
+    "categoryId": "Plastic",
+    "wordsIds": [
+      "Shopping basket",
+      "Plastic cup",
+      "Water bottle",
+      "Shopping bag",
+      "Watering can",
+      "Stacked containers",
+      "Traffic cone",
+      "Green ruler"
+    ]
+  },
+  {
+    "categoryId": "Purple",
+    "wordsIds": [
+      "Eggplant",
+      "Grapes",
+      "Wizard hat",
+      "Purple butterfly"
+    ]
+  },
+  {
+    "categoryId": "Leaves",
+    "wordsIds": [
+      "Palm leaf",
+      "Fern leaf",
+      "Holly leaves",
+      "Green heart leaf",
+      "Oak leaf",
+      "Green leaf"
+    ]
+  },
+  {
+    "categoryId": "Protects",
+    "wordsIds": [
+      "Gloves",
+      "Safety vest",
+      "Ski goggles",
+      "Hard hat"
+    ]
+  },
+  {
+    "categoryId": "Cotton",
+    "wordsIds": [
+      "Green jacket",
+      "Folded towels",
+      "Rubber band ball",
+      "Colorful quilt",
+      "Blue shorts",
+      "Striped socks"
+    ]
+  },
+  {
+    "categoryId": "Patio",
+    "wordsIds": [
+      "Adirondack chair",
+      "Bbq grill",
+      "String lights",
+      "Fire pit",
+      "Potted plant",
+      "Patio table umbrella"
+    ]
+  },
+  {
+    "categoryId": "DIY",
+    "wordsIds": [
+      "Hammer tool",
+      "Tape measure",
+      "Power drill",
+      "Pliers",
+      "Utility knife",
+      "Three screwdrivers",
+      "Toilet paper roll",
+      "Hand saw"
+    ]
+  },
+  {
+    "categoryId": "Monster",
+    "wordsIds": [
+      "Skeleton knight",
+      "Purple octopus",
+      "Cute fire dragon",
+      "Three headed snake",
+      "Minotaur axeman",
+      "Griffin"
+    ]
+  },
+  {
+    "categoryId": "Planets",
+    "wordsIds": [
+      "Earth globe",
+      "Orange planet",
+      "Jupiter planet",
+      "Crater planet",
+      "Ringed planet",
+      "Blue ringed planet"
+    ]
+  },
+  {
+    "categoryId": "Knitting",
+    "wordsIds": [
+      "Yarn ball",
+      "Crochet hook",
+      "Knitting needles",
+      "Inflatable pool"
+    ]
+  },
+  {
+    "categoryId": "Universe",
+    "wordsIds": [
+      "Spiral galaxy",
+      "Meteor flame",
+      "Fiery galaxy"
+    ]
+  },
+  {
+    "categoryId": "Liquids",
+    "wordsIds": [
+      "Soda cup",
+      "Lemonade pitcher",
+      "Ice water glass",
+      "Hot coffee cup",
+      "Milk carton",
+      "Orange juice glass",
+      "Iced coffee glass",
+      "Wine glass"
+    ]
+  },
+  {
+    "categoryId": "Souvenir",
+    "wordsIds": [
+      "Snow globe travel",
+      "Postcard beach",
+      "I love ny shirt",
+      "Eiffel keychain",
+      "Eiffel tower icon",
+      "Rainbow camera"
+    ]
+  },
+  {
+    "categoryId": "Formula",
+    "wordsIds": [
+      "Salt shaker",
+      "Ch4 bubble",
+      "Acid beaker",
+      "Co2 extinguisher"
+    ]
+  },
+  {
+    "categoryId": "School",
+    "wordsIds": [
+      "Chalkboard abc",
+      "Globe stand",
+      "Backpack",
+      "Stack of books"
+    ]
+  },
+  {
+    "categoryId": "Exit",
+    "wordsIds": [
+      "Tunnel light",
+      "Exit door",
+      "Airplane door"
+    ]
+  },
+  {
+    "categoryId": "Patterns",
+    "wordsIds": [
+      "Blue checkered",
+      "Cherry blossoms",
+      "Blue stripes",
+      "Red polka dots",
+      "Houndstooth pattern",
+      "Tribal pattern",
+      "Green camouflage",
+      "Warning stripes"
+    ]
+  },
+  {
+    "categoryId": "Dolls",
+    "wordsIds": [
+      "Rag doll",
+      "Doll princess",
+      "Blonde girl doll",
+      "Baby in onesie"
+    ]
+  },
+  {
+    "categoryId": "Lucky",
+    "wordsIds": [
+      "Four leaf clover",
+      "Gold horseshoe",
+      "Ladybug",
+      "Maneki neko cat",
+      "Chinese knot"
+    ]
+  },
+  {
+    "categoryId": "Balls",
+    "wordsIds": [
+      "Soccer ball",
+      "Basketball ball",
+      "American football"
+    ]
+  },
+  {
+    "categoryId": "Baker's",
+    "wordsIds": [
+      "Bread brick",
+      "Bread loaf",
+      "Braided bread",
+      "Flatbread",
+      "Baguette bread",
+      "Rye bread",
+      "Croissant",
+      "Pretzel"
+    ]
+  },
+  {
+    "categoryId": "Recycle",
+    "wordsIds": [
+      "Glass jar",
+      "Newspaper stack",
+      "Crushed can",
+      "Plastic bottle"
+    ]
+  },
+  {
+    "categoryId": "Signs",
+    "wordsIds": [
+      "No cars sign",
+      "School crossing",
+      "Deer crossing sign",
+      "Turn right arrow",
+      "Pedestrian cross",
+      "Winding road sign",
+      "Warning sign",
+      "Right arrow icon"
+    ]
+  },
+  {
+    "categoryId": "Edible",
+    "wordsIds": [
+      "Cheeseburger",
+      "Pizza slice",
+      "Ramen bowl",
+      "Sushi nigiri roll",
+      "Taco",
+      "Salad bowl",
+      "Roast chicken",
+      "Pancakes syrup"
+    ]
+  },
+  {
+    "categoryId": "Queen",
+    "wordsIds": [
+      "Golden crown",
+      "Royal throne",
+      "Magic wand",
+      "Lion shield"
+    ]
+  },
+  {
+    "categoryId": "Repairs",
+    "wordsIds": [
+      "Hammer tool",
+      "Power drill",
+      "Utility knife",
+      "Toilet paper roll"
+    ]
+  },
+  {
+    "categoryId": "Hole",
+    "wordsIds": [
+      "Blue gem ring",
+      "Green tape roll",
+      "Pink donut",
+      "Garden hose"
+    ]
+  },
+  {
+    "categoryId": "Sowing",
+    "wordsIds": [
+      "Seed bag",
+      "Shovel in dirt",
+      "Watering can"
+    ]
+  },
+  {
+    "categoryId": "Hazard",
+    "wordsIds": [
+      "Radioactive sign",
+      "Biohazard sign",
+      "Toxic warning",
+      "Electric warning"
+    ]
+  },
+  {
+    "categoryId": "Medical",
+    "wordsIds": [
+      "Pill blister pack",
+      "Medicine bottle",
+      "Syringe"
+    ]
+  },
+  {
+    "categoryId": "Paws",
+    "wordsIds": [
+      "Cute baby wolf",
+      "Waving puppy",
+      "Cute lion",
+      "Waving cat"
+    ]
+  },
+  {
+    "categoryId": "Doors",
+    "wordsIds": [
+      "Door knob lock",
+      "Hinge",
+      "Key"
+    ]
+  },
+  {
+    "categoryId": "Win",
+    "wordsIds": [
+      "Gold trophy",
+      "First place trophy",
+      "Gold medal 1",
+      "Winner medal",
+      "Winner podium",
+      "Checkered flag",
+      "Star trophy",
+      "Gold medal"
+    ]
+  },
+  {
+    "categoryId": "Island",
+    "wordsIds": [
+      "Message in sand",
+      "Treasure map",
+      "Treasure chest",
+      "Tropical island"
+    ]
+  },
+  {
+    "categoryId": "Make-up",
+    "wordsIds": [
+      "Makeup palette",
+      "Pink lipstick",
+      "Compact powder",
+      "Mascara tube"
+    ]
+  },
+  {
+    "categoryId": "Clock",
+    "wordsIds": [
+      "Alarm clock",
+      "Pocket watch",
+      "Smartwatch"
+    ]
+  },
+  {
+    "categoryId": "Nails",
+    "wordsIds": [
+      "Nail polish hand",
+      "Pliers",
+      "Nail polish",
+      "Feet on towel",
+      "Pink scissors",
+      "Nail clippers"
+    ]
+  },
+  {
+    "categoryId": "Feline",
+    "wordsIds": [
+      "Black panther",
+      "Leopard",
+      "Lion",
+      "Tiger cub"
+    ]
+  },
+  {
+    "categoryId": "Sprout",
+    "wordsIds": [
+      "Potted sprout",
+      "Seedling",
+      "Seedlings",
+      "Potted grass"
+    ]
+  },
+  {
+    "categoryId": "Frame",
+    "wordsIds": [
+      "Framed picture",
+      "Window view",
+      "Eyeglasses"
+    ]
+  },
+  {
+    "categoryId": "Sunset",
+    "wordsIds": [
+      "Tropical sunset",
+      "Sunset cityscape",
+      "Arctic sunrise",
+      "Sunrise farm scene"
+    ]
+  },
+  {
+    "categoryId": "Comb",
+    "wordsIds": [
+      "Purple comb",
+      "Hair comb",
+      "Hair pick comb"
+    ]
+  },
+  {
+    "categoryId": "Thrill",
+    "wordsIds": [
+      "Wingsuit flying",
+      "Rock climber",
+      "Rafting boat",
+      "Mountain biking",
+      "Base jumping",
+      "Cave diver",
+      "Desert offroad car",
+      "Parachuting"
+    ]
+  },
+  {
+    "categoryId": "Dreams",
+    "wordsIds": [
+      "Sleeping boy",
+      "Sleepy cloud moon",
+      "Dreamcatcher",
+      "Sleepy moon stars",
+      "Sparkle unicorn",
+      "Sleep mask",
+      "Pillow blanket",
+      "Counting sheep"
+    ]
+  },
+  {
+    "categoryId": "Observe",
+    "wordsIds": [
+      "Security camera",
+      "Binoculars",
+      "Wireless microscope",
+      "Telescope icon",
+      "Video camera ui"
+    ]
+  },
+  {
+    "categoryId": "Labels",
+    "wordsIds": [
+      "Barcode label",
+      "Luggage tag",
+      "Sale price tag"
+    ]
+  },
+  {
+    "categoryId": "Rotating",
+    "wordsIds": [
+      "Carousel horses",
+      "Fidget spinner",
+      "Ferris wheel",
+      "Pinwheel",
+      "Globe africa eu",
+      "Gear icon",
+      "Washing machine",
+      "Spinning top"
+    ]
+  },
+  {
+    "categoryId": "Safe",
+    "wordsIds": [
+      "Cash and coins",
+      "Blue gem ring",
+      "Wristwatch"
+    ]
+  },
+  {
+    "categoryId": "Savanna",
+    "wordsIds": [
+      "Leopard",
+      "Zebra",
+      "Lion",
+      "Giraffe tree",
+      "Elephant",
+      "Hippo in water"
+    ]
+  },
+  {
+    "categoryId": "Berries",
+    "wordsIds": [
+      "Strawberry",
+      "Raspberries",
+      "Blueberries",
+      "Blackberries"
+    ]
+  },
+  {
+    "categoryId": "Luggage",
+    "wordsIds": [
+      "Rolling suitcase",
+      "Duffel bag",
+      "Backpack",
+      "Shopping bag",
+      "Travel chest",
+      "Rolling duffel"
+    ]
+  },
+  {
+    "categoryId": "Lizards",
+    "wordsIds": [
+      "Green chameleon",
+      "Spotted gecko",
+      "Bearded dragon",
+      "Green iguana"
+    ]
+  },
+  {
+    "categoryId": "Seat",
+    "wordsIds": [
+      "Office chair",
+      "Bean bag chair",
+      "Rocking chair",
+      "Armchair",
+      "Stool",
+      "Round ottoman"
+    ]
+  },
+  {
+    "categoryId": "Bulb",
+    "wordsIds": [
+      "Tulip bulb",
+      "Garlic bulb",
+      "Purple hyacinth",
+      "Onion"
+    ]
+  },
+  {
+    "categoryId": "Playpark",
+    "wordsIds": [
+      "Climbing wall",
+      "Dino spring rider",
+      "Sandbox castle",
+      "Seesaw",
+      "Playground swing",
+      "Playground slide"
+    ]
+  },
+  {
+    "categoryId": "Gaming",
+    "wordsIds": [
+      "Gaming headset",
+      "Computer mouse",
+      "Computer tower",
+      "Computer dashboard",
+      "Game controller"
+    ]
+  },
+  {
+    "categoryId": "Cutting",
+    "wordsIds": [
+      "Utility knife",
+      "Hand saw",
+      "Curved sword",
+      "Pruning shears"
+    ]
+  },
+  {
+    "categoryId": "Fungi",
+    "wordsIds": [
+      "Chanterelle",
+      "Mushroom",
+      "Morel mushroom",
+      "Purple mushroom",
+      "Mushrooms",
+      "Tree mushrooms",
+      "Shaggy mushroom",
+      "Green mushrooms"
+    ]
+  },
+  {
+    "categoryId": "Peace",
+    "wordsIds": [
+      "Peace symbol",
+      "Peace hand sign",
+      "Dove with olive"
+    ]
+  },
+  {
+    "categoryId": "Runes",
+    "wordsIds": [
+      "Golden rune k",
+      "Cyan rune",
+      "Rune stone",
+      "Golden rune tile",
+      "Golden rune",
+      "Pink rune tile",
+      "Gray rune",
+      "Glowing rune"
+    ]
+  },
+  {
+    "categoryId": "Joust",
+    "wordsIds": [
+      "Lance flag",
+      "Knight helmet",
+      "Lion shield",
+      "Steel gauntlets",
+      "Knight on horse",
+      "Circus tent"
+    ]
+  },
+  {
+    "categoryId": "Masks",
+    "wordsIds": [
+      "Surgical mask",
+      "Plague mask",
+      "Fox mask",
+      "Carnival mask",
+      "Gas mask",
+      "Superhero mask",
+      "Tribal mask",
+      "Theater masks"
+    ]
+  },
+  {
+    "categoryId": "Reef",
+    "wordsIds": [
+      "Coral reef",
+      "Clownfish reef",
+      "Sea turtle",
+      "Pink seahorse"
+    ]
+  },
+  {
+    "categoryId": "Draw",
+    "wordsIds": [
+      "Pencil cup",
+      "Rainbow crayons",
+      "Photo album",
+      "Pen jar"
+    ]
+  },
+  {
+    "categoryId": "Homes",
+    "wordsIds": [
+      "Bird nest eggs",
+      "Beehive",
+      "Dog in doghouse",
+      "Sleeping bear"
+    ]
+  },
+  {
+    "categoryId": "Arrow",
+    "wordsIds": [
+      "Wooden arrow",
+      "Bow and arrow",
+      "Arrow quiver",
+      "Bullseye target",
+      "Colorful feathers",
+      "Arrow spear"
+    ]
+  },
+  {
+    "categoryId": "Fire",
+    "wordsIds": [
+      "Matchbox flame",
+      "Campfire",
+      "Lighter flame",
+      "Candle flame"
+    ]
+  },
+  {
+    "categoryId": "Math",
+    "wordsIds": [
+      "Blue plus icon",
+      "Green cross",
+      "Division sign",
+      "Minus red"
+    ]
+  },
+  {
+    "categoryId": "Keyboard",
+    "wordsIds": [
+      "Ctrl key",
+      "Shift key",
+      "Enter key"
+    ]
+  },
+  {
+    "categoryId": "Shell",
+    "wordsIds": [
+      "Snail",
+      "Turtle",
+      "Hermit crab",
+      "Walnut",
+      "Pearl oyster",
+      "Mussels",
+      "Peanut",
+      "Armadillo"
+    ]
+  },
+  {
+    "categoryId": "String",
+    "wordsIds": [
+      "Bow and arrow",
+      "Necklace",
+      "Yarn ball",
+      "Harp"
+    ]
+  },
+  {
+    "categoryId": "Rodent",
+    "wordsIds": [
+      "Cute mouse",
+      "Guinea pig",
+      "Chipmunk acorn",
+      "Squirrel acorn",
+      "Cute hamster",
+      "Mouse with cheese",
+      "Mouse",
+      "Capybara"
+    ]
+  },
+  {
+    "categoryId": "Fragile",
+    "wordsIds": [
+      "Glass vase",
+      "Hand mirror",
+      "Light bulb",
+      "Decorated egg"
+    ]
+  },
+  {
+    "categoryId": "4 wheels",
+    "wordsIds": [
+      "Suv car",
+      "Red car",
+      "School bus",
+      "Tractor",
+      "Red wagon",
+      "Atv vehicle",
+      "Shopping cart",
+      "Baby stroller"
+    ]
+  },
+  {
+    "categoryId": "For pets",
+    "wordsIds": [
+      "Dog bed",
+      "Pet carrier",
+      "Cat scratcher",
+      "Pet food bag",
+      "Dog food bowls",
+      "Fish tank",
+      "Hamster wheel",
+      "Litter box"
+    ]
+  },
+  {
+    "categoryId": "Remedy",
+    "wordsIds": [
+      "Ginger root",
+      "Aloe vera",
+      "Yellow flower",
+      "Mint lavender",
+      "Lavender flower",
+      "Red berries branch"
+    ]
+  },
+  {
+    "categoryId": "Herd",
+    "wordsIds": [
+      "Cow",
+      "Zebra",
+      "Sheep",
+      "Horse"
+    ]
+  },
+  {
+    "categoryId": "Hat type",
+    "wordsIds": [
+      "Pink wide hat",
+      "Red star cap",
+      "Fedora hat",
+      "Winter hat",
+      "Captain hat",
+      "Cowboy hat",
+      "Hard hat",
+      "Top hat"
+    ]
+  },
+  {
+    "categoryId": "Line",
+    "wordsIds": [
+      "Robotic factory",
+      "Utility pole",
+      "Clothesline"
+    ]
+  },
+  {
+    "categoryId": "Symbols",
+    "wordsIds": [
+      "Recycle symbol",
+      "Dollar sign",
+      "Copyright icon",
+      "Music note",
+      "Red infinity",
+      "Peace symbol",
+      "Yin yang symbol",
+      "Wifi signal"
+    ]
+  },
+  {
+    "categoryId": "Wheels",
+    "wordsIds": [
+      "Red wagon",
+      "Rolling suitcase",
+      "Baby stroller"
+    ]
+  },
+  {
+    "categoryId": "Circle",
+    "wordsIds": [
+      "Wheel",
+      "Clock face",
+      "Pink donut",
+      "Purple 8 ball",
+      "Steering wheel",
+      "Beach ball",
+      "Compass icon",
+      "Gold coin"
+    ]
+  },
+  {
+    "categoryId": "Utensils",
+    "wordsIds": [
+      "Ladle",
+      "Cheese grater",
+      "Pizza cutter",
+      "Spatula"
+    ]
+  },
+  {
+    "categoryId": "Bath",
+    "wordsIds": [
+      "Bathtub duck",
+      "Folded towels",
+      "Sink",
+      "Shower head",
+      "Bath accessories",
+      "Shampoo bottles",
+      "Toilet",
+      "Bathrobe"
+    ]
+  },
+  {
+    "categoryId": "Apple",
+    "wordsIds": [
+      "Red apple",
+      "Pie",
+      "Apple juice bottle"
+    ]
+  },
+  {
+    "categoryId": "Chicken",
+    "wordsIds": [
+      "Wooden doghouse",
+      "Rooster",
+      "Broiler",
+      "Cute chick",
+      "Egg basket",
+      "Corn cob",
+      "Nest eggs",
+      "Roast turkey"
+    ]
+  },
+  {
+    "categoryId": "Clothing",
+    "wordsIds": [
+      "Blue jeans",
+      "Yellow dress",
+      "Green hoodie"
+    ]
+  },
+  {
+    "categoryId": "Design",
+    "wordsIds": [
+      "Color palette",
+      "Compass and pen",
+      "Pens and pencil",
+      "Scissors tape",
+      "Architecture notebook",
+      "Drawing tablet",
+      "Rainbow crayons",
+      "Pencil cup"
+    ]
+  },
+  {
+    "categoryId": "Emotion",
+    "wordsIds": [
+      "Sad crying face",
+      "Heart eyes face",
+      "Shocked face",
+      "Smiley face",
+      "Angry face",
+      "Smiling face"
+    ]
+  },
+  {
+    "categoryId": "Flight",
+    "wordsIds": [
+      "Green hummingbird",
+      "Airplane",
+      "Kite"
+    ]
+  },
+  {
+    "categoryId": "Devices",
+    "wordsIds": [
+      "Stand mixer",
+      "Electric kettle",
+      "Fruit blender",
+      "Hair dryer",
+      "Electric toothbrush",
+      "Toaster bread",
+      "Microwave oven",
+      "Coffee maker"
+    ]
+  },
+  {
+    "categoryId": "Scale",
+    "wordsIds": [
+      "Map location icon",
+      "Rulers",
+      "Bathroom scale"
+    ]
+  },
+  {
+    "categoryId": "Way",
+    "wordsIds": [
+      "Desert road",
+      "Beach pier",
+      "River canoe scene",
+      "City highway",
+      "Subway tunnel",
+      "Stone garden path"
+    ]
+  },
+  {
+    "categoryId": "Striped",
+    "wordsIds": [
+      "Striped socks",
+      "Tiger cub",
+      "Spinning top",
+      "Zebra"
+    ]
+  },
+  {
+    "categoryId": "Scents",
+    "wordsIds": [
+      "Pine tree tag",
+      "Reed diffuser",
+      "Perfume bottle",
+      "Red tulip"
+    ]
+  },
+  {
+    "categoryId": "Bento",
+    "wordsIds": [
+      "Bento box",
+      "Egg candy",
+      "Dumplings",
+      "Veggie slices",
+      "Egg roll",
+      "Edamame pods",
+      "Chopsticks holder",
+      "Salmon steak"
+    ]
+  },
+  {
+    "categoryId": "Hiking",
+    "wordsIds": [
+      "Campfire",
+      "Compass icon",
+      "Camping backpack",
+      "Sleeping bag",
+      "Camping tent",
+      "Hiking boots"
+    ]
+  },
+  {
+    "categoryId": "Button",
+    "wordsIds": [
+      "Push button",
+      "Power button",
+      "Flat button"
+    ]
+  },
+  {
+    "categoryId": "Fidget",
+    "wordsIds": [
+      "Fidget cube",
+      "Fidget spinner",
+      "Rainbow popit"
+    ]
+  },
+  {
+    "categoryId": "Outwear",
+    "wordsIds": [
+      "Coat",
+      "Raincoat",
+      "Sport jacket",
+      "Denim jacket",
+      "Trench coat",
+      "Winter coat",
+      "Leather jacket",
+      "Puffer jacket"
+    ]
+  },
+  {
+    "categoryId": "Sculptor",
+    "wordsIds": [
+      "Hammer chisel",
+      "Marble block",
+      "Sculpting bust",
+      "Marble bust",
+      "Sculpting tools",
+      "Dirty gloves"
+    ]
+  },
+  {
+    "categoryId": "Decor",
+    "wordsIds": [
+      "Vase with feathers",
+      "String lights",
+      "Abstract poster",
+      "Woven rug",
+      "Striped candy",
+      "Maneki neko cat",
+      "Potted plant",
+      "Clock face"
+    ]
+  },
+  {
+    "categoryId": "Pair",
+    "wordsIds": [
+      "Sneakers",
+      "Gloves",
+      "Drumsticks",
+      "Striped socks",
+      "Blue shorts",
+      "Scissors",
+      "Eyeglasses",
+      "Blue earrings"
+    ]
+  },
+  {
+    "categoryId": "Sprinkle",
+    "wordsIds": [
+      "Shower head",
+      "Chocolate donut",
+      "Party popper",
+      "Rain cloud",
+      "Leaf with drops"
+    ]
+  },
+  {
+    "categoryId": "Walk",
+    "wordsIds": [
+      "Sneaker shoe",
+      "Camping backpack",
+      "Map location icon",
+      "Water bottle"
+    ]
+  },
+  {
+    "categoryId": "Flames",
+    "wordsIds": [
+      "Matchbox flame",
+      "Lighter flame",
+      "Candle flame"
+    ]
+  },
+  {
+    "categoryId": "Air trip",
+    "wordsIds": [
+      "Passport icon",
+      "Control tower",
+      "Rolling suitcase",
+      "Airplane window",
+      "Boarding pass",
+      "Pilot hat",
+      "Airplane",
+      "Security scanner"
+    ]
+  },
+  {
+    "categoryId": "Ash",
+    "wordsIds": [
+      "Volcano eruption",
+      "Campfire",
+      "Bbq grill",
+      "Fireplace"
+    ]
+  },
+  {
+    "categoryId": "Caravan",
+    "wordsIds": [
+      "Saddled camel",
+      "Desert shepherd",
+      "Compass icon",
+      "Treasure map",
+      "Desert sunrise",
+      "Covered cargo"
+    ]
+  },
+  {
+    "categoryId": "Key",
+    "wordsIds": [
+      "Two keys",
+      "Keyring",
+      "Car key",
+      "Golden key"
+    ]
+  },
+  {
+    "categoryId": "Bride",
+    "wordsIds": [
+      "Pink dress",
+      "Pink high heels",
+      "Pink purse",
+      "Ring box",
+      "Flower bouquet",
+      "Rose cake"
+    ]
+  },
+  {
+    "categoryId": "Earphone",
+    "wordsIds": [
+      "Wireless earbuds",
+      "Headphones icon",
+      "Earbuds plug"
+    ]
+  },
+  {
+    "categoryId": "Film",
+    "wordsIds": [
+      "Movie camera",
+      "Clapper board",
+      "Film strip",
+      "Film popcorn",
+      "3d glasses",
+      "Projector",
+      "Award trophy",
+      "Film reel"
+    ]
+  },
+  {
+    "categoryId": "Neptune",
+    "wordsIds": [
+      "Blue ringed planet",
+      "Sea god trident",
+      "Np atom icon",
+      "Blue horse"
+    ]
+  },
+  {
+    "categoryId": "Lighting",
+    "wordsIds": [
+      "Color string lights",
+      "Desk lamp",
+      "Hanging lamp",
+      "String lights",
+      "Wall lamp",
+      "Chandelier light",
+      "Table lamp",
+      "Lava lamp"
+    ]
+  },
+  {
+    "categoryId": "Heels",
+    "wordsIds": [
+      "High heel",
+      "High heel boot",
+      "High heel sandal"
+    ]
+  },
+  {
+    "categoryId": "Yellow",
+    "wordsIds": [
+      "Bananas",
+      "School bus",
+      "Light bulb"
+    ]
+  },
+  {
+    "categoryId": "Awards",
+    "wordsIds": [
+      "Gold medal 1",
+      "Award ribbon",
+      "Spiral trophy",
+      "Winged trophy",
+      "Achievement badge",
+      "Ice crystal pillar",
+      "Plastic cup",
+      "Trophy cup"
+    ]
+  },
+  {
+    "categoryId": "Bread",
+    "wordsIds": [
+      "Rye bread brick",
+      "Baguette bread",
+      "Flatbread",
+      "Bread loaf"
+    ]
+  },
+  {
+    "categoryId": "Rodents",
+    "wordsIds": [
+      "Squirrel acorn",
+      "Cute hamster",
+      "Mouse with cheese"
+    ]
+  },
+  {
+    "categoryId": "To sit",
+    "wordsIds": [
+      "Office chair",
+      "Bean bag chair",
+      "Rocking chair",
+      "Armchair",
+      "Round ottoman",
+      "Chaise lounge",
+      "Stool",
+      "Blue couch"
+    ]
+  },
+  {
+    "categoryId": "Seaweed",
+    "wordsIds": [
+      "Brown coral",
+      "Coral",
+      "Algae",
+      "Leafy lettuce"
+    ]
+  },
+  {
+    "categoryId": "Hair",
+    "wordsIds": [
+      "Woman afro face",
+      "Punk avatar",
+      "Girl avatar",
+      "User avatar"
+    ]
+  },
+  {
+    "categoryId": "Bridges",
+    "wordsIds": [
+      "Stone bridge",
+      "Red truss bridge",
+      "Suspension bridge",
+      "Rail bridge",
+      "Wooden arc bridge",
+      "Wooden bridge",
+      "String bridge",
+      "Drawbridge"
+    ]
+  },
+  {
+    "categoryId": "Tracks",
+    "wordsIds": [
+      "Paw print",
+      "Dinosaur track",
+      "Snake icon",
+      "Paw print icon",
+      "Hoof prints",
+      "Bird print"
+    ]
+  },
+  {
+    "categoryId": "B&W",
+    "wordsIds": [
+      "Clapper board",
+      "Checkered flag",
+      "Yin yang symbol",
+      "Zebra",
+      "Cute penguin",
+      "Barcode icon",
+      "Beetle",
+      "Ace of spades"
+    ]
+  },
+  {
+    "categoryId": "Pink",
+    "wordsIds": [
+      "Pink dress",
+      "Pink purse",
+      "Pink high heels",
+      "Pink donut",
+      "Cherry blossom",
+      "Cute pig",
+      "Cherry milkshake",
+      "Pink flamingo"
+    ]
+  },
+  {
+    "categoryId": "Break",
+    "wordsIds": [
+      "Cracked vase",
+      "Broken plate",
+      "Broken lightbulb",
+      "Cracked mirror",
+      "Cracked egg"
+    ]
+  },
+  {
+    "categoryId": "Sports",
+    "wordsIds": [
+      "Soccer ball",
+      "Basketball",
+      "American football",
+      "Baseball glove"
+    ]
+  },
+  {
+    "categoryId": "Mammals",
+    "wordsIds": [
+      "Cute monkey",
+      "Cute baby elephant",
+      "Cute fox",
+      "Cute lion",
+      "Squirrel acorn",
+      "Howling wolf",
+      "Dolphin jump",
+      "Giraffe"
+    ]
+  },
+  {
+    "categoryId": "Insect",
+    "wordsIds": [
+      "Cute bee",
+      "Blue dragonfly",
+      "Grasshopper icon",
+      "Cute ladybug"
+    ]
+  },
+  {
+    "categoryId": "Emoji",
+    "wordsIds": [
+      "Heart eyes face",
+      "Thumbs up",
+      "Red heart"
+    ]
+  },
+  {
+    "categoryId": "Beasts",
+    "wordsIds": [
+      "Musk ox",
+      "Lion",
+      "Tiger cub",
+      "Polar bear"
+    ]
+  },
+  {
+    "categoryId": "Digits",
+    "wordsIds": [
+      "Yellow number 1",
+      "Red number 2",
+      "Green number 3",
+      "Blue number 0"
+    ]
+  },
+  {
+    "categoryId": "Weapons",
+    "wordsIds": [
+      "Bow and arrow",
+      "Silver hammer",
+      "Double battleaxe",
+      "Three daggers",
+      "Sword",
+      "Curved sword"
+    ]
+  },
+  {
+    "categoryId": "Jewelry",
+    "wordsIds": [
+      "Heart pendant",
+      "Pearl bracelet",
+      "Blue gem ring",
+      "Blue earrings",
+      "Blue gem pendant"
+    ]
+  },
+  {
+    "categoryId": "Pottery",
+    "wordsIds": [
+      "Clay vase",
+      "Blue bowl",
+      "Coffee mug",
+      "Clay pitcher",
+      "Tagine pot"
+    ]
+  },
+  {
+    "categoryId": "Fauna",
+    "wordsIds": [
+      "Cute baby leopard",
+      "Butterfly",
+      "Cute monkey",
+      "Frog on leaf",
+      "Toucan on branch",
+      "Cute hamster",
+      "Clownfish",
+      "Horse"
+    ]
+  },
+  {
+    "categoryId": "Cars",
+    "wordsIds": [
+      "Monster truck",
+      "Suv car",
+      "Blue car",
+      "Green convertible"
+    ]
+  },
+  {
+    "categoryId": "Winged",
+    "wordsIds": [
+      "Penguin",
+      "Grasshopper",
+      "Airplane",
+      "Fairy on mushroom",
+      "Butterfly",
+      "Hummingbird",
+      "Cute green dragon",
+      "Pink flamingo"
+    ]
+  },
+  {
+    "categoryId": "Emoticon",
+    "wordsIds": [
+      "Sad crying face",
+      "Heart eyes face",
+      "Shocked face",
+      "Smiley face",
+      "Angry face",
+      "Smiling face"
+    ]
+  },
+  {
+    "categoryId": "Clothes",
+    "wordsIds": [
+      "Purple skirt",
+      "Jeans shirt",
+      "Jeans pants",
+      "Yellow dress",
+      "Green hoodie",
+      "Purple beanie",
+      "Striped socks",
+      "Puffer jacket"
+    ]
+  },
+  {
+    "categoryId": "Birds",
+    "wordsIds": [
+      "Blue bird",
+      "Owl",
+      "Colorful parrot",
+      "Yellow duck"
+    ]
+  },
+  {
+    "categoryId": "Fruits",
+    "wordsIds": [
+      "Pineapple",
+      "Kiwi fruit",
+      "Watermelon slice"
+    ]
+  },
+  {
+    "categoryId": "Jungle",
+    "wordsIds": [
+      "Toucan on branch",
+      "Tiger cub",
+      "Hanging monkey",
+      "Tropical plant",
+      "Hibiscus flower",
+      "Sloth hanging",
+      "Frog on leaf",
+      "Cute snake"
+    ]
+  },
+  {
+    "categoryId": "Library",
+    "wordsIds": [
+      "Bookshelf ladder",
+      "Book magnifier",
+      "Study lamp books",
+      "Studying person"
+    ]
+  },
+  {
+    "categoryId": "Cuisine",
+    "wordsIds": [
+      "Noodle soup",
+      "Pepperoni pizza",
+      "Tacos",
+      "Soup bowl",
+      "Shrimp noodles",
+      "Wrap and fries"
+    ]
+  },
+  {
+    "categoryId": "Art",
+    "wordsIds": [
+      "Paint palette",
+      "Landscape paint",
+      "Framed painting"
+    ]
+  },
+  {
+    "categoryId": "Bipeds",
+    "wordsIds": [
+      "Penguin",
+      "Gorilla",
+      "Cute dinosaur",
+      "Owl",
+      "Ostrich",
+      "Kangaroo"
+    ]
+  },
+  {
+    "categoryId": "Woolen",
+    "wordsIds": [
+      "Christmas socks",
+      "Purple mittens",
+      "Knit sweater",
+      "Winter hat"
+    ]
+  },
+  {
+    "categoryId": "Rodents",
+    "wordsIds": [
+      "Mouse with cheese",
+      "Cute hamster",
+      "Squirrel acorn",
+      "Chipmunk acorn",
+      "Guinea pig",
+      "Cute mouse",
+      "Hamster",
+      "Capybara"
+    ]
+  },
+  {
+    "categoryId": "Birds",
+    "wordsIds": [
+      "Colorful parrot",
+      "Green hummingbird",
+      "Pink flamingo",
+      "Blue bird"
+    ]
+  },
+  {
+    "categoryId": "Insects",
+    "wordsIds": [
+      "Dragonfly",
+      "Moth",
+      "Ladybug",
+      "Mosquito"
+    ]
+  },
+  {
+    "categoryId": "Bestiary",
+    "wordsIds": [
+      "Skeleton knight",
+      "Purple octopus",
+      "Cute red dragon",
+      "Three headed sna",
+      "Fire phoenix",
+      "Werewolf moon",
+      "Fairy on mushroom",
+      "Unicorn"
+    ]
+  },
+  {
+    "categoryId": "Floats",
+    "wordsIds": [
+      "Fishing bobber",
+      "Flamingo float",
+      "Beach ball",
+      "Boat"
+    ]
+  },
+  {
+    "categoryId": "Stinks",
+    "wordsIds": [
+      "Cute skunk",
+      "Cheese wedge",
+      "Trash bag",
+      "Onion",
+      "Durian"
+    ]
+  },
+  {
+    "categoryId": "Bells",
+    "wordsIds": [
+      "Bell",
+      "Jingle bells",
+      "Service bell",
+      "Silver bell"
+    ]
+  },
+  {
+    "categoryId": "Shapes",
+    "wordsIds": [
+      "Brick",
+      "Gray polyhedron",
+      "Blue torus",
+      "Purple cone",
+      "Blue cube",
+      "Gold pyramid",
+      "Red circle",
+      "Green cylinder"
+    ]
+  },
+  {
+    "categoryId": "Quintet",
+    "wordsIds": [
+      "Grand piano",
+      "Trumpet",
+      "Harp",
+      "Violin",
+      "Clarinet"
+    ]
+  },
+  {
+    "categoryId": "Sphere",
+    "wordsIds": [
+      "Christmas ornament",
+      "Orange fruit",
+      "Blue planet",
+      "Travel snow glob",
+      "Yarn ball",
+      "Basketball",
+      "Beach ball multicolor",
+      "Purple 8 ball"
+    ]
+  },
+  {
+    "categoryId": "Nets",
+    "wordsIds": [
+      "Fish net",
+      "Soccer goal",
+      "Spider web",
+      "Fruit net bag"
+    ]
+  },
+  {
+    "categoryId": "Elements",
+    "wordsIds": [
+      "Flame",
+      "Seedling",
+      "Ocean wave",
+      "Water splash"
+    ]
+  },
+  {
+    "categoryId": "For hair",
+    "wordsIds": [
+      "Hair dryer",
+      "Hair brush",
+      "Hair styler",
+      "Pink scrunchie",
+      "Hair pins",
+      "Jeweled hair com"
+    ]
+  },
+  {
+    "categoryId": "Circle",
+    "wordsIds": [
+      "Blue crosshair",
+      "Target bullseye",
+      "Pie chart",
+      "Pie chart 25",
+      "Red line circle",
+      "Dashed circle"
+    ]
+  },
+  {
+    "categoryId": "Aquatic",
+    "wordsIds": [
+      "Cute dolphin",
+      "Cute octopus",
+      "Cute crab",
+      "Cute shark",
+      "Cute turtle",
+      "Cute whale",
+      "Cute clownfish",
+      "Cute jellyfish"
+    ]
+  },
+  {
+    "categoryId": "Shaving",
+    "wordsIds": [
+      "Electric razor",
+      "Straight razor",
+      "Shaving cream",
+      "Shaving bowl",
+      "Razor",
+      "Shampoo bottle"
+    ]
+  },
+  {
+    "categoryId": "Games",
+    "wordsIds": [
+      "Chess board",
+      "Mahjong tiles",
+      "Playing cards",
+      "Dice"
+    ]
+  },
+  {
+    "categoryId": "Jewelry",
+    "wordsIds": [
+      "Pearl bracelet",
+      "Blue gem ring",
+      "Blue earrings",
+      "Blue gem pendant",
+      "Pearl earrings",
+      "Heart ring"
+    ]
+  },
+  {
+    "categoryId": "Flowers",
+    "wordsIds": [
+      "Daisy flower",
+      "Orange lily",
+      "Red rose",
+      "Purple flower"
+    ]
+  },
+  {
+    "categoryId": "Cuisine",
+    "wordsIds": [
+      "Noodle soup",
+      "Pepperoni pizza",
+      "Shrimp noodles",
+      "Wrap and fries",
+      "Cheeseburger",
+      "Taco",
+      "Pizza slice",
+      "Dumpling steamer"
+    ]
+  },
+  {
+    "categoryId": "Gadgets",
+    "wordsIds": [
+      "Smartwatch",
+      "Wireless earbuds",
+      "Vr headset",
+      "Usb battery"
+    ]
+  },
+  {
+    "categoryId": "Carnival",
+    "wordsIds": [
+      "Carousel horse",
+      "Ferris wheel",
+      "Cotton candy",
+      "Clown face"
+    ]
+  },
+  {
+    "categoryId": "Savanna",
+    "wordsIds": [
+      "Giraffe tree",
+      "Zebra",
+      "Leopard"
+    ]
+  },
+  {
+    "categoryId": "Music",
+    "wordsIds": [
+      "Trumpet",
+      "Harp",
+      "Acoustic guitar",
+      "Grand piano"
+    ]
+  },
+  {
+    "categoryId": "Sigils",
+    "wordsIds": [
+      "Purple triquetra",
+      "Sun emblem",
+      "Medical symbol"
+    ]
+  },
+  {
+    "categoryId": "Knitted",
+    "wordsIds": [
+      "Green winter hat",
+      "Inflatable pool",
+      "Turtleneck sweater",
+      "Striped socks"
+    ]
+  },
+  {
+    "categoryId": "Stamp",
+    "wordsIds": [
+      "Balloon stamp",
+      "Lion wax seal",
+      "Date stamp"
+    ]
+  },
+  {
+    "categoryId": "Camping",
+    "wordsIds": [
+      "Map location icon",
+      "Compass",
+      "Camping backpack",
+      "Camping tent",
+      "Camping bedroll",
+      "Campfire",
+      "Hiking boots",
+      "Director chair"
+    ]
+  },
+  {
+    "categoryId": "Fitness",
+    "wordsIds": [
+      "Pushup exercise",
+      "Person running",
+      "Situp exercise",
+      "Treadmill run",
+      "Dumbbell squat",
+      "Jumping person"
+    ]
+  },
+  {
+    "categoryId": "Puzzles",
+    "wordsIds": [
+      "Word search",
+      "Maze pencil",
+      "Wooden puzzle",
+      "Rubiks cube",
+      "Jigsaw puzzle"
+    ]
+  },
+  {
+    "categoryId": "Nations",
+    "wordsIds": [
+      "Torii gate",
+      "Pharaoh",
+      "Sombrero maracas",
+      "Greek temple"
+    ]
+  },
+  {
+    "categoryId": "Desserts",
+    "wordsIds": [
+      "Chocolate cake",
+      "Red cupcake",
+      "Pie ice cream",
+      "Pancakes syrup",
+      "Mint ice cream",
+      "Cherry milkshake"
+    ]
+  },
+  {
+    "categoryId": "Games",
+    "wordsIds": [
+      "Darts",
+      "Game controller",
+      "Colorful pawns"
+    ]
+  },
+  {
+    "categoryId": "Tools",
+    "wordsIds": [
+      "Wrench tool",
+      "Red hammer",
+      "Screwdriver"
+    ]
+  },
+  {
+    "categoryId": "Games",
+    "wordsIds": [
+      "Chess board",
+      "Mahjong tiles",
+      "Playing cards",
+      "Go board"
+    ]
+  },
+  {
+    "categoryId": "Emotions",
+    "wordsIds": [
+      "Smiley face",
+      "Shocked face",
+      "Sad crying face"
+    ]
+  },
+  {
+    "categoryId": "Chalk",
+    "wordsIds": [
+      "Chalkboard",
+      "Hopscotch grid",
+      "Billiard balls"
+    ]
+  },
+  {
+    "categoryId": "Herbs",
+    "wordsIds": [
+      "Purple basil",
+      "Herb leaves",
+      "Mint leaves",
+      "Green leaf clust",
+      "Herb branch",
+      "Parsley leaf",
+      "Herb leaf",
+      "Dill leaf"
+    ]
+  },
+  {
+    "categoryId": "Fungi",
+    "wordsIds": [
+      "Green mushrooms",
+      "Mushrooms",
+      "Purple mushroom",
+      "Morel mushroom",
+      "Red mushroom",
+      "Chanterelle"
+    ]
+  },
+  {
+    "categoryId": "Weapons",
+    "wordsIds": [
+      "Curved sword",
+      "Double axe",
+      "Silver hammer",
+      "Bow and arrow"
+    ]
+  },
+  {
+    "categoryId": "Addicted",
+    "wordsIds": [
+      "Smartphone apps",
+      "Cigarette pack",
+      "Coffee cup",
+      "Poker hand chips",
+      "Game controller mod",
+      "Candy and donut"
+    ]
+  },
+  {
+    "categoryId": "Emojis",
+    "wordsIds": [
+      "Red heart",
+      "Heart eyes face",
+      "Sad crying face",
+      "Thumbs up"
+    ]
+  },
+  {
+    "categoryId": "Vowels",
+    "wordsIds": [
+      "Letter e",
+      "Letter o",
+      "Letter a"
+    ]
+  },
+  {
+    "categoryId": "Cattle",
+    "wordsIds": [
+      "Highland cow",
+      "Spotted cow",
+      "Brown yak"
+    ]
+  },
+  {
+    "categoryId": "Lab tool",
+    "wordsIds": [
+      "Lab beaker",
+      "Eyedropper",
+      "Petri dish",
+      "Test tubes",
+      "Microscope",
+      "Lab flasks"
+    ]
+  },
+  {
+    "categoryId": "Brass",
+    "wordsIds": [
+      "Sextant",
+      "Orange gears",
+      "Tuba",
+      "Cymbals"
+    ]
+  },
+  {
+    "categoryId": "Time",
+    "wordsIds": [
+      "Sunny weather",
+      "City night",
+      "Sunrise night",
+      "Cozy study",
+      "Sunrise landscap",
+      "Morning coffee"
+    ]
+  },
+  {
+    "categoryId": "Town",
+    "wordsIds": [
+      "Pizza shop",
+      "Grocery store",
+      "Cartoon house",
+      "Red barn silo",
+      "Police station",
+      "Town hall",
+      "School building",
+      "Chapel"
+    ]
+  },
+  {
+    "categoryId": "Vehicle",
+    "wordsIds": [
+      "School bus",
+      "Black suv",
+      "Monster truck"
+    ]
+  },
+  {
+    "categoryId": "Beetles",
+    "wordsIds": [
+      "Stag beetle",
+      "Green beetle",
+      "Beetle",
+      "Beetle bug",
+      "Beetle dumb"
+    ]
+  },
+  {
+    "categoryId": "Gadgets",
+    "wordsIds": [
+      "Smartwatch",
+      "Vr headset",
+      "Tablet robot",
+      "Smartphone ui"
+    ]
+  },
+  {
+    "categoryId": "Felines",
+    "wordsIds": [
+      "Tiger cub",
+      "Leopard",
+      "Black panther"
+    ]
+  },
+  {
+    "categoryId": "Polar",
+    "wordsIds": [
+      "Snow fox",
+      "Iceberg",
+      "Northern lights",
+      "Seal on ice",
+      "Walrus on ice",
+      "Cute penguin",
+      "Igloo",
+      "Polar bear cub"
+    ]
+  },
+  {
+    "categoryId": "Waitress",
+    "wordsIds": [
+      "Round table",
+      "Money jar",
+      "Coffee and sugar",
+      "Name badge",
+      "Kitchen apron",
+      "Recipe book",
+      "Room service",
+      "Note pad"
+    ]
+  }
+]

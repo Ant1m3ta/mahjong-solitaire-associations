@@ -65,6 +65,9 @@ export function Header({
             {state.movesUsed}<span className="moves-sep">/</span>{state.movesLimit}
           </span>
         </div>
+        <a className="toggle-btn editor-link" href="#/editor" title="Open level editor">
+          ✏ Editor
+        </a>
       </div>
 
       <div className="header-blocks">

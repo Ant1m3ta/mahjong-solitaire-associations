@@ -6,10 +6,16 @@ import { Header } from './components/Header';
 import { CategorySlotsRow } from './components/CategorySlotsRow';
 import { Board } from './components/Board';
 import { Overlay } from './components/Overlay';
+import { consumePreviewLevel } from './editor/save';
 
 export function App() {
+  const previewLevel = useMemo(() => consumePreviewLevel(), []);
+  const allLevels = useMemo(
+    () => (previewLevel ? [previewLevel, ...LEVELS] : LEVELS),
+    [previewLevel],
+  );
   const [levelIdx, setLevelIdx] = useState(0);
-  const [appState, dispatch] = useReducer(reduce, LEVELS[0], makeInitialAppState);
+  const [appState, dispatch] = useReducer(reduce, allLevels[0], makeInitialAppState);
   const [highlightUnplayable, setHighlightUnplayable] = useState(false);
 
   useEffect(() => {
@@ -20,15 +26,15 @@ export function App() {
 
   function handleLevelChange(idx: number) {
     setLevelIdx(idx);
-    dispatch({ type: 'RESET', level: LEVELS[idx] });
+    dispatch({ type: 'RESET', level: allLevels[idx] });
   }
 
   function handleRestart() {
-    dispatch({ type: 'RESET', level: LEVELS[levelIdx] });
+    dispatch({ type: 'RESET', level: allLevels[levelIdx] });
   }
 
   function handleNextLevel() {
-    const next = (levelIdx + 1) % LEVELS.length;
+    const next = (levelIdx + 1) % allLevels.length;
     handleLevelChange(next);
   }
 
@@ -47,7 +53,7 @@ export function App() {
         disabled={overlayDisabled}
         highlightUnplayable={highlightUnplayable}
         onToggleHighlight={() => setHighlightUnplayable((v) => !v)}
-        levels={LEVELS}
+        levels={allLevels}
         currentLevelIdx={levelIdx}
         onLevelChange={handleLevelChange}
         canRollback={appState.history.length > 0}

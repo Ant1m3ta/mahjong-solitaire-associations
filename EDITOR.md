@@ -55,11 +55,13 @@ EditorState { level, history, brush, currentLayer, ghostBelow, ghostAbove, erase
 
 **Topbar action group:** `← Undo (n)` · `Normalize` · `Load .skel` · `Save .skel` · `Save .json` · `Play`. Undo is enabled iff history is non-empty; Normalize iff the board has cards; Save .skel iff the level is non-empty; Save .json / Play iff at least one category and one board card exist.
 
-Hotkeys: `↑`/`↓` (or `]`/`[`) layer up/down, `E` erase, `Tab` simple↔category, `1..9` select category by index, `⌘Z`/`Ctrl+Z` undo. Most keys ignored when typing in inputs; Undo works from inputs too.
+Hotkeys: `↑`/`↓` (or `]`/`[`) layer up/down, `E` erase, `M` move, `Esc` cancel pick, `Tab` simple↔category, `1..9` select category by index, `⌘Z`/`Ctrl+Z` undo. Most keys ignored when typing in inputs; Undo works from inputs too.
+
+**Move brush.** Toggle Move mode (M or the Move button) to relocate cards without re-authoring. Click 1 picks a card on the current layer (yellow dashed outline + dimmed); Click 2 drops it at the target cell — smart-stack determines target z, excluding the picked card itself so you can drop on its own anchor's z if you want. Clicking the picked card's anchor cancels. `Esc` cancels too. Move and Erase are exclusive — switching either off clears the other; selecting a category brush clears both. `MOVE_BOARD` is history-pushing.
 
 **Layer direction.** ▲ moves up the pyramid (z+1); ▼ moves down toward the floor (z-1). Initial layer = z=0 for an empty board, max z for a non-empty one. Negative z is allowed during authoring — place a card at z=0, drill down to z=-1 to add cards beneath. The Save and Play actions normalize automatically (shift all cards so min z = 0) before fill, so the JSON output always satisfies the game's bottom-floor rule. There is also a Normalize button in the topbar for explicit shifts during authoring.
 
-**Undo.** Structural edits push a `{ level, currentLayer }` snapshot onto `history`. The Undo button (and `⌘Z`) pops one and restores both fields atomically. Meta-field changes (level id, slots, moves) and UI state (brush, layer, ghosts, erase) are excluded — undo doesn't churn through every keystroke or every brush tap. History-pushing actions: `ADD_CATEGORY`, `REMOVE_CATEGORY`, `SET_PINNED_CATEGORY`, `INC_SIMPLE`, `DEC_SIMPLE`, `PLACE_BOARD`, `REMOVE_BOARD`, `REORDER_STOCK`, `DELETE_STOCK`, `NORMALIZE_LAYERS`, `LOAD_SKELETON`. Snapshots are pushed only when the action actually mutated the level (failed actions don't push).
+**Undo.** Structural edits push a `{ level, currentLayer }` snapshot onto `history`. The Undo button (and `⌘Z`) pops one and restores both fields atomically. Meta-field changes (level id, slots, moves) and UI state (brush, layer, ghosts, erase, move, pickedCard) are excluded — undo doesn't churn through every keystroke or every brush tap. History-pushing actions: `ADD_CATEGORY`, `REMOVE_CATEGORY`, `SET_PINNED_CATEGORY`, `INC_SIMPLE`, `DEC_SIMPLE`, `PLACE_BOARD`, `REMOVE_BOARD`, `MOVE_BOARD`, `REORDER_STOCK`, `DELETE_STOCK`, `NORMALIZE_LAYERS`, `LOAD_SKELETON`. Snapshots are pushed only when the action actually mutated the level (failed actions don't push).
 
 ## Missing features (not in this milestone)
 
@@ -67,7 +69,7 @@ Priority guess in parentheses.
 
 - **Drag-to-reorder stock** (low). Up/down arrows already work; drag is convenience.
 - **Load existing `levelN.json` back into the editor** (medium). Treat a concrete level as a skeleton with `pinnedCategoryId` on every category, letters auto-assigned `A`, `B`, … by category order. Useful for tweaking existing levels.
-- **localStorage autosave + restore** (medium). Editor state currently lives only in component state; a reload wipes it.
+- **localStorage autosave + restore** (low). The editor state already persists to **sessionStorage** (`editor.state.v1`) on every change and hydrates on mount, so the editor → game → editor round-trip and in-tab reloads survive. localStorage would extend that across tab close — a small follow-on.
 - **BFS solvability check** (low). Validation flags obviously unwinnable layouts but doesn't prove a level is solvable. A "Run solver" button could try.
 - **Re-roll button** (low). Same skeleton, re-run fill with a different RNG seed to pick different real categories.
 - **Skeleton export/import** (low). Save/load the skeleton itself (separate from the concrete `LevelData`) for later re-rolls.

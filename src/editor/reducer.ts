@@ -45,6 +45,8 @@ export function normalizeLevel(level: SkeletonLevel): { level: SkeletonLevel; sh
 }
 
 export function initialEditorState(): EditorState {
+  const fromStorage = loadPersistedEditorState();
+  if (fromStorage) return fromStorage;
   const level = emptyLevel();
   return {
     level,
@@ -54,8 +56,57 @@ export function initialEditorState(): EditorState {
     ghostBelow: true,
     ghostAbove: true,
     eraseMode: false,
+    moveMode: false,
+    pickedCard: null,
     lastError: null,
   };
+}
+
+const STATE_STORAGE_KEY = 'editor.state.v1';
+const HISTORY_CAP = 100;
+
+function loadPersistedEditorState(): EditorState | null {
+  try {
+    const raw = sessionStorage.getItem(STATE_STORAGE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as Partial<EditorState>;
+    if (!parsed.level || !Array.isArray(parsed.history) || !parsed.brush) return null;
+    return {
+      level: parsed.level,
+      history: parsed.history,
+      brush: parsed.brush,
+      currentLayer: typeof parsed.currentLayer === 'number' ? parsed.currentLayer : 0,
+      ghostBelow: parsed.ghostBelow ?? true,
+      ghostAbove: parsed.ghostAbove ?? true,
+      eraseMode: parsed.eraseMode ?? false,
+      moveMode: parsed.moveMode ?? false,
+      pickedCard: parsed.pickedCard ?? null,
+      lastError: null,
+    };
+  } catch {
+    return null;
+  }
+}
+
+export function persistEditorState(state: EditorState): void {
+  try {
+    const trimmed: EditorState = {
+      ...state,
+      history: state.history.slice(-HISTORY_CAP),
+      lastError: null,
+    };
+    sessionStorage.setItem(STATE_STORAGE_KEY, JSON.stringify(trimmed));
+  } catch {
+    // Ignore quota / serialization errors — persistence is best-effort.
+  }
+}
+
+export function clearPersistedEditorState(): void {
+  try {
+    sessionStorage.removeItem(STATE_STORAGE_KEY);
+  } catch {
+    // ignore
+  }
 }
 
 const HISTORY_ACTIONS: ReadonlySet<EditorAction['type']> = new Set([
@@ -66,6 +117,7 @@ const HISTORY_ACTIONS: ReadonlySet<EditorAction['type']> = new Set([
   'DEC_SIMPLE',
   'PLACE_BOARD',
   'REMOVE_BOARD',
+  'MOVE_BOARD',
   'REORDER_STOCK',
   'DELETE_STOCK',
   'NORMALIZE_LAYERS',
@@ -308,13 +360,62 @@ function reduceCore(state: EditorState, action: Exclude<EditorAction, { type: 'R
     }
 
     case 'SET_BRUSH_LETTER':
-      return { ...state, brush: { ...state.brush, letter: action.letter }, eraseMode: false };
+      return {
+        ...state,
+        brush: { ...state.brush, letter: action.letter },
+        eraseMode: false,
+        moveMode: false,
+        pickedCard: null,
+      };
 
     case 'SET_BRUSH_KIND':
       return { ...state, brush: { ...state.brush, kind: action.kind } };
 
     case 'TOGGLE_ERASE':
-      return { ...state, eraseMode: !state.eraseMode };
+      return {
+        ...state,
+        eraseMode: !state.eraseMode,
+        moveMode: false,
+        pickedCard: null,
+      };
+
+    case 'TOGGLE_MOVE':
+      return {
+        ...state,
+        moveMode: !state.moveMode,
+        eraseMode: false,
+        pickedCard: null,
+      };
+
+    case 'PICK_CARD':
+      return {
+        ...state,
+        pickedCard: { x: action.x, y: action.y, z: action.z },
+        lastError: null,
+      };
+
+    case 'CANCEL_PICK':
+      return { ...state, pickedCard: null, lastError: null };
+
+    case 'MOVE_BOARD': {
+      const fromIdx = level.board.findIndex(
+        (c) => c.x === action.from.x && c.y === action.from.y && c.z === action.from.z,
+      );
+      if (fromIdx < 0) return fail(state, 'Source card not found.');
+      const occupied = level.board.some(
+        (c, i) =>
+          i !== fromIdx && c.x === action.to.x && c.y === action.to.y && c.z === action.to.z,
+      );
+      if (occupied) return fail(state, 'Target cell already has a card at this z.');
+      const card = level.board[fromIdx];
+      const newBoard = level.board.slice();
+      newBoard[fromIdx] = { ...card, x: action.to.x, y: action.to.y, z: action.to.z };
+      return {
+        ...ok(state, { ...level, board: newBoard }),
+        pickedCard: null,
+        currentLayer: action.to.z,
+      };
+    }
 
     case 'SET_LAYER':
       return { ...state, currentLayer: action.z | 0 };

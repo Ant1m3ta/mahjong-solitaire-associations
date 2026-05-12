@@ -23,7 +23,7 @@ interface HoverCell {
 
 export function BoardCanvas({ state, dispatch }: Props) {
   const [hover, setHover] = useState<HoverCell | null>(null);
-  const { brush, eraseMode, currentLayer, level, ghostBelow, ghostAbove } = state;
+  const { brush, eraseMode, moveMode, pickedCard, currentLayer, level, ghostBelow, ghostAbove } = state;
 
   const { gridW, gridH, maxZ, minZ } = useMemo(() => {
     let mx = 0;
@@ -73,20 +73,26 @@ export function BoardCanvas({ state, dispatch }: Props) {
     return best;
   }
 
-  function footprintOccupiedAt(cx: number, cy: number, z: number): boolean {
+  function footprintOccupiedAt(
+    cx: number,
+    cy: number,
+    z: number,
+    exclude: { x: number; y: number; z: number } | null,
+  ): boolean {
     for (const c of level.board) {
       if (c.z !== z) continue;
+      if (exclude && c.x === exclude.x && c.y === exclude.y && c.z === exclude.z) continue;
       if (Math.abs(c.x - cx) <= 1 && Math.abs(c.y - cy) <= 1) return true;
     }
     return false;
   }
 
-  function targetZFor(cx: number, cy: number): number {
+  function targetZFor(cx: number, cy: number, exclude: { x: number; y: number; z: number } | null = null): number {
     // Start at the user's chosen layer; bump up only while a card at this
     // footprint at the same z is in the way. Higher half-offset cards at z>cur
     // do not push us up — they sit above the new card.
     let z = currentLayer;
-    while (footprintOccupiedAt(cx, cy, z)) z++;
+    while (footprintOccupiedAt(cx, cy, z, exclude)) z++;
     return z;
   }
 
@@ -97,6 +103,20 @@ export function BoardCanvas({ state, dispatch }: Props) {
     if (eraseMode) {
       const card = findCardAtFootprint(x, y, currentLayer);
       if (card) dispatch({ type: 'REMOVE_BOARD', x: card.x, y: card.y, z: card.z });
+      return;
+    }
+    if (moveMode) {
+      if (!pickedCard) {
+        const card = findCardAtFootprint(x, y, currentLayer);
+        if (card) dispatch({ type: 'PICK_CARD', x: card.x, y: card.y, z: card.z });
+        return;
+      }
+      if (x === pickedCard.x && y === pickedCard.y) {
+        dispatch({ type: 'CANCEL_PICK' });
+        return;
+      }
+      const z = targetZFor(x, y, pickedCard);
+      dispatch({ type: 'MOVE_BOARD', from: pickedCard, to: { x, y, z } });
       return;
     }
     if (!brush.letter) return;
@@ -117,6 +137,11 @@ export function BoardCanvas({ state, dispatch }: Props) {
 
   const hoverErase =
     hover && eraseMode ? findCardAtFootprint(hover.x, hover.y, currentLayer) : null;
+  const hoverPick =
+    hover && moveMode && !pickedCard ? findCardAtFootprint(hover.x, hover.y, currentLayer) : null;
+  const pickedBoardCard = pickedCard
+    ? level.board.find((c) => c.x === pickedCard.x && c.y === pickedCard.y && c.z === pickedCard.z) ?? null
+    : null;
 
   return (
     <div className="editor-canvas">
@@ -143,6 +168,7 @@ export function BoardCanvas({ state, dispatch }: Props) {
           const left = card.x * HALF_W;
           const top = offsetY + card.y * HALF_H - card.z * LAYER_LIFT;
           const zIndex = Z_BASE + card.z * 100 + (isCurrent ? 50 : 0);
+          const isPicked = pickedBoardCard === card;
           const cls = [
             'editor-card',
             card.kind === 'category' ? 'category' : 'simple',
@@ -150,6 +176,8 @@ export function BoardCanvas({ state, dispatch }: Props) {
             isAbove ? 'ghost-above' : '',
             !isCurrent ? 'non-current' : '',
             hoverErase && hoverErase === card ? 'erase-target' : '',
+            hoverPick && hoverPick === card ? 'pick-target' : '',
+            isPicked ? 'picked' : '',
           ]
             .filter(Boolean)
             .join(' ');
@@ -166,7 +194,7 @@ export function BoardCanvas({ state, dispatch }: Props) {
           );
         })}
 
-        {hover && !eraseMode && brush.letter && (() => {
+        {hover && !eraseMode && !moveMode && brush.letter && (() => {
           const previewZ = targetZFor(hover.x, hover.y);
           return (
             <div
@@ -179,6 +207,27 @@ export function BoardCanvas({ state, dispatch }: Props) {
             >
               <span className="editor-card-letter">
                 {brush.kind === 'category' ? brush.letter : brush.letter.toLowerCase()}
+              </span>
+            </div>
+          );
+        })()}
+        {hover && moveMode && pickedCard && pickedBoardCard && (() => {
+          const sameAnchor = hover.x === pickedCard.x && hover.y === pickedCard.y;
+          if (sameAnchor) return null;
+          const previewZ = targetZFor(hover.x, hover.y, pickedCard);
+          return (
+            <div
+              className={`editor-card hover-preview ${pickedBoardCard.kind === 'category' ? 'category' : 'simple'}`}
+              style={{
+                left: hover.x * HALF_W,
+                top: offsetY + hover.y * HALF_H - previewZ * LAYER_LIFT,
+                zIndex: Z_BASE + previewZ * 100 + 99,
+              }}
+            >
+              <span className="editor-card-letter">
+                {pickedBoardCard.kind === 'category'
+                  ? pickedBoardCard.letter
+                  : pickedBoardCard.letter.toLowerCase()}
               </span>
             </div>
           );

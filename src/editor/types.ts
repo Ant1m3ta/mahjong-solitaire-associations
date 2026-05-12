@@ -38,6 +38,12 @@ export interface HistoryEntry {
   currentLayer: number;
 }
 
+export interface PickedCard {
+  x: number;
+  y: number;
+  z: number;
+}
+
 export interface EditorState {
   level: SkeletonLevel;
   history: HistoryEntry[];
@@ -46,6 +52,8 @@ export interface EditorState {
   ghostBelow: boolean;
   ghostAbove: boolean;
   eraseMode: boolean;
+  moveMode: boolean;
+  pickedCard: PickedCard | null;
   lastError: string | null;
 }
 
@@ -65,6 +73,10 @@ export type EditorAction =
   | { type: 'SET_BRUSH_LETTER'; letter: string | null }
   | { type: 'SET_BRUSH_KIND'; kind: CardKind }
   | { type: 'TOGGLE_ERASE' }
+  | { type: 'TOGGLE_MOVE' }
+  | { type: 'PICK_CARD'; x: number; y: number; z: number }
+  | { type: 'CANCEL_PICK' }
+  | { type: 'MOVE_BOARD'; from: PickedCard; to: PickedCard }
   | { type: 'SET_LAYER'; z: number }
   | { type: 'TOGGLE_GHOST_BELOW' }
   | { type: 'TOGGLE_GHOST_ABOVE' }

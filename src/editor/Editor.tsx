@@ -1,5 +1,5 @@
 import { useReducer, useEffect, useState, useMemo, useRef } from 'react';
-import { initialEditorState, normalizeLevel, reduceEditor } from './reducer';
+import { initialEditorState, normalizeLevel, persistEditorState, reduceEditor } from './reducer';
 import { CategoriesRail } from './CategoriesRail';
 import { CategoryPicker } from './CategoryPicker';
 import { BoardCanvas } from './BoardCanvas';
@@ -18,6 +18,10 @@ export function Editor() {
     : null;
   const pickerCategory =
     pickerLetter ? state.level.categories.find((c) => c.letter === pickerLetter) ?? null : null;
+
+  useEffect(() => {
+    persistEditorState(state);
+  }, [state]);
 
   function handleSave() {
     try {
@@ -85,6 +89,10 @@ export function Editor() {
         dispatch({ type: 'SET_LAYER', z: state.currentLayer + 1 });
       } else if (e.key === 'e' || e.key === 'E') {
         dispatch({ type: 'TOGGLE_ERASE' });
+      } else if (e.key === 'm' || e.key === 'M') {
+        dispatch({ type: 'TOGGLE_MOVE' });
+      } else if (e.key === 'Escape' && state.pickedCard) {
+        dispatch({ type: 'CANCEL_PICK' });
       } else if (e.key === 'Tab') {
         e.preventDefault();
         dispatch({
@@ -99,7 +107,7 @@ export function Editor() {
     }
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [state.currentLayer, state.brush.kind, state.level.categories]);
+  }, [state.currentLayer, state.brush.kind, state.level.categories, state.pickedCard]);
 
   return (
     <div className="editor">
@@ -222,6 +230,13 @@ export function Editor() {
               <span className="brush-label">Brush:</span>
               {state.eraseMode ? (
                 <span className="brush-current erase">Erase</span>
+              ) : state.moveMode ? (
+                <span className="brush-current move">
+                  Move
+                  {state.pickedCard
+                    ? ` · picked (${state.pickedCard.x},${state.pickedCard.y},z=${state.pickedCard.z})`
+                    : ' · pick a card'}
+                </span>
               ) : brushCat ? (
                 <>
                   <span className="brush-current">
@@ -251,6 +266,13 @@ export function Editor() {
                 title="Erase mode (E)"
               >
                 Erase
+              </button>
+              <button
+                className={`editor-btn small${state.moveMode ? ' active move-active' : ''}`}
+                onClick={() => dispatch({ type: 'TOGGLE_MOVE' })}
+                title="Move mode (M): click a card to pick up, click a cell to drop."
+              >
+                Move
               </button>
             </div>
             <div className="ghost-toggles">

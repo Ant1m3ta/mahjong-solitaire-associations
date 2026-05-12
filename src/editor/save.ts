@@ -15,15 +15,18 @@ export function downloadLevelJSON(level: LevelData, filename: string) {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
-export function storePreviewAndPlay(level: LevelData) {
-  sessionStorage.setItem(PREVIEW_KEY, JSON.stringify(level));
-  window.location.hash = '#/?preview=1';
-}
-
 // Cached at module scope so a second call (Strict Mode double-mount, repeat
 // renders, etc.) returns the same value instead of reading an already-cleared
-// sessionStorage entry.
+// sessionStorage entry. Cleared whenever a new preview is stashed.
 let _cached: LevelData | null | undefined;
+
+export function storePreviewAndPlay(level: LevelData) {
+  sessionStorage.setItem(PREVIEW_KEY, JSON.stringify(level));
+  _cached = undefined;
+  // Timestamped hash so every Play produces a hashchange and App remounts,
+  // even across consecutive plays.
+  window.location.hash = `#/?preview=${Date.now()}`;
+}
 
 export function consumePreviewLevel(): LevelData | null {
   if (_cached !== undefined) return _cached;

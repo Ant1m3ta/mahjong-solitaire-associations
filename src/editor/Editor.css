@@ -510,6 +510,15 @@
   background: #4a2a3a;
   color: #ffb3c8;
 }
+.brush-current.move {
+  background: #4a4a2a;
+  color: #ffe6a3;
+}
+.editor-btn.small.move-active {
+  background: #4a4a2a;
+  color: #ffe6a3;
+  border-color: #b88f00;
+}
 .brush-letter {
   font-size: 14px;
   font-weight: 800;
@@ -640,6 +649,17 @@
   outline: 3px solid #ff5b5b;
   outline-offset: 1px;
   filter: brightness(1.1);
+}
+.editor-card.pick-target {
+  outline: 3px solid #ffd966;
+  outline-offset: 1px;
+  cursor: grab;
+}
+.editor-card.picked {
+  outline: 3px dashed #ffd966;
+  outline-offset: 1px;
+  filter: brightness(0.7);
+  opacity: 0.6;
 }
 .editor-card-letter {
   font-size: 28px;

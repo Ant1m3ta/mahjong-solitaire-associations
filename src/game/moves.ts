@@ -6,7 +6,7 @@ import type {
   GameState,
   LevelData,
 } from '../types';
-import { findSlot, isSlotInteractive } from './coverage';
+import { findSlot, isEmptyFloorPlaceable, isSlotInteractive } from './coverage';
 
 export function canPlaceInCategorySlot(card: Card, slot: CategorySlot): boolean {
   if (slot.lockedCategory === null) return card.isCategory;
@@ -50,8 +50,11 @@ export function hasValidMoveForBoardCard(
   }
   for (const slot of state.boardSlots) {
     if (slot === sourceSlot) continue;
+    if (slot.cards.length === 0) {
+      if (isEmptyFloorPlaceable(slot, state.boardSlots)) return true;
+      continue;
+    }
     if (!isSlotInteractive(slot, state.boardSlots)) continue;
-    if (slot.cards.length === 0) continue;
     const targetTop = slot.cards[slot.cards.length - 1].card;
     if (canPlaceOnBoardCard(card, targetTop)) return true;
   }
@@ -63,8 +66,11 @@ export function hasValidMoveForHandCard(card: Card, state: GameState): boolean {
     if (canPlaceInCategorySlot(card, catSlot)) return true;
   }
   for (const slot of state.boardSlots) {
+    if (slot.cards.length === 0) {
+      if (isEmptyFloorPlaceable(slot, state.boardSlots)) return true;
+      continue;
+    }
     if (!isSlotInteractive(slot, state.boardSlots)) continue;
-    if (slot.cards.length === 0) continue;
     const targetTop = slot.cards[slot.cards.length - 1].card;
     if (canPlaceOnBoardCard(card, targetTop)) return true;
   }
@@ -156,14 +162,8 @@ function applyHandToBoard(
   if (state.hand === null) throw new Error('Hand empty');
   const targetSlot = findSlot(state.boardSlots, to.x, to.y);
   if (!targetSlot) throw new Error('Target slot not found');
-  if (!isSlotInteractive(targetSlot, state.boardSlots)) throw new Error('Target not interactive');
-  if (targetSlot.cards.length === 0 || targetSlot.dead) throw new Error('Target unavailable');
   const handCard = state.hand;
-  const targetTop = targetSlot.cards[targetSlot.cards.length - 1];
-  if (!canPlaceOnBoardCard(handCard, targetTop.card)) {
-    throw new Error('Categories do not match');
-  }
-  const newZ = targetTop.z + 1;
+  const newZ = resolveDropZ(targetSlot, state.boardSlots, handCard);
   const newBoardSlots = state.boardSlots.map((s) => {
     if (s === targetSlot) {
       return {
@@ -191,21 +191,15 @@ function applyBoardToBoard(
   if (!sourceSlot || !targetSlot) throw new Error('Slot not found');
   if (sourceSlot === targetSlot) throw new Error('Same slot');
   if (!isSlotInteractive(sourceSlot, state.boardSlots)) throw new Error('Source not interactive');
-  if (!isSlotInteractive(targetSlot, state.boardSlots)) throw new Error('Target not interactive');
-  if (targetSlot.cards.length === 0 || targetSlot.dead) throw new Error('Target unavailable');
   const sourceTop = sourceSlot.cards[sourceSlot.cards.length - 1];
-  const targetTop = targetSlot.cards[targetSlot.cards.length - 1];
-  if (!canPlaceOnBoardCard(sourceTop.card, targetTop.card)) {
-    throw new Error('Categories do not match');
-  }
-  const newZ = targetTop.z + 1;
+  const newZ = resolveDropZ(targetSlot, state.boardSlots, sourceTop.card);
   const newBoardSlots = state.boardSlots.map((s) => {
     if (s === sourceSlot) {
       const newCards = s.cards.slice(0, -1);
       return {
         ...s,
         cards: newCards,
-        dead: newCards.length === 0 ? true : s.dead,
+        dead: newCards.length === 0 && s.floorZ !== 0 ? true : s.dead,
       };
     }
     if (s === targetSlot) {
@@ -223,6 +217,29 @@ function applyBoardToBoard(
   };
 }
 
+// Drop validation + z resolution for a card landing on a target board slot.
+// Empty bottom-floor slots accept any card at z = floorZ; occupied slots use
+// the standard category-match + stack-on-top rule.
+function resolveDropZ(
+  target: BoardSlot,
+  allSlots: BoardSlot[],
+  card: Card,
+): number {
+  if (target.cards.length === 0) {
+    if (!isEmptyFloorPlaceable(target, allSlots)) {
+      throw new Error('Target unavailable');
+    }
+    return target.floorZ;
+  }
+  if (!isSlotInteractive(target, allSlots)) throw new Error('Target not interactive');
+  if (target.dead) throw new Error('Target unavailable');
+  const top = target.cards[target.cards.length - 1];
+  if (!canPlaceOnBoardCard(card, top.card)) {
+    throw new Error('Categories do not match');
+  }
+  return top.z + 1;
+}
+
 function removeTopFromSlot(slots: BoardSlot[], target: BoardSlot): BoardSlot[] {
   return slots.map((s) => {
     if (s !== target) return s;
@@ -230,7 +247,7 @@ function removeTopFromSlot(slots: BoardSlot[], target: BoardSlot): BoardSlot[] {
     return {
       ...s,
       cards: newCards,
-      dead: newCards.length === 0 ? true : s.dead,
+      dead: newCards.length === 0 && s.floorZ !== 0 ? true : s.dead,
     };
   });
 }

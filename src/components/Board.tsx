@@ -3,7 +3,7 @@ import { useState, useMemo } from 'react';
 import type { AppAction, BoardSlot, GameState } from '../types';
 import { CardView } from './CardView';
 import { setDragSource, getDragSource } from './dragData';
-import { isSlotRevealed, isSlotSideBlocked } from '../game/coverage';
+import { isEmptyFloorPlaceable, isSlotRevealed, isSlotSideBlocked } from '../game/coverage';
 import { hasValidMoveForBoardCard } from '../game/moves';
 
 const HALF_W = 35;
@@ -79,7 +79,23 @@ export function Board({ state, dispatch, disabled, highlightUnplayable }: Props)
         style={{ width, height }}
       >
         {state.boardSlots.map((slot) => {
-          if (slot.cards.length === 0) return null;
+          if (slot.cards.length === 0) {
+            if (!isEmptyFloorPlaceable(slot, state.boardSlots)) return null;
+            const left = slot.x * HALF_W;
+            const top = offsetY + slot.y * HALF_H - slot.floorZ * LAYER_LIFT;
+            const zIndex = slot.floorZ * 100;
+            const isDropTarget = hoverSlot === slotKey(slot);
+            return (
+              <div
+                key={`empty-${slotKey(slot)}`}
+                className={`empty-floor-slot${isDropTarget ? ' drop-target' : ''}`}
+                style={{ position: 'absolute', left, top, zIndex }}
+                onDragOver={(e) => handleDragOver(e, slot)}
+                onDragLeave={() => setHoverSlot(null)}
+                onDrop={(e) => handleDrop(e, slot)}
+              />
+            );
+          }
           const slotRevealed = isSlotRevealed(slot, state.boardSlots);
           const sideBlocked = slotRevealed && isSlotSideBlocked(slot, state.boardSlots);
           const topIdx = slot.cards.length - 1;

@@ -74,7 +74,9 @@ A "board slot" is one `(x, y)` position; it can hold a vertical stack of cards.
 - At runtime, a successful Board → Board or any drop onto a board card appends to the destination slot's stack: new card's `z = current top z + 1`.
 - Within a stack, only the top card is interactable, and only if the slot itself is uncovered per the overlap rule.
 - Visual rendering: each card in a stack is drawn with a small constant offset so depth is visible.
-- **Once a slot empties, it is permanently dead.** No further drops accepted there.
+- A slot's **floor z** is the lowest `z` of any card declared there in the level data.
+- **Emptying a slot above the bottom floor (`floorZ > 0`) kills it permanently** — no further drops accepted there.
+- **Emptying a bottom-floor slot (`floorZ === 0`) leaves it alive and placeable.** Any card (category or simple, from hand or another board top) can be dropped into the empty slot at `z = 0`, subject to the same overlap rule — the slot must not be covered by a higher-z overlapping neighbour. After placement the normal stacking and category-match rules apply.
 
 ## Stock and Hand
 
@@ -91,11 +93,13 @@ Each move costs 1 from `movesLimit` (unless noted).
 | Draw | Stock | Hand | — |
 | HandToSlot | Hand | Category slot | Empty slot accepts only category card; occupied slot accepts only matching-category simple card |
 | HandToBoard | Hand | Board (revealed top) | Same category; target must not be a category card |
+| HandToBoard | Hand | Empty bottom-floor slot | Slot must be uncovered; any card accepted; lands at `z = 0` |
 | BoardToSlot | Board (revealed top) | Category slot | Same slot rules |
 | BoardToBoard | Board (revealed top) | Board (revealed top) | Same category; target must not be a category card |
+| BoardToBoard | Board (revealed top) | Empty bottom-floor slot | Slot must be uncovered; any card accepted; lands at `z = 0` |
 | ReturnHandToStock | Hand | Stock | Auto, when stock is empty (free, no move cost) |
 
-No Board → Hand, no drops onto dead/empty board slots.
+No Board → Hand. Drops onto dead slots are rejected; empty bottom-floor slots accept drops as above, empty non-bottom-floor slots do not.
 
 ### Placement rule details (inherited from Word Solitaire)
 

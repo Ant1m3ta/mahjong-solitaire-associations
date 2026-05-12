@@ -1,5 +1,5 @@
 import type { BoardSlot, Card, CategorySlot, GameState } from '../types';
-import { isSlotInteractive } from './coverage';
+import { isEmptyFloorPlaceable, isSlotInteractive } from './coverage';
 import { canPlaceInCategorySlot, canPlaceOnBoardCard } from './moves';
 
 function hasValidSlotForCard(card: Card, slots: CategorySlot[]): boolean {
@@ -23,20 +23,24 @@ function simulateBoardToBoard(
   toIdx: number,
 ): BoardSlot[] {
   const sourceTop = slots[fromIdx].cards[slots[fromIdx].cards.length - 1];
-  const targetTop = slots[toIdx].cards[slots[toIdx].cards.length - 1];
+  const target = slots[toIdx];
+  const newZ =
+    target.cards.length === 0
+      ? target.floorZ
+      : target.cards[target.cards.length - 1].z + 1;
   return slots.map((s, i) => {
     if (i === fromIdx) {
       const newCards = s.cards.slice(0, -1);
       return {
         ...s,
         cards: newCards,
-        dead: newCards.length === 0 ? true : s.dead,
+        dead: newCards.length === 0 && s.floorZ !== 0 ? true : s.dead,
       };
     }
     if (i === toIdx) {
       return {
         ...s,
-        cards: [...s.cards, { card: sourceTop.card, z: targetTop.z + 1 }],
+        cards: [...s.cards, { card: sourceTop.card, z: newZ }],
       };
     }
     return s;
@@ -78,10 +82,14 @@ export function isDeadlocked(state: GameState): boolean {
       for (let toIdx = 0; toIdx < board.length; toIdx++) {
         if (toIdx === fromIdx) continue;
         const to = board[toIdx];
-        if (to.cards.length === 0 || to.dead) continue;
-        if (!isSlotInteractive(to, board)) continue;
-        const toTop = to.cards[to.cards.length - 1].card;
-        if (!canPlaceOnBoardCard(fromTop, toTop)) continue;
+        if (to.dead) continue;
+        if (to.cards.length === 0) {
+          if (!isEmptyFloorPlaceable(to, board)) continue;
+        } else {
+          if (!isSlotInteractive(to, board)) continue;
+          const toTop = to.cards[to.cards.length - 1].card;
+          if (!canPlaceOnBoardCard(fromTop, toTop)) continue;
+        }
 
         const next = simulateBoardToBoard(board, fromIdx, toIdx);
         const h = hashBoardSlots(next);

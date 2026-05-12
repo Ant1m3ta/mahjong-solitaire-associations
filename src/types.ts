@@ -18,6 +18,7 @@ export interface BoardSlot {
   y: number;
   cards: BoardCardEntry[];
   dead: boolean;
+  floorZ: number;
 }
 
 export interface CategorySlot {

@@ -9,6 +9,7 @@ const LAYER_LIFT = 6;
 const GRID_PAD = 4;
 const MIN_GRID_W = 20;
 const MIN_GRID_H = 16;
+const Z_BASE = 10000;
 
 interface Props {
   state: EditorState;
@@ -24,25 +25,30 @@ export function BoardCanvas({ state, dispatch }: Props) {
   const [hover, setHover] = useState<HoverCell | null>(null);
   const { brush, eraseMode, currentLayer, level, ghostBelow, ghostAbove } = state;
 
-  const { gridW, gridH, maxZ } = useMemo(() => {
+  const { gridW, gridH, maxZ, minZ } = useMemo(() => {
     let mx = 0;
     let my = 0;
-    let mz = 0;
+    let hiZ = -Infinity;
+    let loZ = Infinity;
     for (const c of level.board) {
       if (c.x > mx) mx = c.x;
       if (c.y > my) my = c.y;
-      if (c.z > mz) mz = c.z;
+      if (c.z > hiZ) hiZ = c.z;
+      if (c.z < loZ) loZ = c.z;
     }
+    if (!isFinite(hiZ)) hiZ = currentLayer;
+    if (!isFinite(loZ)) loZ = currentLayer;
     return {
       gridW: Math.max(MIN_GRID_W, mx + GRID_PAD),
       gridH: Math.max(MIN_GRID_H, my + GRID_PAD),
-      maxZ: Math.max(mz, currentLayer),
+      maxZ: Math.max(hiZ, currentLayer),
+      minZ: Math.min(loZ, currentLayer),
     };
   }, [level.board, currentLayer]);
 
   const offsetY = maxZ * LAYER_LIFT + 8;
   const areaW = gridW * HALF_W + CARD_W;
-  const areaH = offsetY + gridH * HALF_H + CARD_H + 8;
+  const areaH = offsetY + gridH * HALF_H + CARD_H + 8 + Math.max(0, -minZ) * LAYER_LIFT;
 
   function cellFromEvent(e: MouseEvent<HTMLDivElement>): HoverCell | null {
     const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
@@ -123,7 +129,7 @@ export function BoardCanvas({ state, dispatch }: Props) {
           if (isAbove && !ghostAbove) return null;
           const left = card.x * HALF_W;
           const top = offsetY + card.y * HALF_H - card.z * LAYER_LIFT;
-          const zIndex = card.z * 100 + (isCurrent ? 50 : 0);
+          const zIndex = Z_BASE + card.z * 100 + (isCurrent ? 50 : 0);
           const cls = [
             'editor-card',
             card.kind === 'category' ? 'category' : 'simple',
@@ -153,7 +159,7 @@ export function BoardCanvas({ state, dispatch }: Props) {
             style={{
               left: hover.x * HALF_W,
               top: offsetY + hover.y * HALF_H - currentLayer * LAYER_LIFT,
-              zIndex: currentLayer * 100 + 99,
+              zIndex: Z_BASE + currentLayer * 100 + 99,
             }}
           >
             <span className="editor-card-letter">
@@ -195,7 +201,7 @@ function CurrentLayerGrid({
           'linear-gradient(to bottom, rgba(102,204,255,0.06) 1px, transparent 1px)',
         backgroundSize: `${HALF_W}px ${HALF_H}px`,
         pointerEvents: 'none',
-        zIndex: currentLayer * 100 - 1,
+        zIndex: Z_BASE + currentLayer * 100 - 1,
       }}
     />
   );

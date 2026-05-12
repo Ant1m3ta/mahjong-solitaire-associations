@@ -347,6 +347,13 @@
   font-weight: 700;
   font-size: 12px;
 }
+.count-fixed {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  font-size: 12px;
+  opacity: 0.55;
+  letter-spacing: 0.3px;
+}
 .count-summary {
   font-size: 10px;
   opacity: 0.6;

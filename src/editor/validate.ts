@@ -47,11 +47,13 @@ export interface ValidationResult {
 export function validate(skel: SkeletonLevel): ValidationResult {
   const warnings: Warning[] = [];
 
-  for (const cat of skel.categories) {
-    if (cat.simpleCards > 0 && cat.categoryCards === 0) {
+  if (skel.board.length > 0) {
+    let lo = skel.board[0].z;
+    for (const c of skel.board) if (c.z < lo) lo = c.z;
+    if (lo !== 0) {
       warnings.push({
-        severity: 'error',
-        text: `Category ${cat.letter}: has ${cat.simpleCards} simple${cat.simpleCards > 1 ? 's' : ''} but 0 category cards → unwinnable.`,
+        severity: 'info',
+        text: `Lowest z is ${lo}. Save & Play normalize automatically; click Normalize to do it now.`,
       });
     }
   }

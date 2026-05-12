@@ -1,10 +1,9 @@
-export type CategoryKind = 'icon' | 'text' | 'any';
+export type CategoryKind = 'icon' | 'text';
 export type CardKind = 'category' | 'simple';
 
 export interface SkeletonCategory {
   letter: string;
   kind: CategoryKind;
-  categoryCards: number;
   simpleCards: number;
   pinnedCategoryId?: string;
 }
@@ -38,6 +37,7 @@ export interface BrushState {
 
 export interface EditorState {
   level: SkeletonLevel;
+  history: SkeletonLevel[];
   brush: BrushState;
   currentLayer: number;
   ghostBelow: boolean;
@@ -53,8 +53,8 @@ export type EditorAction =
   | { type: 'ADD_CATEGORY' }
   | { type: 'REMOVE_CATEGORY'; letter: string }
   | { type: 'SET_CATEGORY_KIND'; letter: string; kind: CategoryKind }
-  | { type: 'INC_COUNT'; letter: string; cardKind: CardKind }
-  | { type: 'DEC_COUNT'; letter: string; cardKind: CardKind }
+  | { type: 'INC_SIMPLE'; letter: string }
+  | { type: 'DEC_SIMPLE'; letter: string }
   | { type: 'PLACE_BOARD'; x: number; y: number; z: number; letter: string; cardKind: CardKind }
   | { type: 'REMOVE_BOARD'; x: number; y: number; z: number }
   | { type: 'REORDER_STOCK'; from: number; to: number }
@@ -64,4 +64,6 @@ export type EditorAction =
   | { type: 'TOGGLE_ERASE' }
   | { type: 'SET_LAYER'; z: number }
   | { type: 'TOGGLE_GHOST_BELOW' }
-  | { type: 'TOGGLE_GHOST_ABOVE' };
+  | { type: 'TOGGLE_GHOST_ABOVE' }
+  | { type: 'NORMALIZE_LAYERS' }
+  | { type: 'ROLLBACK' };

@@ -20,17 +20,56 @@ export function emptyLevel(): SkeletonLevel {
   };
 }
 
-export function initialEditorState(): EditorState {
+export function topLayerOf(level: SkeletonLevel): number {
+  if (level.board.length === 0) return 0;
+  let z = 0;
+  for (const c of level.board) if (c.z > z) z = c.z;
+  return z;
+}
+
+export function minZ(level: SkeletonLevel): number {
+  if (level.board.length === 0) return 0;
+  let z = level.board[0].z;
+  for (const c of level.board) if (c.z < z) z = c.z;
+  return z;
+}
+
+export function normalizeLevel(level: SkeletonLevel): { level: SkeletonLevel; shift: number } {
+  if (level.board.length === 0) return { level, shift: 0 };
+  const m = minZ(level);
+  if (m === 0) return { level, shift: 0 };
   return {
-    level: emptyLevel(),
+    level: { ...level, board: level.board.map((c) => ({ ...c, z: c.z - m })) },
+    shift: -m,
+  };
+}
+
+export function initialEditorState(): EditorState {
+  const level = emptyLevel();
+  return {
+    level,
+    history: [],
     brush: { letter: null, kind: 'simple' },
-    currentLayer: 0,
+    currentLayer: topLayerOf(level),
     ghostBelow: true,
     ghostAbove: true,
     eraseMode: false,
     lastError: null,
   };
 }
+
+const HISTORY_ACTIONS: ReadonlySet<EditorAction['type']> = new Set([
+  'ADD_CATEGORY',
+  'REMOVE_CATEGORY',
+  'SET_CATEGORY_KIND',
+  'INC_SIMPLE',
+  'DEC_SIMPLE',
+  'PLACE_BOARD',
+  'REMOVE_BOARD',
+  'REORDER_STOCK',
+  'DELETE_STOCK',
+  'NORMALIZE_LAYERS',
+]);
 
 function nextAvailableLetter(categories: SkeletonCategory[]): string | null {
   const used = new Set(categories.map((c) => c.letter));
@@ -74,6 +113,25 @@ function ok(state: EditorState, level: SkeletonLevel): EditorState {
 }
 
 export function reduceEditor(state: EditorState, action: EditorAction): EditorState {
+  if (action.type === 'ROLLBACK') {
+    if (state.history.length === 0) return state;
+    const prev = state.history[state.history.length - 1];
+    return {
+      ...state,
+      level: prev,
+      history: state.history.slice(0, -1),
+      lastError: null,
+    };
+  }
+  const oldLevel = state.level;
+  const next = reduceCore(state, action);
+  if (HISTORY_ACTIONS.has(action.type) && next.level !== oldLevel) {
+    return { ...next, history: [...state.history, oldLevel] };
+  }
+  return next;
+}
+
+function reduceCore(state: EditorState, action: Exclude<EditorAction, { type: 'ROLLBACK' }>): EditorState {
   const level = state.level;
 
   switch (action.type) {
@@ -91,8 +149,7 @@ export function reduceEditor(state: EditorState, action: EditorAction): EditorSt
       if (!letter) return fail(state, 'No more letters available.');
       const newCat: SkeletonCategory = {
         letter,
-        kind: 'any',
-        categoryCards: 1,
+        kind: 'text',
         simpleCards: 0,
       };
       return {
@@ -135,35 +192,27 @@ export function reduceEditor(state: EditorState, action: EditorAction): EditorSt
       return ok(state, { ...level, categories: cats });
     }
 
-    case 'INC_COUNT': {
+    case 'INC_SIMPLE': {
       const cat = findCategory(level, action.letter);
       if (!cat) return fail(state, `Unknown category ${action.letter}.`);
-      const next: SkeletonCategory =
-        action.cardKind === 'category'
-          ? { ...cat, categoryCards: cat.categoryCards + 1 }
-          : { ...cat, simpleCards: cat.simpleCards + 1 };
+      const next: SkeletonCategory = { ...cat, simpleCards: cat.simpleCards + 1 };
       const cats = level.categories.map((c) => (c.letter === action.letter ? next : c));
-      const newEntry: SkeletonStockEntry = { letter: action.letter, kind: action.cardKind };
+      const newEntry: SkeletonStockEntry = { letter: action.letter, kind: 'simple' };
       return ok(state, { ...level, categories: cats, stock: [...level.stock, newEntry] });
     }
 
-    case 'DEC_COUNT': {
+    case 'DEC_SIMPLE': {
       const cat = findCategory(level, action.letter);
       if (!cat) return fail(state, `Unknown category ${action.letter}.`);
-      const current =
-        action.cardKind === 'category' ? cat.categoryCards : cat.simpleCards;
-      if (current <= 0) return fail(state, 'Count already 0.');
-      const stockIdx = findLastStockIndex(level.stock, action.letter, action.cardKind);
+      if (cat.simpleCards <= 0) return fail(state, 'Count already 0.');
+      const stockIdx = findLastStockIndex(level.stock, action.letter, 'simple');
       if (stockIdx < 0) {
         return fail(
           state,
-          'Cannot decrement — all cards are on the board. Remove one from the board first.',
+          'Cannot decrement — all simples are on the board. Remove one from the board first.',
         );
       }
-      const next: SkeletonCategory =
-        action.cardKind === 'category'
-          ? { ...cat, categoryCards: cat.categoryCards - 1 }
-          : { ...cat, simpleCards: cat.simpleCards - 1 };
+      const next: SkeletonCategory = { ...cat, simpleCards: cat.simpleCards - 1 };
       const cats = level.categories.map((c) => (c.letter === action.letter ? next : c));
       const stock = level.stock.filter((_, i) => i !== stockIdx);
       return ok(state, { ...level, categories: cats, stock });
@@ -181,13 +230,13 @@ export function reduceEditor(state: EditorState, action: EditorAction): EditorSt
       let newCats = level.categories;
       if (stockIdx >= 0) {
         newStock = level.stock.filter((_, i) => i !== stockIdx);
-      } else {
-        // Implicit count bump.
-        const next: SkeletonCategory =
-          action.cardKind === 'category'
-            ? { ...cat, categoryCards: cat.categoryCards + 1 }
-            : { ...cat, simpleCards: cat.simpleCards + 1 };
+      } else if (action.cardKind === 'simple') {
+        // Implicit simple-count bump.
+        const next: SkeletonCategory = { ...cat, simpleCards: cat.simpleCards + 1 };
         newCats = level.categories.map((c) => (c.letter === action.letter ? next : c));
+      } else {
+        // Category card already placed somewhere — only one per group.
+        return fail(state, `Category ${action.letter} card already placed.`);
       }
       const newBoard = [
         ...level.board,
@@ -237,10 +286,13 @@ export function reduceEditor(state: EditorState, action: EditorAction): EditorSt
       const entry = level.stock[idx];
       const cat = findCategory(level, entry.letter);
       if (!cat) return state;
-      const next: SkeletonCategory =
-        entry.kind === 'category'
-          ? { ...cat, categoryCards: Math.max(0, cat.categoryCards - 1) }
-          : { ...cat, simpleCards: Math.max(0, cat.simpleCards - 1) };
+      if (entry.kind === 'category') {
+        return fail(
+          state,
+          `Cannot delete the category card for ${entry.letter}. Use the × on the category panel to remove the whole category.`,
+        );
+      }
+      const next: SkeletonCategory = { ...cat, simpleCards: Math.max(0, cat.simpleCards - 1) };
       const cats = level.categories.map((c) => (c.letter === entry.letter ? next : c));
       const stock = level.stock.filter((_, i) => i !== idx);
       return ok(state, { ...level, categories: cats, stock });
@@ -256,7 +308,18 @@ export function reduceEditor(state: EditorState, action: EditorAction): EditorSt
       return { ...state, eraseMode: !state.eraseMode };
 
     case 'SET_LAYER':
-      return { ...state, currentLayer: Math.max(0, action.z | 0) };
+      return { ...state, currentLayer: action.z | 0 };
+
+    case 'NORMALIZE_LAYERS': {
+      const { level: normalized, shift } = normalizeLevel(level);
+      if (shift === 0) return state;
+      return {
+        ...state,
+        level: normalized,
+        currentLayer: state.currentLayer + shift,
+        lastError: null,
+      };
+    }
 
     case 'TOGGLE_GHOST_BELOW':
       return { ...state, ghostBelow: !state.ghostBelow };

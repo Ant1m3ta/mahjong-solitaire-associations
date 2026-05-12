@@ -95,10 +95,7 @@ export function fillSkeleton(skel: SkeletonLevel): LevelData {
   const map = new Map<string, { real: Usable; assigned: string[] }>();
 
   for (const cat of skel.categories) {
-    let basePool: Usable[];
-    if (cat.kind === 'icon') basePool = icon;
-    else if (cat.kind === 'text') basePool = text;
-    else basePool = [...icon, ...text];
+    const basePool: Usable[] = cat.kind === 'icon' ? icon : text;
     const real = pickReal(cat, basePool, used);
     const assigned = shuffleInPlace(real.wordsIds.slice()).slice(0, cat.simpleCards);
     map.set(cat.letter, { real, assigned });

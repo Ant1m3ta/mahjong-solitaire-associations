@@ -73,9 +73,8 @@ function CategoryCard({ cat, state, dispatch }: CardProps) {
           }
           title="Fill constraint"
         >
-          <option value="any">any</option>
-          <option value="icon">icon</option>
           <option value="text">text</option>
+          <option value="icon">icon</option>
         </select>
         <button
           className="cat-delete editor-btn small danger"
@@ -86,24 +85,21 @@ function CategoryCard({ cat, state, dispatch }: CardProps) {
         </button>
       </div>
       <CountRow
-        label="cat"
-        total={cat.categoryCards}
+        label="category"
         onBoard={counts.categoryOnBoard}
         inStock={counts.categoryInStock}
         active={active && activeKind === 'category'}
         onSelect={() => selectBrush('category')}
-        onInc={() => dispatch({ type: 'INC_COUNT', letter: cat.letter, cardKind: 'category' })}
-        onDec={() => dispatch({ type: 'DEC_COUNT', letter: cat.letter, cardKind: 'category' })}
       />
       <CountRow
-        label="smp"
+        label="simple"
         total={cat.simpleCards}
         onBoard={counts.simpleOnBoard}
         inStock={counts.simpleInStock}
         active={active && activeKind === 'simple'}
         onSelect={() => selectBrush('simple')}
-        onInc={() => dispatch({ type: 'INC_COUNT', letter: cat.letter, cardKind: 'simple' })}
-        onDec={() => dispatch({ type: 'DEC_COUNT', letter: cat.letter, cardKind: 'simple' })}
+        onInc={() => dispatch({ type: 'INC_SIMPLE', letter: cat.letter })}
+        onDec={() => dispatch({ type: 'DEC_SIMPLE', letter: cat.letter })}
       />
     </div>
   );
@@ -111,26 +107,31 @@ function CategoryCard({ cat, state, dispatch }: CardProps) {
 
 interface CountRowProps {
   label: string;
-  total: number;
+  total?: number;
   onBoard: number;
   inStock: number;
   active: boolean;
   onSelect: () => void;
-  onInc: () => void;
-  onDec: () => void;
+  onInc?: () => void;
+  onDec?: () => void;
 }
 
 function CountRow({ label, total, onBoard, inStock, active, onSelect, onInc, onDec }: CountRowProps) {
+  const showStepper = onInc !== undefined && onDec !== undefined && total !== undefined;
   return (
-    <div className={`count-row${active ? ' active' : ''}`}>
+    <div className={`count-row${active ? ' active' : ''}${showStepper ? '' : ' no-stepper'}`}>
       <button className="count-label-btn" onClick={onSelect} title="Set brush kind">
         {label}
       </button>
-      <div className="count-stepper">
-        <button className="editor-btn small" onClick={onDec} disabled={total <= 0}>−</button>
-        <span className="count-total">{total}</span>
-        <button className="editor-btn small" onClick={onInc}>+</button>
-      </div>
+      {showStepper ? (
+        <div className="count-stepper">
+          <button className="editor-btn small" onClick={onDec} disabled={(total ?? 0) <= 0}>−</button>
+          <span className="count-total">{total}</span>
+          <button className="editor-btn small" onClick={onInc}>+</button>
+        </div>
+      ) : (
+        <span className="count-fixed" title="One per category">1</span>
+      )}
       <div className="count-summary" title="on board / in stock">
         <span className="count-board">{onBoard}</span>
         <span className="count-sep">/</span>

@@ -1,5 +1,5 @@
 import { useReducer, useEffect, useState, useMemo } from 'react';
-import { initialEditorState, reduceEditor } from './reducer';
+import { initialEditorState, normalizeLevel, reduceEditor } from './reducer';
 import { CategoriesRail } from './CategoriesRail';
 import { BoardCanvas } from './BoardCanvas';
 import { fillSkeleton, FillError } from './fill';
@@ -16,7 +16,8 @@ export function Editor() {
 
   function handleSave() {
     try {
-      const filled = fillSkeleton(state.level);
+      const { level: normalized } = normalizeLevel(state.level);
+      const filled = fillSkeleton(normalized);
       downloadLevelJSON(filled, `${state.level.levelId || 'level'}.json`);
       setFillError(null);
     } catch (e) {
@@ -27,7 +28,8 @@ export function Editor() {
 
   function handlePlay() {
     try {
-      const filled = fillSkeleton(state.level);
+      const { level: normalized } = normalizeLevel(state.level);
+      const filled = fillSkeleton(normalized);
       storePreviewAndPlay(filled);
       setFillError(null);
     } catch (e) {
@@ -42,10 +44,18 @@ export function Editor() {
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
       const target = e.target as HTMLElement | null;
-      if (target && /^(INPUT|SELECT|TEXTAREA)$/.test(target.tagName)) return;
-      if (e.key === '[') {
+      const inEditable = target && /^(INPUT|SELECT|TEXTAREA)$/.test(target.tagName);
+      if ((e.metaKey || e.ctrlKey) && (e.key === 'z' || e.key === 'Z')) {
+        e.preventDefault();
+        dispatch({ type: 'ROLLBACK' });
+        return;
+      }
+      if (inEditable) return;
+      if (e.key === '[' || e.key === 'ArrowDown') {
+        e.preventDefault();
         dispatch({ type: 'SET_LAYER', z: state.currentLayer - 1 });
-      } else if (e.key === ']') {
+      } else if (e.key === ']' || e.key === 'ArrowUp') {
+        e.preventDefault();
         dispatch({ type: 'SET_LAYER', z: state.currentLayer + 1 });
       } else if (e.key === 'e' || e.key === 'E') {
         dispatch({ type: 'TOGGLE_ERASE' });
@@ -113,6 +123,22 @@ export function Editor() {
           </label>
         </div>
         <div className="editor-actions">
+          <button
+            className="editor-btn"
+            disabled={state.history.length === 0}
+            onClick={() => dispatch({ type: 'ROLLBACK' })}
+            title="Undo last edit (⌘Z)"
+          >
+            ← Undo {state.history.length > 0 ? `(${state.history.length})` : ''}
+          </button>
+          <button
+            className="editor-btn"
+            disabled={state.level.board.length === 0}
+            onClick={() => dispatch({ type: 'NORMALIZE_LAYERS' })}
+            title="Shift all cards so the lowest z = 0 (so the bottom-floor rule applies)"
+          >
+            Normalize
+          </button>
           <button className="editor-btn" disabled={saveDisabled} onClick={handleSave}>
             Save .json
           </button>
@@ -130,17 +156,18 @@ export function Editor() {
             <div className="layer-control">
               <button
                 className="editor-btn small"
-                onClick={() => dispatch({ type: 'SET_LAYER', z: state.currentLayer - 1 })}
-                disabled={state.currentLayer <= 0}
+                onClick={() => dispatch({ type: 'SET_LAYER', z: state.currentLayer + 1 })}
+                title="Go up a layer (↑ or ])"
               >
-                ◂
+                ▲
               </button>
               <span className="layer-label">z = {state.currentLayer}</span>
               <button
                 className="editor-btn small"
-                onClick={() => dispatch({ type: 'SET_LAYER', z: state.currentLayer + 1 })}
+                onClick={() => dispatch({ type: 'SET_LAYER', z: state.currentLayer - 1 })}
+                title="Go down a layer (↓ or [). Negative z is fine; Normalize before save."
               >
-                ▸
+                ▼
               </button>
             </div>
             <div className="brush-control">

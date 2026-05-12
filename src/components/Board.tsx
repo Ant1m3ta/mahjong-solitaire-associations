@@ -3,8 +3,8 @@ import { useState, useMemo } from 'react';
 import type { AppAction, BoardSlot, GameState } from '../types';
 import { CardView } from './CardView';
 import { setDragSource, getDragSource } from './dragData';
-import { isEmptyFloorPlaceable, isSlotRevealed, isSlotSideBlocked } from '../game/coverage';
-import { hasValidMoveForBoardCard } from '../game/moves';
+import { getChainEntries, isEmptyFloorPlaceable, isSlotRevealed, isSlotSideBlocked } from '../game/coverage';
+import { hasValidMoveForBoardSlot } from '../game/moves';
 
 const HALF_W = 35;
 const HALF_H = 50;
@@ -99,14 +99,17 @@ export function Board({ state, dispatch, disabled, highlightUnplayable }: Props)
           const slotRevealed = isSlotRevealed(slot, state.boardSlots);
           const sideBlocked = slotRevealed && isSlotSideBlocked(slot, state.boardSlots);
           const topIdx = slot.cards.length - 1;
-          // Stranded = revealed top card has no valid drag destination.
+          // Chain = contiguous top suffix sharing categoryId; renders face-up.
+          const chainStart = slot.cards.length - getChainEntries(slot).length;
+          // Stranded = revealed chain has no valid drag destination.
           const slotStranded =
             slotRevealed && !sideBlocked &&
-            !hasValidMoveForBoardCard(slot.cards[topIdx].card, slot, state);
+            !hasValidMoveForBoardSlot(slot, state);
           return slot.cards.map((entry, idx) => {
             const isTop = idx === topIdx;
-            // Face-down only when truly covered from above.
-            const faceDown = !(isTop && slotRevealed);
+            const inChain = idx >= chainStart;
+            // Face-down when covered from above OR outside the visible chain.
+            const faceDown = !(slotRevealed && inChain);
             // Locked appearance: side-blocked OR (stranded AND toggle on).
             const looksLocked =
               isTop && slotRevealed &&

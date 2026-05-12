@@ -11,6 +11,10 @@ export interface Card {
 export interface BoardCardEntry {
   card: Card;
   z: number;
+  // True once the card has ever been the slot's exposed top (initial top at
+  // level load, or surfaced by removing the card above). Chains only include
+  // revealed entries — pre-stacked level data does not auto-form a chain.
+  revealed: boolean;
 }
 
 export interface BoardSlot {

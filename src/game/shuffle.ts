@@ -1,9 +1,21 @@
-import type { BoardSlot, Card, CategorySlot, GameState } from '../types';
-import { isEmptyFloorPlaceable, isSlotInteractive } from './coverage';
+import type { BoardCardEntry, BoardSlot, Card, CategorySlot, GameState } from '../types';
+import { getChainEntries, isEmptyFloorPlaceable, isSlotInteractive } from './coverage';
 import { canPlaceInCategorySlot, canPlaceOnBoardCard } from './moves';
 
 function hasValidSlotForCard(card: Card, slots: CategorySlot[]): boolean {
   return slots.some((s) => canPlaceInCategorySlot(card, s));
+}
+
+function chainHasValidCategorySlot(
+  chain: BoardCardEntry[],
+  catSlots: CategorySlot[],
+): boolean {
+  if (chain.length === 0) return false;
+  const chainTop = chain[chain.length - 1].card;
+  if (chain.length === 1) {
+    return hasValidSlotForCard(chainTop, catSlots);
+  }
+  return chainTop.isCategory && catSlots.some((s) => s.lockedCategory === null);
 }
 
 function hashBoardSlots(slots: BoardSlot[]): string {
@@ -11,26 +23,61 @@ function hashBoardSlots(slots: BoardSlot[]): string {
     .map(
       (s) =>
         `${s.x},${s.y},${s.dead ? 1 : 0}:${s.cards
-          .map((c) => `${c.card.uid}@${c.z}`)
+          .map((c) => `${c.card.uid}@${c.z}${c.revealed ? 'R' : ''}`)
           .join(',')}`,
     )
     .join('|');
 }
 
+// Simulate a chain move from source to target, mirroring appendChainToSlot's
+// re-z + auto-swap rules so the resulting board state matches a real move.
 function simulateBoardToBoard(
   slots: BoardSlot[],
   fromIdx: number,
   toIdx: number,
 ): BoardSlot[] {
-  const sourceTop = slots[fromIdx].cards[slots[fromIdx].cards.length - 1];
+  const source = slots[fromIdx];
   const target = slots[toIdx];
-  const newZ =
-    target.cards.length === 0
-      ? target.floorZ
-      : target.cards[target.cards.length - 1].z + 1;
+  const chain = getChainEntries(source);
+  const baseZ = target.cards.length === 0
+    ? target.floorZ
+    : target.cards[target.cards.length - 1].z + 1;
+  const rezed: BoardCardEntry[] = chain.map((e, i) => ({
+    card: e.card,
+    z: baseZ + i,
+    revealed: true,
+  }));
+  let newTargetCards: BoardCardEntry[];
+  if (target.cards.length > 0) {
+    const top = target.cards[target.cards.length - 1];
+    const incomingTop = rezed[rezed.length - 1];
+    if (
+      top.card.isCategory &&
+      !incomingTop.card.isCategory &&
+      top.card.category === incomingTop.card.category
+    ) {
+      const shifted = rezed.map((e) => ({ card: e.card, z: e.z - 1, revealed: true }));
+      const liftedTop: BoardCardEntry = {
+        card: top.card,
+        z: baseZ + rezed.length - 1,
+        revealed: true,
+      };
+      newTargetCards = [...target.cards.slice(0, -1), ...shifted, liftedTop];
+    } else {
+      newTargetCards = [...target.cards, ...rezed];
+    }
+  } else {
+    newTargetCards = [...rezed];
+  }
   return slots.map((s, i) => {
     if (i === fromIdx) {
-      const newCards = s.cards.slice(0, -1);
+      const newCards = s.cards.slice(0, s.cards.length - chain.length);
+      if (newCards.length > 0) {
+        const lastIdx = newCards.length - 1;
+        if (!newCards[lastIdx].revealed) {
+          newCards[lastIdx] = { ...newCards[lastIdx], revealed: true };
+        }
+      }
       return {
         ...s,
         cards: newCards,
@@ -38,19 +85,16 @@ function simulateBoardToBoard(
       };
     }
     if (i === toIdx) {
-      return {
-        ...s,
-        cards: [...s.cards, { card: sourceTop.card, z: newZ }],
-      };
+      return { ...s, cards: newTargetCards };
     }
     return s;
   });
 }
 
 // Deadlock = no sequence of board-to-board rearrangements can reach a state
-// where any card (hand, stock, or board top) is placeable into a category slot.
-// Hand/stock placeability is invariant under board-to-board moves, so we check
-// those once up front and only BFS over board states.
+// where any card (hand, stock, or board chain) is placeable into a category
+// slot. Hand/stock placeability is invariant under board-to-board moves, so we
+// check those once up front and only BFS over board states.
 export function isDeadlocked(state: GameState): boolean {
   if (state.hand && hasValidSlotForCard(state.hand, state.categorySlots)) {
     return false;
@@ -69,15 +113,16 @@ export function isDeadlocked(state: GameState): boolean {
     for (const s of board) {
       if (s.cards.length === 0) continue;
       if (!isSlotInteractive(s, board)) continue;
-      const top = s.cards[s.cards.length - 1].card;
-      if (hasValidSlotForCard(top, state.categorySlots)) return false;
+      const chain = getChainEntries(s);
+      if (chainHasValidCategorySlot(chain, state.categorySlots)) return false;
     }
 
     for (let fromIdx = 0; fromIdx < board.length; fromIdx++) {
       const from = board[fromIdx];
       if (from.cards.length === 0) continue;
       if (!isSlotInteractive(from, board)) continue;
-      const fromTop = from.cards[from.cards.length - 1].card;
+      const fromChain = getChainEntries(from);
+      const fromBottom = fromChain[0].card;
 
       for (let toIdx = 0; toIdx < board.length; toIdx++) {
         if (toIdx === fromIdx) continue;
@@ -88,7 +133,7 @@ export function isDeadlocked(state: GameState): boolean {
         } else {
           if (!isSlotInteractive(to, board)) continue;
           const toTop = to.cards[to.cards.length - 1].card;
-          if (!canPlaceOnBoardCard(fromTop, toTop)) continue;
+          if (!canPlaceOnBoardCard(fromBottom, toTop)) continue;
         }
 
         const next = simulateBoardToBoard(board, fromIdx, toIdx);
@@ -125,7 +170,7 @@ export function applyShuffle(state: GameState): GameState {
   let idx = 0;
   const newBoardSlots = state.boardSlots.map((s) => ({
     ...s,
-    cards: s.cards.map((entry) => ({ card: pool[idx++], z: entry.z })),
+    cards: s.cards.map((entry) => ({ card: pool[idx++], z: entry.z, revealed: entry.revealed })),
   }));
 
   const newHand: Card | null = state.hand ? pool[idx++] : null;

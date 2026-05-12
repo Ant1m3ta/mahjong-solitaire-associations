@@ -17,10 +17,14 @@ export function buildInitialState(level: LevelData): GameState {
       slot.floorZ = data.z;
     }
     const card = createCardFromId(level, data.cardId);
-    slot.cards.push({ card, z: data.z });
+    slot.cards.push({ card, z: data.z, revealed: false });
   }
   for (const slot of slotMap.values()) {
     slot.cards.sort((a, b) => a.z - b.z);
+    if (slot.cards.length > 0) {
+      const topIdx = slot.cards.length - 1;
+      slot.cards[topIdx] = { ...slot.cards[topIdx], revealed: true };
+    }
   }
 
   const categorySlots: CategorySlot[] = [];

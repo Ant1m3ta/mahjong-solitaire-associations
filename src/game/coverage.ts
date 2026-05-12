@@ -1,4 +1,24 @@
-import type { BoardSlot } from '../types';
+import type { BoardCardEntry, BoardSlot } from '../types';
+
+// A "chain" is the contiguous top suffix of a slot's stack whose entries are
+// all revealed and share the same `category`. Chains form via gameplay only —
+// pre-stacked cards from level data start unrevealed, so a multi-card stack at
+// load is not a chain until its lower cards get surfaced. Chains move and
+// consume as a unit; a chain of 1 is just a regular single card.
+export function getChainEntries(slot: BoardSlot): BoardCardEntry[] {
+  if (slot.cards.length === 0) return [];
+  const top = slot.cards[slot.cards.length - 1];
+  if (!top.revealed) return [top];
+  const topCat = top.card.category;
+  let start = slot.cards.length - 1;
+  while (start > 0) {
+    const prev = slot.cards[start - 1];
+    if (!prev.revealed) break;
+    if (prev.card.category !== topCat) break;
+    start--;
+  }
+  return slot.cards.slice(start);
+}
 
 export function footprintsOverlap(a: { x: number; y: number }, b: { x: number; y: number }): boolean {
   if (a.x === b.x && a.y === b.y) return false;

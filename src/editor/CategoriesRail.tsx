@@ -1,13 +1,14 @@
 import type { Dispatch } from 'react';
-import type { CardKind, CategoryKind, EditorAction, EditorState, SkeletonCategory } from './types';
+import type { CardKind, EditorAction, EditorState, SkeletonCategory } from './types';
 import { categoryCounts } from './reducer';
 
 interface Props {
   state: EditorState;
   dispatch: Dispatch<EditorAction>;
+  onOpenPicker: (letter: string) => void;
 }
 
-export function CategoriesRail({ state, dispatch }: Props) {
+export function CategoriesRail({ state, dispatch, onOpenPicker }: Props) {
   return (
     <aside className="editor-rail editor-rail-left">
       <div className="editor-rail-title">Categories</div>
@@ -21,6 +22,7 @@ export function CategoriesRail({ state, dispatch }: Props) {
               cat={cat}
               state={state}
               dispatch={dispatch}
+              onOpenPicker={onOpenPicker}
             />
           ))
         )}
@@ -39,9 +41,10 @@ interface CardProps {
   cat: SkeletonCategory;
   state: EditorState;
   dispatch: Dispatch<EditorAction>;
+  onOpenPicker: (letter: string) => void;
 }
 
-function CategoryCard({ cat, state, dispatch }: CardProps) {
+function CategoryCard({ cat, state, dispatch, onOpenPicker }: CardProps) {
   const counts = categoryCounts(state, cat.letter);
   const active = state.brush.letter === cat.letter && !state.eraseMode;
   const activeKind = state.brush.kind;
@@ -61,21 +64,13 @@ function CategoryCard({ cat, state, dispatch }: CardProps) {
         >
           <span className="cat-letter">{cat.letter}</span>
         </button>
-        <select
-          className="cat-kind"
-          value={cat.kind}
-          onChange={(e) =>
-            dispatch({
-              type: 'SET_CATEGORY_KIND',
-              letter: cat.letter,
-              kind: e.target.value as CategoryKind,
-            })
-          }
-          title="Fill constraint"
+        <button
+          className={`cat-pin${cat.pinnedCategoryId ? ' pinned' : ''}`}
+          onClick={() => onOpenPicker(cat.letter)}
+          title={cat.pinnedCategoryId ? `Pinned to ${cat.pinnedCategoryId}. Click to change.` : 'Random fill — click to pin a real category.'}
         >
-          <option value="text">text</option>
-          <option value="icon">icon</option>
-        </select>
+          📎 <span className="cat-pin-label">{cat.pinnedCategoryId ?? 'random'}</span>
+        </button>
         <button
           className="cat-delete editor-btn small danger"
           onClick={() => dispatch({ type: 'REMOVE_CATEGORY', letter: cat.letter })}

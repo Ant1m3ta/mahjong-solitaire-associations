@@ -1,18 +1,23 @@
-import { useReducer, useEffect, useState, useMemo } from 'react';
+import { useReducer, useEffect, useState, useMemo, useRef } from 'react';
 import { initialEditorState, normalizeLevel, reduceEditor } from './reducer';
 import { CategoriesRail } from './CategoriesRail';
+import { CategoryPicker } from './CategoryPicker';
 import { BoardCanvas } from './BoardCanvas';
 import { fillSkeleton, FillError } from './fill';
 import { downloadLevelJSON, storePreviewAndPlay } from './save';
+import { downloadSkeleton, parseSkeleton, readFileAsText, SkeletonParseError } from './skeletonIO';
 import { validate } from './validate';
 
 export function Editor() {
   const [state, dispatch] = useReducer(reduceEditor, undefined, initialEditorState);
   const [fillError, setFillError] = useState<string | null>(null);
+  const [pickerLetter, setPickerLetter] = useState<string | null>(null);
   const brush = state.brush;
   const brushCat = brush.letter
     ? state.level.categories.find((c) => c.letter === brush.letter) ?? null
     : null;
+  const pickerCategory =
+    pickerLetter ? state.level.categories.find((c) => c.letter === pickerLetter) ?? null : null;
 
   function handleSave() {
     try {
@@ -35,6 +40,27 @@ export function Editor() {
     } catch (e) {
       const msg = e instanceof FillError ? e.message : String(e);
       setFillError(msg);
+    }
+  }
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  function handleLoadSkeletonClick() {
+    fileInputRef.current?.click();
+  }
+
+  async function handleSkeletonFile(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    e.target.value = '';
+    if (!file) return;
+    try {
+      const text = await readFileAsText(file);
+      const level = parseSkeleton(text);
+      dispatch({ type: 'LOAD_SKELETON', level });
+      setFillError(null);
+    } catch (err) {
+      const msg = err instanceof SkeletonParseError ? err.message : String(err);
+      setFillError(`Load: ${msg}`);
     }
   }
 
@@ -139,17 +165,39 @@ export function Editor() {
           >
             Normalize
           </button>
+          <button
+            className="editor-btn"
+            onClick={handleLoadSkeletonClick}
+            title="Load a skeleton from a .skel.json file"
+          >
+            Load .skel
+          </button>
+          <button
+            className="editor-btn"
+            disabled={state.level.categories.length === 0 && state.level.board.length === 0}
+            onClick={() => downloadSkeleton(state.level)}
+            title="Save the skeleton (geometry + letters + pins, no real categories) for later re-use"
+          >
+            Save .skel
+          </button>
           <button className="editor-btn" disabled={saveDisabled} onClick={handleSave}>
             Save .json
           </button>
           <button className="editor-btn primary" disabled={saveDisabled} onClick={handlePlay}>
             Play
           </button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".json,.skel,application/json"
+            onChange={handleSkeletonFile}
+            style={{ display: 'none' }}
+          />
         </div>
       </div>
 
       <div className="editor-body">
-        <CategoriesRail state={state} dispatch={dispatch} />
+        <CategoriesRail state={state} dispatch={dispatch} onOpenPicker={setPickerLetter} />
 
         <main className="editor-main">
           <div className="editor-canvas-controls">
@@ -300,6 +348,14 @@ export function Editor() {
           </div>
         </aside>
       </div>
+      {pickerLetter && pickerCategory && (
+        <CategoryPicker
+          letter={pickerLetter}
+          category={pickerCategory}
+          dispatch={dispatch}
+          onClose={() => setPickerLetter(null)}
+        />
+      )}
     </div>
   );
 }

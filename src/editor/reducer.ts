@@ -61,7 +61,7 @@ export function initialEditorState(): EditorState {
 const HISTORY_ACTIONS: ReadonlySet<EditorAction['type']> = new Set([
   'ADD_CATEGORY',
   'REMOVE_CATEGORY',
-  'SET_CATEGORY_KIND',
+  'SET_PINNED_CATEGORY',
   'INC_SIMPLE',
   'DEC_SIMPLE',
   'PLACE_BOARD',
@@ -69,6 +69,7 @@ const HISTORY_ACTIONS: ReadonlySet<EditorAction['type']> = new Set([
   'REORDER_STOCK',
   'DELETE_STOCK',
   'NORMALIZE_LAYERS',
+  'LOAD_SKELETON',
 ]);
 
 function nextAvailableLetter(categories: SkeletonCategory[]): string | null {
@@ -118,15 +119,20 @@ export function reduceEditor(state: EditorState, action: EditorAction): EditorSt
     const prev = state.history[state.history.length - 1];
     return {
       ...state,
-      level: prev,
+      level: prev.level,
+      currentLayer: prev.currentLayer,
       history: state.history.slice(0, -1),
       lastError: null,
     };
   }
   const oldLevel = state.level;
+  const oldCurrentLayer = state.currentLayer;
   const next = reduceCore(state, action);
   if (HISTORY_ACTIONS.has(action.type) && next.level !== oldLevel) {
-    return { ...next, history: [...state.history, oldLevel] };
+    return {
+      ...next,
+      history: [...state.history, { level: oldLevel, currentLayer: oldCurrentLayer }],
+    };
   }
   return next;
 }
@@ -149,7 +155,6 @@ function reduceCore(state: EditorState, action: Exclude<EditorAction, { type: 'R
       if (!letter) return fail(state, 'No more letters available.');
       const newCat: SkeletonCategory = {
         letter,
-        kind: 'text',
         simpleCards: 0,
       };
       return {
@@ -185,9 +190,11 @@ function reduceCore(state: EditorState, action: Exclude<EditorAction, { type: 'R
       };
     }
 
-    case 'SET_CATEGORY_KIND': {
+    case 'SET_PINNED_CATEGORY': {
       const cats = level.categories.map((c) =>
-        c.letter === action.letter ? { ...c, kind: action.kind } : c,
+        c.letter === action.letter
+          ? { ...c, pinnedCategoryId: action.categoryId ?? undefined }
+          : c,
       );
       return ok(state, { ...level, categories: cats });
     }
@@ -248,12 +255,14 @@ function reduceCore(state: EditorState, action: Exclude<EditorAction, { type: 'R
           kind: action.cardKind,
         },
       ];
-      return ok(state, {
+      const next = ok(state, {
         ...level,
         board: newBoard,
         stock: newStock,
         categories: newCats,
       });
+      // Follow the placement: layer label tracks the just-placed card.
+      return next.currentLayer === action.z ? next : { ...next, currentLayer: action.z };
     }
 
     case 'REMOVE_BOARD': {
@@ -320,6 +329,16 @@ function reduceCore(state: EditorState, action: Exclude<EditorAction, { type: 'R
         lastError: null,
       };
     }
+
+    case 'LOAD_SKELETON':
+      return {
+        ...state,
+        level: action.level,
+        currentLayer: topLayerOf(action.level),
+        brush: { letter: null, kind: 'simple' },
+        eraseMode: false,
+        lastError: null,
+      };
 
     case 'TOGGLE_GHOST_BELOW':
       return { ...state, ghostBelow: !state.ghostBelow };

@@ -102,18 +102,6 @@ export function validate(skel: SkeletonLevel): ValidationResult {
     }
   }
 
-  for (const cat of skel.categories) {
-    if (cat.kind === 'icon') {
-      const needed = cat.simpleCards;
-      if (needed > 32) {
-        warnings.push({
-          severity: 'warn',
-          text: `Category ${cat.letter} (icon): ${needed} simples is more than any single available image category has.`,
-        });
-      }
-    }
-  }
-
   if (skel.categories.length === 0 && skel.board.length === 0 && skel.stock.length === 0) {
     warnings.push({ severity: 'info', text: 'Empty level. Add a category to begin.' });
   }

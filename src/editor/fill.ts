@@ -30,9 +30,9 @@ function imageBasename(categoryId: string, wordId: string): string {
   return `${toSnake(categoryId)}__${toSnake(wordId)}`;
 }
 
-let cachedPools: { icon: Usable[]; text: Usable[] } | null = null;
+let cachedPools: { icon: Usable[]; text: Usable[]; all: Usable[]; byId: Map<string, Usable> } | null = null;
 
-function pools() {
+export function pools() {
   if (!cachedPools) {
     const icon: Usable[] = (iconsCatalog as RawCat[])
       .map((c) => ({
@@ -46,7 +46,10 @@ function pools() {
       wordsIds: c.wordsIds,
       kind: 'text' as const,
     }));
-    cachedPools = { icon, text };
+    const all = [...icon, ...text];
+    const byId = new Map<string, Usable>();
+    for (const c of all) byId.set(c.categoryId, c);
+    cachedPools = { icon, text, all, byId };
   }
   return cachedPools;
 }
@@ -59,10 +62,10 @@ function shuffleInPlace<T>(arr: T[]): T[] {
   return arr;
 }
 
-function pickReal(skel: SkeletonCategory, basePool: Usable[], used: Set<string>): Usable {
+function pickReal(skel: SkeletonCategory, basePool: Usable[], byId: Map<string, Usable>, used: Set<string>): Usable {
   const minWords = skel.simpleCards;
   if (skel.pinnedCategoryId) {
-    const pinned = basePool.find((c) => c.categoryId === skel.pinnedCategoryId);
+    const pinned = byId.get(skel.pinnedCategoryId);
     if (!pinned) {
       throw new FillError(
         `Letter ${skel.letter}: pinned category "${skel.pinnedCategoryId}" not in pool.`,
@@ -81,7 +84,7 @@ function pickReal(skel: SkeletonCategory, basePool: Usable[], used: Set<string>)
   );
   if (candidates.length === 0) {
     throw new FillError(
-      `Letter ${skel.letter}: no ${skel.kind} category with ≥${minWords} words available.`,
+      `Letter ${skel.letter}: no category with ≥${minWords} words available.`,
     );
   }
   const pick = candidates[Math.floor(Math.random() * candidates.length)];
@@ -90,13 +93,12 @@ function pickReal(skel: SkeletonCategory, basePool: Usable[], used: Set<string>)
 }
 
 export function fillSkeleton(skel: SkeletonLevel): LevelData {
-  const { icon, text } = pools();
+  const { all, byId } = pools();
   const used = new Set<string>();
   const map = new Map<string, { real: Usable; assigned: string[] }>();
 
   for (const cat of skel.categories) {
-    const basePool: Usable[] = cat.kind === 'icon' ? icon : text;
-    const real = pickReal(cat, basePool, used);
+    const real = pickReal(cat, all, byId, used);
     const assigned = shuffleInPlace(real.wordsIds.slice()).slice(0, cat.simpleCards);
     map.set(cat.letter, { real, assigned });
   }

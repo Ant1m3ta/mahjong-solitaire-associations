@@ -73,8 +73,21 @@ export function BoardCanvas({ state, dispatch }: Props) {
     return best;
   }
 
-  function findCardAtAnchor(cx: number, cy: number, z: number): SkeletonBoardCard | null {
-    return level.board.find((c) => c.x === cx && c.y === cy && c.z === z) ?? null;
+  function footprintOccupiedAt(cx: number, cy: number, z: number): boolean {
+    for (const c of level.board) {
+      if (c.z !== z) continue;
+      if (Math.abs(c.x - cx) <= 1 && Math.abs(c.y - cy) <= 1) return true;
+    }
+    return false;
+  }
+
+  function targetZFor(cx: number, cy: number): number {
+    // Start at the user's chosen layer; bump up only while a card at this
+    // footprint at the same z is in the way. Higher half-offset cards at z>cur
+    // do not push us up — they sit above the new card.
+    let z = currentLayer;
+    while (footprintOccupiedAt(cx, cy, z)) z++;
+    return z;
   }
 
   function handleClick(e: MouseEvent<HTMLDivElement>) {
@@ -87,12 +100,12 @@ export function BoardCanvas({ state, dispatch }: Props) {
       return;
     }
     if (!brush.letter) return;
-    if (findCardAtAnchor(x, y, currentLayer)) return;
+    const z = targetZFor(x, y);
     dispatch({
       type: 'PLACE_BOARD',
       x,
       y,
-      z: currentLayer,
+      z,
       letter: brush.letter,
       cardKind: brush.kind,
     });
@@ -153,20 +166,23 @@ export function BoardCanvas({ state, dispatch }: Props) {
           );
         })}
 
-        {hover && !eraseMode && brush.letter && !findCardAtAnchor(hover.x, hover.y, currentLayer) && (
-          <div
-            className="editor-card hover-preview"
-            style={{
-              left: hover.x * HALF_W,
-              top: offsetY + hover.y * HALF_H - currentLayer * LAYER_LIFT,
-              zIndex: Z_BASE + currentLayer * 100 + 99,
-            }}
-          >
-            <span className="editor-card-letter">
-              {brush.kind === 'category' ? brush.letter : brush.letter.toLowerCase()}
-            </span>
-          </div>
-        )}
+        {hover && !eraseMode && brush.letter && (() => {
+          const previewZ = targetZFor(hover.x, hover.y);
+          return (
+            <div
+              className="editor-card hover-preview"
+              style={{
+                left: hover.x * HALF_W,
+                top: offsetY + hover.y * HALF_H - previewZ * LAYER_LIFT,
+                zIndex: Z_BASE + previewZ * 100 + 99,
+              }}
+            >
+              <span className="editor-card-letter">
+                {brush.kind === 'category' ? brush.letter : brush.letter.toLowerCase()}
+              </span>
+            </div>
+          );
+        })()}
       </div>
     </div>
   );

@@ -1,9 +1,7 @@
-export type CategoryKind = 'icon' | 'text';
 export type CardKind = 'category' | 'simple';
 
 export interface SkeletonCategory {
   letter: string;
-  kind: CategoryKind;
   simpleCards: number;
   pinnedCategoryId?: string;
 }
@@ -35,9 +33,14 @@ export interface BrushState {
   kind: CardKind;
 }
 
+export interface HistoryEntry {
+  level: SkeletonLevel;
+  currentLayer: number;
+}
+
 export interface EditorState {
   level: SkeletonLevel;
-  history: SkeletonLevel[];
+  history: HistoryEntry[];
   brush: BrushState;
   currentLayer: number;
   ghostBelow: boolean;
@@ -52,7 +55,7 @@ export type EditorAction =
   | { type: 'SET_MOVES'; moves: number }
   | { type: 'ADD_CATEGORY' }
   | { type: 'REMOVE_CATEGORY'; letter: string }
-  | { type: 'SET_CATEGORY_KIND'; letter: string; kind: CategoryKind }
+  | { type: 'SET_PINNED_CATEGORY'; letter: string; categoryId: string | null }
   | { type: 'INC_SIMPLE'; letter: string }
   | { type: 'DEC_SIMPLE'; letter: string }
   | { type: 'PLACE_BOARD'; x: number; y: number; z: number; letter: string; cardKind: CardKind }
@@ -66,4 +69,5 @@ export type EditorAction =
   | { type: 'TOGGLE_GHOST_BELOW' }
   | { type: 'TOGGLE_GHOST_ABOVE' }
   | { type: 'NORMALIZE_LAYERS' }
+  | { type: 'LOAD_SKELETON'; level: SkeletonLevel }
   | { type: 'ROLLBACK' };

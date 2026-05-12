@@ -12,7 +12,7 @@ This means: the runtime never sees a skeleton. The editor's internal state is th
 
 ```
 SkeletonLevel { levelId, slotsDefault, movesLimit, categories[], board[], stock[] }
-SkeletonCategory { letter, kind: 'icon'|'text' (default 'text'), simpleCards, pinnedCategoryId? }
+SkeletonCategory { letter, simpleCards, pinnedCategoryId? }
 SkeletonBoardCard { x, y, z, letter, kind: 'category'|'simple' }
 SkeletonStockEntry { letter, kind }
 EditorState { level, history, brush, currentLayer, ghostBelow, ghostAbove, eraseMode, lastError }
@@ -26,13 +26,15 @@ EditorState { level, history, brush, currentLayer, ghostBelow, ghostAbove, erase
 
 - `src/main.tsx` — hash router. `#/editor` → `<Editor/>`, else `<App/>`.
 - `src/editor/types.ts` — Skeleton types + EditorAction union.
-- `src/editor/reducer.ts` — pure reducer; invariant enforcement; `categoryCounts()` derived selector.
-- `src/editor/Editor.tsx` — top-level shell, hotkeys, save/play wiring, meta fields.
-- `src/editor/CategoriesRail.tsx` — left rail; one panel per category; +/- steppers; brush selector.
+- `src/editor/reducer.ts` — pure reducer; invariant enforcement; `categoryCounts()` derived selector; `normalizeLevel()`; `topLayerOf()`.
+- `src/editor/Editor.tsx` — top-level shell, hotkeys, save/play/load wiring, meta fields, picker mount.
+- `src/editor/CategoriesRail.tsx` — left rail; one panel per category; +/- stepper; brush selector; pin button.
+- `src/editor/CategoryPicker.tsx` — modal picker for pinning a letter to a real category from the combined catalog.
 - `src/editor/BoardCanvas.tsx` — half-tile click grid, layer switching, ghost layers, placement, erase.
-- `src/editor/fill.ts` — picks real categories from the Unity catalog, assigns distinct words.
-- `src/editor/save.ts` — JSON download (Blob URL) + sessionStorage preview handoff.
-- `src/editor/validate.ts` — derived warnings (unwinnable categories, half-offset coverage gotcha) + stats.
+- `src/editor/fill.ts` — exposes `pools()` (icon + text + combined + byId) and `fillSkeleton()` which picks real categories (pinned first, else random from the combined pool) and assigns distinct words.
+- `src/editor/skeletonIO.ts` — serialize / parse `.skel.json` files; invariant validation on load.
+- `src/editor/save.ts` — concrete `LevelData` JSON download (Blob URL) + sessionStorage preview handoff.
+- `src/editor/validate.ts` — derived warnings (half-offset coverage gotcha, minZ != 0) + stats.
 - `src/editor/catalog/icons.json`, `words.json` — copied from Unity (`Assets/Editor/Tools/LevelsCategoriesReplacement/categories/`).
 - `src/editor/catalog/images.ts` — hand-maintained manifest of PNGs available under `public/images/`. Regen command in the file header.
 - `src/editor/Editor.css` — editor-only styles.
@@ -43,26 +45,27 @@ EditorState { level, history, brush, currentLayer, ghostBelow, ghostAbove, erase
 
 - [x] **Phase 1 — Scaffold.** Hash routing, three-column shell, ✏ Editor link in game header, ← Game link back.
 - [x] **Phase 2 — Skeleton state.** Types, reducer, 20 actions, invariant maintained, undo history.
-- [x] **Phase 3 — Categories rail.** Panel per category with letter, kind selector (text/icon, default text). `category` row (no stepper — always 1) and `simple` row (with +/- stepper). Both rows are clickable as brush selectors; active brush highlighted. Board/stock count summary per row.
-- [x] **Phase 4 — Board canvas.** Half-tile click grid, vertical layer switching (▲/▼ buttons + `↑`/`↓` or `]`/`[` hotkeys), free negative-z navigation, ghost-layer toggles below/above, click-to-place from brush, click-to-erase, hover preview of 2×2 footprint, brush kind toggle (`⇄` button + `Tab`). All visual z-indexes are rebased through `Z_BASE` so negative-z cards render correctly.
+- [x] **Phase 3 — Categories rail.** Panel per category with letter, pin button (📎 + pinned category name or "random"), delete. `category` row (no stepper — always 1) and `simple` row (+/- stepper). Both rows are clickable as brush selectors; active brush highlighted. Board/stock count summary per row.
+- [x] **Phase 4 — Board canvas.** Half-tile click grid, vertical layer switching (▲/▼ buttons + `↑`/`↓` or `]`/`[` hotkeys), free negative-z navigation, ghost-layer toggles below/above, click-to-place from brush, click-to-erase, hover preview of 2×2 footprint, brush kind toggle (`⇄` button + `Tab`). All visual z-indexes are rebased through `Z_BASE` so negative-z cards render correctly. **Smart-stack:** placement starts at `currentLayer` and bumps `z` while that footprint is occupied at that z (Chebyshev distance ≤ 1 between anchors — half-offset overlap counts). Higher cards on z > currentLayer do NOT push the new card up; only same-z (and bumped-z) obstacles do. So you can place a z=0 card under an existing z=1 half-offset card; you can stack z=1 over four z=0 cards; you can chain-stack at the same anchor. `currentLayer` follows the final placement so the layer label tracks the just-placed card. Hover preview uses the same smart-z target so the preview lifts off existing stacks visibly.
 - [x] **Phase 5 — Stock strip.** Horizontal chip list, ◂/▸/× per chip, category-card chips styled like the gold gradient.
-- [x] **Phase 6 — Save & Play.** Catalog fill (random pick constrained by kind + word count, no duplicate real categories, distinct words per simple). Save = JSON file download. Play = stash filled level in sessionStorage, hash-jump to `#/`, App picks it up as level 0. Both auto-normalize layers (`normalizeLevel`) before fill, so the emitted JSON always has min z = 0.
+- [x] **Phase 6 — Save & Play.** Catalog fill: pinned letters use their pinned real category; unpinned letters pick at random from the combined `text ∪ icon` pool. Word count constraint (≥ `simpleCards`) and no-duplicate-real-categories per level both enforced. Distinct words assigned per simple placement. **Save .json** = concrete `LevelData` file download. **Play** = stash filled level in sessionStorage, hash-jump to `#/`, App picks it up as level 0. Both auto-normalize layers (`normalizeLevel`) before fill, so the emitted JSON always has min z = 0.
+
+- [x] **Phase 8 — Skeleton I/O & pinning.** **Save .skel** writes a `.skel.json` file (schema `skeleton-v1`) — the editor's intent without real categories. **Load .skel** reads a skeleton file (validates shape and the invariant) and replaces editor state. Loading pushes a history snapshot so an accidental load can be undone. Per-category 📎 button opens a searchable picker over the combined text+icon catalog, filtered to ≥ `simpleCards` available words. Pinning a letter sets `SkeletonCategory.pinnedCategoryId`; fill respects it. The `kind` field on `SkeletonCategory` is gone — the picked real category's kind is determined at fill time.
 - [x] **Phase 7 — Validation panel.** Warnings: cards hidden at start by half-offset coverage; icon-category over-asking word count; info row when `minZ != 0` (reminder that Save/Play normalize automatically). Stats: board count, stock count, side-blocked count, covered count. (The "no category card" check is no longer needed — every category has exactly one by construction.)
 
-**Topbar action group:** `← Undo (n)` · `Normalize` · `Save .json` · `Play`. Undo is enabled iff history is non-empty; Normalize is enabled iff the board has cards; Save/Play are enabled iff at least one category and one board card exist.
+**Topbar action group:** `← Undo (n)` · `Normalize` · `Load .skel` · `Save .skel` · `Save .json` · `Play`. Undo is enabled iff history is non-empty; Normalize iff the board has cards; Save .skel iff the level is non-empty; Save .json / Play iff at least one category and one board card exist.
 
 Hotkeys: `↑`/`↓` (or `]`/`[`) layer up/down, `E` erase, `Tab` simple↔category, `1..9` select category by index, `⌘Z`/`Ctrl+Z` undo. Most keys ignored when typing in inputs; Undo works from inputs too.
 
 **Layer direction.** ▲ moves up the pyramid (z+1); ▼ moves down toward the floor (z-1). Initial layer = z=0 for an empty board, max z for a non-empty one. Negative z is allowed during authoring — place a card at z=0, drill down to z=-1 to add cards beneath. The Save and Play actions normalize automatically (shift all cards so min z = 0) before fill, so the JSON output always satisfies the game's bottom-floor rule. There is also a Normalize button in the topbar for explicit shifts during authoring.
 
-**Undo.** Structural edits push a snapshot of `level` onto `history`. The Undo button (and `⌘Z`) pops one. Meta-field changes (level id, slots, moves) and UI state (brush, layer, ghosts, erase) are excluded — undo doesn't churn through every keystroke or every brush tap. History-pushing actions: `ADD_CATEGORY`, `REMOVE_CATEGORY`, `SET_CATEGORY_KIND`, `INC_SIMPLE`, `DEC_SIMPLE`, `PLACE_BOARD`, `REMOVE_BOARD`, `REORDER_STOCK`, `DELETE_STOCK`, `NORMALIZE_LAYERS`. Snapshots are pushed only when the action actually mutated the level (failed actions don't push).
+**Undo.** Structural edits push a `{ level, currentLayer }` snapshot onto `history`. The Undo button (and `⌘Z`) pops one and restores both fields atomically. Meta-field changes (level id, slots, moves) and UI state (brush, layer, ghosts, erase) are excluded — undo doesn't churn through every keystroke or every brush tap. History-pushing actions: `ADD_CATEGORY`, `REMOVE_CATEGORY`, `SET_PINNED_CATEGORY`, `INC_SIMPLE`, `DEC_SIMPLE`, `PLACE_BOARD`, `REMOVE_BOARD`, `REORDER_STOCK`, `DELETE_STOCK`, `NORMALIZE_LAYERS`, `LOAD_SKELETON`. Snapshots are pushed only when the action actually mutated the level (failed actions don't push).
 
 ## Missing features (not in this milestone)
 
 Priority guess in parentheses.
 
 - **Drag-to-reorder stock** (low). Up/down arrows already work; drag is convenience.
-- **Pin-to-real-category UI** (medium). `SkeletonCategory.pinnedCategoryId` is supported by `fill.ts` but the editor has no UI to set it. Needs a searchable dropdown — the words catalog has ~7,400 entries.
 - **Load existing `levelN.json` back into the editor** (medium). Treat a concrete level as a skeleton with `pinnedCategoryId` on every category, letters auto-assigned `A`, `B`, … by category order. Useful for tweaking existing levels.
 - **localStorage autosave + restore** (medium). Editor state currently lives only in component state; a reload wipes it.
 - **BFS solvability check** (low). Validation flags obviously unwinnable layouts but doesn't prove a level is solvable. A "Run solver" button could try.

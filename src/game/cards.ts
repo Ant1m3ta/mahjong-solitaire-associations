@@ -1,4 +1,4 @@
-import type { Card, LevelData } from '../types';
+import type { BoardSlot, Card, LevelData } from '../types';
 
 let nextUid = 1;
 
@@ -8,6 +8,19 @@ export function makeUid(): string {
 
 export function resetUidForLevel(): void {
   nextUid = 1;
+}
+
+export function countSimpleInCategory(level: LevelData, categoryId: string): number {
+  const cat = level.categories.find((c) => c.categoryId === categoryId);
+  return cat ? cat.wordsData.length : 0;
+}
+
+export function countSimpleInStackOfCategory(slot: BoardSlot, categoryId: string): number {
+  let n = 0;
+  for (const entry of slot.cards) {
+    if (!entry.card.isCategory && entry.card.category === categoryId) n++;
+  }
+  return n;
 }
 
 export function createCardFromId(level: LevelData, cardId: string): Card {

@@ -3,6 +3,7 @@ import { useState } from 'react';
 import type { AppAction, GameState } from '../types';
 import { CardView } from './CardView';
 import { getDragSource } from './dragData';
+import { countSimpleInCategory } from '../game/cards';
 
 interface Props {
   state: GameState;
@@ -51,13 +52,20 @@ export function CategorySlotsRow({ state, dispatch, disabled }: Props) {
             onDrop={(e) => handleDrop(e, idx)}
           >
             {slot.displayedCard ? (
-              <CardView card={slot.displayedCard} />
+              <CardView
+                card={slot.displayedCard}
+                counter={
+                  slot.displayedCard.isCategory
+                    ? { current: 0, total: countSimpleInCategory(state.level, slot.displayedCard.category) }
+                    : undefined
+                }
+              />
             ) : (
               <div className="empty-slot-label">empty</div>
             )}
             {slot.lockedCategory !== null && (
               <div className="progress">
-                {slot.cardsConsumed} / {countSimpleInCategory(state, slot.lockedCategory)}
+                {slot.cardsConsumed} / {countSimpleInCategory(state.level, slot.lockedCategory)}
               </div>
             )}
           </div>
@@ -78,9 +86,4 @@ export function CategorySlotsRow({ state, dispatch, disabled }: Props) {
       )}
     </div>
   );
-}
-
-function countSimpleInCategory(state: GameState, categoryId: string): number {
-  const cat = state.level.categories.find((c) => c.categoryId === categoryId);
-  return cat ? cat.wordsData.length : 0;
 }

@@ -3,6 +3,7 @@ import type { AppAction, GameState, LevelData } from '../types';
 import { CardView } from './CardView';
 import { setDragSource } from './dragData';
 import { hasValidMoveForHandCard } from '../game/moves';
+import { countSimpleInCategory } from '../game/cards';
 
 interface Props {
   state: GameState;
@@ -113,11 +114,15 @@ export function Header({
             {handCard ? (() => {
               const stranded = !hasValidMoveForHandCard(handCard, state);
               const dim = stranded && highlightUnplayable;
+              const counter = handCard.isCategory
+                ? { current: 0, total: countSimpleInCategory(state.level, handCard.category) }
+                : undefined;
               return (
                 <CardView
                   card={handCard}
                   draggable={!disabled && (!stranded || !highlightUnplayable)}
                   isLocked={dim}
+                  counter={counter}
                   onDragStart={(e) => setDragSource(e, { kind: 'hand' })}
                 />
               );

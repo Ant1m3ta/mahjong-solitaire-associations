@@ -5,6 +5,7 @@ import { CardView } from './CardView';
 import { setDragSource, getDragSource } from './dragData';
 import { getChainEntries, isEmptyFloorPlaceable, isSlotRevealed, isSlotSideBlocked } from '../game/coverage';
 import { hasValidMoveForBoardSlot } from '../game/moves';
+import { countSimpleInCategory, countSimpleInStackOfCategory } from '../game/cards';
 
 const HALF_W = 35;
 const HALF_H = 50;
@@ -144,6 +145,13 @@ export function Board({ state, dispatch, disabled, highlightUnplayable }: Props)
               handlers.onDrop = (e) => handleDrop(e, slot);
             }
 
+            const counter = entry.card.isCategory
+              ? {
+                  current: countSimpleInStackOfCategory(slot, entry.card.category),
+                  total: countSimpleInCategory(state.level, entry.card.category),
+                }
+              : undefined;
+
             return (
               <CardView
                 key={entry.card.uid}
@@ -152,6 +160,7 @@ export function Board({ state, dispatch, disabled, highlightUnplayable }: Props)
                 draggable={draggable}
                 isDropTarget={isDropTarget}
                 isLocked={looksLocked}
+                counter={counter}
                 style={{
                   position: 'absolute',
                   left,

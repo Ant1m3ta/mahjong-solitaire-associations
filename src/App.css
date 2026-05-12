@@ -312,6 +312,26 @@ body {
   background: #ff8f50;
 }
 
+.shuffle-btn {
+  background: #6c5ce7;
+  border: none;
+  color: white;
+  padding: 4px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 4px;
+  cursor: pointer;
+  letter-spacing: 0.3px;
+  font-family: inherit;
+}
+.shuffle-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+.shuffle-btn:not(:disabled):hover {
+  background: #8275ee;
+}
+
 .toggle-btn {
   background: #2a2a4a;
   border: 1px solid #4a4a6a;

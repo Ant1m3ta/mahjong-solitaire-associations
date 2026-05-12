@@ -62,6 +62,15 @@ export function Header({
         >
           ← Undo
         </button>
+        <button
+          type="button"
+          className="shuffle-btn"
+          disabled={disabled}
+          onClick={() => dispatch({ type: 'SHUFFLE' })}
+          title="Reshuffle every card in play (stock, hand, and all board layers)"
+        >
+          ⇄ Shuffle
+        </button>
         <div className="moves-inline" title="Moves used / limit">
           <span className="moves-inline-label">Moves</span>
           <span className="moves-inline-value">

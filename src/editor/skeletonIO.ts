@@ -9,19 +9,6 @@ export function serializeSkeleton(level: SkeletonLevel): string {
   return JSON.stringify(out, null, 2);
 }
 
-export function downloadSkeleton(level: SkeletonLevel) {
-  const json = serializeSkeleton(level);
-  const blob = new Blob([json], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `${level.levelId || 'skeleton'}.skel.json`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
-}
-
 function ensureString(v: unknown, path: string): string {
   if (typeof v !== 'string') throw new SkeletonParseError(`${path}: expected string`);
   return v;

@@ -4,8 +4,14 @@ import { CategoriesRail } from './CategoriesRail';
 import { CategoryPicker } from './CategoryPicker';
 import { BoardCanvas } from './BoardCanvas';
 import { fillSkeleton, FillError } from './fill';
-import { downloadLevelJSON, storePreviewAndPlay } from './save';
-import { downloadSkeleton, parseSkeleton, readFileAsText, SkeletonParseError } from './skeletonIO';
+import {
+  boundSaveFilename,
+  clearSaveHandle,
+  saveLevelJSON,
+  saveSkeletonJSON,
+  storePreviewAndPlay,
+} from './save';
+import { parseSkeleton, readFileAsText, SkeletonParseError } from './skeletonIO';
 import { unfillLevel, UnfillError } from './unfill';
 import { validate } from './validate';
 import { LEVELS } from '../levels';
@@ -14,6 +20,8 @@ export function Editor() {
   const [state, dispatch] = useReducer(reduceEditor, undefined, initialEditorState);
   const [fillError, setFillError] = useState<string | null>(null);
   const [pickerLetter, setPickerLetter] = useState<string | null>(null);
+  const [boundLevel, setBoundLevel] = useState<string | null>(boundSaveFilename('level'));
+  const [boundSkel, setBoundSkel] = useState<string | null>(boundSaveFilename('skel'));
   const brush = state.brush;
   const brushCat = brush.letter
     ? state.level.categories.find((c) => c.letter === brush.letter) ?? null
@@ -31,15 +39,26 @@ export function Editor() {
     return `level${LEVELS.length + 1}.json`;
   }
 
-  function handleSave() {
+  async function handleSave() {
     try {
       const { level: normalized } = normalizeLevel(state.level);
       const filled = fillSkeleton(normalized);
-      downloadLevelJSON(filled, suggestedLevelFilename());
+      const name = await saveLevelJSON(filled, suggestedLevelFilename());
+      if (name) setBoundLevel(name);
       setFillError(null);
     } catch (e) {
       const msg = e instanceof FillError ? e.message : String(e);
       setFillError(msg);
+    }
+  }
+
+  async function handleSaveSkeleton() {
+    try {
+      const name = await saveSkeletonJSON(state.level, `${state.level.levelId || 'skeleton'}.skel.json`);
+      if (name) setBoundSkel(name);
+      setFillError(null);
+    } catch (e) {
+      setFillError(String(e));
     }
   }
 
@@ -61,6 +80,13 @@ export function Editor() {
     fileInputRef.current?.click();
   }
 
+  function resetSaveBindings() {
+    clearSaveHandle('level');
+    clearSaveHandle('skel');
+    setBoundLevel(null);
+    setBoundSkel(null);
+  }
+
   async function handleSkeletonFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     e.target.value = '';
@@ -69,6 +95,7 @@ export function Editor() {
       const text = await readFileAsText(file);
       const level = parseSkeleton(text);
       dispatch({ type: 'LOAD_SKELETON', level });
+      resetSaveBindings();
       setFillError(null);
     } catch (err) {
       const msg = err instanceof SkeletonParseError ? err.message : String(err);
@@ -85,6 +112,7 @@ export function Editor() {
     try {
       const skel = unfillLevel(level);
       dispatch({ type: 'LOAD_SKELETON', level: skel });
+      resetSaveBindings();
       setFillError(null);
     } catch (err) {
       const msg = err instanceof UnfillError ? err.message : String(err);
@@ -220,18 +248,26 @@ export function Editor() {
           <button
             className="editor-btn"
             disabled={state.level.categories.length === 0 && state.level.board.length === 0}
-            onClick={() => downloadSkeleton(state.level)}
-            title="Save the skeleton (geometry + letters + pins, no real categories) for later re-use"
+            onClick={handleSaveSkeleton}
+            title={
+              boundSkel
+                ? `Overwrite ${boundSkel} with the current skeleton.`
+                : 'Save the skeleton (geometry + letters + pins, no real categories) for later re-use.'
+            }
           >
-            Save .skel
+            Save .skel{boundSkel ? ` → ${boundSkel}` : ''}
           </button>
           <button
             className="editor-btn"
             disabled={saveDisabled}
             onClick={handleSave}
-            title={`Downloads ${suggestedLevelFilename()}. Drop in src/levels/ and add to src/levels/index.ts to ship.`}
+            title={
+              boundLevel
+                ? `Overwrite ${boundLevel} with the current level.`
+                : `Save (${suggestedLevelFilename()}). Drop in src/levels/ and add to src/levels/index.ts to ship.`
+            }
           >
-            Save .json
+            Save .json{boundLevel ? ` → ${boundLevel}` : ''}
           </button>
           <button className="editor-btn primary" disabled={saveDisabled} onClick={handlePlay}>
             Play

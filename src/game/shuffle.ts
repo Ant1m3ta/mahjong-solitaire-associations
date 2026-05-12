@@ -15,7 +15,20 @@ function chainHasValidCategorySlot(
   if (chain.length === 1) {
     return hasValidSlotForCard(chainTop, catSlots);
   }
-  return chainTop.isCategory && catSlots.some((s) => s.lockedCategory === null);
+  for (const s of catSlots) {
+    if (s.lockedCategory === null) {
+      if (chainTop.isCategory) return true;
+      continue;
+    }
+    if (
+      !chainTop.isCategory &&
+      chainTop.category === s.lockedCategory &&
+      chain.every((e) => !e.card.isCategory)
+    ) {
+      return true;
+    }
+  }
+  return false;
 }
 
 function hashBoardSlots(slots: BoardSlot[]): string {

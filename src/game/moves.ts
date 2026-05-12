@@ -63,7 +63,17 @@ export function hasValidMoveForBoardSlot(
   for (const catSlot of state.categorySlots) {
     if (chain.length === 1) {
       if (canPlaceInCategorySlot(chainTop, catSlot)) return true;
-    } else if (catSlot.lockedCategory === null && chainTop.isCategory) {
+      continue;
+    }
+    if (catSlot.lockedCategory === null) {
+      if (chainTop.isCategory) return true;
+      continue;
+    }
+    if (
+      !chainTop.isCategory &&
+      chainTop.category === catSlot.lockedCategory &&
+      chain.every((e) => !e.card.isCategory)
+    ) {
       return true;
     }
   }
@@ -177,17 +187,34 @@ function applyBoardToCategory(
     );
   }
 
-  if (catSlot.lockedCategory !== null) {
-    throw new Error('A chain can only land on an empty category slot');
+  if (catSlot.lockedCategory === null) {
+    if (!chainTop.isCategory) {
+      throw new Error('Chain top must be a category card to lock a category slot');
+    }
+    const newBoardSlots = removeChainFromSlot(state.boardSlots, sourceSlot, chain.length);
+    return placeChainInCategorySlot(
+      { ...state, boardSlots: newBoardSlots },
+      slotIndex,
+      chain,
+    );
   }
-  if (!chainTop.isCategory) {
-    throw new Error('Chain top must be a category card to lock a category slot');
+
+  if (chainTop.isCategory) {
+    throw new Error('Locked category slot does not accept category cards');
+  }
+  if (chainTop.category !== catSlot.lockedCategory) {
+    throw new Error('Category mismatch');
+  }
+  for (const entry of chain) {
+    if (entry.card.isCategory) {
+      throw new Error('Locked category slot does not accept chains containing category cards');
+    }
   }
   const newBoardSlots = removeChainFromSlot(state.boardSlots, sourceSlot, chain.length);
-  return placeChainInCategorySlot(
+  return consumeSimplesInCategorySlot(
     { ...state, boardSlots: newBoardSlots },
     slotIndex,
-    chain,
+    chain.map((e) => e.card),
   );
 }
 
@@ -343,6 +370,24 @@ function placeCardInCategorySlot(
     newConsumed = [...state.consumedSimple, card];
   }
 
+  return finalizeCategorySlot(state, slotIndex, newSlot, newConsumed);
+}
+
+// Consume every simple card in a chain into an already-locked category slot
+// in a single move. The caller guarantees the slot is locked to a matching
+// category and every chain entry is a simple of that category.
+function consumeSimplesInCategorySlot(
+  state: GameState,
+  slotIndex: number,
+  simples: Card[],
+): GameState {
+  const slot = state.categorySlots[slotIndex];
+  const newConsumed = [...state.consumedSimple, ...simples];
+  const newSlot: CategorySlot = {
+    ...slot,
+    displayedCard: simples[simples.length - 1],
+    cardsConsumed: slot.cardsConsumed + simples.length,
+  };
   return finalizeCategorySlot(state, slotIndex, newSlot, newConsumed);
 }
 

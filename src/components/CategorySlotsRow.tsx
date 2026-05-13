@@ -56,7 +56,7 @@ export function CategorySlotsRow({ state, dispatch, disabled }: Props) {
                 card={slot.displayedCard}
                 counter={
                   slot.displayedCard.isCategory
-                    ? { current: 0, total: countSimpleInCategory(state.level, slot.displayedCard.category) }
+                    ? { current: slot.cardsConsumed, total: countSimpleInCategory(state.level, slot.displayedCard.category) }
                     : undefined
                 }
               />

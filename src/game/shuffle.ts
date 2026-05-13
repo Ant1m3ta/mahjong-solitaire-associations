@@ -16,17 +16,8 @@ function chainHasValidCategorySlot(
     return hasValidSlotForCard(chainTop, catSlots);
   }
   for (const s of catSlots) {
-    if (s.lockedCategory === null) {
-      if (chainTop.isCategory) return true;
-      continue;
-    }
-    if (
-      !chainTop.isCategory &&
-      chainTop.category === s.lockedCategory &&
-      chain.every((e) => !e.card.isCategory)
-    ) {
-      return true;
-    }
+    if (s.lockedCategory === null) return true;
+    if (chainTop.category === s.lockedCategory) return true;
   }
   return false;
 }

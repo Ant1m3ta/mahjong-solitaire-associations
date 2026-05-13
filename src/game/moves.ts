@@ -15,8 +15,8 @@ import {
 } from './coverage';
 
 export function canPlaceInCategorySlot(card: Card, slot: CategorySlot): boolean {
-  if (slot.lockedCategory === null) return card.isCategory;
-  return !card.isCategory && card.category === slot.lockedCategory;
+  if (slot.lockedCategory === null) return true;
+  return card.category === slot.lockedCategory;
 }
 
 export function canPlaceOnBoardCard(source: Card, targetTop: Card): boolean {
@@ -48,9 +48,9 @@ export function isLost(state: GameState): boolean {
 }
 
 // True if the chain rooted at sourceSlot has any legal destination. Chain-of-1
-// follows single-card rules; longer chains can only target an empty category
-// slot when their top is a category card, and a board slot whose top accepts
-// the chain bottom (same single-card matching rule).
+// follows single-card rules; longer chains can target any empty category slot,
+// any locked category slot whose category matches the chain, or a board slot
+// whose top accepts the chain bottom.
 export function hasValidMoveForBoardSlot(
   sourceSlot: BoardSlot,
   state: GameState,
@@ -65,17 +65,8 @@ export function hasValidMoveForBoardSlot(
       if (canPlaceInCategorySlot(chainTop, catSlot)) return true;
       continue;
     }
-    if (catSlot.lockedCategory === null) {
-      if (chainTop.isCategory) return true;
-      continue;
-    }
-    if (
-      !chainTop.isCategory &&
-      chainTop.category === catSlot.lockedCategory &&
-      chain.every((e) => !e.card.isCategory)
-    ) {
-      return true;
-    }
+    if (catSlot.lockedCategory === null) return true;
+    if (chainTop.category === catSlot.lockedCategory) return true;
   }
   for (const slot of state.boardSlots) {
     if (slot === sourceSlot) continue;
@@ -188,9 +179,6 @@ function applyBoardToCategory(
   }
 
   if (catSlot.lockedCategory === null) {
-    if (!chainTop.isCategory) {
-      throw new Error('Chain top must be a category card to lock a category slot');
-    }
     const newBoardSlots = removeChainFromSlot(state.boardSlots, sourceSlot, chain.length);
     return placeChainInCategorySlot(
       { ...state, boardSlots: newBoardSlots },
@@ -199,19 +187,11 @@ function applyBoardToCategory(
     );
   }
 
-  if (chainTop.isCategory) {
-    throw new Error('Locked category slot does not accept category cards');
-  }
   if (chainTop.category !== catSlot.lockedCategory) {
     throw new Error('Category mismatch');
   }
-  for (const entry of chain) {
-    if (entry.card.isCategory) {
-      throw new Error('Locked category slot does not accept chains containing category cards');
-    }
-  }
   const newBoardSlots = removeChainFromSlot(state.boardSlots, sourceSlot, chain.length);
-  return consumeSimplesInCategorySlot(
+  return consumeChainInCategorySlot(
     { ...state, boardSlots: newBoardSlots },
     slotIndex,
     chain.map((e) => e.card),
@@ -392,60 +372,75 @@ function placeCardInCategorySlot(
   let newConsumed = state.consumedSimple;
 
   if (slot.lockedCategory === null) {
-    if (!card.isCategory) throw new Error('Empty slot needs category card');
     newSlot = {
       lockedCategory: card.category,
       displayedCard: card,
-      cardsConsumed: 0,
+      cardsConsumed: card.isCategory ? 0 : 1,
     };
+    if (!card.isCategory) {
+      newConsumed = [...state.consumedSimple, card];
+    }
   } else {
-    if (card.isCategory) throw new Error('Occupied slot rejects category cards');
     if (card.category !== slot.lockedCategory) throw new Error('Category mismatch');
-    newSlot = {
-      ...slot,
-      displayedCard: card,
-      cardsConsumed: slot.cardsConsumed + 1,
-    };
-    newConsumed = [...state.consumedSimple, card];
+    if (card.isCategory) {
+      newSlot = { ...slot, displayedCard: card };
+    } else {
+      newSlot = {
+        ...slot,
+        displayedCard: card,
+        cardsConsumed: slot.cardsConsumed + 1,
+      };
+      newConsumed = [...state.consumedSimple, card];
+    }
   }
 
   return finalizeCategorySlot(state, slotIndex, newSlot, newConsumed);
 }
 
-// Consume every simple card in a chain into an already-locked category slot
-// in a single move. The caller guarantees the slot is locked to a matching
-// category and every chain entry is a simple of that category.
-function consumeSimplesInCategorySlot(
+// Consume a chain into an already-locked category slot in a single move. The
+// caller guarantees every chain entry shares the locked category. Simples are
+// consumed; any category cards fold into the locker without consuming.
+function consumeChainInCategorySlot(
   state: GameState,
   slotIndex: number,
-  simples: Card[],
+  cards: Card[],
 ): GameState {
   const slot = state.categorySlots[slotIndex];
-  const newConsumed = [...state.consumedSimple, ...simples];
+  const simples = cards.filter((c) => !c.isCategory);
+  const newConsumed = simples.length === 0
+    ? state.consumedSimple
+    : [...state.consumedSimple, ...simples];
   const newSlot: CategorySlot = {
     ...slot,
-    displayedCard: simples[simples.length - 1],
+    displayedCard: simples.length > 0
+      ? simples[simples.length - 1]
+      : cards[cards.length - 1],
     cardsConsumed: slot.cardsConsumed + simples.length,
   };
   return finalizeCategorySlot(state, slotIndex, newSlot, newConsumed);
 }
 
-// Lock an empty category slot with the chain's top (category card) and consume
-// all simple cards below it in one move.
+// Lock an empty category slot with the chain in one move. Any category card in
+// the chain folds into the slot's locker; every simple in the chain is
+// consumed. Chain top can be either a category card or a simple — chain
+// invariant guarantees a single category for the whole chain.
 function placeChainInCategorySlot(
   state: GameState,
   slotIndex: number,
   chain: BoardCardEntry[],
 ): GameState {
-  const categoryCard = chain[chain.length - 1].card;
-  if (!categoryCard.isCategory) throw new Error('Internal: chain top must be category card');
-  const simples = chain.slice(0, -1).map((e) => e.card);
+  const lockingCategory = chain[chain.length - 1].card.category;
+  const simples = chain.filter((e) => !e.card.isCategory).map((e) => e.card);
+  const categoryCardInChain = chain.find((e) => e.card.isCategory)?.card;
   const newConsumed = simples.length === 0
     ? state.consumedSimple
     : [...state.consumedSimple, ...simples];
+  const displayedCard = simples.length > 0
+    ? simples[simples.length - 1]
+    : (categoryCardInChain ?? chain[chain.length - 1].card);
   const newSlot: CategorySlot = {
-    lockedCategory: categoryCard.category,
-    displayedCard: simples.length > 0 ? simples[simples.length - 1] : categoryCard,
+    lockedCategory: lockingCategory,
+    displayedCard,
     cardsConsumed: simples.length,
   };
   return finalizeCategorySlot(state, slotIndex, newSlot, newConsumed);

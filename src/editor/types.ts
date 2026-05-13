@@ -55,6 +55,7 @@ export interface EditorState {
   moveMode: boolean;
   pickedCard: PickedCard | null;
   stockAdvance: boolean;
+  defaultNewCategorySize: number;
   lastError: string | null;
 }
 
@@ -82,6 +83,7 @@ export type EditorAction =
   | { type: 'TOGGLE_GHOST_BELOW' }
   | { type: 'TOGGLE_GHOST_ABOVE' }
   | { type: 'TOGGLE_STOCK_ADVANCE' }
+  | { type: 'SET_DEFAULT_NEW_CATEGORY_SIZE'; size: number }
   | { type: 'SHUFFLE_STOCK' }
   | { type: 'NORMALIZE_LAYERS' }
   | { type: 'LOAD_SKELETON'; level: SkeletonLevel }

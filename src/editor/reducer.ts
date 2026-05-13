@@ -59,6 +59,7 @@ export function initialEditorState(): EditorState {
     moveMode: false,
     pickedCard: null,
     stockAdvance: false,
+    defaultNewCategorySize: 4,
     lastError: null,
   };
 }
@@ -83,6 +84,8 @@ function loadPersistedEditorState(): EditorState | null {
       moveMode: parsed.moveMode ?? false,
       pickedCard: parsed.pickedCard ?? null,
       stockAdvance: parsed.stockAdvance ?? false,
+      defaultNewCategorySize:
+        typeof parsed.defaultNewCategorySize === 'number' ? parsed.defaultNewCategorySize : 4,
       lastError: null,
     };
   } catch {
@@ -208,16 +211,21 @@ function reduceCore(state: EditorState, action: Exclude<EditorAction, { type: 'R
     case 'ADD_CATEGORY': {
       const letter = nextAvailableLetter(level.categories);
       if (!letter) return fail(state, 'No more letters available.');
+      const simpleCount = Math.max(0, state.defaultNewCategorySize | 0);
       const newCat: SkeletonCategory = {
         letter,
-        simpleCards: 0,
+        simpleCards: simpleCount,
       };
+      const newStockEntries: SkeletonStockEntry[] = [{ letter, kind: 'category' }];
+      for (let i = 0; i < simpleCount; i++) {
+        newStockEntries.push({ letter, kind: 'simple' });
+      }
       return {
         ...state,
         level: {
           ...level,
           categories: [...level.categories, newCat],
-          stock: [...level.stock, { letter, kind: 'category' }],
+          stock: [...level.stock, ...newStockEntries],
         },
         brush: { letter, kind: state.brush.kind },
         lastError: null,
@@ -468,6 +476,9 @@ function reduceCore(state: EditorState, action: Exclude<EditorAction, { type: 'R
       }
       return { ...state, stockAdvance: turningOn, lastError: null };
     }
+
+    case 'SET_DEFAULT_NEW_CATEGORY_SIZE':
+      return { ...state, defaultNewCategorySize: Math.max(0, action.size | 0) };
 
     case 'SHUFFLE_STOCK': {
       if (level.stock.length <= 1) return state;

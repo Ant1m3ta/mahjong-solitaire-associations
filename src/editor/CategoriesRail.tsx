@@ -27,12 +27,26 @@ export function CategoriesRail({ state, dispatch, onOpenPicker }: Props) {
           ))
         )}
       </div>
-      <button
-        className="editor-btn add-category"
-        onClick={() => dispatch({ type: 'ADD_CATEGORY' })}
-      >
-        + Add category
-      </button>
+      <div className="add-category-row">
+        <label className="add-category-default" title="Number of simple cards each new category starts with">
+          default size
+          <input
+            className="editor-input small"
+            type="number"
+            min={0}
+            value={state.defaultNewCategorySize}
+            onChange={(e) =>
+              dispatch({ type: 'SET_DEFAULT_NEW_CATEGORY_SIZE', size: Number(e.target.value) })
+            }
+          />
+        </label>
+        <button
+          className="editor-btn add-category"
+          onClick={() => dispatch({ type: 'ADD_CATEGORY' })}
+        >
+          + Add category
+        </button>
+      </div>
     </aside>
   );
 }

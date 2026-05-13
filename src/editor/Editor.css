@@ -148,8 +148,26 @@
   flex-direction: column;
   gap: 8px;
 }
-.editor-rail .add-category {
+.editor-rail .add-category-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   margin: 10px 12px 12px;
+}
+.editor-rail .add-category-row .add-category {
+  flex: 1;
+}
+.add-category-default {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  opacity: 0.7;
+}
+.add-category-default .editor-input.small {
+  width: 48px;
 }
 
 .editor-empty {

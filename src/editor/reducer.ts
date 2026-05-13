@@ -58,6 +58,7 @@ export function initialEditorState(): EditorState {
     eraseMode: false,
     moveMode: false,
     pickedCard: null,
+    stockAdvance: false,
     lastError: null,
   };
 }
@@ -81,6 +82,7 @@ function loadPersistedEditorState(): EditorState | null {
       eraseMode: parsed.eraseMode ?? false,
       moveMode: parsed.moveMode ?? false,
       pickedCard: parsed.pickedCard ?? null,
+      stockAdvance: parsed.stockAdvance ?? false,
       lastError: null,
     };
   } catch {
@@ -120,6 +122,7 @@ const HISTORY_ACTIONS: ReadonlySet<EditorAction['type']> = new Set([
   'MOVE_BOARD',
   'REORDER_STOCK',
   'DELETE_STOCK',
+  'SHUFFLE_STOCK',
   'NORMALIZE_LAYERS',
   'LOAD_SKELETON',
 ]);
@@ -307,14 +310,19 @@ function reduceCore(state: EditorState, action: Exclude<EditorAction, { type: 'R
           kind: action.cardKind,
         },
       ];
-      const next = ok(state, {
+      let next = ok(state, {
         ...level,
         board: newBoard,
         stock: newStock,
         categories: newCats,
       });
       // Follow the placement: layer label tracks the just-placed card.
-      return next.currentLayer === action.z ? next : { ...next, currentLayer: action.z };
+      if (next.currentLayer !== action.z) next = { ...next, currentLayer: action.z };
+      if (state.stockAdvance && newStock.length > 0) {
+        const head = newStock[0];
+        next = { ...next, brush: { letter: head.letter, kind: head.kind } };
+      }
+      return next;
     }
 
     case 'REMOVE_BOARD': {
@@ -446,6 +454,35 @@ function reduceCore(state: EditorState, action: Exclude<EditorAction, { type: 'R
 
     case 'TOGGLE_GHOST_ABOVE':
       return { ...state, ghostAbove: !state.ghostAbove };
+
+    case 'TOGGLE_STOCK_ADVANCE': {
+      const turningOn = !state.stockAdvance;
+      if (turningOn && level.stock.length > 0) {
+        const head = level.stock[0];
+        return {
+          ...state,
+          stockAdvance: true,
+          brush: { letter: head.letter, kind: head.kind },
+          lastError: null,
+        };
+      }
+      return { ...state, stockAdvance: turningOn, lastError: null };
+    }
+
+    case 'SHUFFLE_STOCK': {
+      if (level.stock.length <= 1) return state;
+      const shuffled = level.stock.slice();
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      const next = ok(state, { ...level, stock: shuffled });
+      if (state.stockAdvance) {
+        const head = shuffled[0];
+        return { ...next, brush: { letter: head.letter, kind: head.kind } };
+      }
+      return next;
+    }
   }
 }
 

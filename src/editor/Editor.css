@@ -229,6 +229,9 @@
   background: rgba(255, 255, 255, 0.015);
 }
 .editor-stock-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.6px;
@@ -241,6 +244,13 @@
   font-weight: 400;
   text-transform: none;
   letter-spacing: 0.2px;
+}
+.editor-stock-shuffle {
+  margin-left: auto;
+  text-transform: none;
+  letter-spacing: normal;
+  font-weight: 600;
+  opacity: 1;
 }
 .editor-stock-strip {
   display: flex;

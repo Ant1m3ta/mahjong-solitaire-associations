@@ -370,12 +370,30 @@ export function Editor() {
                 />
                 ghost z&gt;{state.currentLayer}
               </label>
+              <label title="After each placement, set brush to the next card in the stock. Use Shuffle to randomize the stock order.">
+                <input
+                  type="checkbox"
+                  checked={state.stockAdvance}
+                  onChange={() => dispatch({ type: 'TOGGLE_STOCK_ADVANCE' })}
+                />
+                auto-advance from stock
+              </label>
             </div>
           </div>
           <BoardCanvas state={state} dispatch={dispatch} />
           <div className="editor-stock">
             <div className="editor-stock-title">
-              Stock <span className="dim">({state.level.stock.length} cards, first drawn →)</span>
+              <span>
+                Stock <span className="dim">({state.level.stock.length} cards, first drawn →)</span>
+              </span>
+              <button
+                className="editor-btn small editor-stock-shuffle"
+                onClick={() => dispatch({ type: 'SHUFFLE_STOCK' })}
+                disabled={state.level.stock.length <= 1}
+                title="Randomize stock order. Pairs with auto-advance from stock."
+              >
+                Shuffle
+              </button>
             </div>
             <div className="editor-stock-strip">
               {state.level.stock.length === 0 ? (

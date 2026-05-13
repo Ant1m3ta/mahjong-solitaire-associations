@@ -54,6 +54,7 @@ export interface EditorState {
   eraseMode: boolean;
   moveMode: boolean;
   pickedCard: PickedCard | null;
+  stockAdvance: boolean;
   lastError: string | null;
 }
 
@@ -80,6 +81,8 @@ export type EditorAction =
   | { type: 'SET_LAYER'; z: number }
   | { type: 'TOGGLE_GHOST_BELOW' }
   | { type: 'TOGGLE_GHOST_ABOVE' }
+  | { type: 'TOGGLE_STOCK_ADVANCE' }
+  | { type: 'SHUFFLE_STOCK' }
   | { type: 'NORMALIZE_LAYERS' }
   | { type: 'LOAD_SKELETON'; level: SkeletonLevel }
   | { type: 'ROLLBACK' };

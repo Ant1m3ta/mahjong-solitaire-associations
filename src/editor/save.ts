@@ -1,60 +1,94 @@
 import type { LevelData } from '../types';
-import type { SkeletonLevel } from './types';
-import { SKELETON_SCHEMA } from './skeletonIO';
 
 export const PREVIEW_KEY = 'editor.previewLevel';
 
 // ─────────────────────────────────────────────────────────────────────────────
-// File save: overwrite-in-place via File System Access API (Chromium),
-// blob-download fallback elsewhere. Handles persist per "kind" within the
-// page session.
+// File save: the user first picks a destination folder via the File System
+// Access API; subsequent saves write `<folder>/<suggestedName>` directly with
+// no extra OS prompt. Non-Chromium browsers fall back to blob downloads and
+// don't need a folder.
 // ─────────────────────────────────────────────────────────────────────────────
 
-type Kind = 'level' | 'skel';
+let _folderHandle: FileSystemDirectoryHandle | null = null;
 
-const _handles: { level: FileSystemFileHandle | null; skel: FileSystemFileHandle | null } = {
-  level: null,
-  skel: null,
-};
-
-export function boundSaveFilename(kind: Kind): string | null {
-  return _handles[kind]?.name ?? null;
-}
-
-export function clearSaveHandle(kind: Kind): void {
-  _handles[kind] = null;
+export function boundSaveFolder(): string | null {
+  return _folderHandle?.name ?? null;
 }
 
 export function supportsFileSystemAccess(): boolean {
   return typeof window !== 'undefined' && 'showSaveFilePicker' in window;
 }
 
-interface SaveOpts {
-  forcePrompt?: boolean;
+export function supportsDirectoryPicker(): boolean {
+  return typeof window !== 'undefined' && 'showDirectoryPicker' in window;
 }
 
-async function pickFile(suggestedName: string): Promise<FileSystemFileHandle | null> {
+export async function pickSaveFolder(): Promise<string | null> {
+  if (!supportsDirectoryPicker()) return null;
   try {
-    const handle = await (window as unknown as {
-      showSaveFilePicker: (opts: {
-        suggestedName: string;
-        types?: { description: string; accept: Record<string, string[]> }[];
-      }) => Promise<FileSystemFileHandle>;
-    }).showSaveFilePicker({
-      suggestedName,
-      types: [{ description: 'JSON', accept: { 'application/json': ['.json'] } }],
-    });
-    return handle;
+    const handle = await (
+      window as unknown as {
+        showDirectoryPicker: (opts?: {
+          mode?: 'read' | 'readwrite';
+        }) => Promise<FileSystemDirectoryHandle>;
+      }
+    ).showDirectoryPicker({ mode: 'readwrite' });
+    _folderHandle = handle;
+    return handle.name;
   } catch (e) {
     if ((e as Error).name === 'AbortError') return null;
     throw e;
   }
 }
 
-async function writeText(handle: FileSystemFileHandle, content: string): Promise<void> {
-  const writable = await handle.createWritable();
+async function writeFileInFolder(
+  folder: FileSystemDirectoryHandle,
+  name: string,
+  content: string,
+): Promise<void> {
+  const fileHandle = await folder.getFileHandle(name, { create: true });
+  const writable = await fileHandle.createWritable();
   await writable.write(content);
   await writable.close();
+}
+
+export interface LevelFileEntry {
+  name: string;
+  level: LevelData;
+}
+
+function looksLikeLevel(data: unknown): data is LevelData {
+  if (!data || typeof data !== 'object') return false;
+  const d = data as Record<string, unknown>;
+  return (
+    typeof d.levelId === 'string' &&
+    Array.isArray(d.categories) &&
+    Array.isArray(d.board) &&
+    Array.isArray(d.stock)
+  );
+}
+
+export async function listLevelsInFolder(): Promise<LevelFileEntry[]> {
+  if (!_folderHandle) return [];
+  const dir = _folderHandle as FileSystemDirectoryHandle & {
+    entries: () => AsyncIterableIterator<[string, FileSystemHandle]>;
+  };
+  const entries: LevelFileEntry[] = [];
+  for await (const [name, handle] of dir.entries()) {
+    if (handle.kind !== 'file') continue;
+    if (!name.endsWith('.json') || name.endsWith('.skel.json')) continue;
+    try {
+      const file = await (handle as FileSystemFileHandle).getFile();
+      const text = await file.text();
+      const data = JSON.parse(text);
+      if (!looksLikeLevel(data)) continue;
+      entries.push({ name, level: data });
+    } catch {
+      // Skip unreadable / malformed entries.
+    }
+  }
+  entries.sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true }));
+  return entries;
 }
 
 function fallbackDownload(content: string, filename: string): void {
@@ -69,37 +103,20 @@ function fallbackDownload(content: string, filename: string): void {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
-async function saveText(content: string, suggestedName: string, kind: Kind, opts: SaveOpts): Promise<string | null> {
+async function saveText(content: string, suggestedName: string): Promise<string | null> {
   if (!supportsFileSystemAccess()) {
     fallbackDownload(content, suggestedName);
     return suggestedName;
   }
-  let handle = _handles[kind];
-  if (!handle || opts.forcePrompt) {
-    const picked = await pickFile(suggestedName);
-    if (!picked) return null;
-    handle = picked;
-    _handles[kind] = handle;
+  if (!_folderHandle) {
+    throw new Error('Pick a save folder first.');
   }
-  await writeText(handle, content);
-  return handle.name;
+  await writeFileInFolder(_folderHandle, suggestedName, content);
+  return suggestedName;
 }
 
-export function saveLevelJSON(
-  level: LevelData,
-  suggestedName: string,
-  opts: SaveOpts = {},
-): Promise<string | null> {
-  return saveText(JSON.stringify(level, null, 2), suggestedName, 'level', opts);
-}
-
-export function saveSkeletonJSON(
-  skeleton: SkeletonLevel,
-  suggestedName: string,
-  opts: SaveOpts = {},
-): Promise<string | null> {
-  const payload = { $schema: SKELETON_SCHEMA, ...skeleton };
-  return saveText(JSON.stringify(payload, null, 2), suggestedName, 'skel', opts);
+export function saveLevelJSON(level: LevelData, suggestedName: string): Promise<string | null> {
+  return saveText(JSON.stringify(level, null, 2), suggestedName);
 }
 
 // Cached at module scope so a second call (Strict Mode double-mount, repeat

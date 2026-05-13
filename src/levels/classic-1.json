@@ -1,0 +1,385 @@
+{
+  "levelId": "classic-1",
+  "slotsDefault": 4,
+  "movesLimit": 24,
+  "categories": [
+    {
+      "categoryId": "Pass",
+      "wordsData": [
+        {
+          "wordId": "No-look"
+        },
+        {
+          "wordId": "Overhead"
+        },
+        {
+          "wordId": "Bounce"
+        }
+      ]
+    },
+    {
+      "categoryId": "Lakes",
+      "wordsData": [
+        {
+          "wordId": "Como"
+        },
+        {
+          "wordId": "Victoria"
+        },
+        {
+          "wordId": "Geneva"
+        }
+      ]
+    },
+    {
+      "categoryId": "Coding",
+      "wordsData": [
+        {
+          "wordId": "Python"
+        },
+        {
+          "wordId": "Rust"
+        },
+        {
+          "wordId": "Swift"
+        }
+      ]
+    },
+    {
+      "categoryId": "Fashion",
+      "wordsData": [
+        {
+          "wordId": "Glamour"
+        },
+        {
+          "wordId": "Trendy"
+        },
+        {
+          "wordId": "Couture"
+        }
+      ]
+    },
+    {
+      "categoryId": "Pigment",
+      "wordsData": [
+        {
+          "wordId": "Scarlet"
+        },
+        {
+          "wordId": "Crimson"
+        },
+        {
+          "wordId": "Magenta"
+        }
+      ]
+    },
+    {
+      "categoryId": "Vendor",
+      "wordsData": [
+        {
+          "wordId": "Market"
+        },
+        {
+          "wordId": "Sell"
+        },
+        {
+          "wordId": "Hawker"
+        }
+      ]
+    },
+    {
+      "categoryId": "Gameplay",
+      "wordsData": [
+        {
+          "wordId": "Hints"
+        },
+        {
+          "wordId": "Trophy"
+        },
+        {
+          "wordId": "Quests"
+        }
+      ]
+    },
+    {
+      "categoryId": "Hue",
+      "wordsData": [
+        {
+          "wordId": "Purple"
+        },
+        {
+          "wordId": "Cerulean"
+        },
+        {
+          "wordId": "Cerise"
+        }
+      ]
+    },
+    {
+      "categoryId": "Nutrient",
+      "wordsData": [
+        {
+          "wordId": "Fats"
+        },
+        {
+          "wordId": "Vitamins"
+        },
+        {
+          "wordId": "Lipids"
+        }
+      ]
+    },
+    {
+      "categoryId": "Hygiene",
+      "wordsData": [
+        {
+          "wordId": "Bathing"
+        },
+        {
+          "wordId": "Rinsing"
+        },
+        {
+          "wordId": "Soaping"
+        }
+      ]
+    },
+    {
+      "categoryId": "Careers",
+      "wordsData": [
+        {
+          "wordId": "Miner"
+        },
+        {
+          "wordId": "Doctor"
+        },
+        {
+          "wordId": "Baker"
+        }
+      ]
+    },
+    {
+      "categoryId": "Ginger",
+      "wordsData": [
+        {
+          "wordId": "Root"
+        },
+        {
+          "wordId": "Spice"
+        },
+        {
+          "wordId": "Bread"
+        }
+      ]
+    },
+    {
+      "categoryId": "Quilt",
+      "wordsData": [
+        {
+          "wordId": "Layers"
+        },
+        {
+          "wordId": "Batting"
+        },
+        {
+          "wordId": "Stitches"
+        }
+      ]
+    }
+  ],
+  "board": [
+    {
+      "x": 2,
+      "y": 7,
+      "z": 6,
+      "cardId": "Python"
+    },
+    {
+      "x": 4,
+      "y": 7,
+      "z": 6,
+      "cardId": "Scarlet"
+    },
+    {
+      "x": 6,
+      "y": 7,
+      "z": 6,
+      "cardId": "Rust"
+    },
+    {
+      "x": 8,
+      "y": 7,
+      "z": 6,
+      "cardId": "Market"
+    },
+    {
+      "x": 10,
+      "y": 7,
+      "z": 6,
+      "cardId": "Coding"
+    },
+    {
+      "x": 12,
+      "y": 7,
+      "z": 6,
+      "cardId": "Como"
+    },
+    {
+      "x": 14,
+      "y": 7,
+      "z": 6,
+      "cardId": "Layers"
+    },
+    {
+      "x": 3,
+      "y": 6,
+      "z": 5,
+      "cardId": "Glamour"
+    },
+    {
+      "x": 5,
+      "y": 6,
+      "z": 5,
+      "cardId": "Ginger"
+    },
+    {
+      "x": 7,
+      "y": 6,
+      "z": 5,
+      "cardId": "Hints"
+    },
+    {
+      "x": 9,
+      "y": 6,
+      "z": 5,
+      "cardId": "Lakes"
+    },
+    {
+      "x": 11,
+      "y": 6,
+      "z": 5,
+      "cardId": "Bathing"
+    },
+    {
+      "x": 13,
+      "y": 6,
+      "z": 5,
+      "cardId": "Sell"
+    },
+    {
+      "x": 4,
+      "y": 5,
+      "z": 4,
+      "cardId": "Quilt"
+    },
+    {
+      "x": 6,
+      "y": 5,
+      "z": 4,
+      "cardId": "Fashion"
+    },
+    {
+      "x": 8,
+      "y": 5,
+      "z": 4,
+      "cardId": "Victoria"
+    },
+    {
+      "x": 10,
+      "y": 5,
+      "z": 4,
+      "cardId": "Fats"
+    },
+    {
+      "x": 12,
+      "y": 5,
+      "z": 4,
+      "cardId": "Root"
+    },
+    {
+      "x": 5,
+      "y": 4,
+      "z": 3,
+      "cardId": "Gameplay"
+    },
+    {
+      "x": 7,
+      "y": 4,
+      "z": 3,
+      "cardId": "Batting"
+    },
+    {
+      "x": 9,
+      "y": 4,
+      "z": 3,
+      "cardId": "Hawker"
+    },
+    {
+      "x": 11,
+      "y": 4,
+      "z": 3,
+      "cardId": "Purple"
+    },
+    {
+      "x": 6,
+      "y": 3,
+      "z": 2,
+      "cardId": "Cerulean"
+    },
+    {
+      "x": 8,
+      "y": 3,
+      "z": 2,
+      "cardId": "Trendy"
+    },
+    {
+      "x": 10,
+      "y": 3,
+      "z": 2,
+      "cardId": "Miner"
+    },
+    {
+      "x": 7,
+      "y": 2,
+      "z": 1,
+      "cardId": "Geneva"
+    },
+    {
+      "x": 9,
+      "y": 2,
+      "z": 1,
+      "cardId": "Doctor"
+    },
+    {
+      "x": 8,
+      "y": 1,
+      "z": 0,
+      "cardId": "Spice"
+    }
+  ],
+  "stock": [
+    "Rinsing",
+    "Hue",
+    "Trophy",
+    "Vitamins",
+    "Lipids",
+    "Cerise",
+    "Soaping",
+    "Hygiene",
+    "No-look",
+    "Careers",
+    "Couture",
+    "Stitches",
+    "Crimson",
+    "Magenta",
+    "Pigment",
+    "Quests",
+    "Vendor",
+    "Overhead",
+    "Baker",
+    "Nutrient",
+    "Pass",
+    "Swift",
+    "Bounce",
+    "Bread"
+  ]
+}

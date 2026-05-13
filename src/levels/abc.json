@@ -1,5 +1,5 @@
 {
-  "levelId": "2",
+  "levelId": "abc",
   "slotsDefault": 2,
   "movesLimit": 24,
   "categories": [
@@ -7,16 +7,16 @@
       "categoryId": "Lengths",
       "wordsData": [
         {
-          "wordId": "Mile"
-        },
-        {
-          "wordId": "Foot"
-        },
-        {
           "wordId": "Fathom"
         },
         {
           "wordId": "Cubit"
+        },
+        {
+          "wordId": "Inch"
+        },
+        {
+          "wordId": "League"
         }
       ]
     },
@@ -24,16 +24,16 @@
       "categoryId": "Totem",
       "wordsData": [
         {
-          "wordId": "Idol"
+          "wordId": "Crest"
         },
         {
-          "wordId": "Talisman"
+          "wordId": "Idol"
         },
         {
           "wordId": "Relic"
         },
         {
-          "wordId": "Crest"
+          "wordId": "Talisman"
         }
       ]
     },
@@ -41,16 +41,16 @@
       "categoryId": "Elements",
       "wordsData": [
         {
-          "wordId": "Oxygen"
-        },
-        {
           "wordId": "Neon"
         },
         {
-          "wordId": "Helium"
+          "wordId": "Boron"
         },
         {
-          "wordId": "Calcium"
+          "wordId": "Lithium"
+        },
+        {
+          "wordId": "Oxygen"
         }
       ]
     },
@@ -58,16 +58,16 @@
       "categoryId": "Time",
       "wordsData": [
         {
-          "wordId": "Morning"
-        },
-        {
           "wordId": "Dawn"
         },
         {
-          "wordId": "Evening"
+          "wordId": "Noon"
         },
         {
-          "wordId": "Noon"
+          "wordId": "Morning"
+        },
+        {
+          "wordId": "Evening"
         }
       ]
     },
@@ -75,25 +75,22 @@
       "categoryId": "Concert",
       "wordsData": [
         {
-          "wordId": "Public"
-        },
-        {
           "wordId": "Gig"
         },
         {
-          "wordId": "Audience"
+          "wordId": "Ovation"
         },
         {
-          "wordId": "Encore"
+          "wordId": "Festival"
+        },
+        {
+          "wordId": "Singer"
         }
       ]
     },
     {
       "categoryId": "Oils",
       "wordsData": [
-        {
-          "wordId": "Canola"
-        },
         {
           "wordId": "Palm"
         },
@@ -102,6 +99,9 @@
         },
         {
           "wordId": "Sesame"
+        },
+        {
+          "wordId": "Canola"
         }
       ]
     },
@@ -109,13 +109,13 @@
       "categoryId": "Monk",
       "wordsData": [
         {
-          "wordId": "Prayer"
-        },
-        {
           "wordId": "Chant"
         },
         {
-          "wordId": "Silence"
+          "wordId": "Devout"
+        },
+        {
+          "wordId": "Prayer"
         },
         {
           "wordId": "Peace"
@@ -126,16 +126,16 @@
       "categoryId": "Planks",
       "wordsData": [
         {
-          "wordId": "Slab"
-        },
-        {
           "wordId": "Slat"
         },
         {
-          "wordId": "Lintel"
+          "wordId": "Slab"
         },
         {
           "wordId": "Joist"
+        },
+        {
+          "wordId": "Lintel"
         }
       ]
     },
@@ -143,16 +143,16 @@
       "categoryId": "Blouse",
       "wordsData": [
         {
-          "wordId": "Garment"
+          "wordId": "Buttons"
         },
         {
           "wordId": "Backless"
         },
         {
-          "wordId": "Ruffles"
+          "wordId": "Darts"
         },
         {
-          "wordId": "Babydoll"
+          "wordId": "Neckline"
         }
       ]
     }
@@ -162,55 +162,55 @@
       "x": 4,
       "y": 5,
       "z": 0,
-      "cardId": "Canola"
-    },
-    {
-      "x": 6,
-      "y": 5,
-      "z": 0,
-      "cardId": "Oxygen"
-    },
-    {
-      "x": 4,
-      "y": 7,
-      "z": 0,
       "cardId": "Palm"
     },
     {
       "x": 6,
-      "y": 7,
-      "z": 0,
-      "cardId": "Slab"
-    },
-    {
-      "x": 10,
       "y": 5,
       "z": 0,
       "cardId": "Neon"
     },
     {
+      "x": 4,
+      "y": 7,
+      "z": 0,
+      "cardId": "Walnut"
+    },
+    {
+      "x": 6,
+      "y": 7,
+      "z": 0,
+      "cardId": "Slat"
+    },
+    {
+      "x": 10,
+      "y": 5,
+      "z": 0,
+      "cardId": "Boron"
+    },
+    {
       "x": 12,
       "y": 5,
       "z": 0,
-      "cardId": "Public"
+      "cardId": "Gig"
     },
     {
       "x": 10,
       "y": 7,
       "z": 0,
-      "cardId": "Mile"
+      "cardId": "Fathom"
     },
     {
       "x": 12,
       "y": 7,
       "z": 0,
-      "cardId": "Garment"
+      "cardId": "Buttons"
     },
     {
       "x": 4,
       "y": 10,
       "z": 0,
-      "cardId": "Idol"
+      "cardId": "Crest"
     },
     {
       "x": 6,
@@ -222,7 +222,7 @@
       "x": 4,
       "y": 12,
       "z": 0,
-      "cardId": "Slat"
+      "cardId": "Slab"
     },
     {
       "x": 6,
@@ -240,13 +240,13 @@
       "x": 12,
       "y": 10,
       "z": 0,
-      "cardId": "Walnut"
+      "cardId": "Sesame"
     },
     {
       "x": 10,
       "y": 12,
       "z": 0,
-      "cardId": "Talisman"
+      "cardId": "Idol"
     },
     {
       "x": 12,
@@ -270,25 +270,25 @@
       "x": 4,
       "y": 7,
       "z": 1,
-      "cardId": "Prayer"
+      "cardId": "Chant"
     },
     {
       "x": 6,
       "y": 7,
       "z": 1,
-      "cardId": "Chant"
+      "cardId": "Devout"
     },
     {
       "x": 10,
       "y": 5,
       "z": 1,
-      "cardId": "Sesame"
+      "cardId": "Canola"
     },
     {
       "x": 12,
       "y": 5,
       "z": 1,
-      "cardId": "Gig"
+      "cardId": "Ovation"
     },
     {
       "x": 10,
@@ -306,31 +306,31 @@
       "x": 4,
       "y": 10,
       "z": 1,
-      "cardId": "Silence"
+      "cardId": "Prayer"
     },
     {
       "x": 6,
       "y": 10,
       "z": 1,
-      "cardId": "Foot"
+      "cardId": "Cubit"
     },
     {
       "x": 4,
       "y": 12,
       "z": 1,
-      "cardId": "Helium"
+      "cardId": "Lithium"
     },
     {
       "x": 6,
       "y": 12,
       "z": 1,
-      "cardId": "Audience"
+      "cardId": "Festival"
     },
     {
       "x": 10,
       "y": 10,
       "z": 1,
-      "cardId": "Ruffles"
+      "cardId": "Darts"
     },
     {
       "x": 12,
@@ -342,13 +342,13 @@
       "x": 10,
       "y": 12,
       "z": 1,
-      "cardId": "Encore"
+      "cardId": "Singer"
     },
     {
       "x": 12,
       "y": 12,
       "z": 1,
-      "cardId": "Lintel"
+      "cardId": "Joist"
     },
     {
       "x": 5,
@@ -364,16 +364,16 @@
     }
   ],
   "stock": [
-    "Calcium",
-    "Fathom",
-    "Morning",
-    "Cubit",
-    "Peace",
-    "Crest",
+    "Oxygen",
+    "Inch",
     "Dawn",
-    "Babydoll",
-    "Evening",
-    "Joist",
-    "Noon"
+    "League",
+    "Peace",
+    "Talisman",
+    "Noon",
+    "Neckline",
+    "Morning",
+    "Lintel",
+    "Evening"
   ]
 }

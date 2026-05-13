@@ -1,27 +1,33 @@
-import { useReducer, useEffect, useState, useMemo, useRef } from 'react';
+import { useReducer, useEffect, useState, useMemo } from 'react';
 import { initialEditorState, normalizeLevel, persistEditorState, reduceEditor } from './reducer';
 import { CategoriesRail } from './CategoriesRail';
 import { CategoryPicker } from './CategoryPicker';
 import { BoardCanvas } from './BoardCanvas';
 import { fillSkeleton, FillError } from './fill';
 import {
-  boundSaveFilename,
-  clearSaveHandle,
+  boundSaveFolder,
+  listLevelsInFolder,
+  pickSaveFolder,
   saveLevelJSON,
-  saveSkeletonJSON,
   storePreviewAndPlay,
+  supportsFileSystemAccess,
+  type LevelFileEntry,
 } from './save';
-import { parseSkeleton, readFileAsText, SkeletonParseError } from './skeletonIO';
 import { unfillLevel, UnfillError } from './unfill';
 import { validate } from './validate';
 import { LEVELS } from '../levels';
+import type { LevelData } from '../types';
 
 export function Editor() {
   const [state, dispatch] = useReducer(reduceEditor, undefined, initialEditorState);
   const [fillError, setFillError] = useState<string | null>(null);
   const [pickerLetter, setPickerLetter] = useState<string | null>(null);
-  const [boundLevel, setBoundLevel] = useState<string | null>(boundSaveFilename('level'));
-  const [boundSkel, setBoundSkel] = useState<string | null>(boundSaveFilename('skel'));
+  const [boundFolder, setBoundFolder] = useState<string | null>(boundSaveFolder());
+  const [folderLevels, setFolderLevels] = useState<LevelFileEntry[]>([]);
+  const needsFolder = supportsFileSystemAccess();
+  const dropdownEntries: { label: string; level: LevelData }[] = needsFolder
+    ? folderLevels.map((e) => ({ label: e.name.replace(/\.json$/, ''), level: e.level }))
+    : LEVELS.map((lvl) => ({ label: `Level ${lvl.levelId}`, level: lvl }));
   const brush = state.brush;
   const brushCat = brush.letter
     ? state.level.categories.find((c) => c.letter === brush.letter) ?? null
@@ -35,30 +41,36 @@ export function Editor() {
 
   function suggestedLevelFilename(): string {
     const id = state.level.levelId?.trim();
-    if (id && id !== 'skeleton-1') return `${id}.json`;
-    return `level${LEVELS.length + 1}.json`;
+    if (id && id !== 'skeleton-1') {
+      return /^\d+$/.test(id) ? `level${id}.json` : `${id}.json`;
+    }
+    const count = needsFolder ? folderLevels.length : LEVELS.length;
+    return `level${count + 1}.json`;
+  }
+
+  async function handlePickFolder() {
+    try {
+      const name = await pickSaveFolder();
+      if (name) {
+        setBoundFolder(name);
+        setFolderLevels(await listLevelsInFolder());
+      }
+      setFillError(null);
+    } catch (e) {
+      setFillError(`Folder: ${String(e)}`);
+    }
   }
 
   async function handleSave() {
     try {
       const { level: normalized } = normalizeLevel(state.level);
       const filled = fillSkeleton(normalized);
-      const name = await saveLevelJSON(filled, suggestedLevelFilename());
-      if (name) setBoundLevel(name);
+      await saveLevelJSON(filled, suggestedLevelFilename());
+      setFolderLevels(await listLevelsInFolder());
       setFillError(null);
     } catch (e) {
       const msg = e instanceof FillError ? e.message : String(e);
       setFillError(msg);
-    }
-  }
-
-  async function handleSaveSkeleton() {
-    try {
-      const name = await saveSkeletonJSON(state.level, `${state.level.levelId || 'skeleton'}.skel.json`);
-      if (name) setBoundSkel(name);
-      setFillError(null);
-    } catch (e) {
-      setFillError(String(e));
     }
   }
 
@@ -74,53 +86,26 @@ export function Editor() {
     }
   }
 
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  function handleLoadSkeletonClick() {
-    fileInputRef.current?.click();
-  }
-
-  function resetSaveBindings() {
-    clearSaveHandle('level');
-    clearSaveHandle('skel');
-    setBoundLevel(null);
-    setBoundSkel(null);
-  }
-
-  async function handleSkeletonFile(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    e.target.value = '';
-    if (!file) return;
-    try {
-      const text = await readFileAsText(file);
-      const level = parseSkeleton(text);
-      dispatch({ type: 'LOAD_SKELETON', level });
-      resetSaveBindings();
-      setFillError(null);
-    } catch (err) {
-      const msg = err instanceof SkeletonParseError ? err.message : String(err);
-      setFillError(`Load: ${msg}`);
-    }
-  }
-
   function handleLoadBundled(e: React.ChangeEvent<HTMLSelectElement>) {
     const idx = e.target.value;
     e.target.value = '';
     if (idx === '') return;
-    const level = LEVELS[Number(idx)];
-    if (!level) return;
+    const entry = dropdownEntries[Number(idx)];
+    if (!entry) return;
     try {
-      const skel = unfillLevel(level);
+      const skel = unfillLevel(entry.level);
       dispatch({ type: 'LOAD_SKELETON', level: skel });
-      resetSaveBindings();
       setFillError(null);
     } catch (err) {
       const msg = err instanceof UnfillError ? err.message : String(err);
-      setFillError(`Load bundled: ${msg}`);
+      setFillError(`Load: ${msg}`);
     }
   }
 
-  const saveDisabled = state.level.categories.length === 0 || state.level.board.length === 0;
+  const saveDisabled =
+    state.level.categories.length === 0 ||
+    state.level.board.length === 0 ||
+    (needsFolder && !boundFolder);
   const validation = useMemo(() => validate(state.level), [state.level]);
 
   useEffect(() => {
@@ -225,60 +210,59 @@ export function Editor() {
           >
             Normalize
           </button>
-          <button
-            className="editor-btn"
-            onClick={handleLoadSkeletonClick}
-            title="Load a skeleton from a .skel.json file"
-          >
-            Load .skel
-          </button>
           <select
             className="level-select"
             value=""
             onChange={handleLoadBundled}
-            title="Load a bundled level back into the editor (converts to a fully-pinned skeleton)"
+            disabled={needsFolder && !boundFolder}
+            title={
+              needsFolder && !boundFolder
+                ? 'Pick a folder first to see its levels.'
+                : 'Load a level back into the editor (converts to a fully-pinned skeleton).'
+            }
           >
             <option value="">Load level…</option>
-            {LEVELS.map((lvl, i) => (
-              <option key={`${lvl.levelId}-${i}`} value={i}>
-                Level {lvl.levelId}
+            {dropdownEntries.map((entry, i) => (
+              <option key={`${entry.label}-${i}`} value={i}>
+                {entry.label}
               </option>
             ))}
           </select>
-          <button
-            className="editor-btn"
-            disabled={state.level.categories.length === 0 && state.level.board.length === 0}
-            onClick={handleSaveSkeleton}
-            title={
-              boundSkel
-                ? `Overwrite ${boundSkel} with the current skeleton.`
-                : 'Save the skeleton (geometry + letters + pins, no real categories) for later re-use.'
-            }
-          >
-            Save .skel{boundSkel ? ` → ${boundSkel}` : ''}
-          </button>
+          {needsFolder ? (
+            <button
+              className={`editor-btn${boundFolder ? ' active' : ''}`}
+              onClick={handlePickFolder}
+              title={
+                boundFolder
+                  ? `Saves write to ${boundFolder}/. Click to pick a different folder.`
+                  : 'Pick a folder for level saves. Required before saving.'
+              }
+            >
+              Folder{boundFolder ? `: ${boundFolder}` : ': pick…'}
+            </button>
+          ) : (
+            <span
+              className="editor-warn-inline"
+              title="Firefox/Safari don't expose the File System Access API. Saves will trigger blob downloads to your default Downloads folder instead of writing to a chosen folder. Open the editor in Chrome/Edge/Arc/Brave for in-place folder saves."
+            >
+              No folder save — open in Chrome/Edge
+            </span>
+          )}
           <button
             className="editor-btn"
             disabled={saveDisabled}
             onClick={handleSave}
             title={
-              boundLevel
-                ? `Overwrite ${boundLevel} with the current level.`
-                : `Save (${suggestedLevelFilename()}). Drop in src/levels/ and add to src/levels/index.ts to ship.`
+              needsFolder && !boundFolder
+                ? 'Pick a save folder first.'
+                : `Write ${suggestedLevelFilename()} into ${boundFolder ?? 'the chosen folder'} (overwrites if it exists). Drop in src/levels/ and add to src/levels/index.ts to ship.`
             }
           >
-            Save .json{boundLevel ? ` → ${boundLevel}` : ''}
+            Save .json → {suggestedLevelFilename()}
           </button>
           <button className="editor-btn primary" disabled={saveDisabled} onClick={handlePlay}>
             Play
           </button>
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept=".json,.skel,application/json"
-            onChange={handleSkeletonFile}
-            style={{ display: 'none' }}
-          />
         </div>
       </div>
 

@@ -295,7 +295,9 @@ function reduceCore(state: EditorState, action: Exclude<EditorAction, { type: 'R
         (c) => c.x === action.x && c.y === action.y && c.z === action.z,
       );
       if (occupied) return fail(state, 'Cell already has a card at this z.');
-      const stockIdx = findLastStockIndex(level.stock, action.letter, action.cardKind);
+      const stockIdx = level.stock.findIndex(
+        (s) => s.letter === action.letter && s.kind === action.cardKind,
+      );
       let newStock = level.stock;
       let newCats = level.categories;
       if (stockIdx >= 0) {

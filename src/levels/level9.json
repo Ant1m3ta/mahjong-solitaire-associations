@@ -1,5 +1,5 @@
 {
-  "levelId": "2",
+  "levelId": "9",
   "slotsDefault": 2,
   "movesLimit": 24,
   "categories": [
@@ -7,13 +7,13 @@
       "categoryId": "Lengths",
       "wordsData": [
         {
-          "wordId": "Mile"
-        },
-        {
           "wordId": "Foot"
         },
         {
-          "wordId": "Fathom"
+          "wordId": "Inch"
+        },
+        {
+          "wordId": "Mile"
         },
         {
           "wordId": "Cubit"
@@ -24,16 +24,16 @@
       "categoryId": "Totem",
       "wordsData": [
         {
-          "wordId": "Idol"
+          "wordId": "Crest"
         },
         {
           "wordId": "Talisman"
         },
         {
-          "wordId": "Relic"
+          "wordId": "Idol"
         },
         {
-          "wordId": "Crest"
+          "wordId": "Relic"
         }
       ]
     },
@@ -41,16 +41,16 @@
       "categoryId": "Elements",
       "wordsData": [
         {
-          "wordId": "Oxygen"
-        },
-        {
-          "wordId": "Neon"
-        },
-        {
           "wordId": "Helium"
         },
         {
-          "wordId": "Calcium"
+          "wordId": "Lithium"
+        },
+        {
+          "wordId": "Argon"
+        },
+        {
+          "wordId": "Krypton"
         }
       ]
     },
@@ -58,16 +58,16 @@
       "categoryId": "Time",
       "wordsData": [
         {
-          "wordId": "Morning"
+          "wordId": "Evening"
+        },
+        {
+          "wordId": "Noon"
         },
         {
           "wordId": "Dawn"
         },
         {
-          "wordId": "Evening"
-        },
-        {
-          "wordId": "Noon"
+          "wordId": "Morning"
         }
       ]
     },
@@ -75,16 +75,16 @@
       "categoryId": "Concert",
       "wordsData": [
         {
-          "wordId": "Public"
-        },
-        {
-          "wordId": "Gig"
-        },
-        {
           "wordId": "Audience"
         },
         {
-          "wordId": "Encore"
+          "wordId": "Public"
+        },
+        {
+          "wordId": "Festival"
+        },
+        {
+          "wordId": "Musician"
         }
       ]
     },
@@ -92,7 +92,7 @@
       "categoryId": "Oils",
       "wordsData": [
         {
-          "wordId": "Canola"
+          "wordId": "Sesame"
         },
         {
           "wordId": "Palm"
@@ -101,16 +101,13 @@
           "wordId": "Walnut"
         },
         {
-          "wordId": "Sesame"
+          "wordId": "Canola"
         }
       ]
     },
     {
       "categoryId": "Monk",
       "wordsData": [
-        {
-          "wordId": "Prayer"
-        },
         {
           "wordId": "Chant"
         },
@@ -119,6 +116,9 @@
         },
         {
           "wordId": "Peace"
+        },
+        {
+          "wordId": "Vows"
         }
       ]
     },
@@ -126,16 +126,16 @@
       "categoryId": "Planks",
       "wordsData": [
         {
-          "wordId": "Slab"
+          "wordId": "Slat"
         },
         {
-          "wordId": "Slat"
+          "wordId": "Joist"
         },
         {
           "wordId": "Lintel"
         },
         {
-          "wordId": "Joist"
+          "wordId": "Slab"
         }
       ]
     },
@@ -143,7 +143,7 @@
       "categoryId": "Blouse",
       "wordsData": [
         {
-          "wordId": "Garment"
+          "wordId": "Buttons"
         },
         {
           "wordId": "Backless"
@@ -152,7 +152,7 @@
           "wordId": "Ruffles"
         },
         {
-          "wordId": "Babydoll"
+          "wordId": "Neckline"
         }
       ]
     }
@@ -162,13 +162,13 @@
       "x": 4,
       "y": 5,
       "z": 0,
-      "cardId": "Canola"
+      "cardId": "Sesame"
     },
     {
       "x": 6,
       "y": 5,
       "z": 0,
-      "cardId": "Oxygen"
+      "cardId": "Helium"
     },
     {
       "x": 4,
@@ -180,37 +180,37 @@
       "x": 6,
       "y": 7,
       "z": 0,
-      "cardId": "Slab"
+      "cardId": "Slat"
     },
     {
       "x": 10,
       "y": 5,
       "z": 0,
-      "cardId": "Neon"
+      "cardId": "Lithium"
     },
     {
       "x": 12,
       "y": 5,
       "z": 0,
-      "cardId": "Public"
+      "cardId": "Audience"
     },
     {
       "x": 10,
       "y": 7,
       "z": 0,
-      "cardId": "Mile"
+      "cardId": "Foot"
     },
     {
       "x": 12,
       "y": 7,
       "z": 0,
-      "cardId": "Garment"
+      "cardId": "Buttons"
     },
     {
       "x": 4,
       "y": 10,
       "z": 0,
-      "cardId": "Idol"
+      "cardId": "Crest"
     },
     {
       "x": 6,
@@ -222,7 +222,7 @@
       "x": 4,
       "y": 12,
       "z": 0,
-      "cardId": "Slat"
+      "cardId": "Joist"
     },
     {
       "x": 6,
@@ -258,7 +258,7 @@
       "x": 4,
       "y": 5,
       "z": 1,
-      "cardId": "Relic"
+      "cardId": "Idol"
     },
     {
       "x": 6,
@@ -270,25 +270,25 @@
       "x": 4,
       "y": 7,
       "z": 1,
-      "cardId": "Prayer"
+      "cardId": "Chant"
     },
     {
       "x": 6,
       "y": 7,
       "z": 1,
-      "cardId": "Chant"
+      "cardId": "Silence"
     },
     {
       "x": 10,
       "y": 5,
       "z": 1,
-      "cardId": "Sesame"
+      "cardId": "Canola"
     },
     {
       "x": 12,
       "y": 5,
       "z": 1,
-      "cardId": "Gig"
+      "cardId": "Public"
     },
     {
       "x": 10,
@@ -306,25 +306,25 @@
       "x": 4,
       "y": 10,
       "z": 1,
-      "cardId": "Silence"
+      "cardId": "Peace"
     },
     {
       "x": 6,
       "y": 10,
       "z": 1,
-      "cardId": "Foot"
+      "cardId": "Inch"
     },
     {
       "x": 4,
       "y": 12,
       "z": 1,
-      "cardId": "Helium"
+      "cardId": "Argon"
     },
     {
       "x": 6,
       "y": 12,
       "z": 1,
-      "cardId": "Audience"
+      "cardId": "Festival"
     },
     {
       "x": 10,
@@ -342,7 +342,7 @@
       "x": 10,
       "y": 12,
       "z": 1,
-      "cardId": "Encore"
+      "cardId": "Musician"
     },
     {
       "x": 12,
@@ -364,16 +364,16 @@
     }
   ],
   "stock": [
-    "Calcium",
-    "Fathom",
-    "Morning",
-    "Cubit",
-    "Peace",
-    "Crest",
-    "Dawn",
-    "Babydoll",
+    "Krypton",
+    "Mile",
     "Evening",
-    "Joist",
-    "Noon"
+    "Cubit",
+    "Vows",
+    "Relic",
+    "Noon",
+    "Neckline",
+    "Dawn",
+    "Slab",
+    "Morning"
   ]
 }

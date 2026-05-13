@@ -1,11 +1,7 @@
 import type { LevelData } from '../types';
-import level1 from './level1.json';
-import level2 from './level2.json';
-import level3 from './level3.json';
-import level4 from './level4.json';
-import level5 from './level5.json';
-import level6 from './level6.json';
-import level7 from './level7.json';
-import level8 from './level8.json';
 
-export const LEVELS: LevelData[] = [level1, level2, level3, level4, level5, level6, level7, level8] as LevelData[];
+const modules = import.meta.glob<{ default: LevelData }>('./*.json', { eager: true });
+
+export const LEVELS: LevelData[] = Object.entries(modules)
+  .sort(([a], [b]) => a.localeCompare(b, undefined, { numeric: true }))
+  .map(([, mod]) => mod.default);

@@ -255,7 +255,7 @@ export function Editor() {
             title={
               needsFolder && !boundFolder
                 ? 'Pick a save folder first.'
-                : `Write ${suggestedLevelFilename()} into ${boundFolder ?? 'the chosen folder'} (overwrites if it exists). Drop in src/levels/ and add to src/levels/index.ts to ship.`
+                : `Write ${suggestedLevelFilename()} into ${boundFolder ?? 'the chosen folder'} (overwrites if it exists). When saved into src/levels/, the next build picks it up automatically.`
             }
           >
             Save .json → {suggestedLevelFilename()}

@@ -57,6 +57,6 @@ The `highlightUnplayable` UI toggle dims cards with no legal destination ("stran
 
 ### Levels
 
-Levels are JSON in `src/levels/`, imported eagerly in `src/levels/index.ts`. Adding a level: drop a new `levelN.json` and add it to the `LEVELS` array. Format documented in `DESIGN.md`. A `cardId` resolves first against `categoryId` (becomes a category card) then against any `wordId` (becomes a simple card of that category) — see `createCardFromId` in `src/game/cards.ts`. Card UIDs are reset per level load via `resetUidForLevel`.
+Levels are JSON in `src/levels/`, picked up by `src/levels/index.ts` via `import.meta.glob('./*.json', { eager: true })` and sorted by filename (numeric-aware). Adding a level: drop a new `*.json` file in the folder — no code edit needed. Format documented in `DESIGN.md`. A `cardId` resolves first against `categoryId` (becomes a category card) then against any `wordId` (becomes a simple card of that category) — see `createCardFromId` in `src/game/cards.ts`. Card UIDs are reset per level load via `resetUidForLevel`.
 
 Words can optionally render as images (`icon: true` + `imageId` referencing `/public/images/<imageId>.png`).

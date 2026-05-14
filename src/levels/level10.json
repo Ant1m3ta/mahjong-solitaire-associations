@@ -1,0 +1,320 @@
+{
+  "levelId": "10",
+  "slotsDefault": 4,
+  "movesLimit": 24,
+  "categories": [
+    {
+      "categoryId": "Pass",
+      "wordsData": [
+        {
+          "wordId": "No-look"
+        },
+        {
+          "wordId": "Overhead"
+        },
+        {
+          "wordId": "Bounce"
+        }
+      ]
+    },
+    {
+      "categoryId": "Lakes",
+      "wordsData": [
+        {
+          "wordId": "Titicaca"
+        },
+        {
+          "wordId": "Baikal"
+        },
+        {
+          "wordId": "Victoria"
+        }
+      ]
+    },
+    {
+      "categoryId": "Coding",
+      "wordsData": [
+        {
+          "wordId": "JDK"
+        },
+        {
+          "wordId": "Null"
+        },
+        {
+          "wordId": "OOP"
+        }
+      ]
+    },
+    {
+      "categoryId": "Fashion",
+      "wordsData": [
+        {
+          "wordId": "Catwalk"
+        },
+        {
+          "wordId": "Model"
+        },
+        {
+          "wordId": "Tailor"
+        }
+      ]
+    },
+    {
+      "categoryId": "Pigment",
+      "wordsData": [
+        {
+          "wordId": "Scarlet"
+        },
+        {
+          "wordId": "Magenta"
+        },
+        {
+          "wordId": "Crimson"
+        }
+      ]
+    },
+    {
+      "categoryId": "Vendor",
+      "wordsData": [
+        {
+          "wordId": "Hawker"
+        },
+        {
+          "wordId": "Wares"
+        },
+        {
+          "wordId": "Market"
+        }
+      ]
+    },
+    {
+      "categoryId": "Gameplay",
+      "wordsData": [
+        {
+          "wordId": "Hints"
+        },
+        {
+          "wordId": "Trophy"
+        },
+        {
+          "wordId": "Tutorial"
+        }
+      ]
+    },
+    {
+      "categoryId": "Hue",
+      "wordsData": [
+        {
+          "wordId": "Tan"
+        },
+        {
+          "wordId": "Amaranth"
+        },
+        {
+          "wordId": "Purple"
+        }
+      ]
+    },
+    {
+      "categoryId": "Nutrient",
+      "wordsData": [
+        {
+          "wordId": "Carbs"
+        },
+        {
+          "wordId": "Vitamin"
+        },
+        {
+          "wordId": "Lipids"
+        }
+      ]
+    },
+    {
+      "categoryId": "Hygiene",
+      "wordsData": [
+        {
+          "wordId": "Lotion"
+        },
+        {
+          "wordId": "Swabs"
+        },
+        {
+          "wordId": "Comb"
+        }
+      ]
+    },
+    {
+      "categoryId": "Careers",
+      "wordsData": [
+        {
+          "wordId": "Lawyer"
+        },
+        {
+          "wordId": "Doctor"
+        },
+        {
+          "wordId": "Dentist"
+        }
+      ]
+    },
+    {
+      "categoryId": "Ginger",
+      "wordsData": [
+        {
+          "wordId": "Gari"
+        },
+        {
+          "wordId": "Root"
+        },
+        {
+          "wordId": "Spice"
+        }
+      ]
+    },
+    {
+      "categoryId": "Quilt",
+      "wordsData": [
+        {
+          "wordId": "Stitches"
+        },
+        {
+          "wordId": "Layers"
+        },
+        {
+          "wordId": "Batting"
+        }
+      ]
+    }
+  ],
+  "board": [
+    {
+      "x": 6,
+      "y": 3,
+      "z": 0,
+      "cardId": "No-look"
+    },
+    {
+      "x": 5,
+      "y": 4,
+      "z": 1,
+      "cardId": "Hygiene"
+    },
+    {
+      "x": 7,
+      "y": 4,
+      "z": 1,
+      "cardId": "Gari"
+    },
+    {
+      "x": 4,
+      "y": 5,
+      "z": 2,
+      "cardId": "Coding"
+    },
+    {
+      "x": 6,
+      "y": 5,
+      "z": 2,
+      "cardId": "Scarlet"
+    },
+    {
+      "x": 8,
+      "y": 5,
+      "z": 2,
+      "cardId": "Lakes"
+    },
+    {
+      "x": 3,
+      "y": 6,
+      "z": 3,
+      "cardId": "Overhead"
+    },
+    {
+      "x": 5,
+      "y": 6,
+      "z": 3,
+      "cardId": "Bounce"
+    },
+    {
+      "x": 7,
+      "y": 6,
+      "z": 3,
+      "cardId": "Catwalk"
+    },
+    {
+      "x": 9,
+      "y": 6,
+      "z": 3,
+      "cardId": "Hints"
+    },
+    {
+      "x": 2,
+      "y": 7,
+      "z": 4,
+      "cardId": "Model"
+    },
+    {
+      "x": 4,
+      "y": 7,
+      "z": 4,
+      "cardId": "Root"
+    },
+    {
+      "x": 6,
+      "y": 7,
+      "z": 4,
+      "cardId": "Lotion"
+    },
+    {
+      "x": 8,
+      "y": 7,
+      "z": 4,
+      "cardId": "Pass"
+    },
+    {
+      "x": 10,
+      "y": 7,
+      "z": 4,
+      "cardId": "Stitches"
+    }
+  ],
+  "stock": [
+    "Quilt",
+    "Layers",
+    "Batting",
+    "Ginger",
+    "Vendor",
+    "Hawker",
+    "Careers",
+    "Fashion",
+    "Magenta",
+    "Carbs",
+    "Titicaca",
+    "Pigment",
+    "Tan",
+    "Wares",
+    "Vitamin",
+    "Amaranth",
+    "Swabs",
+    "Trophy",
+    "Baikal",
+    "Lipids",
+    "Lawyer",
+    "JDK",
+    "Market",
+    "Tutorial",
+    "Spice",
+    "Hue",
+    "Doctor",
+    "Null",
+    "Comb",
+    "Nutrient",
+    "Crimson",
+    "Dentist",
+    "Gameplay",
+    "Victoria",
+    "Tailor",
+    "OOP",
+    "Purple"
+  ]
+}

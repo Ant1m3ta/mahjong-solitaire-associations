@@ -1,0 +1,221 @@
+{
+  "levelId": "hitapps-old",
+  "slotsDefault": 4,
+  "movesLimit": 240,
+  "categories": [
+    {
+      "categoryId": "Bevels",
+      "wordsData": [
+        {
+          "wordId": "Splay"
+        },
+        {
+          "wordId": "Chamfer"
+        },
+        {
+          "wordId": "Rounding"
+        },
+        {
+          "wordId": "Easing"
+        }
+      ]
+    },
+    {
+      "categoryId": "Files",
+      "wordsData": [
+        {
+          "wordId": "Open"
+        },
+        {
+          "wordId": "Copy"
+        },
+        {
+          "wordId": "Rename"
+        },
+        {
+          "wordId": "Delete"
+        }
+      ]
+    },
+    {
+      "categoryId": "Roman",
+      "wordsData": [
+        {
+          "wordId": "II"
+        },
+        {
+          "wordId": "I"
+        },
+        {
+          "wordId": "III"
+        },
+        {
+          "wordId": "VIII"
+        }
+      ]
+    },
+    {
+      "categoryId": "Grains",
+      "wordsData": [
+        {
+          "wordId": "Wheat"
+        },
+        {
+          "wordId": "Rice"
+        },
+        {
+          "wordId": "Millet"
+        },
+        {
+          "wordId": "Barley"
+        }
+      ]
+    },
+    {
+      "categoryId": "Measures",
+      "wordsData": [
+        {
+          "wordId": "Inch"
+        },
+        {
+          "wordId": "Liter"
+        },
+        {
+          "wordId": "Gram"
+        },
+        {
+          "wordId": "Meter"
+        }
+      ]
+    }
+  ],
+  "board": [
+    {
+      "x": 7,
+      "y": 6,
+      "z": 0,
+      "cardId": "Inch"
+    },
+    {
+      "x": 6,
+      "y": 8,
+      "z": 0,
+      "cardId": "Bevels"
+    },
+    {
+      "x": 8,
+      "y": 8,
+      "z": 0,
+      "cardId": "Splay"
+    },
+    {
+      "x": 10,
+      "y": 8,
+      "z": 0,
+      "cardId": "Chamfer"
+    },
+    {
+      "x": 4,
+      "y": 8,
+      "z": 0,
+      "cardId": "Rounding"
+    },
+    {
+      "x": 10,
+      "y": 10,
+      "z": 0,
+      "cardId": "Easing"
+    },
+    {
+      "x": 10,
+      "y": 12,
+      "z": 0,
+      "cardId": "Files"
+    },
+    {
+      "x": 4,
+      "y": 10,
+      "z": 0,
+      "cardId": "Open"
+    },
+    {
+      "x": 4,
+      "y": 12,
+      "z": 0,
+      "cardId": "Copy"
+    },
+    {
+      "x": 6,
+      "y": 12,
+      "z": 0,
+      "cardId": "II"
+    },
+    {
+      "x": 8,
+      "y": 12,
+      "z": 0,
+      "cardId": "Rename"
+    },
+    {
+      "x": 7,
+      "y": 14,
+      "z": 0,
+      "cardId": "Delete"
+    },
+    {
+      "x": 6,
+      "y": 7,
+      "z": 1,
+      "cardId": "Roman"
+    },
+    {
+      "x": 8,
+      "y": 7,
+      "z": 1,
+      "cardId": "I"
+    },
+    {
+      "x": 6,
+      "y": 13,
+      "z": 1,
+      "cardId": "III"
+    },
+    {
+      "x": 8,
+      "y": 13,
+      "z": 1,
+      "cardId": "VIII"
+    },
+    {
+      "x": 9,
+      "y": 9,
+      "z": 1,
+      "cardId": "Grains"
+    },
+    {
+      "x": 9,
+      "y": 11,
+      "z": 1,
+      "cardId": "Wheat"
+    },
+    {
+      "x": 5,
+      "y": 9,
+      "z": 1,
+      "cardId": "Rice"
+    },
+    {
+      "x": 5,
+      "y": 11,
+      "z": 1,
+      "cardId": "Millet"
+    }
+  ],
+  "stock": [
+    "Barley",
+    "Measures",
+    "Liter",
+    "Gram",
+    "Meter"
+  ]
+}

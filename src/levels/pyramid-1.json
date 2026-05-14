@@ -1,0 +1,320 @@
+{
+  "levelId": "pyramid-1",
+  "slotsDefault": 4,
+  "movesLimit": 24,
+  "categories": [
+    {
+      "categoryId": "Pass",
+      "wordsData": [
+        {
+          "wordId": "Bounce"
+        },
+        {
+          "wordId": "Overhead"
+        },
+        {
+          "wordId": "No-look"
+        }
+      ]
+    },
+    {
+      "categoryId": "Lakes",
+      "wordsData": [
+        {
+          "wordId": "Titicaca"
+        },
+        {
+          "wordId": "Victoria"
+        },
+        {
+          "wordId": "Baikal"
+        }
+      ]
+    },
+    {
+      "categoryId": "Coding",
+      "wordsData": [
+        {
+          "wordId": "OOP"
+        },
+        {
+          "wordId": "API"
+        },
+        {
+          "wordId": "JDK"
+        }
+      ]
+    },
+    {
+      "categoryId": "Fashion",
+      "wordsData": [
+        {
+          "wordId": "Apparel"
+        },
+        {
+          "wordId": "Design"
+        },
+        {
+          "wordId": "Clothing"
+        }
+      ]
+    },
+    {
+      "categoryId": "Pigment",
+      "wordsData": [
+        {
+          "wordId": "Magenta"
+        },
+        {
+          "wordId": "Crimson"
+        },
+        {
+          "wordId": "Scarlet"
+        }
+      ]
+    },
+    {
+      "categoryId": "Vendor",
+      "wordsData": [
+        {
+          "wordId": "Cart"
+        },
+        {
+          "wordId": "Hawker"
+        },
+        {
+          "wordId": "Market"
+        }
+      ]
+    },
+    {
+      "categoryId": "Gameplay",
+      "wordsData": [
+        {
+          "wordId": "Hints"
+        },
+        {
+          "wordId": "Quests"
+        },
+        {
+          "wordId": "Levels"
+        }
+      ]
+    },
+    {
+      "categoryId": "Hue",
+      "wordsData": [
+        {
+          "wordId": "Khaki"
+        },
+        {
+          "wordId": "Amaranth"
+        },
+        {
+          "wordId": "Purple"
+        }
+      ]
+    },
+    {
+      "categoryId": "Nutrient",
+      "wordsData": [
+        {
+          "wordId": "Carbs"
+        },
+        {
+          "wordId": "Lipids"
+        },
+        {
+          "wordId": "Protein"
+        }
+      ]
+    },
+    {
+      "categoryId": "Hygiene",
+      "wordsData": [
+        {
+          "wordId": "Wipes"
+        },
+        {
+          "wordId": "Pads"
+        },
+        {
+          "wordId": "Razor"
+        }
+      ]
+    },
+    {
+      "categoryId": "Careers",
+      "wordsData": [
+        {
+          "wordId": "Banker"
+        },
+        {
+          "wordId": "Doctor"
+        },
+        {
+          "wordId": "Lawyer"
+        }
+      ]
+    },
+    {
+      "categoryId": "Ginger",
+      "wordsData": [
+        {
+          "wordId": "Remedy"
+        },
+        {
+          "wordId": "Root"
+        },
+        {
+          "wordId": "Gari"
+        }
+      ]
+    },
+    {
+      "categoryId": "Quilt",
+      "wordsData": [
+        {
+          "wordId": "Bedcover"
+        },
+        {
+          "wordId": "Stitches"
+        },
+        {
+          "wordId": "Batting"
+        }
+      ]
+    }
+  ],
+  "board": [
+    {
+      "x": 6,
+      "y": 3,
+      "z": 0,
+      "cardId": "Bounce"
+    },
+    {
+      "x": 5,
+      "y": 4,
+      "z": 1,
+      "cardId": "Hygiene"
+    },
+    {
+      "x": 7,
+      "y": 4,
+      "z": 1,
+      "cardId": "Remedy"
+    },
+    {
+      "x": 4,
+      "y": 5,
+      "z": 2,
+      "cardId": "Coding"
+    },
+    {
+      "x": 6,
+      "y": 5,
+      "z": 2,
+      "cardId": "Magenta"
+    },
+    {
+      "x": 8,
+      "y": 5,
+      "z": 2,
+      "cardId": "Lakes"
+    },
+    {
+      "x": 3,
+      "y": 6,
+      "z": 3,
+      "cardId": "Overhead"
+    },
+    {
+      "x": 5,
+      "y": 6,
+      "z": 3,
+      "cardId": "No-look"
+    },
+    {
+      "x": 7,
+      "y": 6,
+      "z": 3,
+      "cardId": "Apparel"
+    },
+    {
+      "x": 9,
+      "y": 6,
+      "z": 3,
+      "cardId": "Hints"
+    },
+    {
+      "x": 2,
+      "y": 7,
+      "z": 4,
+      "cardId": "Design"
+    },
+    {
+      "x": 4,
+      "y": 7,
+      "z": 4,
+      "cardId": "Root"
+    },
+    {
+      "x": 6,
+      "y": 7,
+      "z": 4,
+      "cardId": "Wipes"
+    },
+    {
+      "x": 8,
+      "y": 7,
+      "z": 4,
+      "cardId": "Pass"
+    },
+    {
+      "x": 10,
+      "y": 7,
+      "z": 4,
+      "cardId": "Bedcover"
+    }
+  ],
+  "stock": [
+    "Quilt",
+    "Stitches",
+    "Batting",
+    "Ginger",
+    "Vendor",
+    "Cart",
+    "Careers",
+    "Fashion",
+    "Crimson",
+    "Carbs",
+    "Titicaca",
+    "Pigment",
+    "Khaki",
+    "Hawker",
+    "Lipids",
+    "Amaranth",
+    "Pads",
+    "Quests",
+    "Victoria",
+    "Protein",
+    "Banker",
+    "OOP",
+    "Market",
+    "Levels",
+    "Gari",
+    "Hue",
+    "Doctor",
+    "API",
+    "Razor",
+    "Nutrient",
+    "Scarlet",
+    "Lawyer",
+    "Gameplay",
+    "Baikal",
+    "Clothing",
+    "JDK",
+    "Purple"
+  ]
+}

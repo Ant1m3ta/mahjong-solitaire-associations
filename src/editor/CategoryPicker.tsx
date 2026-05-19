@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState, type Dispatch } from 'react';
 import type { EditorAction, SkeletonCategory } from './types';
-import { pools } from './fill';
+import { categoryKind, pools } from './fill';
 
 interface Props {
   letter: string;
@@ -83,7 +83,9 @@ export function CategoryPicker({ letter, category, onClose, dispatch }: Props) {
                 key={c.categoryId}
                 className={`picker-row${c.categoryId === category.pinnedCategoryId ? ' selected' : ''}`}
               >
-                <span className={`picker-kind kind-${c.kind}`}>{c.kind}</span>
+                <span className={`picker-kind kind-${categoryKind(c.categoryId, c.wordsIds)}`}>
+                  {categoryKind(c.categoryId, c.wordsIds)}
+                </span>
                 <span className="picker-name">{c.categoryId}</span>
                 <span className="picker-count">{c.wordsIds.length}w</span>
                 <button className="editor-btn small primary" onClick={() => pick(c.categoryId)}>

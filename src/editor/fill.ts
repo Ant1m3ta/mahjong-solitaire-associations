@@ -1,4 +1,3 @@
-import iconsCatalog from './catalog/icons.json';
 import wordsCatalog from './catalog/words.json';
 import { AVAILABLE_IMAGES } from './catalog/images';
 import { BASIC_FILL } from './basics';
@@ -10,12 +9,9 @@ interface RawCat {
   wordsIds: string[];
 }
 
-type UsableKind = 'icon' | 'text';
-
 interface Usable {
   categoryId: string;
   wordsIds: string[];
-  kind: UsableKind;
 }
 
 export class FillError extends Error {}
@@ -31,32 +27,36 @@ function imageBasename(categoryId: string, wordId: string): string {
   return `${toSnake(categoryId)}__${toSnake(wordId)}`;
 }
 
-let cachedPools: { icon: Usable[]; text: Usable[]; all: Usable[]; byId: Map<string, Usable> } | null = null;
+function hasImage(categoryId: string, wordId: string): boolean {
+  return AVAILABLE_IMAGES.has(imageBasename(categoryId, wordId));
+}
+
+export function categoryKind(categoryId: string, wordsIds: string[]): 'icon' | 'text' | 'mixed' {
+  let iconCount = 0;
+  for (const w of wordsIds) if (hasImage(categoryId, w)) iconCount++;
+  if (iconCount === 0) return 'text';
+  if (iconCount === wordsIds.length) return 'icon';
+  return 'mixed';
+}
+
+let cachedPools: { all: Usable[]; byId: Map<string, Usable> } | null = null;
 
 export function pools() {
   if (!cachedPools) {
-    const icon: Usable[] = (iconsCatalog as RawCat[])
-      .map((c) => ({
-        categoryId: c.categoryId,
-        wordsIds: c.wordsIds.filter((w) => AVAILABLE_IMAGES.has(imageBasename(c.categoryId, w))),
-        kind: 'icon' as const,
-      }))
-      .filter((c) => c.wordsIds.length > 0);
-    const text: Usable[] = (wordsCatalog as RawCat[]).map((c) => ({
+    const all: Usable[] = (wordsCatalog as RawCat[]).map((c) => ({
       categoryId: c.categoryId,
-      wordsIds: c.wordsIds,
-      kind: 'text' as const,
+      wordsIds: c.wordsIds.slice(),
     }));
-    for (const b of BASIC_FILL) {
-      const i = text.findIndex((c) => c.categoryId === b.categoryId);
-      const padded: Usable = { categoryId: b.categoryId, wordsIds: b.words, kind: 'text' };
-      if (i >= 0) text[i] = padded;
-      else text.push(padded);
-    }
-    const all = [...icon, ...text];
     const byId = new Map<string, Usable>();
     for (const c of all) byId.set(c.categoryId, c);
-    cachedPools = { icon, text, all, byId };
+    for (const b of BASIC_FILL) {
+      const existing = byId.get(b.categoryId);
+      if (existing) {
+        const seen = new Set(existing.wordsIds.map((w) => w.toLowerCase()));
+        for (const w of b.words) if (!seen.has(w.toLowerCase())) existing.wordsIds.push(w);
+      }
+    }
+    cachedPools = { all, byId };
   }
   return cachedPools;
 }
@@ -99,6 +99,12 @@ function pickReal(skel: SkeletonCategory, basePool: Usable[], byId: Map<string, 
   return pick;
 }
 
+function wordData(categoryId: string, word: string) {
+  return hasImage(categoryId, word)
+    ? { wordId: toSnake(word), icon: true, imageId: imageBasename(categoryId, word) }
+    : { wordId: word };
+}
+
 export function fillSkeleton(skel: SkeletonLevel): LevelData {
   const { all, byId } = pools();
   const used = new Set<string>();
@@ -113,11 +119,7 @@ export function fillSkeleton(skel: SkeletonLevel): LevelData {
   const categories: LevelData['categories'] = [];
   for (const cat of skel.categories) {
     const entry = map.get(cat.letter)!;
-    const wordsData = entry.assigned.map((w) =>
-      entry.real.kind === 'icon'
-        ? { wordId: toSnake(w), icon: true, imageId: imageBasename(entry.real.categoryId, w) }
-        : { wordId: w },
-    );
+    const wordsData = entry.assigned.map((w) => wordData(entry.real.categoryId, w));
     categories.push({ categoryId: entry.real.categoryId, wordsData });
   }
 
@@ -132,7 +134,7 @@ export function fillSkeleton(skel: SkeletonLevel): LevelData {
     }
     const w = entry.assigned[cursor];
     wordCursor.set(letter, cursor + 1);
-    return entry.real.kind === 'icon' ? toSnake(w) : w;
+    return hasImage(entry.real.categoryId, w) ? toSnake(w) : w;
   }
 
   const board: LevelData['board'] = skel.board.map((b) => ({

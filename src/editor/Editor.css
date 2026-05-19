@@ -461,6 +461,11 @@
   border-color: rgba(102, 204, 255, 0.3);
   color: #cce8ff;
 }
+.picker-kind.kind-mixed {
+  background: rgba(180, 160, 220, 0.1);
+  border-color: rgba(180, 160, 220, 0.4);
+  color: #d4c4ee;
+}
 .picker-name {
   font-weight: 600;
   font-size: 13px;

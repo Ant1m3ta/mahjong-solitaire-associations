@@ -4,317 +4,238 @@
   "movesLimit": 24,
   "categories": [
     {
-      "categoryId": "Pass",
+      "categoryId": "Elixirs",
       "wordsData": [
         {
-          "wordId": "No-look"
+          "wordId": "Philter"
         },
         {
-          "wordId": "Overhead"
+          "wordId": "Draught"
         },
         {
-          "wordId": "Bounce"
+          "wordId": "Nectar"
+        },
+        {
+          "wordId": "Tincture"
+        },
+        {
+          "wordId": "Panacea"
+        },
+        {
+          "wordId": "Decoct"
         }
       ]
     },
     {
-      "categoryId": "Lakes",
+      "categoryId": "Ring",
       "wordsData": [
         {
-          "wordId": "Titicaca"
+          "wordId": "Moonbow"
         },
         {
-          "wordId": "Baikal"
+          "wordId": "Boxing"
         },
         {
-          "wordId": "Victoria"
+          "wordId": "Halo"
+        },
+        {
+          "wordId": "Hoop"
+        },
+        {
+          "wordId": "Circle"
+        },
+        {
+          "wordId": "Bracelet"
         }
       ]
     },
     {
-      "categoryId": "Coding",
+      "categoryId": "Majesty",
       "wordsData": [
         {
-          "wordId": "JDK"
+          "wordId": "Tiara"
         },
         {
-          "wordId": "Null"
+          "wordId": "Diadem"
         },
         {
-          "wordId": "OOP"
+          "wordId": "Orb"
+        },
+        {
+          "wordId": "Sceptre"
+        },
+        {
+          "wordId": "Mantle"
+        },
+        {
+          "wordId": "Coronet"
         }
       ]
     },
     {
-      "categoryId": "Fashion",
+      "categoryId": "Ballads",
       "wordsData": [
         {
-          "wordId": "Catwalk"
+          "wordId": "Quatrain"
         },
         {
-          "wordId": "Model"
+          "wordId": "Minstrel"
         },
         {
-          "wordId": "Tailor"
+          "wordId": "Couplet"
+        },
+        {
+          "wordId": "Verse"
+        },
+        {
+          "wordId": "Song"
+        },
+        {
+          "wordId": "Stanza"
         }
       ]
     },
     {
-      "categoryId": "Pigment",
+      "categoryId": "Hours",
       "wordsData": [
         {
-          "wordId": "Scarlet"
+          "wordId": "Evening"
         },
         {
-          "wordId": "Magenta"
+          "wordId": "Midnight"
         },
         {
-          "wordId": "Crimson"
-        }
-      ]
-    },
-    {
-      "categoryId": "Vendor",
-      "wordsData": [
-        {
-          "wordId": "Hawker"
+          "wordId": "Dawn"
         },
         {
-          "wordId": "Wares"
+          "wordId": "Noon"
         },
         {
-          "wordId": "Market"
-        }
-      ]
-    },
-    {
-      "categoryId": "Gameplay",
-      "wordsData": [
-        {
-          "wordId": "Hints"
+          "wordId": "Morning"
         },
         {
-          "wordId": "Trophy"
-        },
-        {
-          "wordId": "Tutorial"
-        }
-      ]
-    },
-    {
-      "categoryId": "Hue",
-      "wordsData": [
-        {
-          "wordId": "Tan"
-        },
-        {
-          "wordId": "Amaranth"
-        },
-        {
-          "wordId": "Purple"
-        }
-      ]
-    },
-    {
-      "categoryId": "Nutrient",
-      "wordsData": [
-        {
-          "wordId": "Carbs"
-        },
-        {
-          "wordId": "Vitamin"
-        },
-        {
-          "wordId": "Lipids"
-        }
-      ]
-    },
-    {
-      "categoryId": "Hygiene",
-      "wordsData": [
-        {
-          "wordId": "Lotion"
-        },
-        {
-          "wordId": "Swabs"
-        },
-        {
-          "wordId": "Comb"
-        }
-      ]
-    },
-    {
-      "categoryId": "Careers",
-      "wordsData": [
-        {
-          "wordId": "Lawyer"
-        },
-        {
-          "wordId": "Doctor"
-        },
-        {
-          "wordId": "Dentist"
-        }
-      ]
-    },
-    {
-      "categoryId": "Ginger",
-      "wordsData": [
-        {
-          "wordId": "Gari"
-        },
-        {
-          "wordId": "Root"
-        },
-        {
-          "wordId": "Spice"
-        }
-      ]
-    },
-    {
-      "categoryId": "Quilt",
-      "wordsData": [
-        {
-          "wordId": "Stitches"
-        },
-        {
-          "wordId": "Layers"
-        },
-        {
-          "wordId": "Batting"
+          "wordId": "Dusk"
         }
       ]
     }
   ],
   "board": [
     {
-      "x": 6,
-      "y": 3,
-      "z": 0,
-      "cardId": "No-look"
-    },
-    {
-      "x": 5,
-      "y": 4,
+      "x": 2,
+      "y": 5,
       "z": 1,
-      "cardId": "Hygiene"
-    },
-    {
-      "x": 7,
-      "y": 4,
-      "z": 1,
-      "cardId": "Gari"
+      "cardId": "Evening"
     },
     {
       "x": 4,
       "y": 5,
-      "z": 2,
-      "cardId": "Coding"
+      "z": 1,
+      "cardId": "Quatrain"
     },
     {
       "x": 6,
       "y": 5,
-      "z": 2,
-      "cardId": "Scarlet"
+      "z": 1,
+      "cardId": "Moonbow"
     },
     {
       "x": 8,
       "y": 5,
-      "z": 2,
-      "cardId": "Lakes"
+      "z": 1,
+      "cardId": "Philter"
+    },
+    {
+      "x": 10,
+      "y": 5,
+      "z": 1,
+      "cardId": "Tiara"
+    },
+    {
+      "x": 12,
+      "y": 5,
+      "z": 1,
+      "cardId": "Midnight"
     },
     {
       "x": 3,
       "y": 6,
-      "z": 3,
-      "cardId": "Overhead"
+      "z": 0,
+      "cardId": "Minstrel"
     },
     {
       "x": 5,
       "y": 6,
-      "z": 3,
-      "cardId": "Bounce"
+      "z": 0,
+      "cardId": "Majesty"
     },
     {
       "x": 7,
       "y": 6,
-      "z": 3,
-      "cardId": "Catwalk"
+      "z": 0,
+      "cardId": "Dawn"
     },
     {
       "x": 9,
       "y": 6,
-      "z": 3,
-      "cardId": "Hints"
+      "z": 0,
+      "cardId": "Couplet"
     },
     {
-      "x": 2,
-      "y": 7,
-      "z": 4,
-      "cardId": "Model"
+      "x": 11,
+      "y": 6,
+      "z": 0,
+      "cardId": "Noon"
     },
     {
-      "x": 4,
-      "y": 7,
-      "z": 4,
-      "cardId": "Root"
+      "x": 3,
+      "y": 4,
+      "z": 0,
+      "cardId": "Boxing"
     },
     {
-      "x": 6,
-      "y": 7,
-      "z": 4,
-      "cardId": "Lotion"
+      "x": 5,
+      "y": 4,
+      "z": 0,
+      "cardId": "Halo"
     },
     {
-      "x": 8,
-      "y": 7,
-      "z": 4,
-      "cardId": "Pass"
+      "x": 7,
+      "y": 4,
+      "z": 0,
+      "cardId": "Draught"
     },
     {
-      "x": 10,
-      "y": 7,
-      "z": 4,
-      "cardId": "Stitches"
+      "x": 9,
+      "y": 4,
+      "z": 0,
+      "cardId": "Diadem"
+    },
+    {
+      "x": 11,
+      "y": 4,
+      "z": 0,
+      "cardId": "Ring"
     }
   ],
   "stock": [
-    "Quilt",
-    "Layers",
-    "Batting",
-    "Ginger",
-    "Vendor",
-    "Hawker",
-    "Careers",
-    "Fashion",
-    "Magenta",
-    "Carbs",
-    "Titicaca",
-    "Pigment",
-    "Tan",
-    "Wares",
-    "Vitamin",
-    "Amaranth",
-    "Swabs",
-    "Trophy",
-    "Baikal",
-    "Lipids",
-    "Lawyer",
-    "JDK",
-    "Market",
-    "Tutorial",
-    "Spice",
-    "Hue",
-    "Doctor",
-    "Null",
-    "Comb",
-    "Nutrient",
-    "Crimson",
-    "Dentist",
-    "Gameplay",
-    "Victoria",
-    "Tailor",
-    "OOP",
-    "Purple"
+    "Verse",
+    "Hoop",
+    "Elixirs",
+    "Hours",
+    "Circle",
+    "Nectar",
+    "Tincture",
+    "Ballads",
+    "Panacea",
+    "Orb",
+    "Sceptre",
+    "Decoct",
+    "Morning",
+    "Dusk",
+    "Song",
+    "Stanza",
+    "Mantle",
+    "Coronet",
+    "Bracelet"
   ]
 }

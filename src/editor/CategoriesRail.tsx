@@ -46,6 +46,14 @@ export function CategoriesRail({ state, dispatch, onOpenPicker }: Props) {
         >
           + Add category
         </button>
+        <button
+          className="editor-btn"
+          disabled={state.level.categories.length === 0}
+          onClick={() => dispatch({ type: 'FILL_BASIC' })}
+          title="Pin every letter to a fixed basic word category (A→Colors, B→Fruits, …). Overwrites existing pins."
+        >
+          Fill basic
+        </button>
       </div>
     </aside>
   );

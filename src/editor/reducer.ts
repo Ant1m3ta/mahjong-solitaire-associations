@@ -6,6 +6,7 @@ import type {
   SkeletonLevel,
   SkeletonStockEntry,
 } from './types';
+import { BASIC_FILL } from './basics';
 
 const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
@@ -118,6 +119,7 @@ const HISTORY_ACTIONS: ReadonlySet<EditorAction['type']> = new Set([
   'ADD_CATEGORY',
   'REMOVE_CATEGORY',
   'SET_PINNED_CATEGORY',
+  'FILL_BASIC',
   'INC_SIMPLE',
   'DEC_SIMPLE',
   'PLACE_BOARD',
@@ -259,6 +261,15 @@ function reduceCore(state: EditorState, action: Exclude<EditorAction, { type: 'R
           ? { ...c, pinnedCategoryId: action.categoryId ?? undefined }
           : c,
       );
+      return ok(state, { ...level, categories: cats });
+    }
+
+    case 'FILL_BASIC': {
+      const byLetter = new Map(BASIC_FILL.map((b) => [b.letter, b.categoryId]));
+      const cats = level.categories.map((c) => {
+        const id = byLetter.get(c.letter);
+        return id ? { ...c, pinnedCategoryId: id } : c;
+      });
       return ok(state, { ...level, categories: cats });
     }
 

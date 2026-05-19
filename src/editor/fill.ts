@@ -1,6 +1,7 @@
 import iconsCatalog from './catalog/icons.json';
 import wordsCatalog from './catalog/words.json';
 import { AVAILABLE_IMAGES } from './catalog/images';
+import { BASIC_FILL } from './basics';
 import type { SkeletonCategory, SkeletonLevel } from './types';
 import type { LevelData } from '../types';
 
@@ -46,6 +47,12 @@ export function pools() {
       wordsIds: c.wordsIds,
       kind: 'text' as const,
     }));
+    for (const b of BASIC_FILL) {
+      const i = text.findIndex((c) => c.categoryId === b.categoryId);
+      const padded: Usable = { categoryId: b.categoryId, wordsIds: b.words, kind: 'text' };
+      if (i >= 0) text[i] = padded;
+      else text.push(padded);
+    }
     const all = [...icon, ...text];
     const byId = new Map<string, Usable>();
     for (const c of all) byId.set(c.categoryId, c);

@@ -1,9 +1,11 @@
 import type { BoardSlot, CategorySlot, GameState, LevelData } from '../types';
 import { createCardFromId, resetUidForLevel } from './cards';
+import { normalizeLevel } from './normalize';
 
-export function buildInitialState(level: LevelData): GameState {
+export function buildInitialState(rawLevel: LevelData): GameState {
   resetUidForLevel();
 
+  const level = normalizeLevel(rawLevel);
   const stock = level.stock.map((id) => createCardFromId(level, id));
 
   const slotMap = new Map<string, BoardSlot>();

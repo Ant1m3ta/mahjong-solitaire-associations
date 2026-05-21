@@ -33,8 +33,8 @@ export interface SolverOptions {
 }
 
 const DEFAULT_OPTIONS: SolverOptions = {
-  maxStates: 200000,
-  maxMs: 3500,
+  maxStates: 1000000,
+  maxMs: 17000,
   greedyWeight: 1,
   enumerate: { disableBoardToBoard: true, drawOnlyWhenHandEmpty: true },
 };

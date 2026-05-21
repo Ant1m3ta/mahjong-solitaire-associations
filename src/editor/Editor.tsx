@@ -3,6 +3,7 @@ import { initialEditorState, normalizeLevel, persistEditorState, reduceEditor } 
 import { CategoriesRail } from './CategoriesRail';
 import { CategoryPicker } from './CategoryPicker';
 import { BoardCanvas } from './BoardCanvas';
+import { useSolver } from './solver/useSolver';
 import { fillSkeleton, FillError } from './fill';
 import {
   boundSaveFolder,
@@ -24,6 +25,8 @@ export function Editor() {
   const [pickerLetter, setPickerLetter] = useState<string | null>(null);
   const [boundFolder, setBoundFolder] = useState<string | null>(boundSaveFolder());
   const [folderLevels, setFolderLevels] = useState<LevelFileEntry[]>([]);
+  const [solverEnabled, setSolverEnabled] = useState(false);
+  const solver = useSolver(state.level, solverEnabled);
   const needsFolder = supportsFileSystemAccess();
   const dropdownEntries: { label: string; level: LevelData }[] = needsFolder
     ? folderLevels.map((e) => ({ label: e.name.replace(/\.json$/, ''), level: e.level }))
@@ -363,8 +366,25 @@ export function Editor() {
                 auto-advance from stock
               </label>
             </div>
+            <div className="solver-control">
+              <label title="Compute an optimal move sequence to win the level. Each board card gets a badge with the move number on which it leaves the board.">
+                <input
+                  type="checkbox"
+                  checked={solverEnabled}
+                  onChange={(e) => setSolverEnabled(e.target.checked)}
+                />
+                solver
+              </label>
+              {solverEnabled && (
+                <SolverStatus status={solver} movesLimit={state.level.movesLimit} />
+              )}
+            </div>
           </div>
-          <BoardCanvas state={state} dispatch={dispatch} />
+          <BoardCanvas
+            state={state}
+            dispatch={dispatch}
+            moveIndexByCellKey={solverEnabled ? solver.moveIndexByCellKey : undefined}
+          />
           <div className="editor-stock">
             <div className="editor-stock-title">
               <span>
@@ -460,5 +480,51 @@ export function Editor() {
       )}
     </div>
   );
+}
+
+function SolverStatus({
+  status,
+  movesLimit,
+}: {
+  status: ReturnType<typeof useSolver>;
+  movesLimit: number;
+}) {
+  const stats =
+    status.statesExplored !== undefined
+      ? ` · ${status.statesExplored.toLocaleString()} states in ${Math.round(status.elapsedMs ?? 0)}ms`
+      : '';
+  switch (status.status) {
+    case 'idle':
+      return <span className="solver-status idle">idle</span>;
+    case 'solving':
+      return <span className="solver-status solving">solving…</span>;
+    case 'solved': {
+      const used = status.movesUsed ?? 0;
+      const overLimit = movesLimit >= 0 && used > movesLimit;
+      return (
+        <span className={`solver-status solved${overLimit ? ' over-limit' : ''}`}>
+          solvable in {used} move{used === 1 ? '' : 's'}
+          {movesLimit >= 0 && ` (limit ${movesLimit}${overLimit ? ' — too tight' : ''})`}
+          {stats}
+        </span>
+      );
+    }
+    case 'unsolvable':
+      return <span className="solver-status unsolvable">unsolvable{stats}</span>;
+    case 'timeout':
+      return (
+        <span className="solver-status timeout" title={status.message}>
+          too complex{stats}
+        </span>
+      );
+    case 'invalid':
+      return (
+        <span className="solver-status invalid" title={status.message}>
+          {status.message ?? 'invalid'}
+        </span>
+      );
+    case 'empty':
+      return <span className="solver-status empty">no board / stock</span>;
+  }
 }
 

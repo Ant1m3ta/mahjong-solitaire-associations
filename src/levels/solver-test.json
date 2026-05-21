@@ -1,0 +1,86 @@
+{
+  "levelId": "solver-test",
+  "slotsDefault": 4,
+  "movesLimit": 24,
+  "categories": [
+    {
+      "categoryId": "Colors",
+      "wordsData": [
+        {
+          "wordId": "Magenta"
+        },
+        {
+          "wordId": "Green"
+        },
+        {
+          "wordId": "Red"
+        },
+        {
+          "wordId": "Purple"
+        },
+        {
+          "wordId": "Teal"
+        },
+        {
+          "wordId": "Blue"
+        }
+      ]
+    },
+    {
+      "categoryId": "Fruits",
+      "wordsData": [
+        {
+          "wordId": "Peach"
+        },
+        {
+          "wordId": "Kiwi"
+        },
+        {
+          "wordId": "Banana"
+        },
+        {
+          "wordId": "Apple"
+        },
+        {
+          "wordId": "Lemon"
+        },
+        {
+          "wordId": "Mango"
+        }
+      ]
+    }
+  ],
+  "board": [
+    {
+      "x": 6,
+      "y": 4,
+      "z": 0,
+      "cardId": "Colors"
+    },
+    {
+      "x": 8,
+      "y": 4,
+      "z": 0,
+      "cardId": "Magenta"
+    },
+    {
+      "x": 10,
+      "y": 4,
+      "z": 0,
+      "cardId": "Green"
+    }
+  ],
+  "stock": [
+    "Peach",
+    "Kiwi",
+    "Banana",
+    "Red",
+    "Apple",
+    "Lemon",
+    "Fruits",
+    "Purple",
+    "Teal",
+    "Mango",
+    "Blue"
+  ]
+}

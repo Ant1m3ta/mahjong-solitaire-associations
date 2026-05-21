@@ -725,6 +725,83 @@
   font-size: 20px;
   opacity: 0.7;
 }
+.editor-card-move-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 5px;
+  border-radius: 11px;
+  background: #1a1a2e;
+  color: #6cf;
+  border: 1.5px solid #6cf;
+  font-size: 12px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+  letter-spacing: 0;
+}
+.editor-card.ghost-below .editor-card-move-badge,
+.editor-card.ghost-above .editor-card-move-badge {
+  opacity: 0.6;
+}
+
+/* ================ Solver status ================ */
+.solver-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+}
+.solver-control label {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  letter-spacing: 0.3px;
+  opacity: 0.85;
+}
+.solver-status {
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.2px;
+  border: 1px solid transparent;
+}
+.solver-status.solved {
+  color: #a3e6bb;
+  background: rgba(80, 200, 130, 0.1);
+  border-color: rgba(80, 200, 130, 0.35);
+}
+.solver-status.solved.over-limit {
+  color: #ffd966;
+  background: rgba(255, 217, 102, 0.1);
+  border-color: rgba(255, 217, 102, 0.35);
+}
+.solver-status.unsolvable {
+  color: #ffb3c8;
+  background: rgba(255, 91, 91, 0.1);
+  border-color: rgba(255, 91, 91, 0.35);
+}
+.solver-status.timeout {
+  color: #ffd966;
+  background: rgba(255, 217, 102, 0.1);
+  border-color: rgba(255, 217, 102, 0.35);
+}
+.solver-status.solving,
+.solver-status.idle,
+.solver-status.empty,
+.solver-status.invalid {
+  color: #cce8ff;
+  background: rgba(102, 204, 255, 0.08);
+  border-color: rgba(102, 204, 255, 0.25);
+}
 
 /* ================ Ghost toggles ================ */
 .ghost-toggles {

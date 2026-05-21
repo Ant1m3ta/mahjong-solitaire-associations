@@ -14,6 +14,7 @@ const Z_BASE = 10000;
 interface Props {
   state: EditorState;
   dispatch: Dispatch<EditorAction>;
+  moveIndexByCellKey?: Map<string, number>;
 }
 
 interface HoverCell {
@@ -21,7 +22,7 @@ interface HoverCell {
   y: number;
 }
 
-export function BoardCanvas({ state, dispatch }: Props) {
+export function BoardCanvas({ state, dispatch, moveIndexByCellKey }: Props) {
   const [hover, setHover] = useState<HoverCell | null>(null);
   const { brush, eraseMode, moveMode, pickedCard, currentLayer, level, ghostBelow, ghostAbove } = state;
 
@@ -181,15 +182,22 @@ export function BoardCanvas({ state, dispatch }: Props) {
           ]
             .filter(Boolean)
             .join(' ');
+          const cellKey = `${card.x},${card.y},${card.z}`;
+          const moveIdx = moveIndexByCellKey?.get(cellKey);
           return (
             <div
-              key={`${card.x},${card.y},${card.z}`}
+              key={cellKey}
               className={cls}
               style={{ left, top, zIndex }}
             >
               <span className="editor-card-letter">
                 {card.kind === 'category' ? card.letter : card.letter.toLowerCase()}
               </span>
+              {moveIdx !== undefined && (
+                <span className="editor-card-move-badge" title={`Played on move ${moveIdx}`}>
+                  {moveIdx}
+                </span>
+              )}
             </div>
           );
         })}

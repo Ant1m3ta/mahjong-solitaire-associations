@@ -49,25 +49,6 @@ export function findSlot(slots: BoardSlot[], x: number, y: number): BoardSlot | 
   return slots.find((s) => s.x === x && s.y === y) ?? null;
 }
 
-// Mahjong-style edge rule: slot's top is "free" if at least one of its 4
-// cardinal neighbours (left, right, above, below) at the same z-layer is open.
-// Locked only when fully surrounded on all 4 sides at the same z.
-export function isSlotSideBlocked(slot: BoardSlot, allSlots: BoardSlot[]): boolean {
-  if (slot.cards.length === 0) return false;
-  const topZ = slot.cards[slot.cards.length - 1].z;
-  const blocks = (s: BoardSlot | null): boolean =>
-    !!s && !s.dead && s.cards.some((c) => c.z === topZ);
-  const left = findSlot(allSlots, slot.x - 2, slot.y);
-  const right = findSlot(allSlots, slot.x + 2, slot.y);
-  const above = findSlot(allSlots, slot.x, slot.y - 2);
-  const below = findSlot(allSlots, slot.x, slot.y + 2);
-  return blocks(left) && blocks(right) && blocks(above) && blocks(below);
-}
-
-export function isSlotInteractive(slot: BoardSlot, allSlots: BoardSlot[]): boolean {
-  return isSlotRevealed(slot, allSlots) && !isSlotSideBlocked(slot, allSlots);
-}
-
 // An empty, non-dead bottom-floor slot can receive a fresh card. Treated as
 // placeable only if no overlapping neighbour sits above its floor — same
 // coverage rule as `isSlotRevealed`, computed against the slot's floor layer

@@ -456,7 +456,6 @@ export function Editor() {
             <div className="warn-stats">
               <div>Board: {validation.totalBoard}</div>
               <div>Stock: {validation.totalStock}</div>
-              <div>Side-blocked at start: {validation.sideBlockedCount}</div>
               <div>Covered at start: {validation.coveredCount}</div>
             </div>
           </div>

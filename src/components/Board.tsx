@@ -3,7 +3,7 @@ import { useState, useMemo } from 'react';
 import type { AppAction, BoardSlot, GameState } from '../types';
 import { CardView } from './CardView';
 import { setDragSource, getDragSource } from './dragData';
-import { getChainEntries, isEmptyFloorPlaceable, isSlotRevealed, isSlotSideBlocked } from '../game/coverage';
+import { getChainEntries, isEmptyFloorPlaceable, isSlotRevealed } from '../game/coverage';
 import { hasValidMoveForBoardSlot } from '../game/moves';
 import { countSimpleInCategory, countSimpleInStackOfCategory } from '../game/cards';
 
@@ -98,25 +98,22 @@ export function Board({ state, dispatch, disabled, highlightUnplayable }: Props)
             );
           }
           const slotRevealed = isSlotRevealed(slot, state.boardSlots);
-          const sideBlocked = slotRevealed && isSlotSideBlocked(slot, state.boardSlots);
           const topIdx = slot.cards.length - 1;
           // Chain = contiguous top suffix sharing categoryId; renders face-up.
           const chainStart = slot.cards.length - getChainEntries(slot).length;
           // Stranded = revealed chain has no valid drag destination.
           const slotStranded =
-            slotRevealed && !sideBlocked &&
-            !hasValidMoveForBoardSlot(slot, state);
+            slotRevealed && !hasValidMoveForBoardSlot(slot, state);
           return slot.cards.map((entry, idx) => {
             const isTop = idx === topIdx;
             const inChain = idx >= chainStart;
             // Face-down when covered from above OR outside the visible chain.
             const faceDown = !(slotRevealed && inChain);
-            // Locked appearance: side-blocked OR (stranded AND toggle on).
+            // Locked appearance: stranded AND toggle on.
             const looksLocked =
-              isTop && slotRevealed &&
-              (sideBlocked || (slotStranded && highlightUnplayable));
+              isTop && slotRevealed && slotStranded && highlightUnplayable;
             const draggable =
-              isTop && slotRevealed && !sideBlocked &&
+              isTop && slotRevealed &&
               (!slotStranded || !highlightUnplayable) && !disabled;
 
             const stackVisualOffset = idx * STACK_VISUAL_OFFSET_Y;

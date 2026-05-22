@@ -11,7 +11,7 @@ import {
   findSlot,
   getChainEntries,
   isEmptyFloorPlaceable,
-  isSlotInteractive,
+  isSlotRevealed,
 } from './coverage';
 
 export function canPlaceInCategorySlot(card: Card, slot: CategorySlot): boolean {
@@ -147,7 +147,7 @@ function applyBoardToCategory(
 ): GameState {
   const sourceSlot = findSlot(state.boardSlots, from.x, from.y);
   if (!sourceSlot) throw new Error('Source slot not found');
-  if (!isSlotInteractive(sourceSlot, state.boardSlots)) throw new Error('Source not interactive');
+  if (!isSlotRevealed(sourceSlot, state.boardSlots)) throw new Error('Source not interactive');
   const chain = getChainEntries(sourceSlot);
   const chainTop = chain[chain.length - 1].card;
   const catSlot = state.categorySlots[slotIndex];
@@ -218,7 +218,7 @@ function applyBoardToBoard(
   const targetSlot = findSlot(state.boardSlots, to.x, to.y);
   if (!sourceSlot || !targetSlot) throw new Error('Slot not found');
   if (sourceSlot === targetSlot) throw new Error('Same slot');
-  if (!isSlotInteractive(sourceSlot, state.boardSlots)) throw new Error('Source not interactive');
+  if (!isSlotRevealed(sourceSlot, state.boardSlots)) throw new Error('Source not interactive');
   const chain = getChainEntries(sourceSlot);
   const placedSlots = placeChainOnBoardSlot(state.boardSlots, targetSlot, chain);
   const newBoardSlots = removeChainFromSlot(placedSlots, sourceSlot, chain.length);

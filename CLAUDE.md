@@ -28,12 +28,9 @@ Types are in `src/types.ts`. `Action` is the set of in-game moves; `AppAction` a
 
 The board uses a half-tile coordinate system — this is the most subtle part of the codebase. Cards have integer `(x, y, z)` where `x, y` are in half-card units (a card's footprint is a 2×2 block of cells) and `z` is an explicit layer. **There is no `halfOffset` flag** — odd-parity coordinates are implicitly half-offset.
 
-Two rules govern interactivity, both in `src/game/coverage.ts`:
+Interactivity is governed by a single rule in `src/game/coverage.ts`:
 
-1. **Coverage** (`isSlotRevealed`): a slot is covered if any overlapping-footprint slot has a higher *effective layer* `z * 100 + (stackDepth - 1)`. The `*100` weighting means a same-position-stacked card always counts as visually higher than a same-`z` half-offset neighbour — this matches the CSS `z-index` used in `Board.tsx`. Covered cards render face-down and are non-interactive.
-2. **Side-blocking** (`isSlotSideBlocked`): mahjong-style edge rule. The top card is locked only if *all four* cardinal neighbours at `(±2, 0)` / `(0, ±2)` contain a card at the same `z`. Locked cards stay face-up but cannot be dragged or dropped onto.
-
-`isSlotInteractive` = revealed AND not side-blocked. Any change to coverage logic must keep these two checks consistent with the rendering math in `Board.tsx` (`HALF_W`, `HALF_H`, `LAYER_LIFT`, `STACK_VISUAL_OFFSET_Y`, and the `effectiveLayer` formula).
+**Coverage** (`isSlotRevealed`): a slot is covered if any overlapping-footprint slot has a higher *effective layer* `z * 100 + (stackDepth - 1)`. The `*100` weighting means a same-position-stacked card always counts as visually higher than a same-`z` half-offset neighbour — this matches the CSS `z-index` used in `Board.tsx`. Covered cards render face-down and are non-interactive. Any change to coverage logic must stay consistent with the rendering math in `Board.tsx` (`HALF_W`, `HALF_H`, `LAYER_LIFT`, `STACK_VISUAL_OFFSET_Y`, and the `effectiveLayer` formula).
 
 ### Board slots and stacks
 

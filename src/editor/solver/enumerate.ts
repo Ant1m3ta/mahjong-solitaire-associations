@@ -2,7 +2,7 @@ import type { Action, GameState } from '../../types';
 import {
   getChainEntries,
   isEmptyFloorPlaceable,
-  isSlotInteractive,
+  isSlotRevealed,
 } from '../../game/coverage';
 import { canPlaceInCategorySlot } from '../../game/moves';
 
@@ -17,7 +17,7 @@ export function enumerateMoves(state: GameState, opts: EnumerateOpts = {}): Acti
   const moves: Action[] = [];
 
   for (const src of state.boardSlots) {
-    if (!isSlotInteractive(src, state.boardSlots)) continue;
+    if (!isSlotRevealed(src, state.boardSlots)) continue;
     const chain = getChainEntries(src);
     if (chain.length === 0) continue;
     const chainTop = chain[chain.length - 1].card;
@@ -87,7 +87,7 @@ export function enumerateMoves(state: GameState, opts: EnumerateOpts = {}): Acti
 
   if (!opts.disableBoardToBoard) {
     for (const src of state.boardSlots) {
-      if (!isSlotInteractive(src, state.boardSlots)) continue;
+      if (!isSlotRevealed(src, state.boardSlots)) continue;
       const chain = getChainEntries(src);
       if (chain.length === 0) continue;
       for (const tgt of state.boardSlots) {

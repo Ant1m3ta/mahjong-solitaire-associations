@@ -55,17 +55,6 @@ Slot S1 is **covered** if any other slot S2 exists where `effectiveLayer(S2) > e
 
 This means level designers should ensure same-z cards do not have overlapping footprints in awkward ways, since same-position stacking will render visually above any half-offset neighbor on the same z, hiding it.
 
-### Side-blocking rule (Mahjong-style)
-
-A revealed top card is only **interactive** (draggable, drop-target) if at least one of its 4 cardinal neighbours at the same z-layer is open:
-
-- Slot S has top card at z = Z.
-- Neighbours = slots at (S.x − 2, S.y), (S.x + 2, S.y), (S.x, S.y − 2), (S.x, S.y + 2).
-- A neighbour *blocks* if it exists, is not dead, and contains a card at z = Z (whether or not that card is the slot's top).
-- S is locked iff all 4 neighbours block. Otherwise S is free.
-
-Locked cards stay face-up (you can read the word) but cannot be dragged or used as a drop target until at least one neighbour is removed. Visually they appear dimmed.
-
 ### Board slots and stacking
 
 A "board slot" is one `(x, y)` position; it can hold a vertical stack of cards.

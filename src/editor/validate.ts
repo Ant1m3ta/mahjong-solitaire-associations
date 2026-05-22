@@ -38,7 +38,6 @@ function effectiveLayer(slot: SlotView): number {
 
 export interface ValidationResult {
   warnings: Warning[];
-  sideBlockedCount: number;
   coveredCount: number;
   totalBoard: number;
   totalStock: number;
@@ -84,31 +83,12 @@ export function validate(skel: SkeletonLevel): ValidationResult {
     }
   }
 
-  let sideBlockedCount = 0;
-  for (const slot of slots) {
-    if (slot.cards.length === 0) continue;
-    const topZ = slot.cards[slot.cards.length - 1].z;
-    const blocks = (sx: number, sy: number): boolean => {
-      const s = slots.find((s2) => s2.x === sx && s2.y === sy);
-      return !!s && s.cards.some((c) => c.z === topZ);
-    };
-    if (
-      blocks(slot.x - 2, slot.y) &&
-      blocks(slot.x + 2, slot.y) &&
-      blocks(slot.x, slot.y - 2) &&
-      blocks(slot.x, slot.y + 2)
-    ) {
-      sideBlockedCount++;
-    }
-  }
-
   if (skel.categories.length === 0 && skel.board.length === 0 && skel.stock.length === 0) {
     warnings.push({ severity: 'info', text: 'Empty level. Add a category to begin.' });
   }
 
   return {
     warnings,
-    sideBlockedCount,
     coveredCount,
     totalBoard: skel.board.length,
     totalStock: skel.stock.length,

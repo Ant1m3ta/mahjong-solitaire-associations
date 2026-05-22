@@ -1,5 +1,5 @@
 import type { BoardCardEntry, BoardSlot, Card, CategorySlot, GameState } from '../types';
-import { getChainEntries, isEmptyFloorPlaceable, isSlotInteractive } from './coverage';
+import { getChainEntries, isEmptyFloorPlaceable, isSlotRevealed } from './coverage';
 import { canPlaceInCategorySlot } from './moves';
 
 function hasValidSlotForCard(card: Card, slots: CategorySlot[]): boolean {
@@ -116,7 +116,7 @@ export function isDeadlocked(state: GameState): boolean {
 
     for (const s of board) {
       if (s.cards.length === 0) continue;
-      if (!isSlotInteractive(s, board)) continue;
+      if (!isSlotRevealed(s, board)) continue;
       const chain = getChainEntries(s);
       if (chainHasValidCategorySlot(chain, state.categorySlots)) return false;
     }
@@ -124,7 +124,7 @@ export function isDeadlocked(state: GameState): boolean {
     for (let fromIdx = 0; fromIdx < board.length; fromIdx++) {
       const from = board[fromIdx];
       if (from.cards.length === 0) continue;
-      if (!isSlotInteractive(from, board)) continue;
+      if (!isSlotRevealed(from, board)) continue;
 
       for (let toIdx = 0; toIdx < board.length; toIdx++) {
         if (toIdx === fromIdx) continue;

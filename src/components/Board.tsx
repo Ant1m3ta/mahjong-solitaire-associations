@@ -118,10 +118,6 @@ export function Board({ state, dispatch, disabled, highlightUnplayable }: Props)
             const draggable =
               isTop && slotRevealed && !sideBlocked &&
               (!slotStranded || !highlightUnplayable) && !disabled;
-            // Drop targets only need slot to be revealed and not side-blocked;
-            // stranded cards can still receive drops from other cards.
-            const droppable = isTop && slotRevealed && !sideBlocked;
-            const isDropTarget = droppable && hoverSlot === slotKey(slot);
 
             const stackVisualOffset = idx * STACK_VISUAL_OFFSET_Y;
             const left = slot.x * HALF_W;
@@ -131,18 +127,10 @@ export function Board({ state, dispatch, disabled, highlightUnplayable }: Props)
 
             const handlers: Partial<{
               onDragStart: (e: DragEvent<HTMLDivElement>) => void;
-              onDragOver: (e: DragEvent<HTMLDivElement>) => void;
-              onDragLeave: () => void;
-              onDrop: (e: DragEvent<HTMLDivElement>) => void;
             }> = {};
             if (draggable) {
               handlers.onDragStart = (e) =>
                 setDragSource(e, { kind: 'board', x: slot.x, y: slot.y });
-            }
-            if (droppable) {
-              handlers.onDragOver = (e) => handleDragOver(e, slot);
-              handlers.onDragLeave = () => setHoverSlot(null);
-              handlers.onDrop = (e) => handleDrop(e, slot);
             }
 
             const counter = entry.card.isCategory
@@ -158,7 +146,7 @@ export function Board({ state, dispatch, disabled, highlightUnplayable }: Props)
                 card={entry.card}
                 faceDown={faceDown}
                 draggable={draggable}
-                isDropTarget={isDropTarget}
+                isDropTarget={false}
                 isLocked={looksLocked}
                 counter={counter}
                 style={{
@@ -166,7 +154,7 @@ export function Board({ state, dispatch, disabled, highlightUnplayable }: Props)
                   left,
                   top,
                   zIndex,
-                  pointerEvents: droppable ? 'auto' : 'none',
+                  pointerEvents: draggable ? 'auto' : 'none',
                 }}
                 {...handlers}
               />

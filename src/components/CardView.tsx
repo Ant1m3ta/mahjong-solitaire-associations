@@ -1,6 +1,13 @@
 import type { CSSProperties, DragEvent, ReactNode } from 'react';
 import type { Card } from '../types';
 
+// Auto-size the card label by character count. Anchored so a single letter
+// renders at 24px (2× the base .card font-size of 12px), then steps down 2px
+// per extra character and clamps at the base 12px for 7+ chars.
+function labelFontSizePx(len: number): number {
+  return Math.max(12, 24 - 2 * Math.max(0, len - 1));
+}
+
 interface Props {
   card: Card | null;
   faceDown?: boolean;
@@ -69,7 +76,12 @@ export function CardView({
         />
       ) : null}
       {!faceDown && card && !card.isIcon && (
-        <span className="card-label">{card.word}</span>
+        <span
+          className="card-label"
+          style={{ fontSize: `${labelFontSizePx(card.word.length)}px` }}
+        >
+          {card.word}
+        </span>
       )}
       {!faceDown && counter && (
         <span className="card-counter">

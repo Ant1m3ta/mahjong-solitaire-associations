@@ -4,87 +4,87 @@
   "movesLimit": 240,
   "categories": [
     {
-      "categoryId": "Bevels",
+      "categoryId": "A",
       "wordsData": [
         {
-          "wordId": "Splay"
+          "wordId": "a"
         },
         {
-          "wordId": "Chamfer"
+          "wordId": "a"
         },
         {
-          "wordId": "Rounding"
+          "wordId": "a"
         },
         {
-          "wordId": "Easing"
+          "wordId": "a"
         }
       ]
     },
     {
-      "categoryId": "Files",
+      "categoryId": "B",
       "wordsData": [
         {
-          "wordId": "Open"
+          "wordId": "b"
         },
         {
-          "wordId": "Copy"
+          "wordId": "b"
         },
         {
-          "wordId": "Rename"
+          "wordId": "b"
         },
         {
-          "wordId": "Delete"
+          "wordId": "b"
         }
       ]
     },
     {
-      "categoryId": "Roman",
+      "categoryId": "C",
       "wordsData": [
         {
-          "wordId": "II"
+          "wordId": "c"
         },
         {
-          "wordId": "I"
+          "wordId": "c"
         },
         {
-          "wordId": "III"
+          "wordId": "c"
         },
         {
-          "wordId": "VIII"
+          "wordId": "c"
         }
       ]
     },
     {
-      "categoryId": "Grains",
+      "categoryId": "D",
       "wordsData": [
         {
-          "wordId": "Wheat"
+          "wordId": "d"
         },
         {
-          "wordId": "Rice"
+          "wordId": "d"
         },
         {
-          "wordId": "Millet"
+          "wordId": "d"
         },
         {
-          "wordId": "Barley"
+          "wordId": "d"
         }
       ]
     },
     {
-      "categoryId": "Measures",
+      "categoryId": "E",
       "wordsData": [
         {
-          "wordId": "Inch"
+          "wordId": "e"
         },
         {
-          "wordId": "Liter"
+          "wordId": "e"
         },
         {
-          "wordId": "Gram"
+          "wordId": "e"
         },
         {
-          "wordId": "Meter"
+          "wordId": "e"
         }
       ]
     }
@@ -94,128 +94,128 @@
       "x": 7,
       "y": 6,
       "z": 0,
-      "cardId": "Inch"
+      "cardId": "e"
     },
     {
       "x": 6,
       "y": 8,
       "z": 0,
-      "cardId": "Bevels"
+      "cardId": "A"
     },
     {
       "x": 8,
       "y": 8,
       "z": 0,
-      "cardId": "Splay"
+      "cardId": "a"
     },
     {
       "x": 10,
       "y": 8,
       "z": 0,
-      "cardId": "Chamfer"
+      "cardId": "a"
     },
     {
       "x": 4,
       "y": 8,
       "z": 0,
-      "cardId": "Rounding"
+      "cardId": "a"
     },
     {
       "x": 10,
       "y": 10,
       "z": 0,
-      "cardId": "Easing"
+      "cardId": "a"
     },
     {
       "x": 10,
       "y": 12,
       "z": 0,
-      "cardId": "Files"
+      "cardId": "B"
     },
     {
       "x": 4,
       "y": 10,
       "z": 0,
-      "cardId": "Open"
+      "cardId": "b"
     },
     {
       "x": 4,
       "y": 12,
       "z": 0,
-      "cardId": "Copy"
+      "cardId": "b"
     },
     {
       "x": 6,
       "y": 12,
       "z": 0,
-      "cardId": "II"
+      "cardId": "c"
     },
     {
       "x": 8,
       "y": 12,
       "z": 0,
-      "cardId": "Rename"
+      "cardId": "b"
     },
     {
       "x": 7,
       "y": 14,
       "z": 0,
-      "cardId": "Delete"
+      "cardId": "b"
     },
     {
       "x": 6,
       "y": 7,
       "z": 1,
-      "cardId": "Roman"
+      "cardId": "C"
     },
     {
       "x": 8,
       "y": 7,
       "z": 1,
-      "cardId": "I"
+      "cardId": "c"
     },
     {
       "x": 6,
       "y": 13,
       "z": 1,
-      "cardId": "III"
+      "cardId": "c"
     },
     {
       "x": 8,
       "y": 13,
       "z": 1,
-      "cardId": "VIII"
+      "cardId": "c"
     },
     {
       "x": 9,
       "y": 9,
       "z": 1,
-      "cardId": "Grains"
+      "cardId": "D"
     },
     {
       "x": 9,
       "y": 11,
       "z": 1,
-      "cardId": "Wheat"
+      "cardId": "d"
     },
     {
       "x": 5,
       "y": 9,
       "z": 1,
-      "cardId": "Rice"
+      "cardId": "d"
     },
     {
       "x": 5,
       "y": 11,
       "z": 1,
-      "cardId": "Millet"
+      "cardId": "d"
     }
   ],
   "stock": [
-    "Barley",
-    "Measures",
-    "Liter",
-    "Gram",
-    "Meter"
+    "d",
+    "E",
+    "e",
+    "e",
+    "e"
   ]
 }

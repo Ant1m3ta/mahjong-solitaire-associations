@@ -54,6 +54,10 @@ export function pools() {
       if (existing) {
         const seen = new Set(existing.wordsIds.map((w) => w.toLowerCase()));
         for (const w of b.words) if (!seen.has(w.toLowerCase())) existing.wordsIds.push(w);
+      } else {
+        const fresh: Usable = { categoryId: b.categoryId, wordsIds: b.words.slice() };
+        all.push(fresh);
+        byId.set(b.categoryId, fresh);
       }
     }
     cachedPools = { all, byId };

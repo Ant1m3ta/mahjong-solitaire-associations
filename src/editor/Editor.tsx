@@ -213,6 +213,14 @@ export function Editor() {
           >
             Normalize
           </button>
+          <button
+            className="editor-btn"
+            disabled={state.level.categories.length === 0}
+            onClick={() => dispatch({ type: 'FILL_BASIC' })}
+            title="Pin every category to its same-letter basic entry (A→A, B→B, …). On Save/Play, words become 'a','b','c'…"
+          >
+            Basicify
+          </button>
           <select
             className="level-select"
             value=""

@@ -30,6 +30,11 @@ export interface SolverOptions {
   enumerate?: EnumerateOpts;
   greedyWeight?: number;
   useAdmissibleHeuristic?: boolean;
+  // Optional shared cache for solvability classification across multiple runs.
+  // On a `solved` result, every state on the reconstructed path is marked true.
+  // On an exhaustive `unsolvable`, every visited state is marked false.
+  // `timeout` results never write.
+  solvableCache?: Map<string, boolean>;
 }
 
 const DEFAULT_OPTIONS: SolverOptions = {
@@ -37,6 +42,11 @@ const DEFAULT_OPTIONS: SolverOptions = {
   maxMs: 17000,
   greedyWeight: 1,
   enumerate: { disableBoardToBoard: true, drawOnlyWhenHandEmpty: true },
+};
+
+export const DEFAULT_ENUMERATE_OPTS: EnumerateOpts = {
+  disableBoardToBoard: true,
+  drawOnlyWhenHandEmpty: true,
 };
 
 interface VisitedEntry {
@@ -164,6 +174,9 @@ function runSearch(
   if (goalHash !== null) {
     const path = reconstructPath(goalHash, visited);
     const moveIndexByCellKey = computeMoveIndices(initial, path);
+    if (opts.solvableCache) {
+      markPathAsSolvable(goalHash, visited, opts.solvableCache);
+    }
     return {
       status: 'solved',
       movesUsed: path.length,
@@ -183,12 +196,29 @@ function runSearch(
     };
   }
 
+  if (opts.solvableCache) {
+    for (const hash of visited.keys()) opts.solvableCache.set(hash, false);
+  }
   return {
     status: 'unsolvable',
     optimalityProven: true,
     moveIndexByCellKey: [],
     stats: { statesExplored: visited.size, elapsedMs, queuePeak },
   };
+}
+
+function markPathAsSolvable(
+  goalHash: string,
+  visited: Map<string, VisitedEntry>,
+  cache: Map<string, boolean>,
+): void {
+  let cur: string | null = goalHash;
+  while (cur !== null) {
+    cache.set(cur, true);
+    const entry = visited.get(cur);
+    if (!entry) break;
+    cur = entry.parent;
+  }
 }
 
 function reconstructPath(

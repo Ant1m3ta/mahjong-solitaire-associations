@@ -3,7 +3,8 @@ import { initialEditorState, normalizeLevel, persistEditorState, reduceEditor } 
 import { CategoriesRail } from './CategoriesRail';
 import { CategoryPicker } from './CategoryPicker';
 import { BoardCanvas } from './BoardCanvas';
-import { useSolver } from './solver/useSolver';
+import { useSolver, type SolverViewState } from './solver/useSolver';
+import { DifficultyChip } from './DifficultyChip';
 import { fillSkeleton, FillError } from './fill';
 import {
   boundSaveFolder,
@@ -26,7 +27,7 @@ export function Editor() {
   const [boundFolder, setBoundFolder] = useState<string | null>(boundSaveFolder());
   const [folderLevels, setFolderLevels] = useState<LevelFileEntry[]>([]);
   const [solverEnabled, setSolverEnabled] = useState(true);
-  const solver = useSolver(state.level, solverEnabled);
+  const { solver, difficulty, runDeepAnalysis } = useSolver(state.level, solverEnabled);
   const needsFolder = supportsFileSystemAccess();
   const dropdownEntries: { label: string; level: LevelData }[] = needsFolder
     ? folderLevels.map((e) => ({ label: e.name.replace(/\.json$/, ''), level: e.level }))
@@ -376,7 +377,13 @@ export function Editor() {
                 solver
               </label>
               {solverEnabled && (
-                <SolverStatus status={solver} movesLimit={state.level.movesLimit} />
+                <>
+                  <SolverStatus status={solver} movesLimit={state.level.movesLimit} />
+                  <DifficultyChip
+                    difficulty={difficulty}
+                    runDeepAnalysis={runDeepAnalysis}
+                  />
+                </>
               )}
             </div>
           </div>
@@ -485,7 +492,7 @@ function SolverStatus({
   status,
   movesLimit,
 }: {
-  status: ReturnType<typeof useSolver>;
+  status: SolverViewState;
   movesLimit: number;
 }) {
   const stats =

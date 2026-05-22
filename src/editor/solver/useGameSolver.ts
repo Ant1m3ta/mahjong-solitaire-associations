@@ -39,6 +39,7 @@ export function useGameSolver(state: GameState, enabled: boolean): SolverViewSta
     const id = ++requestIdRef.current;
     worker.onmessage = (e: MessageEvent<SolverResponse>) => {
       if (e.data.requestId !== id) return;
+      if (e.data.kind !== 'solver') return;
       const r = e.data.result;
       setView({
         status: r.status,

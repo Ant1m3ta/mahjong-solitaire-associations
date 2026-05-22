@@ -816,6 +816,96 @@
   border-color: rgba(102, 204, 255, 0.25);
 }
 
+/* ================ Difficulty chip ================ */
+.difficulty-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.2px;
+  border: 1px solid transparent;
+  flex-wrap: wrap;
+}
+.difficulty-chip.neutral,
+.difficulty-chip.invalid {
+  color: #cce8ff;
+  background: rgba(102, 204, 255, 0.08);
+  border-color: rgba(102, 204, 255, 0.25);
+}
+.difficulty-chip.severity-green {
+  color: #a3e6bb;
+  background: rgba(80, 200, 130, 0.1);
+  border-color: rgba(80, 200, 130, 0.35);
+}
+.difficulty-chip.severity-yellow {
+  color: #d4eaa3;
+  background: rgba(190, 220, 100, 0.1);
+  border-color: rgba(190, 220, 100, 0.35);
+}
+.difficulty-chip.severity-orange {
+  color: #ffd966;
+  background: rgba(255, 217, 102, 0.1);
+  border-color: rgba(255, 217, 102, 0.4);
+}
+.difficulty-chip.severity-red {
+  color: #ffb3c8;
+  background: rgba(255, 91, 91, 0.14);
+  border-color: rgba(255, 91, 91, 0.5);
+}
+.difficulty-headline {
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+.difficulty-sep {
+  opacity: 0.55;
+}
+.difficulty-trap-toggle {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: inherit;
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-size: 11px;
+  cursor: pointer;
+  font-family: inherit;
+}
+.difficulty-trap-toggle:hover {
+  border-color: rgba(255, 255, 255, 0.45);
+}
+.difficulty-deep-btn {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: inherit;
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-size: 11px;
+  cursor: pointer;
+  font-family: inherit;
+}
+.difficulty-deep-btn:hover:not(:disabled) {
+  border-color: rgba(255, 255, 255, 0.45);
+  background: rgba(255, 255, 255, 0.08);
+}
+.difficulty-deep-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.difficulty-trap-list {
+  flex-basis: 100%;
+  list-style: disc;
+  margin: 4px 0 0 18px;
+  padding: 0;
+  font-size: 11px;
+  opacity: 0.9;
+}
+.difficulty-trap-list li {
+  margin: 0;
+  line-height: 1.5;
+}
+
 /* ================ Ghost toggles ================ */
 .ghost-toggles {
   display: flex;

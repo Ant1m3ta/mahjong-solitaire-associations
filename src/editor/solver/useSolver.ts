@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import type { SkeletonLevel } from '../types';
 import type { SolverResponse } from './solver.worker';
 import type { SolverResult } from './solverCore';
+import type { DifficultyResult } from './difficulty';
 
 export interface SolverViewState {
   status: 'idle' | 'solving' | SolverResult['status'];
@@ -12,23 +13,46 @@ export interface SolverViewState {
   elapsedMs?: number;
 }
 
+export type DifficultyViewStatus = 'idle' | 'analyzing' | 'ok' | 'invalid' | 'empty';
+
+export interface DifficultyViewState {
+  status: DifficultyViewStatus;
+  mode: 'auto' | 'deep' | null;
+  result: DifficultyResult | null;
+}
+
 const IDLE: SolverViewState = {
   status: 'idle',
   moveIndexByCellKey: new Map(),
 };
 
-export function useSolver(
-  skeleton: SkeletonLevel,
-  enabled: boolean,
-  debounceMs = 300,
-): SolverViewState {
-  const [view, setView] = useState<SolverViewState>(IDLE);
+const IDLE_DIFFICULTY: DifficultyViewState = {
+  status: 'idle',
+  mode: null,
+  result: null,
+};
+
+const SOLVER_DEBOUNCE_MS = 300;
+const DIFFICULTY_AUTO_DEBOUNCE_MS = 1000;
+
+export interface SolverBundle {
+  solver: SolverViewState;
+  difficulty: DifficultyViewState;
+  runDeepAnalysis: () => void;
+}
+
+export function useSolver(skeleton: SkeletonLevel, enabled: boolean): SolverBundle {
+  const [solverView, setSolverView] = useState<SolverViewState>(IDLE);
+  const [difficultyView, setDifficultyView] = useState<DifficultyViewState>(IDLE_DIFFICULTY);
   const workerRef = useRef<Worker | null>(null);
-  const requestIdRef = useRef(0);
+  const solverRequestId = useRef(0);
+  const difficultyRequestId = useRef(0);
+  const lastSkeletonRef = useRef<SkeletonLevel | null>(null);
 
   useEffect(() => {
     if (!enabled) {
-      setView(IDLE);
+      setSolverView(IDLE);
+      setDifficultyView(IDLE_DIFFICULTY);
       return;
     }
     const worker = new Worker(new URL('./solver.worker.ts', import.meta.url), {
@@ -36,16 +60,26 @@ export function useSolver(
     });
     workerRef.current = worker;
     worker.onmessage = (e: MessageEvent<SolverResponse>) => {
-      if (e.data.requestId !== requestIdRef.current) return;
-      const r = e.data.result;
-      setView({
-        status: r.status,
-        message: r.message,
-        movesUsed: r.movesUsed,
-        moveIndexByCellKey: new Map(r.moveIndexByCellKey),
-        statesExplored: r.stats.statesExplored,
-        elapsedMs: r.stats.elapsedMs,
-      });
+      if (e.data.kind === 'solver') {
+        if (e.data.requestId !== solverRequestId.current) return;
+        const r = e.data.result;
+        setSolverView({
+          status: r.status,
+          message: r.message,
+          movesUsed: r.movesUsed,
+          moveIndexByCellKey: new Map(r.moveIndexByCellKey),
+          statesExplored: r.stats.statesExplored,
+          elapsedMs: r.stats.elapsedMs,
+        });
+      } else {
+        if (e.data.requestId !== difficultyRequestId.current) return;
+        const r = e.data.result;
+        setDifficultyView((v) => ({
+          status: r.status === 'ok' ? 'ok' : r.status,
+          mode: v.mode,
+          result: r,
+        }));
+      }
     };
     return () => {
       worker.terminate();
@@ -54,16 +88,41 @@ export function useSolver(
   }, [enabled]);
 
   useEffect(() => {
+    lastSkeletonRef.current = skeleton;
     if (!enabled) return;
     const w = workerRef.current;
     if (!w) return;
-    setView((v) => ({ ...v, status: 'solving' }));
-    const id = ++requestIdRef.current;
-    const t = window.setTimeout(() => {
-      w.postMessage({ requestId: id, kind: 'skeleton', skeleton });
-    }, debounceMs);
-    return () => window.clearTimeout(t);
-  }, [skeleton, enabled, debounceMs]);
+    setSolverView((v) => ({ ...v, status: 'solving' }));
+    setDifficultyView({ status: 'analyzing', mode: 'auto', result: null });
+    const solverId = ++solverRequestId.current;
+    const difficultyId = ++difficultyRequestId.current;
+    const solverTimer = window.setTimeout(() => {
+      w.postMessage({ requestId: solverId, kind: 'skeleton', skeleton });
+    }, SOLVER_DEBOUNCE_MS);
+    const difficultyTimer = window.setTimeout(() => {
+      w.postMessage({
+        requestId: difficultyId,
+        kind: 'difficulty',
+        skeleton,
+        mode: 'auto',
+      });
+    }, DIFFICULTY_AUTO_DEBOUNCE_MS);
+    return () => {
+      window.clearTimeout(solverTimer);
+      window.clearTimeout(difficultyTimer);
+    };
+  }, [skeleton, enabled]);
 
-  return view;
+  const runDeepAnalysis = useCallback(() => {
+    if (!enabled) return;
+    const w = workerRef.current;
+    if (!w) return;
+    const skel = lastSkeletonRef.current;
+    if (!skel) return;
+    const id = ++difficultyRequestId.current;
+    setDifficultyView({ status: 'analyzing', mode: 'deep', result: null });
+    w.postMessage({ requestId: id, kind: 'difficulty', skeleton: skel, mode: 'deep' });
+  }, [enabled]);
+
+  return { solver: solverView, difficulty: difficultyView, runDeepAnalysis };
 }

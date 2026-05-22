@@ -290,6 +290,14 @@ export function Editor() {
               >
                 ▼
               </button>
+              <button
+                className="editor-btn small"
+                onClick={() => dispatch({ type: 'SHUFFLE_BOARD' })}
+                disabled={state.level.board.length <= 1}
+                title="Randomize every board card's identity while keeping (x, y, z) positions unchanged."
+              >
+                Shuffle board
+              </button>
             </div>
             <div className="brush-control">
               <span className="brush-label">Brush:</span>

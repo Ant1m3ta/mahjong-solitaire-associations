@@ -84,6 +84,7 @@ export type EditorAction =
   | { type: 'TOGGLE_STOCK_ADVANCE' }
   | { type: 'SET_DEFAULT_NEW_CATEGORY_SIZE'; size: number }
   | { type: 'SHUFFLE_STOCK' }
+  | { type: 'SHUFFLE_BOARD' }
   | { type: 'NORMALIZE_LAYERS' }
   | { type: 'LOAD_SKELETON'; level: SkeletonLevel }
   | { type: 'ROLLBACK' };

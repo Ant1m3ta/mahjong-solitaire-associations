@@ -126,6 +126,7 @@ const HISTORY_ACTIONS: ReadonlySet<EditorAction['type']> = new Set([
   'REORDER_STOCK',
   'DELETE_STOCK',
   'SHUFFLE_STOCK',
+  'SHUFFLE_BOARD',
   'NORMALIZE_LAYERS',
   'LOAD_SKELETON',
 ]);
@@ -501,6 +502,23 @@ function reduceCore(state: EditorState, action: Exclude<EditorAction, { type: 'R
         return { ...next, brush: { letter: head.letter, kind: head.kind } };
       }
       return next;
+    }
+
+    case 'SHUFFLE_BOARD': {
+      if (level.board.length <= 1) return state;
+      const payloads = level.board.map((c) => ({ letter: c.letter, kind: c.kind }));
+      for (let i = payloads.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [payloads[i], payloads[j]] = [payloads[j], payloads[i]];
+      }
+      const reshuffled = level.board.map((c, i) => ({
+        x: c.x,
+        y: c.y,
+        z: c.z,
+        letter: payloads[i].letter,
+        kind: payloads[i].kind,
+      }));
+      return ok(state, { ...level, board: reshuffled });
     }
   }
 }

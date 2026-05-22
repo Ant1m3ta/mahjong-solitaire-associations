@@ -763,6 +763,7 @@
   align-items: center;
   gap: 8px;
   font-size: 11px;
+  flex-basis: 100%;
 }
 .solver-control label {
   display: inline-flex;

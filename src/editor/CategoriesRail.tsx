@@ -11,7 +11,17 @@ interface Props {
 export function CategoriesRail({ state, dispatch, onOpenPicker }: Props) {
   return (
     <aside className="editor-rail editor-rail-left">
-      <div className="editor-rail-title">Categories</div>
+      <div className="editor-rail-title">
+        <span>Categories</span>
+        <button
+          className="editor-btn small"
+          disabled={state.level.categories.length === 0}
+          onClick={() => dispatch({ type: 'FILL_BASIC' })}
+          title="Pin every category to its same-letter basic entry (A→A, B→B, …). On Save/Play, words become 'a','b','c'…"
+        >
+          Basicify
+        </button>
+      </div>
       <div className="editor-rail-content">
         {state.level.categories.length === 0 ? (
           <div className="editor-empty">No categories yet.</div>

@@ -158,9 +158,15 @@
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.6px;
-  opacity: 0.55;
   padding: 12px 14px 8px;
   font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.editor-rail-title > span {
+  opacity: 0.55;
 }
 .editor-rail-content {
   flex: 1;

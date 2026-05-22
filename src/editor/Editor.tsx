@@ -349,14 +349,6 @@ export function Editor() {
                 />
                 ghost z&lt;{state.currentLayer}
               </label>
-              <label title="Show cards on upper layers as ghosts">
-                <input
-                  type="checkbox"
-                  checked={state.ghostAbove}
-                  onChange={() => dispatch({ type: 'TOGGLE_GHOST_ABOVE' })}
-                />
-                ghost z&gt;{state.currentLayer}
-              </label>
               <label title="After each placement, set brush to the next card in the stock. Use Shuffle to randomize the stock order.">
                 <input
                   type="checkbox"

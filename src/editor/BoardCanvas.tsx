@@ -24,7 +24,7 @@ interface HoverCell {
 
 export function BoardCanvas({ state, dispatch, moveIndexByCellKey }: Props) {
   const [hover, setHover] = useState<HoverCell | null>(null);
-  const { brush, eraseMode, moveMode, pickedCard, currentLayer, level, ghostBelow, ghostAbove } = state;
+  const { brush, eraseMode, moveMode, pickedCard, currentLayer, level, ghostBelow } = state;
 
   const { gridW, gridH, maxZ, minZ } = useMemo(() => {
     let mx = 0;
@@ -163,9 +163,8 @@ export function BoardCanvas({ state, dispatch, moveIndexByCellKey }: Props) {
         {level.board.map((card) => {
           const isCurrent = card.z === currentLayer;
           const isBelow = card.z < currentLayer;
-          const isAbove = card.z > currentLayer;
+          if (card.z > currentLayer) return null;
           if (isBelow && !ghostBelow) return null;
-          if (isAbove && !ghostAbove) return null;
           const left = card.x * HALF_W;
           const top = offsetY + card.y * HALF_H - card.z * LAYER_LIFT;
           const zIndex = Z_BASE + card.z * 100 + (isCurrent ? 50 : 0);
@@ -174,7 +173,6 @@ export function BoardCanvas({ state, dispatch, moveIndexByCellKey }: Props) {
             'editor-card',
             card.kind === 'category' ? 'category' : 'simple',
             isBelow ? 'ghost-below' : '',
-            isAbove ? 'ghost-above' : '',
             !isCurrent ? 'non-current' : '',
             hoverErase && hoverErase === card ? 'erase-target' : '',
             hoverPick && hoverPick === card ? 'pick-target' : '',

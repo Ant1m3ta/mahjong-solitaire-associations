@@ -686,11 +686,18 @@
   border-color: #b88f00;
 }
 .editor-card.ghost-below {
-  opacity: 0.28;
-  filter: saturate(0.4);
+  background: repeating-linear-gradient(
+    45deg,
+    #3a3a5a,
+    #3a3a5a 8px,
+    #2e2e4a 8px,
+    #2e2e4a 16px
+  );
+  border-color: #4a4a6a;
+  box-shadow: none;
 }
-.editor-card.ghost-above {
-  opacity: 0.55;
+.editor-card.ghost-below .editor-card-letter {
+  color: transparent;
 }
 .editor-card.non-current {
   box-shadow: none;
@@ -746,8 +753,7 @@
   pointer-events: none;
   letter-spacing: 0;
 }
-.editor-card.ghost-below .editor-card-move-badge,
-.editor-card.ghost-above .editor-card-move-badge {
+.editor-card.ghost-below .editor-card-move-badge {
   opacity: 0.6;
 }
 

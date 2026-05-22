@@ -1,0 +1,513 @@
+{
+  "levelId": "level-8",
+  "slotsDefault": 4,
+  "movesLimit": 200,
+  "categories": [
+    {
+      "categoryId": "A",
+      "wordsData": [
+        {
+          "wordId": "a"
+        },
+        {
+          "wordId": "a"
+        },
+        {
+          "wordId": "a"
+        },
+        {
+          "wordId": "a"
+        },
+        {
+          "wordId": "a"
+        },
+        {
+          "wordId": "a"
+        },
+        {
+          "wordId": "a"
+        },
+        {
+          "wordId": "a"
+        }
+      ]
+    },
+    {
+      "categoryId": "B",
+      "wordsData": [
+        {
+          "wordId": "b"
+        },
+        {
+          "wordId": "b"
+        },
+        {
+          "wordId": "b"
+        },
+        {
+          "wordId": "b"
+        },
+        {
+          "wordId": "b"
+        },
+        {
+          "wordId": "b"
+        },
+        {
+          "wordId": "b"
+        },
+        {
+          "wordId": "b"
+        }
+      ]
+    },
+    {
+      "categoryId": "C",
+      "wordsData": [
+        {
+          "wordId": "c"
+        },
+        {
+          "wordId": "c"
+        },
+        {
+          "wordId": "c"
+        },
+        {
+          "wordId": "c"
+        },
+        {
+          "wordId": "c"
+        },
+        {
+          "wordId": "c"
+        },
+        {
+          "wordId": "c"
+        },
+        {
+          "wordId": "c"
+        }
+      ]
+    },
+    {
+      "categoryId": "D",
+      "wordsData": [
+        {
+          "wordId": "d"
+        },
+        {
+          "wordId": "d"
+        },
+        {
+          "wordId": "d"
+        },
+        {
+          "wordId": "d"
+        },
+        {
+          "wordId": "d"
+        },
+        {
+          "wordId": "d"
+        },
+        {
+          "wordId": "d"
+        },
+        {
+          "wordId": "d"
+        }
+      ]
+    },
+    {
+      "categoryId": "E",
+      "wordsData": [
+        {
+          "wordId": "e"
+        },
+        {
+          "wordId": "e"
+        },
+        {
+          "wordId": "e"
+        },
+        {
+          "wordId": "e"
+        },
+        {
+          "wordId": "e"
+        },
+        {
+          "wordId": "e"
+        },
+        {
+          "wordId": "e"
+        },
+        {
+          "wordId": "e"
+        }
+      ]
+    },
+    {
+      "categoryId": "F",
+      "wordsData": [
+        {
+          "wordId": "f"
+        },
+        {
+          "wordId": "f"
+        },
+        {
+          "wordId": "f"
+        },
+        {
+          "wordId": "f"
+        },
+        {
+          "wordId": "f"
+        },
+        {
+          "wordId": "f"
+        }
+      ]
+    },
+    {
+      "categoryId": "G",
+      "wordsData": [
+        {
+          "wordId": "g"
+        },
+        {
+          "wordId": "g"
+        },
+        {
+          "wordId": "g"
+        },
+        {
+          "wordId": "g"
+        }
+      ]
+    },
+    {
+      "categoryId": "H",
+      "wordsData": [
+        {
+          "wordId": "h"
+        },
+        {
+          "wordId": "h"
+        },
+        {
+          "wordId": "h"
+        },
+        {
+          "wordId": "h"
+        },
+        {
+          "wordId": "h"
+        }
+      ]
+    },
+    {
+      "categoryId": "I",
+      "wordsData": [
+        {
+          "wordId": "i"
+        },
+        {
+          "wordId": "i"
+        },
+        {
+          "wordId": "i"
+        },
+        {
+          "wordId": "i"
+        }
+      ]
+    },
+    {
+      "categoryId": "J",
+      "wordsData": [
+        {
+          "wordId": "j"
+        },
+        {
+          "wordId": "j"
+        },
+        {
+          "wordId": "j"
+        },
+        {
+          "wordId": "j"
+        },
+        {
+          "wordId": "j"
+        }
+      ]
+    },
+    {
+      "categoryId": "K",
+      "wordsData": [
+        {
+          "wordId": "k"
+        },
+        {
+          "wordId": "k"
+        },
+        {
+          "wordId": "k"
+        },
+        {
+          "wordId": "k"
+        },
+        {
+          "wordId": "k"
+        }
+      ]
+    }
+  ],
+  "board": [
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "cardId": "g"
+    },
+    {
+      "x": 0,
+      "y": 6,
+      "z": 0,
+      "cardId": "f"
+    },
+    {
+      "x": 2,
+      "y": 0,
+      "z": 0,
+      "cardId": "h"
+    },
+    {
+      "x": 4,
+      "y": 0,
+      "z": 0,
+      "cardId": "j"
+    },
+    {
+      "x": 6,
+      "y": 0,
+      "z": 0,
+      "cardId": "d"
+    },
+    {
+      "x": 8,
+      "y": 0,
+      "z": 0,
+      "cardId": "g"
+    },
+    {
+      "x": 8,
+      "y": 6,
+      "z": 0,
+      "cardId": "a"
+    },
+    {
+      "x": 2,
+      "y": 6,
+      "z": 0,
+      "cardId": "a"
+    },
+    {
+      "x": 4,
+      "y": 6,
+      "z": 0,
+      "cardId": "k"
+    },
+    {
+      "x": 6,
+      "y": 6,
+      "z": 0,
+      "cardId": "f"
+    },
+    {
+      "x": 2,
+      "y": 2,
+      "z": 0,
+      "cardId": "h"
+    },
+    {
+      "x": 2,
+      "y": 4,
+      "z": 0,
+      "cardId": "F"
+    },
+    {
+      "x": 4,
+      "y": 2,
+      "z": 0,
+      "cardId": "j"
+    },
+    {
+      "x": 6,
+      "y": 2,
+      "z": 0,
+      "cardId": "d"
+    },
+    {
+      "x": 4,
+      "y": 4,
+      "z": 0,
+      "cardId": "A"
+    },
+    {
+      "x": 6,
+      "y": 4,
+      "z": 0,
+      "cardId": "K"
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "z": 1,
+      "cardId": "b"
+    },
+    {
+      "x": 1,
+      "y": 3,
+      "z": 1,
+      "cardId": "b"
+    },
+    {
+      "x": 1,
+      "y": 5,
+      "z": 1,
+      "cardId": "j"
+    },
+    {
+      "x": 3,
+      "y": 2,
+      "z": 1,
+      "cardId": "e"
+    },
+    {
+      "x": 3,
+      "y": 4,
+      "z": 1,
+      "cardId": "g"
+    },
+    {
+      "x": 5,
+      "y": 2,
+      "z": 1,
+      "cardId": "c"
+    },
+    {
+      "x": 5,
+      "y": 4,
+      "z": 1,
+      "cardId": "h"
+    },
+    {
+      "x": 7,
+      "y": 1,
+      "z": 1,
+      "cardId": "i"
+    },
+    {
+      "x": 7,
+      "y": 3,
+      "z": 1,
+      "cardId": "i"
+    },
+    {
+      "x": 7,
+      "y": 5,
+      "z": 1,
+      "cardId": "D"
+    },
+    {
+      "x": 2,
+      "y": 1,
+      "z": 2,
+      "cardId": "e"
+    },
+    {
+      "x": 4,
+      "y": 2,
+      "z": 2,
+      "cardId": "b"
+    },
+    {
+      "x": 6,
+      "y": 1,
+      "z": 2,
+      "cardId": "c"
+    },
+    {
+      "x": 2,
+      "y": 5,
+      "z": 2,
+      "cardId": "e"
+    },
+    {
+      "x": 4,
+      "y": 4,
+      "z": 2,
+      "cardId": "i"
+    },
+    {
+      "x": 6,
+      "y": 5,
+      "z": 2,
+      "cardId": "c"
+    }
+  ],
+  "stock": [
+    "c",
+    "j",
+    "f",
+    "b",
+    "c",
+    "B",
+    "k",
+    "h",
+    "k",
+    "H",
+    "b",
+    "i",
+    "e",
+    "k",
+    "d",
+    "b",
+    "G",
+    "I",
+    "e",
+    "J",
+    "d",
+    "e",
+    "f",
+    "f",
+    "d",
+    "a",
+    "e",
+    "C",
+    "g",
+    "a",
+    "a",
+    "k",
+    "h",
+    "c",
+    "a",
+    "b",
+    "f",
+    "e",
+    "b",
+    "a",
+    "d",
+    "c",
+    "d",
+    "j",
+    "E",
+    "d",
+    "c",
+    "a"
+  ]
+}

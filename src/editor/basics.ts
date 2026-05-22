@@ -13,5 +13,5 @@ export const BASIC_FILL: BasicCategory[] = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
   .map((letter) => ({
     letter,
     categoryId: letter,
-    words: repeat(letter.toLowerCase(), 7),
+    words: repeat(letter.toLowerCase(), 20),
   }));

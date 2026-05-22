@@ -74,15 +74,27 @@ export function solveSkeleton(
     };
   }
 
-  return runSearch(input, opts, startedAt);
+  return runSearch(input.initialState, opts, startedAt);
+}
+
+// Run the solver from a live in-game state. movesLimit is stripped so the
+// search isn't bounded by the player's remaining moves — the result reports
+// how many moves the optimal path needs from here.
+export function solveGameState(
+  state: GameState,
+  options: Partial<SolverOptions> = {},
+): SolverResult {
+  const opts: SolverOptions = { ...DEFAULT_OPTIONS, ...options };
+  const startedAt = performance.now();
+  const initial: GameState = { ...state, movesUsed: 0, movesLimit: -1 };
+  return runSearch(initial, opts, startedAt);
 }
 
 function runSearch(
-  input: SolverInput,
+  initial: GameState,
   opts: SolverOptions,
   startedAt: number,
 ): SolverResult {
-  const initial = input.initialState;
 
   if (isWon(initial)) {
     return {

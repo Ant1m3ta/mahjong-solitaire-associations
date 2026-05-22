@@ -16,6 +16,7 @@ interface Props {
   isDropTarget?: boolean;
   isLocked?: boolean;
   counter?: { current: number; total: number };
+  moveIndex?: number;
   className?: string;
   style?: CSSProperties;
   onDragStart?: (e: DragEvent<HTMLDivElement>) => void;
@@ -34,6 +35,7 @@ export function CardView({
   isDropTarget,
   isLocked,
   counter,
+  moveIndex,
   className = '',
   style,
   onDragStart,
@@ -86,6 +88,11 @@ export function CardView({
       {!faceDown && counter && (
         <span className="card-counter">
           {counter.current}/{counter.total}
+        </span>
+      )}
+      {!faceDown && moveIndex !== undefined && (
+        <span className="card-move-badge" title={`Optimal play: move ${moveIndex}`}>
+          {moveIndex}
         </span>
       )}
       {children}

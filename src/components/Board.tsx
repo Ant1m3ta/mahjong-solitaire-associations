@@ -19,9 +19,16 @@ interface Props {
   dispatch: Dispatch<AppAction>;
   disabled: boolean;
   highlightUnplayable: boolean;
+  moveIndexByCellKey?: Map<string, number>;
 }
 
-export function Board({ state, dispatch, disabled, highlightUnplayable }: Props) {
+export function Board({
+  state,
+  dispatch,
+  disabled,
+  highlightUnplayable,
+  moveIndexByCellKey,
+}: Props) {
   const [hoverSlot, setHoverSlot] = useState<string | null>(null);
 
   const { width, height, offsetY } = useMemo(() => {
@@ -137,6 +144,8 @@ export function Board({ state, dispatch, disabled, highlightUnplayable }: Props)
                 }
               : undefined;
 
+            const moveIndex = moveIndexByCellKey?.get(`${slot.x},${slot.y},${entry.z}`);
+
             return (
               <CardView
                 key={entry.card.uid}
@@ -146,6 +155,7 @@ export function Board({ state, dispatch, disabled, highlightUnplayable }: Props)
                 isDropTarget={false}
                 isLocked={looksLocked}
                 counter={counter}
+                moveIndex={!faceDown ? moveIndex : undefined}
                 style={{
                   position: 'absolute',
                   left,

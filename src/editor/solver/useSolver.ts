@@ -60,7 +60,7 @@ export function useSolver(
     setView((v) => ({ ...v, status: 'solving' }));
     const id = ++requestIdRef.current;
     const t = window.setTimeout(() => {
-      w.postMessage({ requestId: id, skeleton });
+      w.postMessage({ requestId: id, kind: 'skeleton', skeleton });
     }, debounceMs);
     return () => window.clearTimeout(t);
   }, [skeleton, enabled, debounceMs]);

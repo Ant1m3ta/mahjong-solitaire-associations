@@ -164,6 +164,28 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
+.card-move-badge {
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: 10px;
+  background: #1a1a2e;
+  color: #6cf;
+  border: 1.5px solid #6cf;
+  font-size: 11px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+  letter-spacing: 0;
+}
+
 .card-image {
   width: 100%;
   height: 100%;
@@ -388,6 +410,48 @@ body {
   font-size: 13px;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
+}
+
+.solver-chip {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+.solver-chip.solved {
+  color: #a3e6bb;
+  background: rgba(80, 200, 130, 0.1);
+  border-color: rgba(80, 200, 130, 0.35);
+}
+.solver-chip.solved.over-limit {
+  color: #ffd966;
+  background: rgba(255, 217, 102, 0.1);
+  border-color: rgba(255, 217, 102, 0.35);
+}
+.solver-chip.unsolvable {
+  color: #ffb3c8;
+  background: rgba(255, 91, 91, 0.1);
+  border-color: rgba(255, 91, 91, 0.35);
+}
+.solver-chip.timeout {
+  color: #ffd966;
+  background: rgba(255, 217, 102, 0.1);
+  border-color: rgba(255, 217, 102, 0.35);
+}
+.solver-chip.solving,
+.solver-chip.idle,
+.solver-chip.empty,
+.solver-chip.invalid {
+  color: #cce8ff;
+  background: rgba(102, 204, 255, 0.08);
+  border-color: rgba(102, 204, 255, 0.25);
 }
 
 /* ================ Stuck banner ================ */

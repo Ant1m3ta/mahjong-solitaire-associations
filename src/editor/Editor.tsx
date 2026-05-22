@@ -25,7 +25,7 @@ export function Editor() {
   const [pickerLetter, setPickerLetter] = useState<string | null>(null);
   const [boundFolder, setBoundFolder] = useState<string | null>(boundSaveFolder());
   const [folderLevels, setFolderLevels] = useState<LevelFileEntry[]>([]);
-  const [solverEnabled, setSolverEnabled] = useState(false);
+  const [solverEnabled, setSolverEnabled] = useState(true);
   const solver = useSolver(state.level, solverEnabled);
   const needsFolder = supportsFileSystemAccess();
   const dropdownEntries: { label: string; level: LevelData }[] = needsFolder

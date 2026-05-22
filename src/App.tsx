@@ -7,6 +7,7 @@ import { CategorySlotsRow } from './components/CategorySlotsRow';
 import { Board } from './components/Board';
 import { Overlay } from './components/Overlay';
 import { consumePreviewLevel } from './editor/save';
+import { useGameSolver } from './editor/solver/useGameSolver';
 
 export function App() {
   const previewLevel = useMemo(() => consumePreviewLevel(), []);
@@ -17,6 +18,7 @@ export function App() {
   const [levelIdx, setLevelIdx] = useState(0);
   const [appState, dispatch] = useReducer(reduce, allLevels[0], makeInitialAppState);
   const [highlightUnplayable, setHighlightUnplayable] = useState(false);
+  const solver = useGameSolver(appState.state, appState.outcome === 'playing');
 
   useEffect(() => {
     if (appState.lastError) {
@@ -58,6 +60,7 @@ export function App() {
         onLevelChange={handleLevelChange}
         canRollback={appState.history.length > 0}
         previewLevelIdx={previewLevel ? 0 : null}
+        solver={solver}
       />
       <CategorySlotsRow state={appState.state} dispatch={dispatch} disabled={overlayDisabled} />
       <Board
@@ -65,6 +68,7 @@ export function App() {
         dispatch={dispatch}
         disabled={overlayDisabled}
         highlightUnplayable={highlightUnplayable}
+        moveIndexByCellKey={solver.moveIndexByCellKey}
       />
 
       {deadlocked && (

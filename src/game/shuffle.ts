@@ -1,6 +1,6 @@
 import type { BoardCardEntry, BoardSlot, Card, CategorySlot, GameState } from '../types';
 import { getChainEntries, isEmptyFloorPlaceable, isSlotInteractive } from './coverage';
-import { canPlaceInCategorySlot, canPlaceOnBoardCard } from './moves';
+import { canPlaceInCategorySlot } from './moves';
 
 function hasValidSlotForCard(card: Card, slots: CategorySlot[]): boolean {
   return slots.some((s) => canPlaceInCategorySlot(card, s));
@@ -125,20 +125,13 @@ export function isDeadlocked(state: GameState): boolean {
       const from = board[fromIdx];
       if (from.cards.length === 0) continue;
       if (!isSlotInteractive(from, board)) continue;
-      const fromChain = getChainEntries(from);
-      const fromBottom = fromChain[0].card;
 
       for (let toIdx = 0; toIdx < board.length; toIdx++) {
         if (toIdx === fromIdx) continue;
         const to = board[toIdx];
         if (to.dead) continue;
-        if (to.cards.length === 0) {
-          if (!isEmptyFloorPlaceable(to, board)) continue;
-        } else {
-          if (!isSlotInteractive(to, board)) continue;
-          const toTop = to.cards[to.cards.length - 1].card;
-          if (!canPlaceOnBoardCard(fromBottom, toTop)) continue;
-        }
+        if (to.cards.length !== 0) continue;
+        if (!isEmptyFloorPlaceable(to, board)) continue;
 
         const next = simulateBoardToBoard(board, fromIdx, toIdx);
         const h = hashBoardSlots(next);

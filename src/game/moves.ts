@@ -15,7 +15,7 @@ import {
 } from './coverage';
 
 export function canPlaceInCategorySlot(card: Card, slot: CategorySlot): boolean {
-  if (slot.lockedCategory === null) return true;
+  if (slot.lockedCategory === null) return card.isCategory;
   return card.category === slot.lockedCategory;
 }
 
@@ -57,7 +57,6 @@ export function hasValidMoveForBoardSlot(
 ): boolean {
   const chain = getChainEntries(sourceSlot);
   if (chain.length === 0) return false;
-  const chainBottom = chain[0].card;
   const chainTop = chain[chain.length - 1].card;
 
   for (const catSlot of state.categorySlots) {
@@ -70,13 +69,7 @@ export function hasValidMoveForBoardSlot(
   }
   for (const slot of state.boardSlots) {
     if (slot === sourceSlot) continue;
-    if (slot.cards.length === 0) {
-      if (isEmptyFloorPlaceable(slot, state.boardSlots)) return true;
-      continue;
-    }
-    if (!isSlotInteractive(slot, state.boardSlots)) continue;
-    const targetTop = slot.cards[slot.cards.length - 1].card;
-    if (canPlaceOnBoardCard(chainBottom, targetTop)) return true;
+    if (slot.cards.length === 0 && isEmptyFloorPlaceable(slot, state.boardSlots)) return true;
   }
   return false;
 }
@@ -86,13 +79,7 @@ export function hasValidMoveForHandCard(card: Card, state: GameState): boolean {
     if (canPlaceInCategorySlot(card, catSlot)) return true;
   }
   for (const slot of state.boardSlots) {
-    if (slot.cards.length === 0) {
-      if (isEmptyFloorPlaceable(slot, state.boardSlots)) return true;
-      continue;
-    }
-    if (!isSlotInteractive(slot, state.boardSlots)) continue;
-    const targetTop = slot.cards[slot.cards.length - 1].card;
-    if (canPlaceOnBoardCard(card, targetTop)) return true;
+    if (slot.cards.length === 0 && isEmptyFloorPlaceable(slot, state.boardSlots)) return true;
   }
   return false;
 }
@@ -279,25 +266,18 @@ function applyBoardChainCompletion(
 }
 
 // Validate destination + append the chain to it, returning a new slots array.
-// Chain bottom must satisfy the standard single-card placement rule; the
-// auto-swap rule (category card stays on top) is applied inside append.
+// Stacking on top of an existing card is disallowed; targets must be empty.
 function placeChainOnBoardSlot(
   slots: BoardSlot[],
   targetSlot: BoardSlot,
   chain: BoardCardEntry[],
 ): BoardSlot[] {
   if (chain.length === 0) throw new Error('Empty chain');
-  const chainBottom = chain[0].card;
-  if (targetSlot.cards.length === 0) {
-    if (!isEmptyFloorPlaceable(targetSlot, slots)) {
-      throw new Error('Target unavailable');
-    }
-  } else {
-    if (!isSlotInteractive(targetSlot, slots)) throw new Error('Target not interactive');
-    const top = targetSlot.cards[targetSlot.cards.length - 1].card;
-    if (!canPlaceOnBoardCard(chainBottom, top)) {
-      throw new Error('Categories do not match');
-    }
+  if (targetSlot.cards.length !== 0) {
+    throw new Error('Cannot stack on an existing card');
+  }
+  if (!isEmptyFloorPlaceable(targetSlot, slots)) {
+    throw new Error('Target unavailable');
   }
   return slots.map((s) => (s === targetSlot ? appendChainToSlot(s, chain) : s));
 }

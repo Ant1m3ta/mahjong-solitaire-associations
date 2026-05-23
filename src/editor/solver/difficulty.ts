@@ -61,8 +61,8 @@ export interface DifficultyOptions {
 export const AUTO_DIFFICULTY_OPTIONS: Required<DifficultyOptions> = {
   depth: 3,
   perStateMaxStates: 50_000,
-  perStateMaxMs: 1500,
-  totalMaxMs: 1000,
+  perStateMaxMs: 10_000,
+  totalMaxMs: 10_000,
 };
 
 export const DEEP_DIFFICULTY_OPTIONS: Required<DifficultyOptions> = {

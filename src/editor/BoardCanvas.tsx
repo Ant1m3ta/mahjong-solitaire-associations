@@ -5,7 +5,6 @@ const HALF_W = 35;
 const HALF_H = 50;
 const CARD_W = 70;
 const CARD_H = 100;
-const LAYER_LIFT = 6;
 const GRID_PAD = 4;
 const MIN_GRID_W = 20;
 const MIN_GRID_H = 16;
@@ -26,36 +25,28 @@ export function BoardCanvas({ state, dispatch, moveIndexByCellKey }: Props) {
   const [hover, setHover] = useState<HoverCell | null>(null);
   const { brush, eraseMode, moveMode, pickedCard, currentLayer, level, ghostBelow } = state;
 
-  const { gridW, gridH, maxZ, minZ } = useMemo(() => {
+  const { gridW, gridH } = useMemo(() => {
     let mx = 0;
     let my = 0;
-    let hiZ = -Infinity;
-    let loZ = Infinity;
     for (const c of level.board) {
       if (c.x > mx) mx = c.x;
       if (c.y > my) my = c.y;
-      if (c.z > hiZ) hiZ = c.z;
-      if (c.z < loZ) loZ = c.z;
     }
-    if (!isFinite(hiZ)) hiZ = currentLayer;
-    if (!isFinite(loZ)) loZ = currentLayer;
     return {
       gridW: Math.max(MIN_GRID_W, mx + GRID_PAD),
       gridH: Math.max(MIN_GRID_H, my + GRID_PAD),
-      maxZ: Math.max(hiZ, currentLayer),
-      minZ: Math.min(loZ, currentLayer),
     };
-  }, [level.board, currentLayer]);
+  }, [level.board]);
 
-  const offsetY = maxZ * LAYER_LIFT + 8;
+  const offsetY = 8;
   const areaW = gridW * HALF_W + CARD_W;
-  const areaH = offsetY + gridH * HALF_H + CARD_H + 8 + Math.max(0, -minZ) * LAYER_LIFT;
+  const areaH = offsetY + gridH * HALF_H + CARD_H + 8;
 
   function cellFromEvent(e: MouseEvent<HTMLDivElement>): HoverCell | null {
     const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
     const px = e.clientX - rect.left;
     const py = e.clientY - rect.top;
-    const relY = py - offsetY + currentLayer * LAYER_LIFT;
+    const relY = py - offsetY;
     if (px < 0 || relY < 0) return null;
     const x = Math.floor(px / HALF_W);
     const y = Math.floor(relY / HALF_H);
@@ -166,7 +157,7 @@ export function BoardCanvas({ state, dispatch, moveIndexByCellKey }: Props) {
           if (card.z > currentLayer) return null;
           if (isBelow && !ghostBelow) return null;
           const left = card.x * HALF_W;
-          const top = offsetY + card.y * HALF_H - card.z * LAYER_LIFT;
+          const top = offsetY + card.y * HALF_H;
           const zIndex = Z_BASE + card.z * 100 + (isCurrent ? 50 : 0);
           const isPicked = pickedBoardCard === card;
           const cls = [
@@ -207,7 +198,7 @@ export function BoardCanvas({ state, dispatch, moveIndexByCellKey }: Props) {
               className="editor-card hover-preview"
               style={{
                 left: hover.x * HALF_W,
-                top: offsetY + hover.y * HALF_H - previewZ * LAYER_LIFT,
+                top: offsetY + hover.y * HALF_H,
                 zIndex: Z_BASE + previewZ * 100 + 99,
               }}
             >
@@ -226,7 +217,7 @@ export function BoardCanvas({ state, dispatch, moveIndexByCellKey }: Props) {
               className={`editor-card hover-preview ${pickedBoardCard.kind === 'category' ? 'category' : 'simple'}`}
               style={{
                 left: hover.x * HALF_W,
-                top: offsetY + hover.y * HALF_H - previewZ * LAYER_LIFT,
+                top: offsetY + hover.y * HALF_H,
                 zIndex: Z_BASE + previewZ * 100 + 99,
               }}
             >
@@ -255,7 +246,7 @@ function CurrentLayerGrid({
   currentLayer: number;
 }) {
   const left = 0;
-  const top = offsetY - currentLayer * LAYER_LIFT;
+  const top = offsetY;
   const w = gridW * HALF_W + CARD_W;
   const h = gridH * HALF_H + CARD_H;
   return (

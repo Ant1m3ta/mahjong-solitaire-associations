@@ -11,7 +11,6 @@ const HALF_W = 35;
 const HALF_H = 50;
 const CARD_W = 70;
 const CARD_H = 100;
-const LAYER_LIFT = 6;
 const STACK_VISUAL_OFFSET_Y = 4;
 
 interface Props {
@@ -34,15 +33,13 @@ export function Board({
   const { width, height, offsetY } = useMemo(() => {
     let maxX = 0;
     let maxY = 0;
-    let maxZ = 0;
     let maxStackDepth = 0;
     for (const slot of state.boardSlots) {
       maxX = Math.max(maxX, slot.x);
       maxY = Math.max(maxY, slot.y);
       maxStackDepth = Math.max(maxStackDepth, slot.cards.length);
-      for (const c of slot.cards) maxZ = Math.max(maxZ, c.z);
     }
-    const lift = maxZ * LAYER_LIFT + Math.max(0, (maxStackDepth - 1)) * STACK_VISUAL_OFFSET_Y + 8;
+    const lift = Math.max(0, (maxStackDepth - 1)) * STACK_VISUAL_OFFSET_Y + 8;
     const w = maxX * HALF_W + CARD_W;
     const h = lift + maxY * HALF_H + CARD_H + 8;
     return { width: w, height: h, offsetY: lift };
@@ -90,7 +87,7 @@ export function Board({
           if (slot.cards.length === 0) {
             if (!isEmptyFloorPlaceable(slot, state.boardSlots)) return null;
             const left = slot.x * HALF_W;
-            const top = offsetY + slot.y * HALF_H - slot.floorZ * LAYER_LIFT;
+            const top = offsetY + slot.y * HALF_H;
             const zIndex = slot.floorZ * 100;
             const isDropTarget = hoverSlot === slotKey(slot);
             return (
@@ -125,8 +122,7 @@ export function Board({
 
             const stackVisualOffset = idx * STACK_VISUAL_OFFSET_Y;
             const left = slot.x * HALF_W;
-            const top =
-              offsetY + slot.y * HALF_H - entry.z * LAYER_LIFT - stackVisualOffset;
+            const top = offsetY + slot.y * HALF_H - stackVisualOffset;
             const zIndex = entry.z * 100 + idx;
 
             const handlers: Partial<{

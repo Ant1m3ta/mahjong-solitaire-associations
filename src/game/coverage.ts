@@ -34,7 +34,7 @@ function effectiveLayer(slot: BoardSlot): number {
 }
 
 export function isSlotRevealed(slot: BoardSlot, allSlots: BoardSlot[]): boolean {
-  if (slot.dead || slot.cards.length === 0) return false;
+  if (slot.cards.length === 0) return false;
   const myLayer = effectiveLayer(slot);
   for (const other of allSlots) {
     if (other === slot) continue;
@@ -47,22 +47,4 @@ export function isSlotRevealed(slot: BoardSlot, allSlots: BoardSlot[]): boolean 
 
 export function findSlot(slots: BoardSlot[], x: number, y: number): BoardSlot | null {
   return slots.find((s) => s.x === x && s.y === y) ?? null;
-}
-
-// An empty, non-dead bottom-floor slot can receive a fresh card. Treated as
-// placeable only if no overlapping neighbour sits above its floor — same
-// coverage rule as `isSlotRevealed`, computed against the slot's floor layer
-// because there's no top card to derive an effective layer from.
-export function isEmptyFloorPlaceable(slot: BoardSlot, allSlots: BoardSlot[]): boolean {
-  if (slot.dead) return false;
-  if (slot.cards.length !== 0) return false;
-  if (slot.floorZ !== 0) return false;
-  const myLayer = slot.floorZ * 100;
-  for (const other of allSlots) {
-    if (other === slot) continue;
-    if (other.cards.length === 0) continue;
-    if (!footprintsOverlap(slot, other)) continue;
-    if (effectiveLayer(other) > myLayer) return false;
-  }
-  return true;
 }

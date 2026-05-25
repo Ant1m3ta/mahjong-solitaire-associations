@@ -210,7 +210,7 @@ export function Editor() {
             className="editor-btn"
             disabled={state.level.board.length === 0}
             onClick={() => dispatch({ type: 'NORMALIZE_LAYERS' })}
-            title="Shift all cards so the lowest z = 0 (so the bottom-floor rule applies)"
+            title="Shift all cards so the lowest z = 0 (canonical layout for saved levels)"
           >
             Normalize
           </button>

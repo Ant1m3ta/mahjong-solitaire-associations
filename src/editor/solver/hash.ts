@@ -3,18 +3,11 @@ import type { GameState } from '../../types';
 export function hashState(state: GameState): string {
   const slotStrings: string[] = [];
   for (const slot of state.boardSlots) {
-    if (slot.dead) {
-      slotStrings.push(`${slot.x},${slot.y}|D`);
-      continue;
-    }
-    if (slot.cards.length === 0) {
-      slotStrings.push(`${slot.x},${slot.y}|E|${slot.floorZ}`);
-      continue;
-    }
+    if (slot.cards.length === 0) continue;
     const stack = slot.cards
       .map((e) => `${e.card.category}${e.card.isCategory ? 'C' : 's'}${e.revealed ? '+' : '-'}${e.z}`)
       .join(',');
-    slotStrings.push(`${slot.x},${slot.y}|${stack}|${slot.floorZ}`);
+    slotStrings.push(`${slot.x},${slot.y}|${stack}`);
   }
   slotStrings.sort();
 

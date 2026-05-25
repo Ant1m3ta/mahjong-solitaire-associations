@@ -41,11 +41,10 @@ const DEFAULT_OPTIONS: SolverOptions = {
   maxStates: 1000000,
   maxMs: 17000,
   greedyWeight: 1,
-  enumerate: { disableBoardToBoard: false, drawOnlyWhenHandEmpty: false },
+  enumerate: { drawOnlyWhenHandEmpty: false },
 };
 
 export const DEFAULT_ENUMERATE_OPTS: EnumerateOpts = {
-  disableBoardToBoard: false,
   drawOnlyWhenHandEmpty: false,
 };
 

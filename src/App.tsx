@@ -65,7 +65,6 @@ export function App() {
       <CategorySlotsRow state={appState.state} dispatch={dispatch} disabled={overlayDisabled} />
       <Board
         state={appState.state}
-        dispatch={dispatch}
         disabled={overlayDisabled}
         highlightUnplayable={highlightUnplayable}
         moveIndexByCellKey={solver.moveIndexByCellKey}

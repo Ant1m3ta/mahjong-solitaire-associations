@@ -340,8 +340,6 @@ export function describeAction(state: GameState, action: Action): string {
       const label = hand.isCategory ? hand.category : hand.category.toLowerCase();
       return `Feed ${label} from hand into slot ${slotN}`;
     }
-    case 'HAND_TO_BOARD':
-      return `Place hand on board (${action.to.x}, ${action.to.y})`;
     case 'BOARD_TO_CATEGORY': {
       const slotN = action.slotIndex + 1;
       const src = state.boardSlots.find(
@@ -363,7 +361,5 @@ export function describeAction(state: GameState, action: Action): string {
       }
       return `Move ${label} at (${action.from.x}, ${action.from.y}) to slot ${slotN}`;
     }
-    case 'BOARD_TO_BOARD':
-      return `Move board (${action.from.x}, ${action.from.y}) to (${action.to.x}, ${action.to.y})`;
   }
 }

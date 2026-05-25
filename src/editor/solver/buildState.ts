@@ -87,10 +87,8 @@ export function buildSolverInput(skel: SkeletonLevel): SolverInput {
     const key = `${b.x},${b.y}`;
     let slot = slotMap.get(key);
     if (!slot) {
-      slot = { x: b.x, y: b.y, cards: [], dead: false, floorZ: b.z };
+      slot = { x: b.x, y: b.y, cards: [] };
       slotMap.set(key, slot);
-    } else if (b.z < slot.floorZ) {
-      slot.floorZ = b.z;
     }
     slot.cards.push({ card, z: b.z, revealed: false });
   }

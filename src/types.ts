@@ -21,8 +21,6 @@ export interface BoardSlot {
   x: number;
   y: number;
   cards: BoardCardEntry[];
-  dead: boolean;
-  floorZ: number;
 }
 
 export interface CategorySlot {
@@ -73,9 +71,7 @@ export interface BoardCardData {
 export type Action =
   | { type: 'DRAW' }
   | { type: 'HAND_TO_CATEGORY'; slotIndex: number }
-  | { type: 'HAND_TO_BOARD'; to: { x: number; y: number } }
-  | { type: 'BOARD_TO_CATEGORY'; from: { x: number; y: number }; slotIndex: number }
-  | { type: 'BOARD_TO_BOARD'; from: { x: number; y: number }; to: { x: number; y: number } };
+  | { type: 'BOARD_TO_CATEGORY'; from: { x: number; y: number }; slotIndex: number };
 
 export type AppAction =
   | Action

@@ -7,22 +7,11 @@ import type {
   GameState,
   LevelData,
 } from '../types';
-import {
-  findSlot,
-  getChainEntries,
-  isEmptyFloorPlaceable,
-  isSlotRevealed,
-} from './coverage';
+import { findSlot, getChainEntries, isSlotRevealed } from './coverage';
 
 export function canPlaceInCategorySlot(card: Card, slot: CategorySlot): boolean {
   if (slot.lockedCategory === null) return card.isCategory;
   return card.category === slot.lockedCategory;
-}
-
-export function canPlaceOnBoardCard(source: Card, targetTop: Card): boolean {
-  if (source.category !== targetTop.category) return false;
-  if (source.isCategory && targetTop.isCategory) return false;
-  return true;
 }
 
 function countSimpleCardsInCategory(level: LevelData, categoryId: string): number {
@@ -47,10 +36,10 @@ export function isLost(state: GameState): boolean {
   return !hasMovesLeft(state);
 }
 
-// True if the chain rooted at sourceSlot has any legal destination. Chain-of-1
-// follows single-card rules; longer chains can target any empty category slot,
-// any locked category slot whose category matches the chain, or a board slot
-// whose top accepts the chain bottom.
+// True if the chain rooted at sourceSlot has any legal category-slot
+// destination. Chain-of-1 follows single-card rules; longer chains can target
+// any empty category slot or any locked category slot whose category matches
+// the chain.
 export function hasValidMoveForBoardSlot(
   sourceSlot: BoardSlot,
   state: GameState,
@@ -67,19 +56,12 @@ export function hasValidMoveForBoardSlot(
     if (catSlot.lockedCategory === null) return true;
     if (chainTop.category === catSlot.lockedCategory) return true;
   }
-  for (const slot of state.boardSlots) {
-    if (slot === sourceSlot) continue;
-    if (slot.cards.length === 0 && isEmptyFloorPlaceable(slot, state.boardSlots)) return true;
-  }
   return false;
 }
 
 export function hasValidMoveForHandCard(card: Card, state: GameState): boolean {
   for (const catSlot of state.categorySlots) {
     if (canPlaceInCategorySlot(card, catSlot)) return true;
-  }
-  for (const slot of state.boardSlots) {
-    if (slot.cards.length === 0 && isEmptyFloorPlaceable(slot, state.boardSlots)) return true;
   }
   return false;
 }
@@ -93,12 +75,8 @@ export function applyAction(state: GameState, action: Action): GameState {
       return applyDraw(state);
     case 'HAND_TO_CATEGORY':
       return applyHandToCategory(state, action.slotIndex);
-    case 'HAND_TO_BOARD':
-      return applyHandToBoard(state, action.to);
     case 'BOARD_TO_CATEGORY':
       return applyBoardToCategory(state, action.from, action.slotIndex);
-    case 'BOARD_TO_BOARD':
-      return applyBoardToBoard(state, action.from, action.to);
   }
 }
 
@@ -185,140 +163,6 @@ function applyBoardToCategory(
   );
 }
 
-function applyHandToBoard(
-  state: GameState,
-  to: { x: number; y: number },
-): GameState {
-  if (state.hand === null) throw new Error('Hand empty');
-  const targetSlot = findSlot(state.boardSlots, to.x, to.y);
-  if (!targetSlot) throw new Error('Target slot not found');
-  const handCard = state.hand;
-  const newBoardSlots = placeChainOnBoardSlot(
-    state.boardSlots,
-    targetSlot,
-    [{ card: handCard, z: 0, revealed: true }],
-  );
-  return applyBoardChainCompletion(
-    {
-      ...state,
-      hand: null,
-      boardSlots: newBoardSlots,
-      movesUsed: state.movesUsed + 1,
-    },
-    to,
-  );
-}
-
-function applyBoardToBoard(
-  state: GameState,
-  from: { x: number; y: number },
-  to: { x: number; y: number },
-): GameState {
-  const sourceSlot = findSlot(state.boardSlots, from.x, from.y);
-  const targetSlot = findSlot(state.boardSlots, to.x, to.y);
-  if (!sourceSlot || !targetSlot) throw new Error('Slot not found');
-  if (sourceSlot === targetSlot) throw new Error('Same slot');
-  if (!isSlotRevealed(sourceSlot, state.boardSlots)) throw new Error('Source not interactive');
-  const chain = getChainEntries(sourceSlot);
-  const placedSlots = placeChainOnBoardSlot(state.boardSlots, targetSlot, chain);
-  const newBoardSlots = removeChainFromSlot(placedSlots, sourceSlot, chain.length);
-  return applyBoardChainCompletion(
-    {
-      ...state,
-      boardSlots: newBoardSlots,
-      movesUsed: state.movesUsed + 1,
-    },
-    to,
-  );
-}
-
-// After a move grows a board chain, check whether the chain at `at` contains a
-// category card and every simple of that category. If so, remove the whole
-// chain from the board, consume the simples toward the win total, and clear
-// any category slot still locked to that category. Side-effect only — does not
-// cost an additional move.
-function applyBoardChainCompletion(
-  state: GameState,
-  at: { x: number; y: number },
-): GameState {
-  const slot = findSlot(state.boardSlots, at.x, at.y);
-  if (!slot) return state;
-  const chain = getChainEntries(slot);
-  if (chain.length < 2) return state;
-  const categoryEntry = chain.find((e) => e.card.isCategory);
-  if (!categoryEntry) return state;
-  const category = categoryEntry.card.category;
-  const simples = chain.filter((e) => !e.card.isCategory).map((e) => e.card);
-  if (simples.length !== countSimpleCardsInCategory(state.level, category)) return state;
-  const newBoardSlots = removeChainFromSlot(state.boardSlots, slot, chain.length);
-  const newConsumed = [...state.consumedSimple, ...simples];
-  const newCategorySlots = state.categorySlots.map((cs) =>
-    cs.lockedCategory === category
-      ? { lockedCategory: null, displayedCard: null, cardsConsumed: 0 }
-      : cs,
-  );
-  return {
-    ...state,
-    boardSlots: newBoardSlots,
-    categorySlots: newCategorySlots,
-    consumedSimple: newConsumed,
-  };
-}
-
-// Validate destination + append the chain to it, returning a new slots array.
-// Stacking on top of an existing card is disallowed; targets must be empty.
-function placeChainOnBoardSlot(
-  slots: BoardSlot[],
-  targetSlot: BoardSlot,
-  chain: BoardCardEntry[],
-): BoardSlot[] {
-  if (chain.length === 0) throw new Error('Empty chain');
-  if (targetSlot.cards.length !== 0) {
-    throw new Error('Cannot stack on an existing card');
-  }
-  if (!isEmptyFloorPlaceable(targetSlot, slots)) {
-    throw new Error('Target unavailable');
-  }
-  return slots.map((s) => (s === targetSlot ? appendChainToSlot(s, chain) : s));
-}
-
-// Append chain entries to a slot, re-assigning z values from the slot's
-// current top (or floor). If the slot's top is the matching category card and
-// the chain's top is a simple card, the category card floats above the new
-// entries so it always stays on top of its chain.
-function appendChainToSlot(slot: BoardSlot, chain: BoardCardEntry[]): BoardSlot {
-  if (chain.length === 0) return slot;
-  const baseZ = slot.cards.length === 0
-    ? slot.floorZ
-    : slot.cards[slot.cards.length - 1].z + 1;
-  const rezed: BoardCardEntry[] = chain.map((e, i) => ({
-    card: e.card,
-    z: baseZ + i,
-    revealed: true,
-  }));
-  if (slot.cards.length > 0) {
-    const top = slot.cards[slot.cards.length - 1];
-    const incomingTop = rezed[rezed.length - 1];
-    if (
-      top.card.isCategory &&
-      !incomingTop.card.isCategory &&
-      top.card.category === incomingTop.card.category
-    ) {
-      const shifted = rezed.map((e) => ({ card: e.card, z: e.z - 1, revealed: true }));
-      const liftedTop: BoardCardEntry = {
-        card: top.card,
-        z: baseZ + rezed.length - 1,
-        revealed: true,
-      };
-      return {
-        ...slot,
-        cards: [...slot.cards.slice(0, -1), ...shifted, liftedTop],
-      };
-    }
-  }
-  return { ...slot, cards: [...slot.cards, ...rezed] };
-}
-
 function removeChainFromSlot(
   slots: BoardSlot[],
   target: BoardSlot,
@@ -334,11 +178,7 @@ function removeChainFromSlot(
         newCards[lastIdx] = { ...newCards[lastIdx], revealed: true };
       }
     }
-    return {
-      ...s,
-      cards: newCards,
-      dead: newCards.length === 0 && s.floorZ !== 0 ? true : s.dead,
-    };
+    return { ...s, cards: newCards };
   });
 }
 

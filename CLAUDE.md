@@ -34,7 +34,7 @@ Interactivity is governed by a single rule in `src/game/coverage.ts`:
 
 ### Board slots and stacks
 
-A `BoardSlot` is one `(x, y)` position holding a vertical stack of `BoardCardEntry { card, z }`. Level data may declare same-`(x,y)` cards with different `z` (authored stacking); runtime Board→Board / Hand→Board drops append with `z = currentTop.z + 1`. Only the top of a stack is interactive. **Once a slot empties it becomes permanently `dead`** — `removeTopFromSlot` sets this and no further drops are accepted.
+A `BoardSlot` is one `(x, y)` position holding a vertical stack of `BoardCardEntry { card, z }`. Only the top of a stack is interactive. Stacks shrink only — cards can be removed from the top (sent to a category slot), but **board slots never accept new drops at runtime**. Level data may declare same-`(x,y)` cards with different `z` (authored stacking), and those cards peel off one at a time as the player clears the layers above. Once a slot empties it stays empty for the rest of the level.
 
 ### Category slots
 
@@ -50,7 +50,7 @@ A `BoardSlot` is one `(x, y)` position holding a vertical stack of `BoardCardEnt
 
 Four stacked containers rendered by `App.tsx`: `Header` (stock / hand / moves), `CategorySlotsRow`, `Board`, `Footer` (level picker, highlight toggle, rollback). All components are dumb — they read `GameState` and dispatch `AppAction`. Drag-and-drop uses the native HTML5 API with a custom MIME type via `src/components/dragData.ts` (`hand` or `board` source kinds).
 
-The `highlightUnplayable` UI toggle dims cards with no legal destination ("stranded"). When on, stranded cards are also non-draggable (see `Board.tsx` and `Header.tsx`); they remain valid drop *targets* though, so other cards can still stack on them.
+The `highlightUnplayable` UI toggle dims cards with no legal destination ("stranded"). When on, stranded cards are also non-draggable (see `Board.tsx` and `Header.tsx`). Since the board never accepts drops, every drop goes to a `CategorySlot` via `CategorySlotsRow`.
 
 ### Levels
 

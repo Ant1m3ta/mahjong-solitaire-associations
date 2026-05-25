@@ -13,10 +13,8 @@ export function buildInitialState(rawLevel: LevelData): GameState {
     const key = `${data.x},${data.y}`;
     let slot = slotMap.get(key);
     if (!slot) {
-      slot = { x: data.x, y: data.y, cards: [], dead: false, floorZ: data.z };
+      slot = { x: data.x, y: data.y, cards: [] };
       slotMap.set(key, slot);
-    } else if (data.z < slot.floorZ) {
-      slot.floorZ = data.z;
     }
     const card = createCardFromId(level, data.cardId);
     slot.cards.push({ card, z: data.z, revealed: false });

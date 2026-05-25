@@ -4,372 +4,230 @@
   "movesLimit": 200,
   "categories": [
     {
-      "categoryId": "Essence",
+      "categoryId": "A",
       "wordsData": [
         {
-          "wordId": "Nub"
+          "wordId": "a"
         },
         {
-          "wordId": "Crux"
+          "wordId": "a"
         },
         {
-          "wordId": "Marrow"
+          "wordId": "a"
         },
         {
-          "wordId": "Gist"
+          "wordId": "a"
         }
       ]
     },
     {
-      "categoryId": "Dinosaur",
+      "categoryId": "B",
       "wordsData": [
         {
-          "wordId": "T-Rex"
+          "wordId": "b"
         },
         {
-          "wordId": "Troodon"
+          "wordId": "b"
         },
         {
-          "wordId": "Eoraptor"
+          "wordId": "b"
         },
         {
-          "wordId": "Mesozoic"
+          "wordId": "b"
         }
       ]
     },
     {
-      "categoryId": "Judge",
+      "categoryId": "C",
       "wordsData": [
         {
-          "wordId": "Gavel"
+          "wordId": "c"
         },
         {
-          "wordId": "Bench"
+          "wordId": "c"
         },
         {
-          "wordId": "Judgment"
+          "wordId": "c"
         },
         {
-          "wordId": "Verdict"
-        },
-        {
-          "wordId": "Lawsuit"
-        },
-        {
-          "wordId": "Ethics"
+          "wordId": "c"
         }
       ]
     },
     {
-      "categoryId": "Candle",
+      "categoryId": "D",
       "wordsData": [
         {
-          "wordId": "Wax"
+          "wordId": "d"
         },
         {
-          "wordId": "Ignite"
+          "wordId": "d"
         },
         {
-          "wordId": "Scent"
+          "wordId": "d"
         },
         {
-          "wordId": "Smolder"
-        },
-        {
-          "wordId": "Burn"
-        },
-        {
-          "wordId": "Wick"
+          "wordId": "d"
         }
       ]
     },
     {
-      "categoryId": "Builder",
+      "categoryId": "E",
       "wordsData": [
         {
-          "wordId": "Level"
+          "wordId": "e"
         },
         {
-          "wordId": "Stair"
+          "wordId": "e"
         },
         {
-          "wordId": "Foreman"
+          "wordId": "e"
         },
         {
-          "wordId": "Cement"
-        },
-        {
-          "wordId": "Bricks"
-        },
-        {
-          "wordId": "Drill"
+          "wordId": "e"
         }
       ]
     },
     {
-      "categoryId": "Dino",
+      "categoryId": "F",
       "wordsData": [
         {
-          "wordId": "Dinosaur"
+          "wordId": "f"
         },
         {
-          "wordId": "Remains"
+          "wordId": "f"
         },
         {
-          "wordId": "Predator"
+          "wordId": "f"
         },
         {
-          "wordId": "Skeleton"
-        },
-        {
-          "wordId": "Reptile"
-        }
-      ]
-    },
-    {
-      "categoryId": "Maritime",
-      "wordsData": [
-        {
-          "wordId": "Jib"
-        },
-        {
-          "wordId": "Sailor"
-        },
-        {
-          "wordId": "Vessel"
-        },
-        {
-          "wordId": "Scupper"
-        },
-        {
-          "wordId": "Mizzen"
-        },
-        {
-          "wordId": "Buoy"
-        },
-        {
-          "wordId": "Anchor"
-        },
-        {
-          "wordId": "Clipper"
-        },
-        {
-          "wordId": "Dinghy"
-        },
-        {
-          "wordId": "Keel"
-        },
-        {
-          "wordId": "Hull"
-        },
-        {
-          "wordId": "Shipyard"
-        },
-        {
-          "wordId": "Seaport"
-        },
-        {
-          "wordId": "Capstan"
-        },
-        {
-          "wordId": "Caravel"
-        },
-        {
-          "wordId": "Bilge"
-        },
-        {
-          "wordId": "Bulwark"
+          "wordId": "f"
         }
       ]
     }
   ],
   "board": [
     {
-      "x": 2,
-      "y": 1,
-      "z": 0,
-      "cardId": "Jib"
-    },
-    {
-      "x": 4,
-      "y": 3,
-      "z": 0,
-      "cardId": "Sailor"
-    },
-    {
-      "x": 6,
-      "y": 5,
-      "z": 0,
-      "cardId": "Vessel"
-    },
-    {
-      "x": 8,
-      "y": 7,
-      "z": 0,
-      "cardId": "Scupper"
-    },
-    {
-      "x": 4,
-      "y": 5,
-      "z": 0,
-      "cardId": "Mizzen"
-    },
-    {
-      "x": 2,
-      "y": 7,
-      "z": 0,
-      "cardId": "Buoy"
-    },
-    {
-      "x": 6,
-      "y": 3,
-      "z": 0,
-      "cardId": "Anchor"
-    },
-    {
-      "x": 8,
-      "y": 1,
-      "z": 0,
-      "cardId": "Clipper"
-    },
-    {
-      "x": 5,
-      "y": 4,
-      "z": 1,
-      "cardId": "Dinghy"
-    },
-    {
       "x": 3,
-      "y": 4,
-      "z": 1,
-      "cardId": "Keel"
-    },
-    {
-      "x": 7,
-      "y": 4,
-      "z": 1,
-      "cardId": "Hull"
+      "y": 2,
+      "z": 0,
+      "cardId": "c"
     },
     {
       "x": 5,
       "y": 2,
+      "z": 0,
+      "cardId": "a"
+    },
+    {
+      "x": 11,
+      "y": 4,
       "z": 1,
-      "cardId": "Shipyard"
-    },
-    {
-      "x": 5,
-      "y": 6,
-      "z": 1,
-      "cardId": "Seaport"
-    },
-    {
-      "x": 6,
-      "y": 3,
-      "z": 2,
-      "cardId": "Capstan"
-    },
-    {
-      "x": 4,
-      "y": 3,
-      "z": 2,
-      "cardId": "Caravel"
-    },
-    {
-      "x": 4,
-      "y": 5,
-      "z": 2,
-      "cardId": "Bilge"
-    },
-    {
-      "x": 6,
-      "y": 5,
-      "z": 2,
-      "cardId": "Bulwark"
-    },
-    {
-      "x": 9,
-      "y": 6,
-      "z": 1,
-      "cardId": "T-Rex"
-    },
-    {
-      "x": 1,
-      "y": 6,
-      "z": 1,
-      "cardId": "Wax"
-    },
-    {
-      "x": 1,
-      "y": 2,
-      "z": 1,
-      "cardId": "Ignite"
+      "cardId": "A"
     },
     {
       "x": 9,
       "y": 2,
-      "z": 1,
-      "cardId": "Level"
+      "z": 0,
+      "cardId": "a"
     },
     {
-      "x": 5,
+      "x": 9,
       "y": 4,
-      "z": 3,
-      "cardId": "Stair"
-    },
-    {
-      "x": 3,
-      "y": 4,
-      "z": 3,
-      "cardId": "Nub"
+      "z": 0,
+      "cardId": "a"
     },
     {
       "x": 7,
       "y": 4,
-      "z": 3,
-      "cardId": "Troodon"
+      "z": 0,
+      "cardId": "a"
     },
     {
       "x": 5,
-      "y": 2,
-      "z": 3,
-      "cardId": "Essence"
+      "y": 4,
+      "z": 0,
+      "cardId": "B"
+    },
+    {
+      "x": 3,
+      "y": 4,
+      "z": 0,
+      "cardId": "b"
+    },
+    {
+      "x": 3,
+      "y": 6,
+      "z": 0,
+      "cardId": "b"
     },
     {
       "x": 5,
       "y": 6,
-      "z": 3,
-      "cardId": "Foreman"
+      "z": 0,
+      "cardId": "b"
+    },
+    {
+      "x": 7,
+      "y": 6,
+      "z": 0,
+      "cardId": "b"
+    },
+    {
+      "x": 9,
+      "y": 6,
+      "z": 0,
+      "cardId": "C"
+    },
+    {
+      "x": 8,
+      "y": 5,
+      "z": 1,
+      "cardId": "c"
+    },
+    {
+      "x": 6,
+      "y": 5,
+      "z": 1,
+      "cardId": "c"
+    },
+    {
+      "x": 4,
+      "y": 5,
+      "z": 1,
+      "cardId": "D"
+    },
+    {
+      "x": 4,
+      "y": 3,
+      "z": 1,
+      "cardId": "c"
+    },
+    {
+      "x": 6,
+      "y": 3,
+      "z": 1,
+      "cardId": "d"
+    },
+    {
+      "x": 8,
+      "y": 3,
+      "z": 1,
+      "cardId": "d"
     }
   ],
   "stock": [
-    "Gavel",
-    "Cement",
-    "Eoraptor",
-    "Scent",
-    "Bricks",
-    "Crux",
-    "Drill",
-    "Judge",
-    "Bench",
-    "Dinosaur",
-    "Smolder",
-    "Marrow",
-    "Candle",
-    "Judgment",
-    "Dino",
-    "Remains",
-    "Verdict",
-    "Gist",
-    "Predator",
-    "Maritime",
-    "Lawsuit",
-    "Burn",
-    "Builder",
-    "Mesozoic",
-    "Wick",
-    "Skeleton",
-    "Dinosaur",
-    "Reptile",
-    "Ethics"
+    "d",
+    "d",
+    "E",
+    "e",
+    "e",
+    "e",
+    "e",
+    "F",
+    "f",
+    "f",
+    "f",
+    "f"
   ]
 }

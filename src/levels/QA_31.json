@@ -1,0 +1,435 @@
+{
+  "levelId": "QA_31",
+  "slotsDefault": 4,
+  "movesLimit": 100,
+  "categories": [
+    {
+      "categoryId": "Amulets",
+      "wordsData": [
+        {
+          "wordId": "Scarab"
+        },
+        {
+          "wordId": "Keepsake"
+        },
+        {
+          "wordId": "Locket"
+        }
+      ]
+    },
+    {
+      "categoryId": "Ring",
+      "wordsData": [
+        {
+          "wordId": "Halo"
+        },
+        {
+          "wordId": "Circle"
+        },
+        {
+          "wordId": "Moonbow"
+        },
+        {
+          "wordId": "Bracelet"
+        },
+        {
+          "wordId": "Hoop"
+        }
+      ]
+    },
+    {
+      "categoryId": "Tricks",
+      "wordsData": [
+        {
+          "wordId": "Trap"
+        },
+        {
+          "wordId": "Shift"
+        },
+        {
+          "wordId": "Switch"
+        }
+      ]
+    },
+    {
+      "categoryId": "Segments",
+      "wordsData": [
+        {
+          "wordId": "Portion"
+        },
+        {
+          "wordId": "Chunk"
+        },
+        {
+          "wordId": "Sliver"
+        },
+        {
+          "wordId": "Slice"
+        },
+        {
+          "wordId": "Sector"
+        }
+      ]
+    },
+    {
+      "categoryId": "Wines",
+      "wordsData": [
+        {
+          "wordId": "Cabernet"
+        },
+        {
+          "wordId": "Merlot"
+        },
+        {
+          "wordId": "Riesling"
+        },
+        {
+          "wordId": "Pinot"
+        },
+        {
+          "wordId": "Shiraz"
+        },
+        {
+          "wordId": "Chianti"
+        },
+        {
+          "wordId": "Nebbiolo"
+        },
+        {
+          "wordId": "Malbec"
+        }
+      ]
+    },
+    {
+      "categoryId": "Titans",
+      "wordsData": [
+        {
+          "wordId": "Coeus"
+        },
+        {
+          "wordId": "Cronus"
+        },
+        {
+          "wordId": "Rhea"
+        },
+        {
+          "wordId": "Atlas"
+        }
+      ]
+    },
+    {
+      "categoryId": "Cable",
+      "wordsData": [
+        {
+          "wordId": "Duct"
+        },
+        {
+          "wordId": "Cord"
+        },
+        {
+          "wordId": "Volt"
+        },
+        {
+          "wordId": "Jack"
+        },
+        {
+          "wordId": "Plug"
+        },
+        {
+          "wordId": "Coil"
+        }
+      ]
+    },
+    {
+      "categoryId": "Color",
+      "wordsData": [
+        {
+          "wordId": "Black"
+        },
+        {
+          "wordId": "Cyan"
+        },
+        {
+          "wordId": "Pink"
+        },
+        {
+          "wordId": "Dark"
+        },
+        {
+          "wordId": "Fuchsia"
+        },
+        {
+          "wordId": "Purple"
+        },
+        {
+          "wordId": "Burgundy"
+        }
+      ]
+    },
+    {
+      "categoryId": "Sanctum",
+      "wordsData": [
+        {
+          "wordId": "Temple"
+        },
+        {
+          "wordId": "Chapel"
+        },
+        {
+          "wordId": "Abbey"
+        },
+        {
+          "wordId": "Shrine"
+        }
+      ]
+    }
+  ],
+  "board": [
+    {
+      "x": 4,
+      "y": 1,
+      "z": 0,
+      "cardId": "Duct"
+    },
+    {
+      "x": 5,
+      "y": 3,
+      "z": 0,
+      "cardId": "Coeus"
+    },
+    {
+      "x": 7,
+      "y": 2,
+      "z": 0,
+      "cardId": "Black"
+    },
+    {
+      "x": 9,
+      "y": 3,
+      "z": 0,
+      "cardId": "Cronus"
+    },
+    {
+      "x": 10,
+      "y": 1,
+      "z": 0,
+      "cardId": "Cabernet"
+    },
+    {
+      "x": 3,
+      "y": 3,
+      "z": 0,
+      "cardId": "Scarab"
+    },
+    {
+      "x": 11,
+      "y": 3,
+      "z": 0,
+      "cardId": "Merlot"
+    },
+    {
+      "x": 4,
+      "y": 5,
+      "z": 0,
+      "cardId": "Segments"
+    },
+    {
+      "x": 10,
+      "y": 5,
+      "z": 0,
+      "cardId": "Halo"
+    },
+    {
+      "x": 3,
+      "y": 7,
+      "z": 0,
+      "cardId": "Cord"
+    },
+    {
+      "x": 5,
+      "y": 7,
+      "z": 0,
+      "cardId": "Portion"
+    },
+    {
+      "x": 4,
+      "y": 9,
+      "z": 0,
+      "cardId": "Color"
+    },
+    {
+      "x": 9,
+      "y": 7,
+      "z": 0,
+      "cardId": "Cyan"
+    },
+    {
+      "x": 11,
+      "y": 7,
+      "z": 0,
+      "cardId": "Circle"
+    },
+    {
+      "x": 10,
+      "y": 9,
+      "z": 0,
+      "cardId": "Rhea"
+    },
+    {
+      "x": 8,
+      "y": 3,
+      "z": 1,
+      "cardId": "Riesling"
+    },
+    {
+      "x": 6,
+      "y": 3,
+      "z": 1,
+      "cardId": "Keepsake"
+    },
+    {
+      "x": 5,
+      "y": 5,
+      "z": 1,
+      "cardId": "Pink"
+    },
+    {
+      "x": 9,
+      "y": 5,
+      "z": 1,
+      "cardId": "Titans"
+    },
+    {
+      "x": 10,
+      "y": 7,
+      "z": 1,
+      "cardId": "Pinot"
+    },
+    {
+      "x": 4,
+      "y": 7,
+      "z": 1,
+      "cardId": "Shiraz"
+    },
+    {
+      "x": 7,
+      "y": 1,
+      "z": 1,
+      "cardId": "Volt"
+    },
+    {
+      "x": 4,
+      "y": 10,
+      "z": 1,
+      "cardId": "Moonbow"
+    },
+    {
+      "x": 10,
+      "y": 10,
+      "z": 1,
+      "cardId": "Chunk"
+    },
+    {
+      "x": 7,
+      "y": 2,
+      "z": 2,
+      "cardId": "Bracelet"
+    },
+    {
+      "x": 9,
+      "y": 4,
+      "z": 2,
+      "cardId": "Hoop"
+    },
+    {
+      "x": 5,
+      "y": 4,
+      "z": 2,
+      "cardId": "Atlas"
+    },
+    {
+      "x": 4,
+      "y": 8,
+      "z": 2,
+      "cardId": "Chianti"
+    },
+    {
+      "x": 10,
+      "y": 8,
+      "z": 2,
+      "cardId": "Dark"
+    },
+    {
+      "x": 9,
+      "y": 6,
+      "z": 2,
+      "cardId": "Locket"
+    },
+    {
+      "x": 5,
+      "y": 6,
+      "z": 2,
+      "cardId": "Fuchsia"
+    },
+    {
+      "x": 7,
+      "y": 9,
+      "z": 2,
+      "cardId": "Sliver"
+    },
+    {
+      "x": 3,
+      "y": 10,
+      "z": 2,
+      "cardId": "Jack"
+    },
+    {
+      "x": 11,
+      "y": 10,
+      "z": 2,
+      "cardId": "Plug"
+    },
+    {
+      "x": 11,
+      "y": 1,
+      "z": 2,
+      "cardId": "Trap"
+    },
+    {
+      "x": 3,
+      "y": 1,
+      "z": 2,
+      "cardId": "Coil"
+    },
+    {
+      "x": 7,
+      "y": 5,
+      "z": 2,
+      "cardId": "Ring"
+    },
+    {
+      "x": 7,
+      "y": 0,
+      "z": 0,
+      "cardId": "Purple"
+    }
+  ],
+  "stock": [
+    "Temple",
+    "Tricks",
+    "Nebbiolo",
+    "Malbec",
+    "Chapel",
+    "Sanctum",
+    "Shift",
+    "Amulets",
+    "Abbey",
+    "Slice",
+    "Cable",
+    "Switch",
+    "Shrine",
+    "Burgundy",
+    "Sector",
+    "Wines"
+  ]
+}

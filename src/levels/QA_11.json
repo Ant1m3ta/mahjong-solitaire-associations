@@ -1,0 +1,337 @@
+{
+  "levelId": "QA_11",
+  "slotsDefault": 5,
+  "movesLimit": 120,
+  "categories": [
+    {
+      "categoryId": "Pen",
+      "wordsData": [
+        {
+          "wordId": "Cap"
+        },
+        {
+          "wordId": "Nib"
+        },
+        {
+          "wordId": "Write"
+        },
+        {
+          "wordId": "Clip"
+        },
+        {
+          "wordId": "Blue"
+        },
+        {
+          "wordId": "Ink"
+        }
+      ]
+    },
+    {
+      "categoryId": "Hug",
+      "wordsData": [
+        {
+          "wordId": "Clasp"
+        },
+        {
+          "wordId": "Clinch"
+        },
+        {
+          "wordId": "Squeeze"
+        },
+        {
+          "wordId": "Snuggle"
+        },
+        {
+          "wordId": "Embrace"
+        }
+      ]
+    },
+    {
+      "categoryId": "Beats",
+      "wordsData": [
+        {
+          "wordId": "Drum"
+        },
+        {
+          "wordId": "Snap"
+        },
+        {
+          "wordId": "Clap"
+        },
+        {
+          "wordId": "Tap"
+        },
+        {
+          "wordId": "Rhythm"
+        },
+        {
+          "wordId": "Kick"
+        }
+      ]
+    },
+    {
+      "categoryId": "Ranks",
+      "wordsData": [
+        {
+          "wordId": "Marshal"
+        },
+        {
+          "wordId": "Corporal"
+        },
+        {
+          "wordId": "General"
+        },
+        {
+          "wordId": "Admiral"
+        },
+        {
+          "wordId": "Ensign"
+        },
+        {
+          "wordId": "Major"
+        },
+        {
+          "wordId": "Recruit"
+        }
+      ]
+    },
+    {
+      "categoryId": "Noise",
+      "wordsData": [
+        {
+          "wordId": "Loud"
+        },
+        {
+          "wordId": "Creaking"
+        },
+        {
+          "wordId": "Buzz"
+        },
+        {
+          "wordId": "Clatter"
+        },
+        {
+          "wordId": "Hissing"
+        },
+        {
+          "wordId": "Cords"
+        }
+      ]
+    },
+    {
+      "categoryId": "Granular",
+      "wordsData": [
+        {
+          "wordId": "Lentils"
+        },
+        {
+          "wordId": "Sugar"
+        },
+        {
+          "wordId": "Millet"
+        },
+        {
+          "wordId": "Chickpea"
+        },
+        {
+          "wordId": "Rice"
+        },
+        {
+          "wordId": "Quinoa"
+        },
+        {
+          "wordId": "Sand"
+        }
+      ]
+    },
+    {
+      "categoryId": "Weapons",
+      "wordsData": [
+        {
+          "wordId": "Sword"
+        },
+        {
+          "wordId": "Bow"
+        },
+        {
+          "wordId": "Mace"
+        },
+        {
+          "wordId": "Grenade"
+        }
+      ]
+    }
+  ],
+  "board": [
+    {
+      "x": 9,
+      "y": 6,
+      "z": 0,
+      "cardId": "Cap"
+    },
+    {
+      "x": 7,
+      "y": 4,
+      "z": 0,
+      "cardId": "Lentils"
+    },
+    {
+      "x": 5,
+      "y": 2,
+      "z": 0,
+      "cardId": "Sugar"
+    },
+    {
+      "x": 11,
+      "y": 8,
+      "z": 0,
+      "cardId": "Noise"
+    },
+    {
+      "x": 13,
+      "y": 10,
+      "z": 0,
+      "cardId": "Nib"
+    },
+    {
+      "x": 7,
+      "y": 8,
+      "z": 0,
+      "cardId": "Marshal"
+    },
+    {
+      "x": 5,
+      "y": 10,
+      "z": 0,
+      "cardId": "Loud"
+    },
+    {
+      "x": 11,
+      "y": 4,
+      "z": 0,
+      "cardId": "Millet"
+    },
+    {
+      "x": 13,
+      "y": 2,
+      "z": 0,
+      "cardId": "Write"
+    },
+    {
+      "x": 9,
+      "y": 5,
+      "z": 1,
+      "cardId": "Corporal"
+    },
+    {
+      "x": 7,
+      "y": 7,
+      "z": 1,
+      "cardId": "General"
+    },
+    {
+      "x": 11,
+      "y": 7,
+      "z": 1,
+      "cardId": "Hug"
+    },
+    {
+      "x": 11,
+      "y": 3,
+      "z": 1,
+      "cardId": "Drum"
+    },
+    {
+      "x": 7,
+      "y": 3,
+      "z": 1,
+      "cardId": "Beats"
+    },
+    {
+      "x": 5,
+      "y": 9,
+      "z": 1,
+      "cardId": "Snap"
+    },
+    {
+      "x": 13,
+      "y": 9,
+      "z": 1,
+      "cardId": "Chickpea"
+    },
+    {
+      "x": 6,
+      "y": 3,
+      "z": 2,
+      "cardId": "Clip"
+    },
+    {
+      "x": 12,
+      "y": 3,
+      "z": 2,
+      "cardId": "Rice"
+    },
+    {
+      "x": 8,
+      "y": 8,
+      "z": 2,
+      "cardId": "Pen"
+    },
+    {
+      "x": 12,
+      "y": 6,
+      "z": 2,
+      "cardId": "Quinoa"
+    },
+    {
+      "x": 6,
+      "y": 6,
+      "z": 2,
+      "cardId": "Sword"
+    },
+    {
+      "x": 10,
+      "y": 2,
+      "z": 2,
+      "cardId": "Admiral"
+    },
+    {
+      "x": 10,
+      "y": 8,
+      "z": 2,
+      "cardId": "Weapons"
+    },
+    {
+      "x": 8,
+      "y": 2,
+      "z": 2,
+      "cardId": "Creaking"
+    }
+  ],
+  "stock": [
+    "Clap",
+    "Clasp",
+    "Buzz",
+    "Clinch",
+    "Bow",
+    "Squeeze",
+    "Tap",
+    "Rhythm",
+    "Blue",
+    "Ranks",
+    "Clatter",
+    "Snuggle",
+    "Granular",
+    "Ensign",
+    "Kick",
+    "Hissing",
+    "Major",
+    "Embrace",
+    "Cords",
+    "Recruit",
+    "Mace",
+    "Sand",
+    "Ink",
+    "Grenade"
+  ]
+}

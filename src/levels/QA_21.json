@@ -1,0 +1,402 @@
+{
+  "levelId": "QA_21",
+  "slotsDefault": 5,
+  "movesLimit": 120,
+  "categories": [
+    {
+      "categoryId": "Folders",
+      "wordsData": [
+        {
+          "wordId": "Public"
+        },
+        {
+          "wordId": "Trash"
+        },
+        {
+          "wordId": "Sent"
+        },
+        {
+          "wordId": "Shared"
+        }
+      ]
+    },
+    {
+      "categoryId": "Packets",
+      "wordsData": [
+        {
+          "wordId": "SMTP"
+        },
+        {
+          "wordId": "ARP"
+        },
+        {
+          "wordId": "TCP"
+        },
+        {
+          "wordId": "HTTP"
+        },
+        {
+          "wordId": "DNS"
+        },
+        {
+          "wordId": "SSH"
+        },
+        {
+          "wordId": "UDP"
+        },
+        {
+          "wordId": "ICMP"
+        }
+      ]
+    },
+    {
+      "categoryId": "Biomes",
+      "wordsData": [
+        {
+          "wordId": "Taiga"
+        },
+        {
+          "wordId": "Marsh"
+        },
+        {
+          "wordId": "Desert"
+        }
+      ]
+    },
+    {
+      "categoryId": "Sandbar",
+      "wordsData": [
+        {
+          "wordId": "Shoal"
+        },
+        {
+          "wordId": "Spit"
+        },
+        {
+          "wordId": "Tombolo"
+        },
+        {
+          "wordId": "Cay"
+        },
+        {
+          "wordId": "Mound"
+        },
+        {
+          "wordId": "Bank"
+        },
+        {
+          "wordId": "Shingle"
+        },
+        {
+          "wordId": "Foreland"
+        }
+      ]
+    },
+    {
+      "categoryId": "Diseases",
+      "wordsData": [
+        {
+          "wordId": "Measles"
+        },
+        {
+          "wordId": "Malaria"
+        },
+        {
+          "wordId": "Rubella"
+        },
+        {
+          "wordId": "Tetanus"
+        },
+        {
+          "wordId": "Plague"
+        },
+        {
+          "wordId": "Cholera"
+        }
+      ]
+    },
+    {
+      "categoryId": "Portugal",
+      "wordsData": [
+        {
+          "wordId": "Bacalhau"
+        },
+        {
+          "wordId": "Azulejo"
+        },
+        {
+          "wordId": "Fado"
+        }
+      ]
+    },
+    {
+      "categoryId": "Driver",
+      "wordsData": [
+        {
+          "wordId": "Brake"
+        },
+        {
+          "wordId": "Steer"
+        },
+        {
+          "wordId": "Race"
+        },
+        {
+          "wordId": "Honk"
+        },
+        {
+          "wordId": "Seatbelt"
+        },
+        {
+          "wordId": "Turn"
+        },
+        {
+          "wordId": "Park"
+        }
+      ]
+    },
+    {
+      "categoryId": "Trade",
+      "wordsData": [
+        {
+          "wordId": "Buy"
+        },
+        {
+          "wordId": "Tariff"
+        },
+        {
+          "wordId": "Sell"
+        },
+        {
+          "wordId": "Price"
+        },
+        {
+          "wordId": "Cost"
+        },
+        {
+          "wordId": "Trader"
+        },
+        {
+          "wordId": "Bargain"
+        },
+        {
+          "wordId": "Currency"
+        }
+      ]
+    }
+  ],
+  "board": [
+    {
+      "x": 5,
+      "y": 1,
+      "z": 0,
+      "cardId": "Buy"
+    },
+    {
+      "x": 9,
+      "y": 1,
+      "z": 0,
+      "cardId": "Tariff"
+    },
+    {
+      "x": 4,
+      "y": 4,
+      "z": 0,
+      "cardId": "Sell"
+    },
+    {
+      "x": 3,
+      "y": 6,
+      "z": 0,
+      "cardId": "Price"
+    },
+    {
+      "x": 5,
+      "y": 6,
+      "z": 0,
+      "cardId": "Cost"
+    },
+    {
+      "x": 9,
+      "y": 6,
+      "z": 0,
+      "cardId": "Taiga"
+    },
+    {
+      "x": 11,
+      "y": 6,
+      "z": 0,
+      "cardId": "Bacalhau"
+    },
+    {
+      "x": 10,
+      "y": 4,
+      "z": 0,
+      "cardId": "Brake"
+    },
+    {
+      "x": 10,
+      "y": 8,
+      "z": 0,
+      "cardId": "Steer"
+    },
+    {
+      "x": 4,
+      "y": 8,
+      "z": 0,
+      "cardId": "Measles"
+    },
+    {
+      "x": 6,
+      "y": 2,
+      "z": 1,
+      "cardId": "Race"
+    },
+    {
+      "x": 8,
+      "y": 2,
+      "z": 1,
+      "cardId": "Azulejo"
+    },
+    {
+      "x": 7,
+      "y": 4,
+      "z": 1,
+      "cardId": "SMTP"
+    },
+    {
+      "x": 7,
+      "y": 0,
+      "z": 1,
+      "cardId": "Fado"
+    },
+    {
+      "x": 8,
+      "y": 5,
+      "z": 2,
+      "cardId": "ARP"
+    },
+    {
+      "x": 6,
+      "y": 5,
+      "z": 2,
+      "cardId": "TCP"
+    },
+    {
+      "x": 11,
+      "y": 2,
+      "z": 3,
+      "cardId": "Diseases"
+    },
+    {
+      "x": 6,
+      "y": 9,
+      "z": 2,
+      "cardId": "Marsh"
+    },
+    {
+      "x": 8,
+      "y": 9,
+      "z": 2,
+      "cardId": "Shoal"
+    },
+    {
+      "x": 5,
+      "y": 3,
+      "z": 2,
+      "cardId": "Malaria"
+    },
+    {
+      "x": 9,
+      "y": 3,
+      "z": 2,
+      "cardId": "Public"
+    },
+    {
+      "x": 8,
+      "y": 1,
+      "z": 2,
+      "cardId": "Rubella"
+    },
+    {
+      "x": 3,
+      "y": 2,
+      "z": 3,
+      "cardId": "Packets"
+    },
+    {
+      "x": 7,
+      "y": 2,
+      "z": 3,
+      "cardId": "Spit"
+    },
+    {
+      "x": 3,
+      "y": 10,
+      "z": 3,
+      "cardId": "Driver"
+    },
+    {
+      "x": 8,
+      "y": 4,
+      "z": 3,
+      "cardId": "Trash"
+    },
+    {
+      "x": 7,
+      "y": 6,
+      "z": 3,
+      "cardId": "Honk"
+    },
+    {
+      "x": 6,
+      "y": 1,
+      "z": 2,
+      "cardId": "HTTP"
+    },
+    {
+      "x": 7,
+      "y": 3,
+      "z": 2,
+      "cardId": "Seatbelt"
+    },
+    {
+      "x": 6,
+      "y": 4,
+      "z": 3,
+      "cardId": "Desert"
+    },
+    {
+      "x": 11,
+      "y": 10,
+      "z": 3,
+      "cardId": "Portugal"
+    }
+  ],
+  "stock": [
+    "Tombolo",
+    "Trade",
+    "Trader",
+    "DNS",
+    "Cay",
+    "Tetanus",
+    "Bargain",
+    "Currency",
+    "SSH",
+    "Folders",
+    "Mound",
+    "Bank",
+    "Biomes",
+    "Turn",
+    "Plague",
+    "Cholera",
+    "Shingle",
+    "UDP",
+    "Park",
+    "Sent",
+    "Sandbar",
+    "Foreland",
+    "ICMP",
+    "Shared"
+  ]
+}

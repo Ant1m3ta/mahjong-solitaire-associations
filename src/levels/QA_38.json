@@ -1,0 +1,315 @@
+{
+  "levelId": "QA_38",
+  "slotsDefault": 4,
+  "movesLimit": 90,
+  "categories": [
+    {
+      "categoryId": "Poem",
+      "wordsData": [
+        {
+          "wordId": "Bard"
+        },
+        {
+          "wordId": "Elegy"
+        },
+        {
+          "wordId": "Sonnet"
+        },
+        {
+          "wordId": "Sestina"
+        },
+        {
+          "wordId": "Haiku"
+        },
+        {
+          "wordId": "Poetry"
+        }
+      ]
+    },
+    {
+      "categoryId": "Spooks",
+      "wordsData": [
+        {
+          "wordId": "Spectre"
+        },
+        {
+          "wordId": "Banshee"
+        },
+        {
+          "wordId": "Wraith"
+        },
+        {
+          "wordId": "Phantom"
+        },
+        {
+          "wordId": "Ghost"
+        }
+      ]
+    },
+    {
+      "categoryId": "Grove",
+      "wordsData": [
+        {
+          "wordId": "Pine"
+        },
+        {
+          "wordId": "Oak"
+        },
+        {
+          "wordId": "Larch"
+        },
+        {
+          "wordId": "Birch"
+        }
+      ]
+    },
+    {
+      "categoryId": "Creative",
+      "wordsData": [
+        {
+          "wordId": "Artwork"
+        },
+        {
+          "wordId": "Sculptor"
+        },
+        {
+          "wordId": "Writer"
+        }
+      ]
+    },
+    {
+      "categoryId": "Quasar",
+      "wordsData": [
+        {
+          "wordId": "Blazar"
+        },
+        {
+          "wordId": "Redshift"
+        },
+        {
+          "wordId": "Photon"
+        },
+        {
+          "wordId": "Pulsar"
+        }
+      ]
+    },
+    {
+      "categoryId": "Rivalry",
+      "wordsData": [
+        {
+          "wordId": "Compete"
+        },
+        {
+          "wordId": "Stake"
+        },
+        {
+          "wordId": "Tension"
+        },
+        {
+          "wordId": "Battle"
+        },
+        {
+          "wordId": "Contest"
+        }
+      ]
+    },
+    {
+      "categoryId": "Glyph",
+      "wordsData": [
+        {
+          "wordId": "Symbol"
+        },
+        {
+          "wordId": "Motif"
+        },
+        {
+          "wordId": "Sign"
+        },
+        {
+          "wordId": "Carving"
+        },
+        {
+          "wordId": "Signet"
+        },
+        {
+          "wordId": "Grapheme"
+        }
+      ]
+    }
+  ],
+  "board": [
+    {
+      "x": 2,
+      "y": 7,
+      "z": 0,
+      "cardId": "Blazar"
+    },
+    {
+      "x": 4,
+      "y": 7,
+      "z": 0,
+      "cardId": "Bard"
+    },
+    {
+      "x": 6,
+      "y": 7,
+      "z": 0,
+      "cardId": "Redshift"
+    },
+    {
+      "x": 8,
+      "y": 7,
+      "z": 0,
+      "cardId": "Spectre"
+    },
+    {
+      "x": 10,
+      "y": 7,
+      "z": 0,
+      "cardId": "Compete"
+    },
+    {
+      "x": 3,
+      "y": 8,
+      "z": 1,
+      "cardId": "Elegy"
+    },
+    {
+      "x": 5,
+      "y": 8,
+      "z": 1,
+      "cardId": "Sonnet"
+    },
+    {
+      "x": 7,
+      "y": 8,
+      "z": 1,
+      "cardId": "Banshee"
+    },
+    {
+      "x": 9,
+      "y": 8,
+      "z": 1,
+      "cardId": "Artwork"
+    },
+    {
+      "x": 5,
+      "y": 4,
+      "z": 1,
+      "cardId": "Pine"
+    },
+    {
+      "x": 7,
+      "y": 4,
+      "z": 1,
+      "cardId": "Poem"
+    },
+    {
+      "x": 6,
+      "y": 3,
+      "z": 2,
+      "cardId": "Symbol"
+    },
+    {
+      "x": 4,
+      "y": 9,
+      "z": 2,
+      "cardId": "Photon"
+    },
+    {
+      "x": 8,
+      "y": 9,
+      "z": 2,
+      "cardId": "Sestina"
+    },
+    {
+      "x": 10,
+      "y": 9,
+      "z": 2,
+      "cardId": "Motif"
+    },
+    {
+      "x": 2,
+      "y": 9,
+      "z": 2,
+      "cardId": "Glyph"
+    },
+    {
+      "x": 3,
+      "y": 10,
+      "z": 3,
+      "cardId": "Sculptor"
+    },
+    {
+      "x": 9,
+      "y": 10,
+      "z": 3,
+      "cardId": "Rivalry"
+    },
+    {
+      "x": 3,
+      "y": 6,
+      "z": 3,
+      "cardId": "Sign"
+    },
+    {
+      "x": 9,
+      "y": 6,
+      "z": 3,
+      "cardId": "Oak"
+    },
+    {
+      "x": 6,
+      "y": 5,
+      "z": 3,
+      "cardId": "Creative"
+    },
+    {
+      "x": 3,
+      "y": 13,
+      "z": 3,
+      "cardId": "Writer"
+    },
+    {
+      "x": 9,
+      "y": 13,
+      "z": 3,
+      "cardId": "Stake"
+    },
+    {
+      "x": 6,
+      "y": 13,
+      "z": 3,
+      "cardId": "Carving"
+    },
+    {
+      "x": 3,
+      "y": 3,
+      "z": 3,
+      "cardId": "Haiku"
+    },
+    {
+      "x": 9,
+      "y": 3,
+      "z": 3,
+      "cardId": "Larch"
+    }
+  ],
+  "stock": [
+    "Spooks",
+    "Birch",
+    "Wraith",
+    "Tension",
+    "Pulsar",
+    "Poetry",
+    "Battle",
+    "Grove",
+    "Signet",
+    "Contest",
+    "Grapheme",
+    "Quasar",
+    "Phantom",
+    "Ghost"
+  ]
+}

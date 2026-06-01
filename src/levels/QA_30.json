@@ -1,0 +1,371 @@
+{
+  "levelId": "QA_30",
+  "slotsDefault": 4,
+  "movesLimit": 80,
+  "categories": [
+    {
+      "categoryId": "Pebbles",
+      "wordsData": [
+        {
+          "wordId": "Cobble"
+        },
+        {
+          "wordId": "Nodule"
+        },
+        {
+          "wordId": "Clast"
+        },
+        {
+          "wordId": "Rock"
+        },
+        {
+          "wordId": "Gravel"
+        },
+        {
+          "wordId": "Gneiss"
+        }
+      ]
+    },
+    {
+      "categoryId": "Pilot",
+      "wordsData": [
+        {
+          "wordId": "Ace"
+        },
+        {
+          "wordId": "Copilot"
+        },
+        {
+          "wordId": "Airman"
+        },
+        {
+          "wordId": "Aeronaut"
+        }
+      ]
+    },
+    {
+      "categoryId": "Planes",
+      "wordsData": [
+        {
+          "wordId": "Glide"
+        },
+        {
+          "wordId": "Glider"
+        },
+        {
+          "wordId": "Jet"
+        },
+        {
+          "wordId": "Boarding"
+        },
+        {
+          "wordId": "Turbojet"
+        },
+        {
+          "wordId": "Sky"
+        },
+        {
+          "wordId": "Fighter"
+        },
+        {
+          "wordId": "Fuselage"
+        }
+      ]
+    },
+    {
+      "categoryId": "Sundial",
+      "wordsData": [
+        {
+          "wordId": "Noon"
+        },
+        {
+          "wordId": "Solstice"
+        },
+        {
+          "wordId": "Sunlight"
+        },
+        {
+          "wordId": "Azimuth"
+        },
+        {
+          "wordId": "Meridian"
+        },
+        {
+          "wordId": "Dial"
+        }
+      ]
+    },
+    {
+      "categoryId": "Cheetah",
+      "wordsData": [
+        {
+          "wordId": "Slender"
+        },
+        {
+          "wordId": "Claws"
+        },
+        {
+          "wordId": "Wild"
+        },
+        {
+          "wordId": "Fastest"
+        },
+        {
+          "wordId": "Spots"
+        },
+        {
+          "wordId": "Tawny"
+        }
+      ]
+    },
+    {
+      "categoryId": "Specter",
+      "wordsData": [
+        {
+          "wordId": "Wraith"
+        },
+        {
+          "wordId": "Soul"
+        },
+        {
+          "wordId": "Phantasm"
+        }
+      ]
+    },
+    {
+      "categoryId": "Beef cut",
+      "wordsData": [
+        {
+          "wordId": "Brisket"
+        },
+        {
+          "wordId": "Chuck"
+        },
+        {
+          "wordId": "T-bone"
+        },
+        {
+          "wordId": "Shank"
+        }
+      ]
+    }
+  ],
+  "board": [
+    {
+      "x": 1,
+      "y": 12,
+      "z": 0,
+      "cardId": "Brisket"
+    },
+    {
+      "x": 1,
+      "y": 14,
+      "z": 0,
+      "cardId": "Glide"
+    },
+    {
+      "x": 1,
+      "y": 16,
+      "z": 0,
+      "cardId": "Ace"
+    },
+    {
+      "x": 3,
+      "y": 16,
+      "z": 0,
+      "cardId": "Slender"
+    },
+    {
+      "x": 5,
+      "y": 16,
+      "z": 0,
+      "cardId": "Noon"
+    },
+    {
+      "x": 7,
+      "y": 16,
+      "z": 0,
+      "cardId": "Pilot"
+    },
+    {
+      "x": 1,
+      "y": 10,
+      "z": 0,
+      "cardId": "Glider"
+    },
+    {
+      "x": 3,
+      "y": 12,
+      "z": 0,
+      "cardId": "Claws"
+    },
+    {
+      "x": 3,
+      "y": 14,
+      "z": 0,
+      "cardId": "Wraith"
+    },
+    {
+      "x": 6,
+      "y": 15,
+      "z": 1,
+      "cardId": "Cheetah"
+    },
+    {
+      "x": 2,
+      "y": 7,
+      "z": 0,
+      "cardId": "Cobble"
+    },
+    {
+      "x": 4,
+      "y": 9,
+      "z": 0,
+      "cardId": "Chuck"
+    },
+    {
+      "x": 6,
+      "y": 11,
+      "z": 0,
+      "cardId": "Solstice"
+    },
+    {
+      "x": 8,
+      "y": 13,
+      "z": 0,
+      "cardId": "Nodule"
+    },
+    {
+      "x": 8,
+      "y": 11,
+      "z": 0,
+      "cardId": "Sunlight"
+    },
+    {
+      "x": 8,
+      "y": 9,
+      "z": 0,
+      "cardId": "Jet"
+    },
+    {
+      "x": 3,
+      "y": 8,
+      "z": 1,
+      "cardId": "Specter"
+    },
+    {
+      "x": 4,
+      "y": 7,
+      "z": 0,
+      "cardId": "Clast"
+    },
+    {
+      "x": 6,
+      "y": 7,
+      "z": 0,
+      "cardId": "T-bone"
+    },
+    {
+      "x": 8,
+      "y": 7,
+      "z": 0,
+      "cardId": "Rock"
+    },
+    {
+      "x": 7,
+      "y": 10,
+      "z": 1,
+      "cardId": "Sundial"
+    },
+    {
+      "x": 7,
+      "y": 8,
+      "z": 1,
+      "cardId": "Azimuth"
+    },
+    {
+      "x": 2,
+      "y": 13,
+      "z": 1,
+      "cardId": "Gravel"
+    },
+    {
+      "x": 2,
+      "y": 15,
+      "z": 1,
+      "cardId": "Boarding"
+    },
+    {
+      "x": 4,
+      "y": 15,
+      "z": 1,
+      "cardId": "Gneiss"
+    },
+    {
+      "x": 6,
+      "y": 9,
+      "z": 2,
+      "cardId": "Turbojet"
+    },
+    {
+      "x": 4,
+      "y": 13,
+      "z": 1,
+      "cardId": "Soul"
+    },
+    {
+      "x": 2,
+      "y": 11,
+      "z": 1,
+      "cardId": "Sky"
+    },
+    {
+      "x": 7,
+      "y": 12,
+      "z": 1,
+      "cardId": "Shank"
+    },
+    {
+      "x": 6,
+      "y": 9,
+      "z": 0,
+      "cardId": "Meridian"
+    },
+    {
+      "x": 3,
+      "y": 14,
+      "z": 2,
+      "cardId": "Planes"
+    },
+    {
+      "x": 5,
+      "y": 10,
+      "z": 1,
+      "cardId": "Phantasm"
+    },
+    {
+      "x": 5,
+      "y": 8,
+      "z": 1,
+      "cardId": "Wild"
+    },
+    {
+      "x": 5,
+      "y": 14,
+      "z": 0,
+      "cardId": "Fastest"
+    }
+  ],
+  "stock": [
+    "Spots",
+    "Copilot",
+    "Fighter",
+    "Tawny",
+    "Airman",
+    "Fuselage",
+    "Dial",
+    "Aeronaut",
+    "Beef cut",
+    "Pebbles"
+  ]
+}

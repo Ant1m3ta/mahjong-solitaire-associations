@@ -1,0 +1,398 @@
+{
+  "levelId": "QA_44",
+  "slotsDefault": 4,
+  "movesLimit": 80,
+  "categories": [
+    {
+      "categoryId": "Port",
+      "wordsData": [
+        {
+          "wordId": "Dockside"
+        },
+        {
+          "wordId": "Wharf"
+        },
+        {
+          "wordId": "Boatyard"
+        },
+        {
+          "wordId": "Berth"
+        },
+        {
+          "wordId": "Quay"
+        },
+        {
+          "wordId": "Marina"
+        }
+      ]
+    },
+    {
+      "categoryId": "Size",
+      "wordsData": [
+        {
+          "wordId": "A1"
+        },
+        {
+          "wordId": "Small"
+        },
+        {
+          "wordId": "XL"
+        },
+        {
+          "wordId": "Big"
+        },
+        {
+          "wordId": "A0"
+        },
+        {
+          "wordId": "A4"
+        }
+      ]
+    },
+    {
+      "categoryId": "Dress",
+      "wordsData": [
+        {
+          "wordId": "Cocktail"
+        },
+        {
+          "wordId": "Sundress"
+        },
+        {
+          "wordId": "Sari"
+        },
+        {
+          "wordId": "Bodycon"
+        },
+        {
+          "wordId": "Sheath"
+        },
+        {
+          "wordId": "Gown"
+        },
+        {
+          "wordId": "Tunic"
+        },
+        {
+          "wordId": "Mini"
+        }
+      ]
+    },
+    {
+      "categoryId": "Spectra",
+      "wordsData": [
+        {
+          "wordId": "Xray"
+        },
+        {
+          "wordId": "Visible"
+        },
+        {
+          "wordId": "Lumen"
+        },
+        {
+          "wordId": "Longwave"
+        },
+        {
+          "wordId": "UVA"
+        }
+      ]
+    },
+    {
+      "categoryId": "Celebs",
+      "wordsData": [
+        {
+          "wordId": "Singer"
+        },
+        {
+          "wordId": "VIP"
+        },
+        {
+          "wordId": "Fame"
+        },
+        {
+          "wordId": "Model"
+        },
+        {
+          "wordId": "Pop star"
+        },
+        {
+          "wordId": "Actor"
+        }
+      ]
+    },
+    {
+      "categoryId": "Lingo",
+      "wordsData": [
+        {
+          "wordId": "Pidgin"
+        },
+        {
+          "wordId": "Variety"
+        },
+        {
+          "wordId": "Accent"
+        },
+        {
+          "wordId": "Dialect"
+        }
+      ]
+    },
+    {
+      "categoryId": "Folds",
+      "wordsData": [
+        {
+          "wordId": "Drape"
+        },
+        {
+          "wordId": "Dart"
+        },
+        {
+          "wordId": "Ruffle"
+        },
+        {
+          "wordId": "Tuck"
+        },
+        {
+          "wordId": "Crease"
+        }
+      ]
+    }
+  ],
+  "board": [
+    {
+      "x": 1,
+      "y": 1,
+      "z": 0,
+      "cardId": "Cocktail"
+    },
+    {
+      "x": 5,
+      "y": 1,
+      "z": 0,
+      "cardId": "A1"
+    },
+    {
+      "x": 9,
+      "y": 1,
+      "z": 0,
+      "cardId": "Celebs"
+    },
+    {
+      "x": 5,
+      "y": 3,
+      "z": 0,
+      "cardId": "Sundress"
+    },
+    {
+      "x": 5,
+      "y": 5,
+      "z": 0,
+      "cardId": "Sari"
+    },
+    {
+      "x": 5,
+      "y": 7,
+      "z": 0,
+      "cardId": "Size"
+    },
+    {
+      "x": 5,
+      "y": 9,
+      "z": 0,
+      "cardId": "Lingo"
+    },
+    {
+      "x": 1,
+      "y": 3,
+      "z": 0,
+      "cardId": "Dockside"
+    },
+    {
+      "x": 1,
+      "y": 5,
+      "z": 0,
+      "cardId": "Singer"
+    },
+    {
+      "x": 1,
+      "y": 7,
+      "z": 0,
+      "cardId": "Pidgin"
+    },
+    {
+      "x": 1,
+      "y": 9,
+      "z": 0,
+      "cardId": "Small"
+    },
+    {
+      "x": 9,
+      "y": 3,
+      "z": 0,
+      "cardId": "Bodycon"
+    },
+    {
+      "x": 9,
+      "y": 5,
+      "z": 0,
+      "cardId": "Wharf"
+    },
+    {
+      "x": 9,
+      "y": 7,
+      "z": 0,
+      "cardId": "Boatyard"
+    },
+    {
+      "x": 9,
+      "y": 9,
+      "z": 0,
+      "cardId": "Drape"
+    },
+    {
+      "x": 8,
+      "y": 8,
+      "z": 1,
+      "cardId": "Variety"
+    },
+    {
+      "x": 2,
+      "y": 8,
+      "z": 1,
+      "cardId": "Sheath"
+    },
+    {
+      "x": 4,
+      "y": 6,
+      "z": 1,
+      "cardId": "Xray"
+    },
+    {
+      "x": 6,
+      "y": 6,
+      "z": 1,
+      "cardId": "Visible"
+    },
+    {
+      "x": 5,
+      "y": 4,
+      "z": 1,
+      "cardId": "Gown"
+    },
+    {
+      "x": 5,
+      "y": 2,
+      "z": 1,
+      "cardId": "Tunic"
+    },
+    {
+      "x": 9,
+      "y": 6,
+      "z": 1,
+      "cardId": "Berth"
+    },
+    {
+      "x": 9,
+      "y": 4,
+      "z": 1,
+      "cardId": "VIP"
+    },
+    {
+      "x": 9,
+      "y": 2,
+      "z": 1,
+      "cardId": "Accent"
+    },
+    {
+      "x": 1,
+      "y": 6,
+      "z": 1,
+      "cardId": "Lumen"
+    },
+    {
+      "x": 1,
+      "y": 4,
+      "z": 1,
+      "cardId": "Fame"
+    },
+    {
+      "x": 1,
+      "y": 2,
+      "z": 1,
+      "cardId": "Dart"
+    },
+    {
+      "x": 5,
+      "y": 8,
+      "z": 1,
+      "cardId": "Longwave"
+    },
+    {
+      "x": 1,
+      "y": 3,
+      "z": 2,
+      "cardId": "XL"
+    },
+    {
+      "x": 1,
+      "y": 5,
+      "z": 2,
+      "cardId": "Quay"
+    },
+    {
+      "x": 5,
+      "y": 5,
+      "z": 2,
+      "cardId": "Marina"
+    },
+    {
+      "x": 5,
+      "y": 3,
+      "z": 2,
+      "cardId": "Dress"
+    },
+    {
+      "x": 5,
+      "y": 7,
+      "z": 2,
+      "cardId": "Port"
+    },
+    {
+      "x": 2,
+      "y": 7,
+      "z": 2,
+      "cardId": "Ruffle"
+    },
+    {
+      "x": 8,
+      "y": 7,
+      "z": 2,
+      "cardId": "Big"
+    },
+    {
+      "x": 9,
+      "y": 5,
+      "z": 2,
+      "cardId": "Model"
+    },
+    {
+      "x": 9,
+      "y": 3,
+      "z": 2,
+      "cardId": "Mini"
+    }
+  ],
+  "stock": [
+    "Folds",
+    "A0",
+    "Tuck",
+    "Spectra",
+    "Pop star",
+    "A4",
+    "Actor",
+    "UVA",
+    "Dialect",
+    "Crease"
+  ]
+}

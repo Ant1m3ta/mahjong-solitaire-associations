@@ -1,0 +1,353 @@
+{
+  "levelId": "QA_3",
+  "slotsDefault": 4,
+  "movesLimit": 100,
+  "categories": [
+    {
+      "categoryId": "Leather",
+      "wordsData": [
+        {
+          "wordId": "Buckskin"
+        },
+        {
+          "wordId": "Cowhide"
+        },
+        {
+          "wordId": "Dyeing"
+        },
+        {
+          "wordId": "Stitch"
+        },
+        {
+          "wordId": "Pelt"
+        }
+      ]
+    },
+    {
+      "categoryId": "Database",
+      "wordsData": [
+        {
+          "wordId": "Backup"
+        },
+        {
+          "wordId": "Storage"
+        },
+        {
+          "wordId": "Server"
+        },
+        {
+          "wordId": "Data"
+        },
+        {
+          "wordId": "Index"
+        }
+      ]
+    },
+    {
+      "categoryId": "Rap",
+      "wordsData": [
+        {
+          "wordId": "Rhymes"
+        },
+        {
+          "wordId": "Bounce"
+        },
+        {
+          "wordId": "Lyrics"
+        },
+        {
+          "wordId": "G-funk"
+        },
+        {
+          "wordId": "Verse"
+        },
+        {
+          "wordId": "Beat"
+        }
+      ]
+    },
+    {
+      "categoryId": "Respire",
+      "wordsData": [
+        {
+          "wordId": "Inhale"
+        },
+        {
+          "wordId": "Puff"
+        },
+        {
+          "wordId": "Exhale"
+        },
+        {
+          "wordId": "Wheeze"
+        }
+      ]
+    },
+    {
+      "categoryId": "Candies",
+      "wordsData": [
+        {
+          "wordId": "Fudge"
+        },
+        {
+          "wordId": "Praline"
+        },
+        {
+          "wordId": "Toffee"
+        },
+        {
+          "wordId": "Bonbon"
+        },
+        {
+          "wordId": "Marzipan"
+        },
+        {
+          "wordId": "Gummy"
+        }
+      ]
+    },
+    {
+      "categoryId": "Table",
+      "wordsData": [
+        {
+          "wordId": "Dressing"
+        },
+        {
+          "wordId": "Plates"
+        },
+        {
+          "wordId": "Meal"
+        },
+        {
+          "wordId": "Tabletop"
+        },
+        {
+          "wordId": "Bedside"
+        },
+        {
+          "wordId": "Dine"
+        },
+        {
+          "wordId": "Leg"
+        }
+      ]
+    },
+    {
+      "categoryId": "Enchant",
+      "wordsData": [
+        {
+          "wordId": "Petrify"
+        },
+        {
+          "wordId": "Beguile"
+        },
+        {
+          "wordId": "Enthrall"
+        },
+        {
+          "wordId": "Bewitch"
+        },
+        {
+          "wordId": "Transfix"
+        },
+        {
+          "wordId": "Conjure"
+        },
+        {
+          "wordId": "Attract"
+        }
+      ]
+    }
+  ],
+  "board": [
+    {
+      "x": 4,
+      "y": 2,
+      "z": 0,
+      "cardId": "Dressing"
+    },
+    {
+      "x": 6,
+      "y": 3,
+      "z": 0,
+      "cardId": "Rhymes"
+    },
+    {
+      "x": 8,
+      "y": 2,
+      "z": 0,
+      "cardId": "Petrify"
+    },
+    {
+      "x": 10,
+      "y": 3,
+      "z": 0,
+      "cardId": "Plates"
+    },
+    {
+      "x": 12,
+      "y": 2,
+      "z": 0,
+      "cardId": "Beguile"
+    },
+    {
+      "x": 4,
+      "y": 10,
+      "z": 0,
+      "cardId": "Bounce"
+    },
+    {
+      "x": 6,
+      "y": 9,
+      "z": 0,
+      "cardId": "Candies"
+    },
+    {
+      "x": 8,
+      "y": 10,
+      "z": 0,
+      "cardId": "Inhale"
+    },
+    {
+      "x": 10,
+      "y": 9,
+      "z": 0,
+      "cardId": "Fudge"
+    },
+    {
+      "x": 12,
+      "y": 10,
+      "z": 0,
+      "cardId": "Buckskin"
+    },
+    {
+      "x": 5,
+      "y": 8,
+      "z": 1,
+      "cardId": "Enthrall"
+    },
+    {
+      "x": 11,
+      "y": 8,
+      "z": 1,
+      "cardId": "Lyrics"
+    },
+    {
+      "x": 5,
+      "y": 4,
+      "z": 1,
+      "cardId": "Meal"
+    },
+    {
+      "x": 11,
+      "y": 4,
+      "z": 1,
+      "cardId": "Puff"
+    },
+    {
+      "x": 6,
+      "y": 5,
+      "z": 2,
+      "cardId": "Tabletop"
+    },
+    {
+      "x": 10,
+      "y": 5,
+      "z": 2,
+      "cardId": "Cowhide"
+    },
+    {
+      "x": 6,
+      "y": 7,
+      "z": 2,
+      "cardId": "Backup"
+    },
+    {
+      "x": 10,
+      "y": 7,
+      "z": 2,
+      "cardId": "Bedside"
+    },
+    {
+      "x": 7,
+      "y": 6,
+      "z": 3,
+      "cardId": "G-funk"
+    },
+    {
+      "x": 9,
+      "y": 6,
+      "z": 3,
+      "cardId": "Bewitch"
+    },
+    {
+      "x": 8,
+      "y": 4,
+      "z": 3,
+      "cardId": "Leather"
+    },
+    {
+      "x": 8,
+      "y": 8,
+      "z": 3,
+      "cardId": "Praline"
+    },
+    {
+      "x": 8,
+      "y": 5,
+      "z": 4,
+      "cardId": "Storage"
+    },
+    {
+      "x": 8,
+      "y": 7,
+      "z": 4,
+      "cardId": "Exhale"
+    },
+    {
+      "x": 12,
+      "y": 5,
+      "z": 3,
+      "cardId": "Dine"
+    },
+    {
+      "x": 12,
+      "y": 7,
+      "z": 3,
+      "cardId": "Toffee"
+    },
+    {
+      "x": 4,
+      "y": 7,
+      "z": 3,
+      "cardId": "Enchant"
+    },
+    {
+      "x": 4,
+      "y": 5,
+      "z": 3,
+      "cardId": "Transfix"
+    }
+  ],
+  "stock": [
+    "Dyeing",
+    "Table",
+    "Database",
+    "Verse",
+    "Wheeze",
+    "Leg",
+    "Stitch",
+    "Pelt",
+    "Rap",
+    "Conjure",
+    "Bonbon",
+    "Respire",
+    "Attract",
+    "Server",
+    "Marzipan",
+    "Data",
+    "Gummy",
+    "Index",
+    "Beat"
+  ]
+}

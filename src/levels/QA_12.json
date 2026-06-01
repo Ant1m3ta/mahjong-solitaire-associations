@@ -1,0 +1,339 @@
+{
+  "levelId": "QA_12",
+  "slotsDefault": 5,
+  "movesLimit": 120,
+  "categories": [
+    {
+      "categoryId": "Fake",
+      "wordsData": [
+        {
+          "wordId": "Fraud"
+        },
+        {
+          "wordId": "Hoax"
+        },
+        {
+          "wordId": "Teleport"
+        }
+      ]
+    },
+    {
+      "categoryId": "Sports",
+      "wordsData": [
+        {
+          "wordId": "Rugby"
+        },
+        {
+          "wordId": "Football"
+        },
+        {
+          "wordId": "Hockey"
+        },
+        {
+          "wordId": "Baseball"
+        },
+        {
+          "wordId": "Cricket"
+        },
+        {
+          "wordId": "Soccer"
+        },
+        {
+          "wordId": "Fencing"
+        },
+        {
+          "wordId": "Curling"
+        }
+      ]
+    },
+    {
+      "categoryId": "Nuts",
+      "wordsData": [
+        {
+          "wordId": "Almond"
+        },
+        {
+          "wordId": "Cashew"
+        },
+        {
+          "wordId": "Chestnut"
+        },
+        {
+          "wordId": "Filbert"
+        },
+        {
+          "wordId": "Hazelnut"
+        },
+        {
+          "wordId": "Peanut"
+        }
+      ]
+    },
+    {
+      "categoryId": "Trends",
+      "wordsData": [
+        {
+          "wordId": "Y2K"
+        },
+        {
+          "wordId": "Meme"
+        },
+        {
+          "wordId": "Viral"
+        },
+        {
+          "wordId": "Minimal"
+        },
+        {
+          "wordId": "Kawaii"
+        },
+        {
+          "wordId": "Hashtag"
+        },
+        {
+          "wordId": "Normcore"
+        },
+        {
+          "wordId": "Vintage"
+        }
+      ]
+    },
+    {
+      "categoryId": "Napkin",
+      "wordsData": [
+        {
+          "wordId": "Manners"
+        },
+        {
+          "wordId": "Bib"
+        },
+        {
+          "wordId": "Eating"
+        },
+        {
+          "wordId": "Tissue"
+        },
+        {
+          "wordId": "Serving"
+        },
+        {
+          "wordId": "Cloth"
+        }
+      ]
+    },
+    {
+      "categoryId": "Seismic",
+      "wordsData": [
+        {
+          "wordId": "Richter"
+        },
+        {
+          "wordId": "Tsunami"
+        },
+        {
+          "wordId": "Volcano"
+        },
+        {
+          "wordId": "Quake"
+        }
+      ]
+    },
+    {
+      "categoryId": "Eclipse",
+      "wordsData": [
+        {
+          "wordId": "Annular"
+        },
+        {
+          "wordId": "Umbra"
+        },
+        {
+          "wordId": "Lunar"
+        },
+        {
+          "wordId": "Corona"
+        }
+      ]
+    }
+  ],
+  "board": [
+    {
+      "x": 8,
+      "y": 1,
+      "z": 0,
+      "cardId": "Annular"
+    },
+    {
+      "x": 8,
+      "y": 3,
+      "z": 0,
+      "cardId": "Rugby"
+    },
+    {
+      "x": 8,
+      "y": 5,
+      "z": 0,
+      "cardId": "Y2K"
+    },
+    {
+      "x": 8,
+      "y": 7,
+      "z": 0,
+      "cardId": "Trends"
+    },
+    {
+      "x": 8,
+      "y": 9,
+      "z": 0,
+      "cardId": "Manners"
+    },
+    {
+      "x": 6,
+      "y": 5,
+      "z": 0,
+      "cardId": "Fraud"
+    },
+    {
+      "x": 4,
+      "y": 5,
+      "z": 0,
+      "cardId": "Football"
+    },
+    {
+      "x": 10,
+      "y": 5,
+      "z": 0,
+      "cardId": "Richter"
+    },
+    {
+      "x": 12,
+      "y": 5,
+      "z": 0,
+      "cardId": "Almond"
+    },
+    {
+      "x": 6,
+      "y": 3,
+      "z": 0,
+      "cardId": "Hockey"
+    },
+    {
+      "x": 10,
+      "y": 3,
+      "z": 0,
+      "cardId": "Meme"
+    },
+    {
+      "x": 6,
+      "y": 7,
+      "z": 0,
+      "cardId": "Baseball"
+    },
+    {
+      "x": 10,
+      "y": 7,
+      "z": 0,
+      "cardId": "Viral"
+    },
+    {
+      "x": 7,
+      "y": 6,
+      "z": 1,
+      "cardId": "Cricket"
+    },
+    {
+      "x": 7,
+      "y": 4,
+      "z": 1,
+      "cardId": "Soccer"
+    },
+    {
+      "x": 8,
+      "y": 2,
+      "z": 1,
+      "cardId": "Tsunami"
+    },
+    {
+      "x": 8,
+      "y": 8,
+      "z": 1,
+      "cardId": "Bib"
+    },
+    {
+      "x": 5,
+      "y": 5,
+      "z": 1,
+      "cardId": "Eating"
+    },
+    {
+      "x": 11,
+      "y": 5,
+      "z": 1,
+      "cardId": "Minimal"
+    },
+    {
+      "x": 5,
+      "y": 2,
+      "z": 2,
+      "cardId": "Tissue"
+    },
+    {
+      "x": 8,
+      "y": 5,
+      "z": 2,
+      "cardId": "Nuts"
+    },
+    {
+      "x": 11,
+      "y": 2,
+      "z": 2,
+      "cardId": "Serving"
+    },
+    {
+      "x": 5,
+      "y": 8,
+      "z": 2,
+      "cardId": "Cashew"
+    },
+    {
+      "x": 11,
+      "y": 8,
+      "z": 2,
+      "cardId": "Volcano"
+    },
+    {
+      "x": 9,
+      "y": 4,
+      "z": 1,
+      "cardId": "Chestnut"
+    },
+    {
+      "x": 9,
+      "y": 6,
+      "z": 1,
+      "cardId": "Filbert"
+    }
+  ],
+  "stock": [
+    "Fencing",
+    "Kawaii",
+    "Eclipse",
+    "Cloth",
+    "Hashtag",
+    "Hazelnut",
+    "Hoax",
+    "Sports",
+    "Umbra",
+    "Teleport",
+    "Quake",
+    "Normcore",
+    "Seismic",
+    "Peanut",
+    "Lunar",
+    "Curling",
+    "Vintage",
+    "Corona",
+    "Napkin",
+    "Fake"
+  ]
+}

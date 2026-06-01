@@ -1,0 +1,385 @@
+{
+  "levelId": "QA_32",
+  "slotsDefault": 4,
+  "movesLimit": 120,
+  "categories": [
+    {
+      "categoryId": "Amulets",
+      "wordsData": [
+        {
+          "wordId": "Sigils"
+        },
+        {
+          "wordId": "Brooch"
+        },
+        {
+          "wordId": "Ankh"
+        },
+        {
+          "wordId": "Taijitu"
+        },
+        {
+          "wordId": "Relics"
+        },
+        {
+          "wordId": "Trinket"
+        }
+      ]
+    },
+    {
+      "categoryId": "Chicken",
+      "wordsData": [
+        {
+          "wordId": "Wattles"
+        },
+        {
+          "wordId": "Hock"
+        },
+        {
+          "wordId": "Beak"
+        },
+        {
+          "wordId": "Shank"
+        },
+        {
+          "wordId": "Chick"
+        },
+        {
+          "wordId": "Rooster"
+        }
+      ]
+    },
+    {
+      "categoryId": "Barbers",
+      "wordsData": [
+        {
+          "wordId": "Balm"
+        },
+        {
+          "wordId": "Scissors"
+        },
+        {
+          "wordId": "Lather"
+        },
+        {
+          "wordId": "Clipper"
+        }
+      ]
+    },
+    {
+      "categoryId": "Solids",
+      "wordsData": [
+        {
+          "wordId": "Granite"
+        },
+        {
+          "wordId": "Clay"
+        },
+        {
+          "wordId": "Rubber"
+        },
+        {
+          "wordId": "Plastic"
+        },
+        {
+          "wordId": "Obsidian"
+        },
+        {
+          "wordId": "Wood"
+        }
+      ]
+    },
+    {
+      "categoryId": "Farming",
+      "wordsData": [
+        {
+          "wordId": "Harvest"
+        },
+        {
+          "wordId": "Crop"
+        },
+        {
+          "wordId": "Fallow"
+        },
+        {
+          "wordId": "Hay"
+        },
+        {
+          "wordId": "Topsoil"
+        },
+        {
+          "wordId": "Compost"
+        }
+      ]
+    },
+    {
+      "categoryId": "Cycle",
+      "wordsData": [
+        {
+          "wordId": "Loop"
+        },
+        {
+          "wordId": "Spin"
+        },
+        {
+          "wordId": "Moon"
+        },
+        {
+          "wordId": "Turn"
+        }
+      ]
+    },
+    {
+      "categoryId": "Feminism",
+      "wordsData": [
+        {
+          "wordId": "Gender"
+        },
+        {
+          "wordId": "Rights"
+        },
+        {
+          "wordId": "Davis"
+        },
+        {
+          "wordId": "Women"
+        },
+        {
+          "wordId": "Watson"
+        },
+        {
+          "wordId": "Equality"
+        },
+        {
+          "wordId": "Suffrage"
+        }
+      ]
+    },
+    {
+      "categoryId": "Wireless",
+      "wordsData": [
+        {
+          "wordId": "Mobile"
+        },
+        {
+          "wordId": "Radio"
+        },
+        {
+          "wordId": "5G"
+        },
+        {
+          "wordId": "GPS"
+        },
+        {
+          "wordId": "QR"
+        }
+      ]
+    }
+  ],
+  "board": [
+    {
+      "x": 2,
+      "y": 2,
+      "z": 0,
+      "cardId": "Wattles"
+    },
+    {
+      "x": 3,
+      "y": 4,
+      "z": 0,
+      "cardId": "Gender"
+    },
+    {
+      "x": 4,
+      "y": 6,
+      "z": 0,
+      "cardId": "Balm"
+    },
+    {
+      "x": 5,
+      "y": 8,
+      "z": 0,
+      "cardId": "Mobile"
+    },
+    {
+      "x": 6,
+      "y": 10,
+      "z": 0,
+      "cardId": "Radio"
+    },
+    {
+      "x": 7,
+      "y": 12,
+      "z": 0,
+      "cardId": "Granite"
+    },
+    {
+      "x": 6,
+      "y": 12,
+      "z": 1,
+      "cardId": "5G"
+    },
+    {
+      "x": 5,
+      "y": 10,
+      "z": 1,
+      "cardId": "Loop"
+    },
+    {
+      "x": 4,
+      "y": 8,
+      "z": 1,
+      "cardId": "Clay"
+    },
+    {
+      "x": 3,
+      "y": 6,
+      "z": 1,
+      "cardId": "GPS"
+    },
+    {
+      "x": 2,
+      "y": 4,
+      "z": 1,
+      "cardId": "Solids"
+    },
+    {
+      "x": 1,
+      "y": 2,
+      "z": 1,
+      "cardId": "Sigils"
+    },
+    {
+      "x": 3,
+      "y": 9,
+      "z": 2,
+      "cardId": "Scissors"
+    },
+    {
+      "x": 2,
+      "y": 7,
+      "z": 2,
+      "cardId": "Rights"
+    },
+    {
+      "x": 1,
+      "y": 5,
+      "z": 2,
+      "cardId": "Brooch"
+    },
+    {
+      "x": 0,
+      "y": 3,
+      "z": 2,
+      "cardId": "Ankh"
+    },
+    {
+      "x": 4,
+      "y": 11,
+      "z": 2,
+      "cardId": "Rubber"
+    },
+    {
+      "x": 4,
+      "y": 3,
+      "z": 2,
+      "cardId": "Hock"
+    },
+    {
+      "x": 5,
+      "y": 5,
+      "z": 2,
+      "cardId": "Farming"
+    },
+    {
+      "x": 6,
+      "y": 7,
+      "z": 2,
+      "cardId": "Harvest"
+    },
+    {
+      "x": 7,
+      "y": 9,
+      "z": 2,
+      "cardId": "Crop"
+    },
+    {
+      "x": 8,
+      "y": 11,
+      "z": 2,
+      "cardId": "Davis"
+    },
+    {
+      "x": 6,
+      "y": 3,
+      "z": 3,
+      "cardId": "Fallow"
+    },
+    {
+      "x": 8,
+      "y": 3,
+      "z": 3,
+      "cardId": "QR"
+    },
+    {
+      "x": 0,
+      "y": 11,
+      "z": 3,
+      "cardId": "Hay"
+    },
+    {
+      "x": 1,
+      "y": 10,
+      "z": 4,
+      "cardId": "Spin"
+    },
+    {
+      "x": 2,
+      "y": 11,
+      "z": 3,
+      "cardId": "Taijitu"
+    },
+    {
+      "x": 7,
+      "y": 4,
+      "z": 4,
+      "cardId": "Plastic"
+    },
+    {
+      "x": 7,
+      "y": 2,
+      "z": 4,
+      "cardId": "Women"
+    },
+    {
+      "x": 1,
+      "y": 12,
+      "z": 4,
+      "cardId": "Cycle"
+    }
+  ],
+  "stock": [
+    "Relics",
+    "Topsoil",
+    "Barbers",
+    "Beak",
+    "Wireless",
+    "Moon",
+    "Lather",
+    "Chicken",
+    "Watson",
+    "Equality",
+    "Compost",
+    "Amulets",
+    "Clipper",
+    "Shank",
+    "Obsidian",
+    "Chick",
+    "Feminism",
+    "Wood",
+    "Trinket",
+    "Suffrage",
+    "Rooster",
+    "Turn"
+  ]
+}

@@ -1,0 +1,413 @@
+{
+  "levelId": "QA_25",
+  "slotsDefault": 5,
+  "movesLimit": 150,
+  "categories": [
+    {
+      "categoryId": "Vases",
+      "wordsData": [
+        {
+          "wordId": "Shape"
+        },
+        {
+          "wordId": "Wooden"
+        },
+        {
+          "wordId": "Mantel"
+        },
+        {
+          "wordId": "Neck"
+        },
+        {
+          "wordId": "Crystal"
+        },
+        {
+          "wordId": "Ceramic"
+        }
+      ]
+    },
+    {
+      "categoryId": "Levers",
+      "wordsData": [
+        {
+          "wordId": "Seesaw"
+        },
+        {
+          "wordId": "Scissors"
+        },
+        {
+          "wordId": "Tongs"
+        },
+        {
+          "wordId": "Crank"
+        },
+        {
+          "wordId": "Scales"
+        },
+        {
+          "wordId": "Crowbar"
+        },
+        {
+          "wordId": "Tweezers"
+        },
+        {
+          "wordId": "Pliers"
+        }
+      ]
+    },
+    {
+      "categoryId": "Snacks",
+      "wordsData": [
+        {
+          "wordId": "Chips"
+        },
+        {
+          "wordId": "Cookie"
+        },
+        {
+          "wordId": "Pretzel"
+        },
+        {
+          "wordId": "Muffin"
+        },
+        {
+          "wordId": "Cracker"
+        },
+        {
+          "wordId": "Popcorn"
+        }
+      ]
+    },
+    {
+      "categoryId": "Emblems",
+      "wordsData": [
+        {
+          "wordId": "Crest"
+        },
+        {
+          "wordId": "Insignia"
+        },
+        {
+          "wordId": "Coat"
+        },
+        {
+          "wordId": "Logo"
+        },
+        {
+          "wordId": "Symbol"
+        },
+        {
+          "wordId": "Seal"
+        },
+        {
+          "wordId": "Badge"
+        },
+        {
+          "wordId": "Stamp"
+        }
+      ]
+    },
+    {
+      "categoryId": "Taverns",
+      "wordsData": [
+        {
+          "wordId": "Mead"
+        },
+        {
+          "wordId": "Saloon"
+        },
+        {
+          "wordId": "Alehouse"
+        },
+        {
+          "wordId": "Pint"
+        },
+        {
+          "wordId": "Stout"
+        },
+        {
+          "wordId": "Inn"
+        }
+      ]
+    },
+    {
+      "categoryId": "Lab tool",
+      "wordsData": [
+        {
+          "wordId": "Pipette"
+        },
+        {
+          "wordId": "Funnel"
+        },
+        {
+          "wordId": "Beaker"
+        }
+      ]
+    },
+    {
+      "categoryId": "Halls",
+      "wordsData": [
+        {
+          "wordId": "Ballroom"
+        },
+        {
+          "wordId": "Entryway"
+        },
+        {
+          "wordId": "Foyer"
+        },
+        {
+          "wordId": "Lobby"
+        },
+        {
+          "wordId": "Corridor"
+        },
+        {
+          "wordId": "Atrium"
+        }
+      ]
+    },
+    {
+      "categoryId": "Foliage",
+      "wordsData": [
+        {
+          "wordId": "Elm"
+        },
+        {
+          "wordId": "Greenery"
+        },
+        {
+          "wordId": "Oak"
+        },
+        {
+          "wordId": "Bamboo"
+        },
+        {
+          "wordId": "Leafage"
+        },
+        {
+          "wordId": "Herbage"
+        }
+      ]
+    },
+    {
+      "categoryId": "Pilots",
+      "wordsData": [
+        {
+          "wordId": "Aviator"
+        },
+        {
+          "wordId": "Wingman"
+        },
+        {
+          "wordId": "Copilot"
+        }
+      ]
+    }
+  ],
+  "board": [
+    {
+      "x": 3,
+      "y": 3,
+      "z": 0,
+      "cardId": "Pipette"
+    },
+    {
+      "x": 4,
+      "y": 4,
+      "z": 1,
+      "cardId": "Ballroom"
+    },
+    {
+      "x": 3,
+      "y": 5,
+      "z": 2,
+      "cardId": "Crest"
+    },
+    {
+      "x": 4,
+      "y": 6,
+      "z": 3,
+      "cardId": "Insignia"
+    },
+    {
+      "x": 3,
+      "y": 7,
+      "z": 4,
+      "cardId": "Elm"
+    },
+    {
+      "x": 4,
+      "y": 8,
+      "z": 5,
+      "cardId": "Seesaw"
+    },
+    {
+      "x": 3,
+      "y": 9,
+      "z": 6,
+      "cardId": "Chips"
+    },
+    {
+      "x": 4,
+      "y": 10,
+      "z": 7,
+      "cardId": "Snacks"
+    },
+    {
+      "x": 6,
+      "y": 10,
+      "z": 7,
+      "cardId": "Coat"
+    },
+    {
+      "x": 7,
+      "y": 9,
+      "z": 6,
+      "cardId": "Cookie"
+    },
+    {
+      "x": 6,
+      "y": 8,
+      "z": 5,
+      "cardId": "Shape"
+    },
+    {
+      "x": 7,
+      "y": 7,
+      "z": 4,
+      "cardId": "Logo"
+    },
+    {
+      "x": 6,
+      "y": 6,
+      "z": 3,
+      "cardId": "Greenery"
+    },
+    {
+      "x": 7,
+      "y": 5,
+      "z": 2,
+      "cardId": "Entryway"
+    },
+    {
+      "x": 6,
+      "y": 4,
+      "z": 1,
+      "cardId": "Wooden"
+    },
+    {
+      "x": 7,
+      "y": 3,
+      "z": 0,
+      "cardId": "Aviator"
+    },
+    {
+      "x": 9,
+      "y": 8,
+      "z": 8,
+      "cardId": "Oak"
+    },
+    {
+      "x": 9,
+      "y": 6,
+      "z": 8,
+      "cardId": "Scissors"
+    },
+    {
+      "x": 9,
+      "y": 4,
+      "z": 8,
+      "cardId": "Bamboo"
+    },
+    {
+      "x": 1,
+      "y": 8,
+      "z": 8,
+      "cardId": "Funnel"
+    },
+    {
+      "x": 1,
+      "y": 6,
+      "z": 8,
+      "cardId": "Lab tool"
+    },
+    {
+      "x": 1,
+      "y": 4,
+      "z": 8,
+      "cardId": "Foyer"
+    },
+    {
+      "x": 1,
+      "y": 2,
+      "z": 8,
+      "cardId": "Mead"
+    },
+    {
+      "x": 2,
+      "y": 6,
+      "z": 9,
+      "cardId": "Wingman"
+    },
+    {
+      "x": 9,
+      "y": 2,
+      "z": 8,
+      "cardId": "Mantel"
+    },
+    {
+      "x": 8,
+      "y": 6,
+      "z": 9,
+      "cardId": "Tongs"
+    },
+    {
+      "x": 2,
+      "y": 3,
+      "z": 9,
+      "cardId": "Saloon"
+    },
+    {
+      "x": 8,
+      "y": 3,
+      "z": 9,
+      "cardId": "Symbol"
+    }
+  ],
+  "stock": [
+    "Lobby",
+    "Seal",
+    "Vases",
+    "Levers",
+    "Neck",
+    "Halls",
+    "Pretzel",
+    "Crank",
+    "Beaker",
+    "Pilots",
+    "Alehouse",
+    "Scales",
+    "Muffin",
+    "Pint",
+    "Cracker",
+    "Stout",
+    "Crowbar",
+    "Corridor",
+    "Leafage",
+    "Emblems",
+    "Badge",
+    "Stamp",
+    "Crystal",
+    "Tweezers",
+    "Herbage",
+    "Popcorn",
+    "Atrium",
+    "Taverns",
+    "Pliers",
+    "Foliage",
+    "Inn",
+    "Copilot",
+    "Ceramic"
+  ]
+}

@@ -1,0 +1,380 @@
+{
+  "levelId": "QA_47",
+  "slotsDefault": 4,
+  "movesLimit": 100,
+  "categories": [
+    {
+      "categoryId": "Regalia",
+      "wordsData": [
+        {
+          "wordId": "Tiara"
+        },
+        {
+          "wordId": "Mantle"
+        },
+        {
+          "wordId": "Scepter"
+        },
+        {
+          "wordId": "Orb"
+        }
+      ]
+    },
+    {
+      "categoryId": "Divine",
+      "wordsData": [
+        {
+          "wordId": "Blessing"
+        },
+        {
+          "wordId": "Beatific"
+        },
+        {
+          "wordId": "Sacred"
+        }
+      ]
+    },
+    {
+      "categoryId": "Postal",
+      "wordsData": [
+        {
+          "wordId": "Mail bag"
+        },
+        {
+          "wordId": "Stamp"
+        },
+        {
+          "wordId": "Address"
+        },
+        {
+          "wordId": "Envelope"
+        },
+        {
+          "wordId": "Courier"
+        }
+      ]
+    },
+    {
+      "categoryId": "Pattern",
+      "wordsData": [
+        {
+          "wordId": "Orion"
+        },
+        {
+          "wordId": "Scorpius"
+        },
+        {
+          "wordId": "Draco"
+        },
+        {
+          "wordId": "Serpens"
+        },
+        {
+          "wordId": "Cygnus"
+        },
+        {
+          "wordId": "Perseus"
+        }
+      ]
+    },
+    {
+      "categoryId": "Schools",
+      "wordsData": [
+        {
+          "wordId": "Junior"
+        },
+        {
+          "wordId": "High"
+        },
+        {
+          "wordId": "Primary"
+        }
+      ]
+    },
+    {
+      "categoryId": "Planets",
+      "wordsData": [
+        {
+          "wordId": "Earth"
+        },
+        {
+          "wordId": "Mars"
+        },
+        {
+          "wordId": "Venus"
+        },
+        {
+          "wordId": "Jupiter"
+        }
+      ]
+    },
+    {
+      "categoryId": "Vehicles",
+      "wordsData": [
+        {
+          "wordId": "Sailboat"
+        },
+        {
+          "wordId": "Airship"
+        },
+        {
+          "wordId": "Bus"
+        },
+        {
+          "wordId": "Tram"
+        },
+        {
+          "wordId": "Minivan"
+        },
+        {
+          "wordId": "Truck"
+        }
+      ]
+    },
+    {
+      "categoryId": "Foliage",
+      "wordsData": [
+        {
+          "wordId": "Maple"
+        },
+        {
+          "wordId": "Elm"
+        },
+        {
+          "wordId": "Verdure"
+        },
+        {
+          "wordId": "Birch"
+        },
+        {
+          "wordId": "Spruce"
+        },
+        {
+          "wordId": "Oak"
+        },
+        {
+          "wordId": "Poplar"
+        },
+        {
+          "wordId": "Leafage"
+        }
+      ]
+    }
+  ],
+  "board": [
+    {
+      "x": 1,
+      "y": 10,
+      "z": 0,
+      "cardId": "Tiara"
+    },
+    {
+      "x": 3,
+      "y": 10,
+      "z": 0,
+      "cardId": "Mantle"
+    },
+    {
+      "x": 5,
+      "y": 10,
+      "z": 0,
+      "cardId": "Maple"
+    },
+    {
+      "x": 7,
+      "y": 10,
+      "z": 0,
+      "cardId": "Elm"
+    },
+    {
+      "x": 9,
+      "y": 10,
+      "z": 0,
+      "cardId": "Verdure"
+    },
+    {
+      "x": 8,
+      "y": 8,
+      "z": 0,
+      "cardId": "Blessing"
+    },
+    {
+      "x": 2,
+      "y": 8,
+      "z": 0,
+      "cardId": "Earth"
+    },
+    {
+      "x": 4,
+      "y": 8,
+      "z": 0,
+      "cardId": "Scepter"
+    },
+    {
+      "x": 6,
+      "y": 8,
+      "z": 0,
+      "cardId": "Junior"
+    },
+    {
+      "x": 3,
+      "y": 6,
+      "z": 0,
+      "cardId": "Mail bag"
+    },
+    {
+      "x": 5,
+      "y": 6,
+      "z": 0,
+      "cardId": "Birch"
+    },
+    {
+      "x": 7,
+      "y": 6,
+      "z": 0,
+      "cardId": "Beatific"
+    },
+    {
+      "x": 4,
+      "y": 4,
+      "z": 0,
+      "cardId": "Spruce"
+    },
+    {
+      "x": 6,
+      "y": 4,
+      "z": 0,
+      "cardId": "High"
+    },
+    {
+      "x": 5,
+      "y": 2,
+      "z": 0,
+      "cardId": "Foliage"
+    },
+    {
+      "x": 3,
+      "y": 9,
+      "z": 1,
+      "cardId": "Schools"
+    },
+    {
+      "x": 5,
+      "y": 9,
+      "z": 1,
+      "cardId": "Orb"
+    },
+    {
+      "x": 7,
+      "y": 9,
+      "z": 1,
+      "cardId": "Orion"
+    },
+    {
+      "x": 6,
+      "y": 7,
+      "z": 1,
+      "cardId": "Mars"
+    },
+    {
+      "x": 4,
+      "y": 7,
+      "z": 1,
+      "cardId": "Stamp"
+    },
+    {
+      "x": 5,
+      "y": 5,
+      "z": 1,
+      "cardId": "Scorpius"
+    },
+    {
+      "x": 2,
+      "y": 5,
+      "z": 1,
+      "cardId": "Vehicles"
+    },
+    {
+      "x": 8,
+      "y": 5,
+      "z": 1,
+      "cardId": "Oak"
+    },
+    {
+      "x": 3,
+      "y": 6,
+      "z": 2,
+      "cardId": "Divine"
+    },
+    {
+      "x": 1,
+      "y": 7,
+      "z": 1,
+      "cardId": "Sailboat"
+    },
+    {
+      "x": 3,
+      "y": 3,
+      "z": 1,
+      "cardId": "Address"
+    },
+    {
+      "x": 7,
+      "y": 3,
+      "z": 1,
+      "cardId": "Draco"
+    },
+    {
+      "x": 4,
+      "y": 8,
+      "z": 2,
+      "cardId": "Venus"
+    },
+    {
+      "x": 7,
+      "y": 6,
+      "z": 2,
+      "cardId": "Regalia"
+    },
+    {
+      "x": 4,
+      "y": 4,
+      "z": 2,
+      "cardId": "Poplar"
+    },
+    {
+      "x": 6,
+      "y": 4,
+      "z": 2,
+      "cardId": "Envelope"
+    },
+    {
+      "x": 10,
+      "y": 7,
+      "z": 1,
+      "cardId": "Courier"
+    },
+    {
+      "x": 6,
+      "y": 8,
+      "z": 2,
+      "cardId": "Serpens"
+    }
+  ],
+  "stock": [
+    "Cygnus",
+    "Airship",
+    "Bus",
+    "Postal",
+    "Perseus",
+    "Planets",
+    "Primary",
+    "Tram",
+    "Minivan",
+    "Pattern",
+    "Truck",
+    "Sacred",
+    "Leafage",
+    "Jupiter"
+  ]
+}

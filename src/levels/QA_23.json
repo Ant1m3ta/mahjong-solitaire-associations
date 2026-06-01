@@ -1,0 +1,399 @@
+{
+  "levelId": "QA_23",
+  "slotsDefault": 4,
+  "movesLimit": 100,
+  "categories": [
+    {
+      "categoryId": "Pronoun",
+      "wordsData": [
+        {
+          "wordId": "He"
+        },
+        {
+          "wordId": "It"
+        },
+        {
+          "wordId": "She"
+        },
+        {
+          "wordId": "Its"
+        },
+        {
+          "wordId": "We"
+        },
+        {
+          "wordId": "Our"
+        }
+      ]
+    },
+    {
+      "categoryId": "Serums",
+      "wordsData": [
+        {
+          "wordId": "Tonic"
+        },
+        {
+          "wordId": "Cure"
+        },
+        {
+          "wordId": "Elixir"
+        },
+        {
+          "wordId": "Vaccine"
+        }
+      ]
+    },
+    {
+      "categoryId": "Delight",
+      "wordsData": [
+        {
+          "wordId": "Serenity"
+        },
+        {
+          "wordId": "Ecstasy"
+        },
+        {
+          "wordId": "Rapture"
+        },
+        {
+          "wordId": "Joy"
+        }
+      ]
+    },
+    {
+      "categoryId": "Soccer",
+      "wordsData": [
+        {
+          "wordId": "Fans"
+        },
+        {
+          "wordId": "Team"
+        },
+        {
+          "wordId": "Players"
+        },
+        {
+          "wordId": "Goal"
+        },
+        {
+          "wordId": "Penalty"
+        },
+        {
+          "wordId": "Jersey"
+        },
+        {
+          "wordId": "Coaches"
+        },
+        {
+          "wordId": "Captain"
+        }
+      ]
+    },
+    {
+      "categoryId": "Movie",
+      "wordsData": [
+        {
+          "wordId": "Series"
+        },
+        {
+          "wordId": "Producer"
+        },
+        {
+          "wordId": "Actress"
+        },
+        {
+          "wordId": "Western"
+        },
+        {
+          "wordId": "Action"
+        },
+        {
+          "wordId": "Plot"
+        },
+        {
+          "wordId": "Grammy"
+        },
+        {
+          "wordId": "Stunt"
+        }
+      ]
+    },
+    {
+      "categoryId": "Wonders",
+      "wordsData": [
+        {
+          "wordId": "Statues"
+        },
+        {
+          "wordId": "Ziggurat"
+        },
+        {
+          "wordId": "Colossi"
+        },
+        {
+          "wordId": "Pantheon"
+        },
+        {
+          "wordId": "Niagara"
+        },
+        {
+          "wordId": "Menkaure"
+        },
+        {
+          "wordId": "Sphinx"
+        },
+        {
+          "wordId": "Petra"
+        }
+      ]
+    },
+    {
+      "categoryId": "Epitaphs",
+      "wordsData": [
+        {
+          "wordId": "Beloved"
+        },
+        {
+          "wordId": "RIP"
+        },
+        {
+          "wordId": "Memoriam"
+        },
+        {
+          "wordId": "Departed"
+        },
+        {
+          "wordId": "Honored"
+        },
+        {
+          "wordId": "Forever"
+        }
+      ]
+    }
+  ],
+  "board": [
+    {
+      "x": 2,
+      "y": 1,
+      "z": 0,
+      "cardId": "He"
+    },
+    {
+      "x": 4,
+      "y": 1,
+      "z": 0,
+      "cardId": "It"
+    },
+    {
+      "x": 6,
+      "y": 1,
+      "z": 0,
+      "cardId": "Beloved"
+    },
+    {
+      "x": 8,
+      "y": 1,
+      "z": 0,
+      "cardId": "Fans"
+    },
+    {
+      "x": 10,
+      "y": 1,
+      "z": 0,
+      "cardId": "Tonic"
+    },
+    {
+      "x": 10,
+      "y": 3,
+      "z": 0,
+      "cardId": "Series"
+    },
+    {
+      "x": 10,
+      "y": 5,
+      "z": 0,
+      "cardId": "RIP"
+    },
+    {
+      "x": 8,
+      "y": 5,
+      "z": 0,
+      "cardId": "Team"
+    },
+    {
+      "x": 5,
+      "y": 8,
+      "z": 1,
+      "cardId": "Players"
+    },
+    {
+      "x": 3,
+      "y": 6,
+      "z": 1,
+      "cardId": "Movie"
+    },
+    {
+      "x": 2,
+      "y": 5,
+      "z": 0,
+      "cardId": "Goal"
+    },
+    {
+      "x": 2,
+      "y": 7,
+      "z": 0,
+      "cardId": "Statues"
+    },
+    {
+      "x": 2,
+      "y": 9,
+      "z": 0,
+      "cardId": "She"
+    },
+    {
+      "x": 4,
+      "y": 9,
+      "z": 0,
+      "cardId": "Epitaphs"
+    },
+    {
+      "x": 6,
+      "y": 9,
+      "z": 0,
+      "cardId": "Producer"
+    },
+    {
+      "x": 8,
+      "y": 9,
+      "z": 0,
+      "cardId": "Serenity"
+    },
+    {
+      "x": 10,
+      "y": 9,
+      "z": 0,
+      "cardId": "Ecstasy"
+    },
+    {
+      "x": 9,
+      "y": 8,
+      "z": 1,
+      "cardId": "Ziggurat"
+    },
+    {
+      "x": 8,
+      "y": 7,
+      "z": 2,
+      "cardId": "Penalty"
+    },
+    {
+      "x": 7,
+      "y": 2,
+      "z": 1,
+      "cardId": "Memoriam"
+    },
+    {
+      "x": 7,
+      "y": 6,
+      "z": 1,
+      "cardId": "Departed"
+    },
+    {
+      "x": 3,
+      "y": 2,
+      "z": 1,
+      "cardId": "Actress"
+    },
+    {
+      "x": 5,
+      "y": 4,
+      "z": 1,
+      "cardId": "Colossi"
+    },
+    {
+      "x": 4,
+      "y": 5,
+      "z": 0,
+      "cardId": "Pantheon"
+    },
+    {
+      "x": 9,
+      "y": 4,
+      "z": 1,
+      "cardId": "Serums"
+    },
+    {
+      "x": 2,
+      "y": 3,
+      "z": 0,
+      "cardId": "Its"
+    },
+    {
+      "x": 10,
+      "y": 7,
+      "z": 0,
+      "cardId": "We"
+    },
+    {
+      "x": 4,
+      "y": 3,
+      "z": 2,
+      "cardId": "Cure"
+    },
+    {
+      "x": 8,
+      "y": 3,
+      "z": 2,
+      "cardId": "Jersey"
+    },
+    {
+      "x": 2,
+      "y": 1,
+      "z": 2,
+      "cardId": "Niagara"
+    },
+    {
+      "x": 4,
+      "y": 7,
+      "z": 2,
+      "cardId": "Elixir"
+    },
+    {
+      "x": 6,
+      "y": 5,
+      "z": 2,
+      "cardId": "Soccer"
+    },
+    {
+      "x": 6,
+      "y": 5,
+      "z": 0,
+      "cardId": "Western"
+    },
+    {
+      "x": 10,
+      "y": 9,
+      "z": 2,
+      "cardId": "Menkaure"
+    }
+  ],
+  "stock": [
+    "Action",
+    "Sphinx",
+    "Plot",
+    "Coaches",
+    "Wonders",
+    "Captain",
+    "Rapture",
+    "Grammy",
+    "Our",
+    "Delight",
+    "Joy",
+    "Vaccine",
+    "Stunt",
+    "Pronoun",
+    "Honored",
+    "Forever",
+    "Petra"
+  ]
+}

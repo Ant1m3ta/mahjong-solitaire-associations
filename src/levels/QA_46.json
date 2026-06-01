@@ -1,0 +1,406 @@
+{
+  "levelId": "QA_46",
+  "slotsDefault": 3,
+  "movesLimit": 120,
+  "categories": [
+    {
+      "categoryId": "Valves",
+      "wordsData": [
+        {
+          "wordId": "Plug"
+        },
+        {
+          "wordId": "Poppet"
+        },
+        {
+          "wordId": "Disc"
+        },
+        {
+          "wordId": "Globe"
+        },
+        {
+          "wordId": "Relief"
+        },
+        {
+          "wordId": "Spool"
+        },
+        {
+          "wordId": "Exhaust"
+        },
+        {
+          "wordId": "Gate"
+        },
+        {
+          "wordId": "Pinch"
+        },
+        {
+          "wordId": "Intake"
+        }
+      ]
+    },
+    {
+      "categoryId": "Sensors",
+      "wordsData": [
+        {
+          "wordId": "Optical"
+        },
+        {
+          "wordId": "Radar"
+        },
+        {
+          "wordId": "Motion"
+        },
+        {
+          "wordId": "Sonar"
+        },
+        {
+          "wordId": "Magnetic"
+        },
+        {
+          "wordId": "Lidar"
+        },
+        {
+          "wordId": "Touch"
+        },
+        {
+          "wordId": "Pressure"
+        },
+        {
+          "wordId": "Infrared"
+        },
+        {
+          "wordId": "Sound"
+        }
+      ]
+    },
+    {
+      "categoryId": "Clocks",
+      "wordsData": [
+        {
+          "wordId": "Gear"
+        },
+        {
+          "wordId": "Chime"
+        },
+        {
+          "wordId": "Pendulum"
+        },
+        {
+          "wordId": "Minute"
+        },
+        {
+          "wordId": "Digital"
+        },
+        {
+          "wordId": "Seconds"
+        },
+        {
+          "wordId": "Second"
+        },
+        {
+          "wordId": "Quartz"
+        },
+        {
+          "wordId": "Timer"
+        },
+        {
+          "wordId": "Dial"
+        }
+      ]
+    },
+    {
+      "categoryId": "Budget",
+      "wordsData": [
+        {
+          "wordId": "Assets"
+        },
+        {
+          "wordId": "Income"
+        },
+        {
+          "wordId": "Costs"
+        },
+        {
+          "wordId": "Revenue"
+        },
+        {
+          "wordId": "Surplus"
+        },
+        {
+          "wordId": "Deficit"
+        },
+        {
+          "wordId": "Tax"
+        },
+        {
+          "wordId": "Savings"
+        },
+        {
+          "wordId": "Expenses"
+        },
+        {
+          "wordId": "Debt"
+        }
+      ]
+    },
+    {
+      "categoryId": "Valley",
+      "wordsData": [
+        {
+          "wordId": "Basin"
+        },
+        {
+          "wordId": "Vale"
+        },
+        {
+          "wordId": "Dell"
+        },
+        {
+          "wordId": "Ravine"
+        },
+        {
+          "wordId": "Canyon"
+        },
+        {
+          "wordId": "Dale"
+        },
+        {
+          "wordId": "Glen"
+        },
+        {
+          "wordId": "Hollow"
+        },
+        {
+          "wordId": "Dingle"
+        },
+        {
+          "wordId": "Gorge"
+        }
+      ]
+    }
+  ],
+  "board": [
+    {
+      "x": 2,
+      "y": 2,
+      "z": 0,
+      "cardId": "Assets"
+    },
+    {
+      "x": 2,
+      "y": 4,
+      "z": 0,
+      "cardId": "Clocks"
+    },
+    {
+      "x": 2,
+      "y": 6,
+      "z": 0,
+      "cardId": "Income"
+    },
+    {
+      "x": 4,
+      "y": 6,
+      "z": 0,
+      "cardId": "Gear"
+    },
+    {
+      "x": 4,
+      "y": 4,
+      "z": 0,
+      "cardId": "Costs"
+    },
+    {
+      "x": 4,
+      "y": 2,
+      "z": 0,
+      "cardId": "Basin"
+    },
+    {
+      "x": 8,
+      "y": 4,
+      "z": 0,
+      "cardId": "Vale"
+    },
+    {
+      "x": 8,
+      "y": 6,
+      "z": 0,
+      "cardId": "Dell"
+    },
+    {
+      "x": 8,
+      "y": 8,
+      "z": 0,
+      "cardId": "Chime"
+    },
+    {
+      "x": 10,
+      "y": 8,
+      "z": 0,
+      "cardId": "Optical"
+    },
+    {
+      "x": 10,
+      "y": 6,
+      "z": 0,
+      "cardId": "Pendulum"
+    },
+    {
+      "x": 10,
+      "y": 4,
+      "z": 0,
+      "cardId": "Ravine"
+    },
+    {
+      "x": 9,
+      "y": 5,
+      "z": 1,
+      "cardId": "Plug"
+    },
+    {
+      "x": 7,
+      "y": 5,
+      "z": 1,
+      "cardId": "Revenue"
+    },
+    {
+      "x": 7,
+      "y": 7,
+      "z": 1,
+      "cardId": "Surplus"
+    },
+    {
+      "x": 9,
+      "y": 7,
+      "z": 1,
+      "cardId": "Canyon"
+    },
+    {
+      "x": 3,
+      "y": 3,
+      "z": 1,
+      "cardId": "Radar"
+    },
+    {
+      "x": 3,
+      "y": 5,
+      "z": 1,
+      "cardId": "Motion"
+    },
+    {
+      "x": 5,
+      "y": 5,
+      "z": 1,
+      "cardId": "Minute"
+    },
+    {
+      "x": 5,
+      "y": 3,
+      "z": 1,
+      "cardId": "Sonar"
+    },
+    {
+      "x": 4,
+      "y": 7,
+      "z": 1,
+      "cardId": "Magnetic"
+    },
+    {
+      "x": 4,
+      "y": 1,
+      "z": 1,
+      "cardId": "Deficit"
+    },
+    {
+      "x": 8,
+      "y": 3,
+      "z": 1,
+      "cardId": "Lidar"
+    },
+    {
+      "x": 8,
+      "y": 9,
+      "z": 1,
+      "cardId": "Dale"
+    },
+    {
+      "x": 6,
+      "y": 5,
+      "z": 3,
+      "cardId": "Sensors"
+    },
+    {
+      "x": 8,
+      "y": 6,
+      "z": 2,
+      "cardId": "Touch"
+    },
+    {
+      "x": 6,
+      "y": 6,
+      "z": 2,
+      "cardId": "Digital"
+    },
+    {
+      "x": 6,
+      "y": 4,
+      "z": 2,
+      "cardId": "Poppet"
+    },
+    {
+      "x": 5,
+      "y": 3,
+      "z": 3,
+      "cardId": "Disc"
+    },
+    {
+      "x": 7,
+      "y": 7,
+      "z": 3,
+      "cardId": "Glen"
+    },
+    {
+      "x": 9,
+      "y": 2,
+      "z": 0,
+      "cardId": "Seconds"
+    },
+    {
+      "x": 3,
+      "y": 8,
+      "z": 0,
+      "cardId": "Globe"
+    },
+    {
+      "x": 4,
+      "y": 4,
+      "z": 2,
+      "cardId": "Relief"
+    }
+  ],
+  "stock": [
+    "Spool",
+    "Budget",
+    "Second",
+    "Valley",
+    "Hollow",
+    "Pressure",
+    "Tax",
+    "Quartz",
+    "Savings",
+    "Timer",
+    "Expenses",
+    "Debt",
+    "Exhaust",
+    "Valves",
+    "Dingle",
+    "Gate",
+    "Infrared",
+    "Pinch",
+    "Intake",
+    "Sound",
+    "Dial",
+    "Gorge"
+  ]
+}

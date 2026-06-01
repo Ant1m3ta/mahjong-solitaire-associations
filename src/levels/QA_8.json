@@ -1,0 +1,325 @@
+{
+  "levelId": "QA_8",
+  "slotsDefault": 4,
+  "movesLimit": 150,
+  "categories": [
+    {
+      "categoryId": "Length",
+      "wordsData": [
+        {
+          "wordId": "Foot"
+        },
+        {
+          "wordId": "Fathom"
+        },
+        {
+          "wordId": "Inch"
+        },
+        {
+          "wordId": "Yard"
+        },
+        {
+          "wordId": "Furlong"
+        }
+      ]
+    },
+    {
+      "categoryId": "Mailbox",
+      "wordsData": [
+        {
+          "wordId": "Envelope"
+        },
+        {
+          "wordId": "Label"
+        },
+        {
+          "wordId": "Parcel"
+        },
+        {
+          "wordId": "Bills"
+        },
+        {
+          "wordId": "Postbox"
+        }
+      ]
+    },
+    {
+      "categoryId": "Food",
+      "wordsData": [
+        {
+          "wordId": "Noodles"
+        },
+        {
+          "wordId": "Bagel"
+        },
+        {
+          "wordId": "Kebab"
+        },
+        {
+          "wordId": "Taco"
+        },
+        {
+          "wordId": "Salad"
+        },
+        {
+          "wordId": "Nuggets"
+        },
+        {
+          "wordId": "Hot dog"
+        },
+        {
+          "wordId": "Pizza"
+        }
+      ]
+    },
+    {
+      "categoryId": "Drama",
+      "wordsData": [
+        {
+          "wordId": "Plot"
+        },
+        {
+          "wordId": "Dialogue"
+        },
+        {
+          "wordId": "Acts"
+        }
+      ]
+    },
+    {
+      "categoryId": "Voids",
+      "wordsData": [
+        {
+          "wordId": "Null"
+        },
+        {
+          "wordId": "Vacancy"
+        },
+        {
+          "wordId": "Nothing"
+        }
+      ]
+    },
+    {
+      "categoryId": "Clans",
+      "wordsData": [
+        {
+          "wordId": "Ninja"
+        },
+        {
+          "wordId": "Mongol"
+        },
+        {
+          "wordId": "Faction"
+        },
+        {
+          "wordId": "Samurai"
+        },
+        {
+          "wordId": "Spartan"
+        },
+        {
+          "wordId": "Viking"
+        }
+      ]
+    },
+    {
+      "categoryId": "Springs",
+      "wordsData": [
+        {
+          "wordId": "Geyser"
+        },
+        {
+          "wordId": "Source"
+        },
+        {
+          "wordId": "Fountain"
+        },
+        {
+          "wordId": "Bubbling"
+        },
+        {
+          "wordId": "Seepage"
+        },
+        {
+          "wordId": "Upwell"
+        },
+        {
+          "wordId": "Spurt"
+        },
+        {
+          "wordId": "Mineral"
+        }
+      ]
+    }
+  ],
+  "board": [
+    {
+      "x": 1,
+      "y": 1,
+      "z": 0,
+      "cardId": "Foot"
+    },
+    {
+      "x": 2,
+      "y": 2,
+      "z": 1,
+      "cardId": "Plot"
+    },
+    {
+      "x": 1,
+      "y": 3,
+      "z": 2,
+      "cardId": "Fathom"
+    },
+    {
+      "x": 2,
+      "y": 4,
+      "z": 3,
+      "cardId": "Null"
+    },
+    {
+      "x": 1,
+      "y": 5,
+      "z": 4,
+      "cardId": "Ninja"
+    },
+    {
+      "x": 4,
+      "y": 1,
+      "z": 4,
+      "cardId": "Envelope"
+    },
+    {
+      "x": 5,
+      "y": 2,
+      "z": 5,
+      "cardId": "Noodles"
+    },
+    {
+      "x": 4,
+      "y": 3,
+      "z": 6,
+      "cardId": "Geyser"
+    },
+    {
+      "x": 5,
+      "y": 4,
+      "z": 7,
+      "cardId": "Bagel"
+    },
+    {
+      "x": 4,
+      "y": 5,
+      "z": 8,
+      "cardId": "Source"
+    },
+    {
+      "x": 7,
+      "y": 1,
+      "z": 8,
+      "cardId": "Fountain"
+    },
+    {
+      "x": 8,
+      "y": 2,
+      "z": 9,
+      "cardId": "Label"
+    },
+    {
+      "x": 7,
+      "y": 3,
+      "z": 10,
+      "cardId": "Parcel"
+    },
+    {
+      "x": 8,
+      "y": 4,
+      "z": 11,
+      "cardId": "Dialogue"
+    },
+    {
+      "x": 7,
+      "y": 5,
+      "z": 12,
+      "cardId": "Vacancy"
+    },
+    {
+      "x": 10,
+      "y": 1,
+      "z": 13,
+      "cardId": "Mongol"
+    },
+    {
+      "x": 11,
+      "y": 2,
+      "z": 14,
+      "cardId": "Mailbox"
+    },
+    {
+      "x": 10,
+      "y": 3,
+      "z": 15,
+      "cardId": "Kebab"
+    },
+    {
+      "x": 11,
+      "y": 4,
+      "z": 16,
+      "cardId": "Clans"
+    },
+    {
+      "x": 10,
+      "y": 5,
+      "z": 17,
+      "cardId": "Springs"
+    },
+    {
+      "x": 11,
+      "y": 6,
+      "z": 18,
+      "cardId": "Food"
+    },
+    {
+      "x": 8,
+      "y": 6,
+      "z": 19,
+      "cardId": "Faction"
+    },
+    {
+      "x": 5,
+      "y": 6,
+      "z": 20,
+      "cardId": "Inch"
+    },
+    {
+      "x": 2,
+      "y": 6,
+      "z": 21,
+      "cardId": "Bills"
+    }
+  ],
+  "stock": [
+    "Samurai",
+    "Drama",
+    "Bubbling",
+    "Seepage",
+    "Taco",
+    "Upwell",
+    "Postbox",
+    "Length",
+    "Spurt",
+    "Voids",
+    "Salad",
+    "Yard",
+    "Spartan",
+    "Nuggets",
+    "Hot dog",
+    "Furlong",
+    "Nothing",
+    "Viking",
+    "Mineral",
+    "Pizza",
+    "Acts"
+  ]
+}

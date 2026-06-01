@@ -1,0 +1,359 @@
+{
+  "levelId": "QA_34",
+  "slotsDefault": 5,
+  "movesLimit": 120,
+  "categories": [
+    {
+      "categoryId": "Judicial",
+      "wordsData": [
+        {
+          "wordId": "Subpoena"
+        },
+        {
+          "wordId": "Hearing"
+        },
+        {
+          "wordId": "Appeal"
+        },
+        {
+          "wordId": "Inquest"
+        }
+      ]
+    },
+    {
+      "categoryId": "Gadget",
+      "wordsData": [
+        {
+          "wordId": "Earbud"
+        },
+        {
+          "wordId": "Utensil"
+        },
+        {
+          "wordId": "Tool"
+        },
+        {
+          "wordId": "Machine"
+        },
+        {
+          "wordId": "Battery"
+        }
+      ]
+    },
+    {
+      "categoryId": "Unicorn",
+      "wordsData": [
+        {
+          "wordId": "Mane"
+        },
+        {
+          "wordId": "Purity"
+        },
+        {
+          "wordId": "Bestiary"
+        },
+        {
+          "wordId": "Hoof"
+        }
+      ]
+    },
+    {
+      "categoryId": "Chores",
+      "wordsData": [
+        {
+          "wordId": "Cooking"
+        },
+        {
+          "wordId": "Watering"
+        },
+        {
+          "wordId": "Washing"
+        },
+        {
+          "wordId": "Cleaning"
+        },
+        {
+          "wordId": "Ironing"
+        },
+        {
+          "wordId": "Dusting"
+        }
+      ]
+    },
+    {
+      "categoryId": "Trends",
+      "wordsData": [
+        {
+          "wordId": "Meme"
+        },
+        {
+          "wordId": "Hashtag"
+        },
+        {
+          "wordId": "Y2K"
+        },
+        {
+          "wordId": "Viral"
+        },
+        {
+          "wordId": "Vintage"
+        }
+      ]
+    },
+    {
+      "categoryId": "Monarchs",
+      "wordsData": [
+        {
+          "wordId": "Edward"
+        },
+        {
+          "wordId": "Isabel"
+        },
+        {
+          "wordId": "James"
+        },
+        {
+          "wordId": "Arthur"
+        }
+      ]
+    },
+    {
+      "categoryId": "Ores",
+      "wordsData": [
+        {
+          "wordId": "Ilmenite"
+        },
+        {
+          "wordId": "Silver"
+        },
+        {
+          "wordId": "Tin"
+        },
+        {
+          "wordId": "Gibbsite"
+        },
+        {
+          "wordId": "Siderite"
+        },
+        {
+          "wordId": "Zinc"
+        },
+        {
+          "wordId": "Bauxite"
+        },
+        {
+          "wordId": "Copper"
+        }
+      ]
+    },
+    {
+      "categoryId": "Vents",
+      "wordsData": [
+        {
+          "wordId": "Venturi"
+        },
+        {
+          "wordId": "Duct"
+        },
+        {
+          "wordId": "Seep"
+        },
+        {
+          "wordId": "Register"
+        },
+        {
+          "wordId": "Grille"
+        }
+      ]
+    },
+    {
+      "categoryId": "Oars",
+      "wordsData": [
+        {
+          "wordId": "Paddle"
+        },
+        {
+          "wordId": "Propel"
+        },
+        {
+          "wordId": "Row"
+        },
+        {
+          "wordId": "Sweep"
+        },
+        {
+          "wordId": "Grip"
+        }
+      ]
+    }
+  ],
+  "board": [
+    {
+      "x": 6,
+      "y": 2,
+      "z": 5,
+      "cardId": "Chores"
+    },
+    {
+      "x": 6,
+      "y": 3,
+      "z": 4,
+      "cardId": "Meme"
+    },
+    {
+      "x": 9,
+      "y": 1,
+      "z": 0,
+      "cardId": "Paddle"
+    },
+    {
+      "x": 10,
+      "y": 2,
+      "z": 1,
+      "cardId": "Mane"
+    },
+    {
+      "x": 6,
+      "y": 6,
+      "z": 2,
+      "cardId": "Edward"
+    },
+    {
+      "x": 2,
+      "y": 5,
+      "z": 1,
+      "cardId": "Isabel"
+    },
+    {
+      "x": 9,
+      "y": 6,
+      "z": 0,
+      "cardId": "Subpoena"
+    },
+    {
+      "x": 6,
+      "y": 0,
+      "z": 1,
+      "cardId": "Ilmenite"
+    },
+    {
+      "x": 3,
+      "y": 1,
+      "z": 0,
+      "cardId": "Propel"
+    },
+    {
+      "x": 6,
+      "y": 7,
+      "z": 1,
+      "cardId": "Silver"
+    },
+    {
+      "x": 5,
+      "y": 2,
+      "z": 3,
+      "cardId": "Cooking"
+    },
+    {
+      "x": 5,
+      "y": 5,
+      "z": 3,
+      "cardId": "Hashtag"
+    },
+    {
+      "x": 7,
+      "y": 5,
+      "z": 3,
+      "cardId": "Watering"
+    },
+    {
+      "x": 7,
+      "y": 2,
+      "z": 3,
+      "cardId": "Washing"
+    },
+    {
+      "x": 6,
+      "y": 4,
+      "z": 5,
+      "cardId": "Oars"
+    },
+    {
+      "x": 4,
+      "y": 9,
+      "z": 7,
+      "cardId": "Purity"
+    },
+    {
+      "x": 6,
+      "y": 8,
+      "z": 7,
+      "cardId": "Trends"
+    },
+    {
+      "x": 8,
+      "y": 9,
+      "z": 7,
+      "cardId": "Hearing"
+    },
+    {
+      "x": 3,
+      "y": 6,
+      "z": 0,
+      "cardId": "Tin"
+    },
+    {
+      "x": 6,
+      "y": 1,
+      "z": 2,
+      "cardId": "Row"
+    },
+    {
+      "x": 10,
+      "y": 5,
+      "z": 1,
+      "cardId": "Venturi"
+    },
+    {
+      "x": 2,
+      "y": 2,
+      "z": 1,
+      "cardId": "Gibbsite"
+    }
+  ],
+  "stock": [
+    "Cleaning",
+    "Ironing",
+    "Bestiary",
+    "Siderite",
+    "Earbud",
+    "Monarchs",
+    "Hoof",
+    "Sweep",
+    "Zinc",
+    "Duct",
+    "James",
+    "Unicorn",
+    "Bauxite",
+    "Y2K",
+    "Dusting",
+    "Utensil",
+    "Vents",
+    "Appeal",
+    "Inquest",
+    "Tool",
+    "Seep",
+    "Copper",
+    "Gadget",
+    "Register",
+    "Grip",
+    "Grille",
+    "Judicial",
+    "Machine",
+    "Viral",
+    "Vintage",
+    "Ores",
+    "Battery",
+    "Arthur"
+  ]
+}

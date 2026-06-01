@@ -1,0 +1,420 @@
+{
+  "levelId": "QA_18",
+  "slotsDefault": 5,
+  "movesLimit": 130,
+  "categories": [
+    {
+      "categoryId": "Trails",
+      "wordsData": [
+        {
+          "wordId": "Pathway"
+        },
+        {
+          "wordId": "Corridor"
+        },
+        {
+          "wordId": "Pass"
+        },
+        {
+          "wordId": "Alley"
+        }
+      ]
+    },
+    {
+      "categoryId": "Organic",
+      "wordsData": [
+        {
+          "wordId": "Lichen"
+        },
+        {
+          "wordId": "Leaves"
+        },
+        {
+          "wordId": "Crude"
+        },
+        {
+          "wordId": "Roots"
+        },
+        {
+          "wordId": "Soil"
+        },
+        {
+          "wordId": "Grain"
+        },
+        {
+          "wordId": "Mulch"
+        },
+        {
+          "wordId": "Twig"
+        }
+      ]
+    },
+    {
+      "categoryId": "Resins",
+      "wordsData": [
+        {
+          "wordId": "Lac"
+        },
+        {
+          "wordId": "Amber"
+        },
+        {
+          "wordId": "Copal"
+        }
+      ]
+    },
+    {
+      "categoryId": "Cuisine",
+      "wordsData": [
+        {
+          "wordId": "Omelet"
+        },
+        {
+          "wordId": "Recipe"
+        },
+        {
+          "wordId": "Goulash"
+        },
+        {
+          "wordId": "Sushi"
+        },
+        {
+          "wordId": "Kofta"
+        },
+        {
+          "wordId": "Falafel"
+        },
+        {
+          "wordId": "Paella"
+        },
+        {
+          "wordId": "Taco"
+        }
+      ]
+    },
+    {
+      "categoryId": "Ethics",
+      "wordsData": [
+        {
+          "wordId": "Duty"
+        },
+        {
+          "wordId": "Canon"
+        },
+        {
+          "wordId": "Ethos"
+        },
+        {
+          "wordId": "Moral"
+        },
+        {
+          "wordId": "Morals"
+        },
+        {
+          "wordId": "Rights"
+        }
+      ]
+    },
+    {
+      "categoryId": "Lakes",
+      "wordsData": [
+        {
+          "wordId": "Ontario"
+        },
+        {
+          "wordId": "Michigan"
+        },
+        {
+          "wordId": "Huron"
+        },
+        {
+          "wordId": "Superior"
+        },
+        {
+          "wordId": "Tahoe"
+        },
+        {
+          "wordId": "Baikal"
+        }
+      ]
+    },
+    {
+      "categoryId": "Memory",
+      "wordsData": [
+        {
+          "wordId": "Mnemonic"
+        },
+        {
+          "wordId": "Recall"
+        },
+        {
+          "wordId": "Amnesia"
+        },
+        {
+          "wordId": "Retain"
+        },
+        {
+          "wordId": "RAM"
+        },
+        {
+          "wordId": "Storage"
+        },
+        {
+          "wordId": "Cache"
+        },
+        {
+          "wordId": "Mind"
+        }
+      ]
+    },
+    {
+      "categoryId": "Gear",
+      "wordsData": [
+        {
+          "wordId": "Camping"
+        },
+        {
+          "wordId": "Ratchet"
+        },
+        {
+          "wordId": "Crown"
+        },
+        {
+          "wordId": "Tractor"
+        },
+        {
+          "wordId": "Sports"
+        },
+        {
+          "wordId": "Bearing"
+        }
+      ]
+    }
+  ],
+  "board": [
+    {
+      "x": 3,
+      "y": 1,
+      "z": 0,
+      "cardId": "Duty"
+    },
+    {
+      "x": 5,
+      "y": 1,
+      "z": 0,
+      "cardId": "Lichen"
+    },
+    {
+      "x": 7,
+      "y": 1,
+      "z": 0,
+      "cardId": "Canon"
+    },
+    {
+      "x": 9,
+      "y": 1,
+      "z": 0,
+      "cardId": "Ontario"
+    },
+    {
+      "x": 11,
+      "y": 1,
+      "z": 0,
+      "cardId": "Michigan"
+    },
+    {
+      "x": 4,
+      "y": 2,
+      "z": 1,
+      "cardId": "Mnemonic"
+    },
+    {
+      "x": 6,
+      "y": 2,
+      "z": 1,
+      "cardId": "Ethos"
+    },
+    {
+      "x": 8,
+      "y": 2,
+      "z": 1,
+      "cardId": "Omelet"
+    },
+    {
+      "x": 10,
+      "y": 2,
+      "z": 1,
+      "cardId": "Leaves"
+    },
+    {
+      "x": 5,
+      "y": 3,
+      "z": 2,
+      "cardId": "Recall"
+    },
+    {
+      "x": 7,
+      "y": 3,
+      "z": 2,
+      "cardId": "Pathway"
+    },
+    {
+      "x": 9,
+      "y": 3,
+      "z": 2,
+      "cardId": "Ethics"
+    },
+    {
+      "x": 6,
+      "y": 4,
+      "z": 3,
+      "cardId": "Camping"
+    },
+    {
+      "x": 8,
+      "y": 4,
+      "z": 3,
+      "cardId": "Recipe"
+    },
+    {
+      "x": 7,
+      "y": 5,
+      "z": 4,
+      "cardId": "Amnesia"
+    },
+    {
+      "x": 5,
+      "y": 9,
+      "z": 0,
+      "cardId": "Lac"
+    },
+    {
+      "x": 7,
+      "y": 9,
+      "z": 0,
+      "cardId": "Goulash"
+    },
+    {
+      "x": 9,
+      "y": 9,
+      "z": 0,
+      "cardId": "Amber"
+    },
+    {
+      "x": 4,
+      "y": 8,
+      "z": 1,
+      "cardId": "Ratchet"
+    },
+    {
+      "x": 6,
+      "y": 8,
+      "z": 1,
+      "cardId": "Retain"
+    },
+    {
+      "x": 8,
+      "y": 8,
+      "z": 1,
+      "cardId": "RAM"
+    },
+    {
+      "x": 10,
+      "y": 8,
+      "z": 1,
+      "cardId": "Storage"
+    },
+    {
+      "x": 5,
+      "y": 7,
+      "z": 2,
+      "cardId": "Sushi"
+    },
+    {
+      "x": 7,
+      "y": 7,
+      "z": 2,
+      "cardId": "Cache"
+    },
+    {
+      "x": 8,
+      "y": 6,
+      "z": 3,
+      "cardId": "Corridor"
+    },
+    {
+      "x": 6,
+      "y": 6,
+      "z": 3,
+      "cardId": "Kofta"
+    },
+    {
+      "x": 9,
+      "y": 7,
+      "z": 2,
+      "cardId": "Copal"
+    },
+    {
+      "x": 3,
+      "y": 9,
+      "z": 0,
+      "cardId": "Pass"
+    },
+    {
+      "x": 11,
+      "y": 9,
+      "z": 0,
+      "cardId": "Crude"
+    },
+    {
+      "x": 6,
+      "y": 4,
+      "z": 0,
+      "cardId": "Crown"
+    },
+    {
+      "x": 8,
+      "y": 4,
+      "z": 0,
+      "cardId": "Huron"
+    },
+    {
+      "x": 6,
+      "y": 6,
+      "z": 0,
+      "cardId": "Roots"
+    },
+    {
+      "x": 8,
+      "y": 6,
+      "z": 0,
+      "cardId": "Tractor"
+    }
+  ],
+  "stock": [
+    "Moral",
+    "Falafel",
+    "Soil",
+    "Memory",
+    "Superior",
+    "Grain",
+    "Paella",
+    "Cuisine",
+    "Mulch",
+    "Tahoe",
+    "Trails",
+    "Sports",
+    "Resins",
+    "Taco",
+    "Organic",
+    "Morals",
+    "Rights",
+    "Bearing",
+    "Twig",
+    "Gear",
+    "Alley",
+    "Baikal",
+    "Lakes",
+    "Mind"
+  ]
+}

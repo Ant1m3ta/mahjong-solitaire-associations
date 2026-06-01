@@ -1,0 +1,352 @@
+{
+  "levelId": "QA_35",
+  "slotsDefault": 4,
+  "movesLimit": 120,
+  "categories": [
+    {
+      "categoryId": "Mop",
+      "wordsData": [
+        {
+          "wordId": "Dirt"
+        },
+        {
+          "wordId": "Polish"
+        },
+        {
+          "wordId": "Wipe"
+        },
+        {
+          "wordId": "Scrub"
+        },
+        {
+          "wordId": "Squeeze"
+        },
+        {
+          "wordId": "Floor"
+        }
+      ]
+    },
+    {
+      "categoryId": "Geology",
+      "wordsData": [
+        {
+          "wordId": "Magma"
+        },
+        {
+          "wordId": "Obsidian"
+        },
+        {
+          "wordId": "Ridge"
+        }
+      ]
+    },
+    {
+      "categoryId": "Kind",
+      "wordsData": [
+        {
+          "wordId": "Generous"
+        },
+        {
+          "wordId": "Humane"
+        },
+        {
+          "wordId": "Cordial"
+        },
+        {
+          "wordId": "Helpful"
+        },
+        {
+          "wordId": "Amiable"
+        },
+        {
+          "wordId": "Gentle"
+        }
+      ]
+    },
+    {
+      "categoryId": "Queries",
+      "wordsData": [
+        {
+          "wordId": "Who"
+        },
+        {
+          "wordId": "Which"
+        },
+        {
+          "wordId": "Why"
+        },
+        {
+          "wordId": "When"
+        },
+        {
+          "wordId": "Whose"
+        },
+        {
+          "wordId": "What"
+        },
+        {
+          "wordId": "Where"
+        },
+        {
+          "wordId": "How"
+        }
+      ]
+    },
+    {
+      "categoryId": "Clown",
+      "wordsData": [
+        {
+          "wordId": "Balloons"
+        },
+        {
+          "wordId": "Red nose"
+        },
+        {
+          "wordId": "Playful"
+        },
+        {
+          "wordId": "Wig"
+        },
+        {
+          "wordId": "Makeup"
+        },
+        {
+          "wordId": "Smile"
+        },
+        {
+          "wordId": "Funny"
+        },
+        {
+          "wordId": "Costume"
+        }
+      ]
+    },
+    {
+      "categoryId": "Arctic",
+      "wordsData": [
+        {
+          "wordId": "Walrus"
+        },
+        {
+          "wordId": "Seals"
+        },
+        {
+          "wordId": "Frigid"
+        },
+        {
+          "wordId": "Ice"
+        },
+        {
+          "wordId": "Penguin"
+        },
+        {
+          "wordId": "Narwhal"
+        },
+        {
+          "wordId": "Blizzard"
+        },
+        {
+          "wordId": "Iceberg"
+        },
+        {
+          "wordId": "Moose"
+        }
+      ]
+    }
+  ],
+  "board": [
+    {
+      "x": 8,
+      "y": 6,
+      "z": 0,
+      "cardId": "Who"
+    },
+    {
+      "x": 7,
+      "y": 5,
+      "z": 1,
+      "cardId": "Generous"
+    },
+    {
+      "x": 7,
+      "y": 7,
+      "z": 1,
+      "cardId": "Walrus"
+    },
+    {
+      "x": 9,
+      "y": 7,
+      "z": 1,
+      "cardId": "Seals"
+    },
+    {
+      "x": 9,
+      "y": 5,
+      "z": 1,
+      "cardId": "Geology"
+    },
+    {
+      "x": 8,
+      "y": 6,
+      "z": 2,
+      "cardId": "Queries"
+    },
+    {
+      "x": 4,
+      "y": 2,
+      "z": 2,
+      "cardId": "Balloons"
+    },
+    {
+      "x": 6,
+      "y": 2,
+      "z": 2,
+      "cardId": "Humane"
+    },
+    {
+      "x": 8,
+      "y": 2,
+      "z": 2,
+      "cardId": "Cordial"
+    },
+    {
+      "x": 10,
+      "y": 2,
+      "z": 2,
+      "cardId": "Dirt"
+    },
+    {
+      "x": 12,
+      "y": 2,
+      "z": 2,
+      "cardId": "Which"
+    },
+    {
+      "x": 5,
+      "y": 3,
+      "z": 3,
+      "cardId": "Why"
+    },
+    {
+      "x": 5,
+      "y": 1,
+      "z": 3,
+      "cardId": "Frigid"
+    },
+    {
+      "x": 11,
+      "y": 3,
+      "z": 3,
+      "cardId": "Ice"
+    },
+    {
+      "x": 11,
+      "y": 1,
+      "z": 3,
+      "cardId": "When"
+    },
+    {
+      "x": 6,
+      "y": 4,
+      "z": 4,
+      "cardId": "Polish"
+    },
+    {
+      "x": 10,
+      "y": 4,
+      "z": 4,
+      "cardId": "Helpful"
+    },
+    {
+      "x": 6,
+      "y": 8,
+      "z": 4,
+      "cardId": "Wipe"
+    },
+    {
+      "x": 10,
+      "y": 8,
+      "z": 4,
+      "cardId": "Magma"
+    },
+    {
+      "x": 8,
+      "y": 1,
+      "z": 4,
+      "cardId": "Whose"
+    },
+    {
+      "x": 4,
+      "y": 6,
+      "z": 4,
+      "cardId": "Clown"
+    },
+    {
+      "x": 11,
+      "y": 9,
+      "z": 5,
+      "cardId": "Scrub"
+    },
+    {
+      "x": 4,
+      "y": 10,
+      "z": 4,
+      "cardId": "Penguin"
+    },
+    {
+      "x": 12,
+      "y": 10,
+      "z": 4,
+      "cardId": "Red nose"
+    },
+    {
+      "x": 12,
+      "y": 6,
+      "z": 4,
+      "cardId": "Arctic"
+    },
+    {
+      "x": 5,
+      "y": 9,
+      "z": 5,
+      "cardId": "Playful"
+    },
+    {
+      "x": 7,
+      "y": 11,
+      "z": 5,
+      "cardId": "Narwhal"
+    },
+    {
+      "x": 9,
+      "y": 11,
+      "z": 5,
+      "cardId": "Blizzard"
+    },
+    {
+      "x": 8,
+      "y": 10,
+      "z": 6,
+      "cardId": "What"
+    }
+  ],
+  "stock": [
+    "Kind",
+    "Iceberg",
+    "Obsidian",
+    "Squeeze",
+    "Moose",
+    "Ridge",
+    "Mop",
+    "Amiable",
+    "Wig",
+    "Floor",
+    "Makeup",
+    "Smile",
+    "Gentle",
+    "Where",
+    "Funny",
+    "Costume",
+    "How"
+  ]
+}

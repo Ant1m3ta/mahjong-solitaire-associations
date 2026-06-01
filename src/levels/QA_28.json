@@ -1,0 +1,360 @@
+{
+  "levelId": "QA_28",
+  "slotsDefault": 4,
+  "movesLimit": 90,
+  "categories": [
+    {
+      "categoryId": "Mass",
+      "wordsData": [
+        {
+          "wordId": "Weight"
+        },
+        {
+          "wordId": "Load"
+        },
+        {
+          "wordId": "Bulk"
+        }
+      ]
+    },
+    {
+      "categoryId": "Brews",
+      "wordsData": [
+        {
+          "wordId": "Tonic"
+        },
+        {
+          "wordId": "Draught"
+        },
+        {
+          "wordId": "Infusion"
+        },
+        {
+          "wordId": "Tincture"
+        },
+        {
+          "wordId": "Brew"
+        }
+      ]
+    },
+    {
+      "categoryId": "Diplomat",
+      "wordsData": [
+        {
+          "wordId": "Minister"
+        },
+        {
+          "wordId": "Emissary"
+        },
+        {
+          "wordId": "Attache"
+        },
+        {
+          "wordId": "Protocol"
+        },
+        {
+          "wordId": "Delegate"
+        },
+        {
+          "wordId": "Summit"
+        },
+        {
+          "wordId": "Envoy"
+        },
+        {
+          "wordId": "Consul"
+        },
+        {
+          "wordId": "Ambassy"
+        },
+        {
+          "wordId": "Treaty"
+        }
+      ]
+    },
+    {
+      "categoryId": "Pool",
+      "wordsData": [
+        {
+          "wordId": "Locker"
+        },
+        {
+          "wordId": "Hamam"
+        },
+        {
+          "wordId": "Armbands"
+        },
+        {
+          "wordId": "Floaty"
+        },
+        {
+          "wordId": "Towel"
+        },
+        {
+          "wordId": "Swim"
+        },
+        {
+          "wordId": "Goggles"
+        },
+        {
+          "wordId": "Shallow"
+        }
+      ]
+    },
+    {
+      "categoryId": "Seating",
+      "wordsData": [
+        {
+          "wordId": "Settee"
+        },
+        {
+          "wordId": "Loveseat"
+        },
+        {
+          "wordId": "Chair"
+        },
+        {
+          "wordId": "Sofa"
+        },
+        {
+          "wordId": "Ottoman"
+        },
+        {
+          "wordId": "Bench"
+        },
+        {
+          "wordId": "Stool"
+        },
+        {
+          "wordId": "Recliner"
+        }
+      ]
+    },
+    {
+      "categoryId": "Seabed",
+      "wordsData": [
+        {
+          "wordId": "Kelp"
+        },
+        {
+          "wordId": "Reef"
+        },
+        {
+          "wordId": "Silt"
+        },
+        {
+          "wordId": "Coral"
+        },
+        {
+          "wordId": "Sediment"
+        },
+        {
+          "wordId": "Algae"
+        },
+        {
+          "wordId": "Mud"
+        },
+        {
+          "wordId": "Seagrass"
+        }
+      ]
+    }
+  ],
+  "board": [
+    {
+      "x": 2,
+      "y": 5,
+      "z": 0,
+      "cardId": "Locker"
+    },
+    {
+      "x": 3,
+      "y": 3,
+      "z": 0,
+      "cardId": "Settee"
+    },
+    {
+      "x": 4,
+      "y": 5,
+      "z": 0,
+      "cardId": "Minister"
+    },
+    {
+      "x": 6,
+      "y": 5,
+      "z": 0,
+      "cardId": "Emissary"
+    },
+    {
+      "x": 8,
+      "y": 5,
+      "z": 0,
+      "cardId": "Attache"
+    },
+    {
+      "x": 10,
+      "y": 5,
+      "z": 0,
+      "cardId": "Kelp"
+    },
+    {
+      "x": 9,
+      "y": 7,
+      "z": 0,
+      "cardId": "Weight"
+    },
+    {
+      "x": 8,
+      "y": 9,
+      "z": 0,
+      "cardId": "Mass"
+    },
+    {
+      "x": 10,
+      "y": 9,
+      "z": 0,
+      "cardId": "Tonic"
+    },
+    {
+      "x": 2,
+      "y": 1,
+      "z": 0,
+      "cardId": "Hamam"
+    },
+    {
+      "x": 4,
+      "y": 1,
+      "z": 0,
+      "cardId": "Load"
+    },
+    {
+      "x": 3,
+      "y": 7,
+      "z": 0,
+      "cardId": "Loveseat"
+    },
+    {
+      "x": 9,
+      "y": 3,
+      "z": 0,
+      "cardId": "Chair"
+    },
+    {
+      "x": 3,
+      "y": 0,
+      "z": 1,
+      "cardId": "Sofa"
+    },
+    {
+      "x": 9,
+      "y": 10,
+      "z": 1,
+      "cardId": "Protocol"
+    },
+    {
+      "x": 5,
+      "y": 2,
+      "z": 1,
+      "cardId": "Delegate"
+    },
+    {
+      "x": 7,
+      "y": 4,
+      "z": 1,
+      "cardId": "Reef"
+    },
+    {
+      "x": 9,
+      "y": 6,
+      "z": 1,
+      "cardId": "Draught"
+    },
+    {
+      "x": 7,
+      "y": 8,
+      "z": 1,
+      "cardId": "Infusion"
+    },
+    {
+      "x": 5,
+      "y": 6,
+      "z": 1,
+      "cardId": "Silt"
+    },
+    {
+      "x": 3,
+      "y": 4,
+      "z": 1,
+      "cardId": "Summit"
+    },
+    {
+      "x": 1,
+      "y": 2,
+      "z": 1,
+      "cardId": "Pool"
+    },
+    {
+      "x": 11,
+      "y": 8,
+      "z": 1,
+      "cardId": "Ottoman"
+    },
+    {
+      "x": 2,
+      "y": 3,
+      "z": 2,
+      "cardId": "Tincture"
+    },
+    {
+      "x": 4,
+      "y": 3,
+      "z": 2,
+      "cardId": "Brews"
+    },
+    {
+      "x": 3,
+      "y": 1,
+      "z": 2,
+      "cardId": "Coral"
+    },
+    {
+      "x": 8,
+      "y": 9,
+      "z": 2,
+      "cardId": "Diplomat"
+    },
+    {
+      "x": 10,
+      "y": 9,
+      "z": 2,
+      "cardId": "Envoy"
+    },
+    {
+      "x": 9,
+      "y": 7,
+      "z": 2,
+      "cardId": "Armbands"
+    }
+  ],
+  "stock": [
+    "Bench",
+    "Floaty",
+    "Seating",
+    "Bulk",
+    "Stool",
+    "Consul",
+    "Sediment",
+    "Algae",
+    "Mud",
+    "Ambassy",
+    "Brew",
+    "Seabed",
+    "Towel",
+    "Swim",
+    "Recliner",
+    "Treaty",
+    "Goggles",
+    "Seagrass",
+    "Shallow"
+  ]
+}

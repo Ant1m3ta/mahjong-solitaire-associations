@@ -1,0 +1,371 @@
+{
+  "levelId": "QA_41",
+  "slotsDefault": 4,
+  "movesLimit": 100,
+  "categories": [
+    {
+      "categoryId": "Peak",
+      "wordsData": [
+        {
+          "wordId": "Top"
+        },
+        {
+          "wordId": "Cliff"
+        },
+        {
+          "wordId": "High"
+        },
+        {
+          "wordId": "Climb"
+        },
+        {
+          "wordId": "Crag"
+        },
+        {
+          "wordId": "Sherpas"
+        }
+      ]
+    },
+    {
+      "categoryId": "Wind",
+      "wordsData": [
+        {
+          "wordId": "Squall"
+        },
+        {
+          "wordId": "Sirocco"
+        },
+        {
+          "wordId": "Gale"
+        },
+        {
+          "wordId": "Zephyr"
+        },
+        {
+          "wordId": "Mistral"
+        }
+      ]
+    },
+    {
+      "categoryId": "Gothic",
+      "wordsData": [
+        {
+          "wordId": "Tracery"
+        },
+        {
+          "wordId": "Gargoyle"
+        },
+        {
+          "wordId": "Finial"
+        },
+        {
+          "wordId": "Rosette"
+        },
+        {
+          "wordId": "Narthex"
+        },
+        {
+          "wordId": "Vaults"
+        }
+      ]
+    },
+    {
+      "categoryId": "Device",
+      "wordsData": [
+        {
+          "wordId": "Printer"
+        },
+        {
+          "wordId": "Fax"
+        },
+        {
+          "wordId": "Scanner"
+        },
+        {
+          "wordId": "Phone"
+        },
+        {
+          "wordId": "Dryer"
+        }
+      ]
+    },
+    {
+      "categoryId": "Tailless",
+      "wordsData": [
+        {
+          "wordId": "Chimp"
+        },
+        {
+          "wordId": "Capybara"
+        },
+        {
+          "wordId": "Frog"
+        }
+      ]
+    },
+    {
+      "categoryId": "Hair",
+      "wordsData": [
+        {
+          "wordId": "Redhead"
+        },
+        {
+          "wordId": "Flaxen"
+        },
+        {
+          "wordId": "Brunette"
+        },
+        {
+          "wordId": "Auburn"
+        },
+        {
+          "wordId": "Damaged"
+        },
+        {
+          "wordId": "Curlers"
+        },
+        {
+          "wordId": "Dyed"
+        },
+        {
+          "wordId": "Loose"
+        }
+      ]
+    },
+    {
+      "categoryId": "Cyprus",
+      "wordsData": [
+        {
+          "wordId": "Nicosia"
+        },
+        {
+          "wordId": "Island"
+        },
+        {
+          "wordId": "Limassol"
+        },
+        {
+          "wordId": "Greek"
+        }
+      ]
+    },
+    {
+      "categoryId": "Hat",
+      "wordsData": [
+        {
+          "wordId": "Brim"
+        },
+        {
+          "wordId": "Trilby"
+        },
+        {
+          "wordId": "Cap"
+        },
+        {
+          "wordId": "Beanie"
+        },
+        {
+          "wordId": "Derby"
+        },
+        {
+          "wordId": "Sombrero"
+        }
+      ]
+    }
+  ],
+  "board": [
+    {
+      "x": 6,
+      "y": 1,
+      "z": 0,
+      "cardId": "Tracery"
+    },
+    {
+      "x": 10,
+      "y": 1,
+      "z": 0,
+      "cardId": "Chimp"
+    },
+    {
+      "x": 9,
+      "y": 2,
+      "z": 1,
+      "cardId": "Redhead"
+    },
+    {
+      "x": 7,
+      "y": 2,
+      "z": 1,
+      "cardId": "Nicosia"
+    },
+    {
+      "x": 6,
+      "y": 3,
+      "z": 2,
+      "cardId": "Gargoyle"
+    },
+    {
+      "x": 10,
+      "y": 3,
+      "z": 2,
+      "cardId": "Flaxen"
+    },
+    {
+      "x": 7,
+      "y": 4,
+      "z": 1,
+      "cardId": "Printer"
+    },
+    {
+      "x": 9,
+      "y": 4,
+      "z": 1,
+      "cardId": "Brim"
+    },
+    {
+      "x": 6,
+      "y": 5,
+      "z": 2,
+      "cardId": "Hair"
+    },
+    {
+      "x": 10,
+      "y": 5,
+      "z": 2,
+      "cardId": "Squall"
+    },
+    {
+      "x": 7,
+      "y": 6,
+      "z": 1,
+      "cardId": "Fax"
+    },
+    {
+      "x": 9,
+      "y": 6,
+      "z": 1,
+      "cardId": "Scanner"
+    },
+    {
+      "x": 6,
+      "y": 7,
+      "z": 2,
+      "cardId": "Brunette"
+    },
+    {
+      "x": 10,
+      "y": 7,
+      "z": 2,
+      "cardId": "Finial"
+    },
+    {
+      "x": 8,
+      "y": 6,
+      "z": 2,
+      "cardId": "Auburn"
+    },
+    {
+      "x": 8,
+      "y": 4,
+      "z": 2,
+      "cardId": "Capybara"
+    },
+    {
+      "x": 11,
+      "y": 2,
+      "z": 3,
+      "cardId": "Damaged"
+    },
+    {
+      "x": 5,
+      "y": 2,
+      "z": 3,
+      "cardId": "Curlers"
+    },
+    {
+      "x": 4,
+      "y": 6,
+      "z": 3,
+      "cardId": "Top"
+    },
+    {
+      "x": 12,
+      "y": 6,
+      "z": 3,
+      "cardId": "Sirocco"
+    },
+    {
+      "x": 5,
+      "y": 5,
+      "z": 4,
+      "cardId": "Rosette"
+    },
+    {
+      "x": 11,
+      "y": 5,
+      "z": 4,
+      "cardId": "Cliff"
+    },
+    {
+      "x": 6,
+      "y": 8,
+      "z": 1,
+      "cardId": "Trilby"
+    },
+    {
+      "x": 10,
+      "y": 8,
+      "z": 1,
+      "cardId": "Hat"
+    },
+    {
+      "x": 11,
+      "y": 6,
+      "z": 1,
+      "cardId": "Narthex"
+    },
+    {
+      "x": 5,
+      "y": 6,
+      "z": 1,
+      "cardId": "Island"
+    },
+    {
+      "x": 12,
+      "y": 3,
+      "z": 0,
+      "cardId": "Limassol"
+    },
+    {
+      "x": 4,
+      "y": 3,
+      "z": 0,
+      "cardId": "Gale"
+    }
+  ],
+  "stock": [
+    "High",
+    "Cap",
+    "Tailless",
+    "Dyed",
+    "Phone",
+    "Zephyr",
+    "Greek",
+    "Climb",
+    "Beanie",
+    "Mistral",
+    "Vaults",
+    "Device",
+    "Derby",
+    "Crag",
+    "Loose",
+    "Sombrero",
+    "Frog",
+    "Peak",
+    "Dryer",
+    "Sherpas",
+    "Wind",
+    "Cyprus",
+    "Gothic"
+  ]
+}

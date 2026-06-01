@@ -1,0 +1,380 @@
+{
+  "levelId": "QA_17",
+  "slotsDefault": 5,
+  "movesLimit": 100,
+  "categories": [
+    {
+      "categoryId": "GPS",
+      "wordsData": [
+        {
+          "wordId": "North"
+        },
+        {
+          "wordId": "South"
+        },
+        {
+          "wordId": "East"
+        },
+        {
+          "wordId": "Nw"
+        },
+        {
+          "wordId": "Ne"
+        },
+        {
+          "wordId": "Se"
+        }
+      ]
+    },
+    {
+      "categoryId": "Remark",
+      "wordsData": [
+        {
+          "wordId": "Mention"
+        },
+        {
+          "wordId": "Review"
+        },
+        {
+          "wordId": "Allusion"
+        },
+        {
+          "wordId": "Quote"
+        },
+        {
+          "wordId": "Feedback"
+        },
+        {
+          "wordId": "Comment"
+        }
+      ]
+    },
+    {
+      "categoryId": "Small",
+      "wordsData": [
+        {
+          "wordId": "Little"
+        },
+        {
+          "wordId": "Tiny"
+        },
+        {
+          "wordId": "Wee"
+        },
+        {
+          "wordId": "XS"
+        },
+        {
+          "wordId": "Petite"
+        },
+        {
+          "wordId": "Compact"
+        }
+      ]
+    },
+    {
+      "categoryId": "Villages",
+      "wordsData": [
+        {
+          "wordId": "Clachan"
+        },
+        {
+          "wordId": "Hamlet"
+        },
+        {
+          "wordId": "Burg"
+        },
+        {
+          "wordId": "Township"
+        },
+        {
+          "wordId": "Pueblo"
+        },
+        {
+          "wordId": "Town"
+        },
+        {
+          "wordId": "Precinct"
+        }
+      ]
+    },
+    {
+      "categoryId": "Comic",
+      "wordsData": [
+        {
+          "wordId": "Humorist"
+        },
+        {
+          "wordId": "Mimic"
+        },
+        {
+          "wordId": "Stand-up"
+        },
+        {
+          "wordId": "Jester"
+        },
+        {
+          "wordId": "Comedian"
+        },
+        {
+          "wordId": "Clown"
+        },
+        {
+          "wordId": "Satirist"
+        }
+      ]
+    },
+    {
+      "categoryId": "Compose",
+      "wordsData": [
+        {
+          "wordId": "Sonata"
+        },
+        {
+          "wordId": "Opera"
+        },
+        {
+          "wordId": "Mozart"
+        },
+        {
+          "wordId": "Lyric"
+        },
+        {
+          "wordId": "Piano"
+        },
+        {
+          "wordId": "Rhyme"
+        },
+        {
+          "wordId": "Etude"
+        }
+      ]
+    },
+    {
+      "categoryId": "Baking",
+      "wordsData": [
+        {
+          "wordId": "Dough"
+        },
+        {
+          "wordId": "Yeast"
+        },
+        {
+          "wordId": "Flour"
+        },
+        {
+          "wordId": "Bread"
+        }
+      ]
+    }
+  ],
+  "board": [
+    {
+      "x": 1,
+      "y": 1,
+      "z": 0,
+      "cardId": "Sonata"
+    },
+    {
+      "x": 3,
+      "y": 1,
+      "z": 0,
+      "cardId": "Mention"
+    },
+    {
+      "x": 1,
+      "y": 3,
+      "z": 0,
+      "cardId": "Clachan"
+    },
+    {
+      "x": 1,
+      "y": 7,
+      "z": 0,
+      "cardId": "Little"
+    },
+    {
+      "x": 3,
+      "y": 7,
+      "z": 0,
+      "cardId": "Opera"
+    },
+    {
+      "x": 1,
+      "y": 9,
+      "z": 0,
+      "cardId": "North"
+    },
+    {
+      "x": 3,
+      "y": 9,
+      "z": 0,
+      "cardId": "Humorist"
+    },
+    {
+      "x": 7,
+      "y": 9,
+      "z": 0,
+      "cardId": "Mozart"
+    },
+    {
+      "x": 7,
+      "y": 7,
+      "z": 0,
+      "cardId": "South"
+    },
+    {
+      "x": 9,
+      "y": 7,
+      "z": 0,
+      "cardId": "Review"
+    },
+    {
+      "x": 7,
+      "y": 3,
+      "z": 0,
+      "cardId": "Tiny"
+    },
+    {
+      "x": 9,
+      "y": 3,
+      "z": 0,
+      "cardId": "Wee"
+    },
+    {
+      "x": 9,
+      "y": 1,
+      "z": 0,
+      "cardId": "Mimic"
+    },
+    {
+      "x": 4,
+      "y": 6,
+      "z": 1,
+      "cardId": "East"
+    },
+    {
+      "x": 6,
+      "y": 6,
+      "z": 1,
+      "cardId": "Compose"
+    },
+    {
+      "x": 6,
+      "y": 4,
+      "z": 1,
+      "cardId": "Stand-up"
+    },
+    {
+      "x": 4,
+      "y": 4,
+      "z": 1,
+      "cardId": "XS"
+    },
+    {
+      "x": 8,
+      "y": 2,
+      "z": 2,
+      "cardId": "Hamlet"
+    },
+    {
+      "x": 2,
+      "y": 2,
+      "z": 2,
+      "cardId": "Allusion"
+    },
+    {
+      "x": 5,
+      "y": 5,
+      "z": 2,
+      "cardId": "Remark"
+    },
+    {
+      "x": 2,
+      "y": 8,
+      "z": 2,
+      "cardId": "Lyric"
+    },
+    {
+      "x": 8,
+      "y": 8,
+      "z": 2,
+      "cardId": "Burg"
+    },
+    {
+      "x": 7,
+      "y": 1,
+      "z": 0,
+      "cardId": "Quote"
+    },
+    {
+      "x": 9,
+      "y": 9,
+      "z": 0,
+      "cardId": "Township"
+    },
+    {
+      "x": 7,
+      "y": 3,
+      "z": 3,
+      "cardId": "Piano"
+    },
+    {
+      "x": 3,
+      "y": 3,
+      "z": 3,
+      "cardId": "Feedback"
+    },
+    {
+      "x": 3,
+      "y": 7,
+      "z": 3,
+      "cardId": "Pueblo"
+    },
+    {
+      "x": 7,
+      "y": 7,
+      "z": 3,
+      "cardId": "Jester"
+    },
+    {
+      "x": 2,
+      "y": 5,
+      "z": 3,
+      "cardId": "Dough"
+    },
+    {
+      "x": 8,
+      "y": 5,
+      "z": 3,
+      "cardId": "Rhyme"
+    },
+    {
+      "x": 3,
+      "y": 3,
+      "z": 0,
+      "cardId": "GPS"
+    }
+  ],
+  "stock": [
+    "Comedian",
+    "Yeast",
+    "Town",
+    "Small",
+    "Nw",
+    "Clown",
+    "Precinct",
+    "Baking",
+    "Ne",
+    "Se",
+    "Flour",
+    "Comment",
+    "Villages",
+    "Etude",
+    "Petite",
+    "Comic",
+    "Bread",
+    "Satirist",
+    "Compact"
+  ]
+}

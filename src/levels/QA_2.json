@@ -1,0 +1,226 @@
+{
+  "levelId": "QA_2",
+  "slotsDefault": 4,
+  "movesLimit": 90,
+  "categories": [
+    {
+      "categoryId": "Roulette",
+      "wordsData": [
+        {
+          "wordId": "Dozen"
+        },
+        {
+          "wordId": "Even"
+        },
+        {
+          "wordId": "Odd"
+        }
+      ]
+    },
+    {
+      "categoryId": "Research",
+      "wordsData": [
+        {
+          "wordId": "Accurate"
+        },
+        {
+          "wordId": "Guided"
+        }
+      ]
+    },
+    {
+      "categoryId": "Eons",
+      "wordsData": [
+        {
+          "wordId": "Ceno"
+        },
+        {
+          "wordId": "Paleo"
+        },
+        {
+          "wordId": "Meso"
+        }
+      ]
+    },
+    {
+      "categoryId": "Orcs",
+      "wordsData": [
+        {
+          "wordId": "Monsters"
+        },
+        {
+          "wordId": "Uruk-hai"
+        },
+        {
+          "wordId": "Tolkien"
+        }
+      ]
+    },
+    {
+      "categoryId": "Oil Rig",
+      "wordsData": [
+        {
+          "wordId": "Mudpump"
+        },
+        {
+          "wordId": "Offshore"
+        },
+        {
+          "wordId": "Crane"
+        }
+      ]
+    },
+    {
+      "categoryId": "Lab",
+      "wordsData": [
+        {
+          "wordId": "Beaker"
+        },
+        {
+          "wordId": "Burette"
+        },
+        {
+          "wordId": "Crucible"
+        },
+        {
+          "wordId": "Vial"
+        }
+      ]
+    },
+    {
+      "categoryId": "Crowded",
+      "wordsData": [
+        {
+          "wordId": "City"
+        },
+        {
+          "wordId": "Mobbed"
+        },
+        {
+          "wordId": "Stadium"
+        },
+        {
+          "wordId": "Crammed"
+        }
+      ]
+    }
+  ],
+  "board": [
+    {
+      "x": 2,
+      "y": 2,
+      "z": 0,
+      "cardId": "Monsters"
+    },
+    {
+      "x": 3,
+      "y": 3,
+      "z": 1,
+      "cardId": "City"
+    },
+    {
+      "x": 5,
+      "y": 3,
+      "z": 3,
+      "cardId": "Dozen"
+    },
+    {
+      "x": 6,
+      "y": 4,
+      "z": 4,
+      "cardId": "Beaker"
+    },
+    {
+      "x": 5,
+      "y": 5,
+      "z": 5,
+      "cardId": "Uruk-hai"
+    },
+    {
+      "x": 6,
+      "y": 6,
+      "z": 6,
+      "cardId": "Mobbed"
+    },
+    {
+      "x": 5,
+      "y": 7,
+      "z": 7,
+      "cardId": "Mudpump"
+    },
+    {
+      "x": 0,
+      "y": 4,
+      "z": 14,
+      "cardId": "Ceno"
+    },
+    {
+      "x": 2,
+      "y": 8,
+      "z": 10,
+      "cardId": "Even"
+    },
+    {
+      "x": 1,
+      "y": 7,
+      "z": 11,
+      "cardId": "Odd"
+    },
+    {
+      "x": 0,
+      "y": 6,
+      "z": 12,
+      "cardId": "Stadium"
+    },
+    {
+      "x": 3,
+      "y": 5,
+      "z": 13,
+      "cardId": "Roulette"
+    },
+    {
+      "x": 3,
+      "y": 7,
+      "z": 9,
+      "cardId": "Paleo"
+    },
+    {
+      "x": 1,
+      "y": 3,
+      "z": 15,
+      "cardId": "Accurate"
+    },
+    {
+      "x": 4,
+      "y": 8,
+      "z": 8,
+      "cardId": "Crammed"
+    },
+    {
+      "x": 4,
+      "y": 2,
+      "z": 2,
+      "cardId": "Burette"
+    },
+    {
+      "x": 1,
+      "y": 5,
+      "z": 13,
+      "cardId": "Meso"
+    }
+  ],
+  "stock": [
+    "Crucible",
+    "Eons",
+    "Vial",
+    "Research",
+    "Lab",
+    "Offshore",
+    "Tolkien",
+    "Oil Rig",
+    "Crowded",
+    "Orcs",
+    "Guided",
+    "Crane"
+  ]
+}

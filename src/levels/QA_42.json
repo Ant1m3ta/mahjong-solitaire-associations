@@ -1,0 +1,397 @@
+{
+  "levelId": "QA_42",
+  "slotsDefault": 5,
+  "movesLimit": 80,
+  "categories": [
+    {
+      "categoryId": "Buttons",
+      "wordsData": [
+        {
+          "wordId": "Overalls"
+        },
+        {
+          "wordId": "Home"
+        },
+        {
+          "wordId": "Back"
+        }
+      ]
+    },
+    {
+      "categoryId": "Voyages",
+      "wordsData": [
+        {
+          "wordId": "Passage"
+        },
+        {
+          "wordId": "Tour"
+        },
+        {
+          "wordId": "Sail"
+        },
+        {
+          "wordId": "Mission"
+        },
+        {
+          "wordId": "Outbound"
+        }
+      ]
+    },
+    {
+      "categoryId": "Pillow",
+      "wordsData": [
+        {
+          "wordId": "Fluff"
+        },
+        {
+          "wordId": "Padding"
+        },
+        {
+          "wordId": "Batting"
+        },
+        {
+          "wordId": "Nap"
+        },
+        {
+          "wordId": "Pregnant"
+        },
+        {
+          "wordId": "Feather"
+        },
+        {
+          "wordId": "Bolster"
+        }
+      ]
+    },
+    {
+      "categoryId": "Felidae",
+      "wordsData": [
+        {
+          "wordId": "Bobcat"
+        },
+        {
+          "wordId": "Serval"
+        },
+        {
+          "wordId": "Margay"
+        },
+        {
+          "wordId": "Ocelot"
+        },
+        {
+          "wordId": "Bay cat"
+        },
+        {
+          "wordId": "Tigrillo"
+        }
+      ]
+    },
+    {
+      "categoryId": "Ads",
+      "wordsData": [
+        {
+          "wordId": "Handbill"
+        },
+        {
+          "wordId": "Banner"
+        },
+        {
+          "wordId": "Spam"
+        },
+        {
+          "wordId": "Flyer"
+        },
+        {
+          "wordId": "Brochure"
+        },
+        {
+          "wordId": "Poster"
+        },
+        {
+          "wordId": "TV"
+        },
+        {
+          "wordId": "Promo"
+        }
+      ]
+    },
+    {
+      "categoryId": "Caring",
+      "wordsData": [
+        {
+          "wordId": "Helpful"
+        },
+        {
+          "wordId": "Humane"
+        },
+        {
+          "wordId": "Nice"
+        },
+        {
+          "wordId": "Loving"
+        },
+        {
+          "wordId": "Kind"
+        },
+        {
+          "wordId": "Gentle"
+        }
+      ]
+    },
+    {
+      "categoryId": "Tree",
+      "wordsData": [
+        {
+          "wordId": "Willow"
+        },
+        {
+          "wordId": "Fir"
+        },
+        {
+          "wordId": "Sycamore"
+        },
+        {
+          "wordId": "Poplar"
+        },
+        {
+          "wordId": "Linden"
+        },
+        {
+          "wordId": "Root"
+        }
+      ]
+    }
+  ],
+  "board": [
+    {
+      "x": 7,
+      "y": 2,
+      "z": 0,
+      "cardId": "Willow"
+    },
+    {
+      "x": 3,
+      "y": 0,
+      "z": 0,
+      "cardId": "Fir"
+    },
+    {
+      "x": 11,
+      "y": 0,
+      "z": 0,
+      "cardId": "Helpful"
+    },
+    {
+      "x": 9,
+      "y": 4,
+      "z": 0,
+      "cardId": "Overalls"
+    },
+    {
+      "x": 7,
+      "y": 0,
+      "z": 0,
+      "cardId": "Handbill"
+    },
+    {
+      "x": 7,
+      "y": 6,
+      "z": 0,
+      "cardId": "Banner"
+    },
+    {
+      "x": 7,
+      "y": 8,
+      "z": 0,
+      "cardId": "Spam"
+    },
+    {
+      "x": 8,
+      "y": 3,
+      "z": 1,
+      "cardId": "Flyer"
+    },
+    {
+      "x": 6,
+      "y": 3,
+      "z": 1,
+      "cardId": "Brochure"
+    },
+    {
+      "x": 6,
+      "y": 5,
+      "z": 1,
+      "cardId": "Passage"
+    },
+    {
+      "x": 8,
+      "y": 5,
+      "z": 1,
+      "cardId": "Humane"
+    },
+    {
+      "x": 9,
+      "y": 7,
+      "z": 1,
+      "cardId": "Fluff"
+    },
+    {
+      "x": 4,
+      "y": 5,
+      "z": 1,
+      "cardId": "Sycamore"
+    },
+    {
+      "x": 4,
+      "y": 3,
+      "z": 1,
+      "cardId": "Bobcat"
+    },
+    {
+      "x": 10,
+      "y": 3,
+      "z": 1,
+      "cardId": "Padding"
+    },
+    {
+      "x": 10,
+      "y": 5,
+      "z": 1,
+      "cardId": "Poster"
+    },
+    {
+      "x": 9,
+      "y": 2,
+      "z": 2,
+      "cardId": "Nice"
+    },
+    {
+      "x": 5,
+      "y": 2,
+      "z": 2,
+      "cardId": "Tour"
+    },
+    {
+      "x": 7,
+      "y": 4,
+      "z": 2,
+      "cardId": "Loving"
+    },
+    {
+      "x": 5,
+      "y": 4,
+      "z": 2,
+      "cardId": "Serval"
+    },
+    {
+      "x": 9,
+      "y": 4,
+      "z": 2,
+      "cardId": "Sail"
+    },
+    {
+      "x": 7,
+      "y": 6,
+      "z": 2,
+      "cardId": "Poplar"
+    },
+    {
+      "x": 7,
+      "y": 9,
+      "z": 3,
+      "cardId": "Pillow"
+    },
+    {
+      "x": 6,
+      "y": 3,
+      "z": 3,
+      "cardId": "Mission"
+    },
+    {
+      "x": 7,
+      "y": 1,
+      "z": 3,
+      "cardId": "Batting"
+    },
+    {
+      "x": 6,
+      "y": 7,
+      "z": 3,
+      "cardId": "Home"
+    },
+    {
+      "x": 4,
+      "y": 1,
+      "z": 3,
+      "cardId": "Nap"
+    },
+    {
+      "x": 10,
+      "y": 1,
+      "z": 3,
+      "cardId": "Margay"
+    },
+    {
+      "x": 8,
+      "y": 7,
+      "z": 3,
+      "cardId": "Linden"
+    },
+    {
+      "x": 8,
+      "y": 3,
+      "z": 3,
+      "cardId": "Pregnant"
+    },
+    {
+      "x": 11,
+      "y": 4,
+      "z": 3,
+      "cardId": "TV"
+    },
+    {
+      "x": 3,
+      "y": 4,
+      "z": 3,
+      "cardId": "Ocelot"
+    },
+    {
+      "x": 5,
+      "y": 4,
+      "z": 0,
+      "cardId": "Kind"
+    },
+    {
+      "x": 5,
+      "y": 7,
+      "z": 1,
+      "cardId": "Bay cat"
+    },
+    {
+      "x": 7,
+      "y": 5,
+      "z": 3,
+      "cardId": "Felidae"
+    },
+    {
+      "x": 7,
+      "y": 2,
+      "z": 2,
+      "cardId": "Caring"
+    }
+  ],
+  "stock": [
+    "Voyages",
+    "Feather",
+    "Outbound",
+    "Ads",
+    "Promo",
+    "Back",
+    "Gentle",
+    "Bolster",
+    "Tree",
+    "Tigrillo",
+    "Root",
+    "Buttons"
+  ]
+}

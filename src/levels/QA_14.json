@@ -1,0 +1,344 @@
+{
+  "levelId": "QA_14",
+  "slotsDefault": 4,
+  "movesLimit": 120,
+  "categories": [
+    {
+      "categoryId": "Medicine",
+      "wordsData": [
+        {
+          "wordId": "Dosage"
+        },
+        {
+          "wordId": "Surgery"
+        },
+        {
+          "wordId": "Symptom"
+        },
+        {
+          "wordId": "Health"
+        },
+        {
+          "wordId": "Placebo"
+        },
+        {
+          "wordId": "Disease"
+        },
+        {
+          "wordId": "Therapy"
+        },
+        {
+          "wordId": "Aspirin"
+        }
+      ]
+    },
+    {
+      "categoryId": "Suffixes",
+      "wordsData": [
+        {
+          "wordId": "Less"
+        },
+        {
+          "wordId": "Ly"
+        },
+        {
+          "wordId": "Ful"
+        },
+        {
+          "wordId": "Ous"
+        },
+        {
+          "wordId": "Ize"
+        },
+        {
+          "wordId": "Ship"
+        },
+        {
+          "wordId": "Tion"
+        },
+        {
+          "wordId": "Ness"
+        }
+      ]
+    },
+    {
+      "categoryId": "Learning",
+      "wordsData": [
+        {
+          "wordId": "Lesson"
+        },
+        {
+          "wordId": "Quiz"
+        },
+        {
+          "wordId": "Pen"
+        },
+        {
+          "wordId": "Desk"
+        },
+        {
+          "wordId": "Chalk"
+        },
+        {
+          "wordId": "Notebook"
+        },
+        {
+          "wordId": "Book"
+        },
+        {
+          "wordId": "Lecture"
+        }
+      ]
+    },
+    {
+      "categoryId": "Jungle",
+      "wordsData": [
+        {
+          "wordId": "Liana"
+        },
+        {
+          "wordId": "Fern"
+        },
+        {
+          "wordId": "Safari"
+        },
+        {
+          "wordId": "Tarzan"
+        },
+        {
+          "wordId": "Vine"
+        },
+        {
+          "wordId": "Kipling"
+        },
+        {
+          "wordId": "Humidity"
+        },
+        {
+          "wordId": "Moss"
+        }
+      ]
+    },
+    {
+      "categoryId": "Fighting",
+      "wordsData": [
+        {
+          "wordId": "Karate"
+        },
+        {
+          "wordId": "Jujutsu"
+        },
+        {
+          "wordId": "Muaythai"
+        },
+        {
+          "wordId": "Kung fu"
+        },
+        {
+          "wordId": "Wushu"
+        },
+        {
+          "wordId": "Judo"
+        },
+        {
+          "wordId": "Savate"
+        },
+        {
+          "wordId": "Aikido"
+        }
+      ]
+    },
+    {
+      "categoryId": "Address",
+      "wordsData": [
+        {
+          "wordId": "Location"
+        },
+        {
+          "wordId": "IP"
+        },
+        {
+          "wordId": "Shipping"
+        },
+        {
+          "wordId": "Home"
+        },
+        {
+          "wordId": "Street"
+        },
+        {
+          "wordId": "Email"
+        },
+        {
+          "wordId": "Mailing"
+        },
+        {
+          "wordId": "Building"
+        }
+      ]
+    }
+  ],
+  "board": [
+    {
+      "x": 4,
+      "y": 12,
+      "z": 0,
+      "cardId": "Less"
+    },
+    {
+      "x": 12,
+      "y": 12,
+      "z": 0,
+      "cardId": "Liana"
+    },
+    {
+      "x": 4,
+      "y": 4,
+      "z": 0,
+      "cardId": "Fern"
+    },
+    {
+      "x": 12,
+      "y": 4,
+      "z": 0,
+      "cardId": "Jungle"
+    },
+    {
+      "x": 5,
+      "y": 11,
+      "z": 1,
+      "cardId": "Location"
+    },
+    {
+      "x": 11,
+      "y": 11,
+      "z": 1,
+      "cardId": "Karate"
+    },
+    {
+      "x": 5,
+      "y": 5,
+      "z": 1,
+      "cardId": "Suffixes"
+    },
+    {
+      "x": 6,
+      "y": 6,
+      "z": 2,
+      "cardId": "Jujutsu"
+    },
+    {
+      "x": 10,
+      "y": 6,
+      "z": 2,
+      "cardId": "Dosage"
+    },
+    {
+      "x": 6,
+      "y": 10,
+      "z": 2,
+      "cardId": "Surgery"
+    },
+    {
+      "x": 10,
+      "y": 10,
+      "z": 2,
+      "cardId": "Lesson"
+    },
+    {
+      "x": 7,
+      "y": 9,
+      "z": 3,
+      "cardId": "IP"
+    },
+    {
+      "x": 7,
+      "y": 7,
+      "z": 3,
+      "cardId": "Muaythai"
+    },
+    {
+      "x": 9,
+      "y": 7,
+      "z": 3,
+      "cardId": "Shipping"
+    },
+    {
+      "x": 9,
+      "y": 9,
+      "z": 3,
+      "cardId": "Symptom"
+    },
+    {
+      "x": 8,
+      "y": 8,
+      "z": 4,
+      "cardId": "Medicine"
+    },
+    {
+      "x": 11,
+      "y": 5,
+      "z": 1,
+      "cardId": "Kung fu"
+    },
+    {
+      "x": 8,
+      "y": 3,
+      "z": 4,
+      "cardId": "Safari"
+    },
+    {
+      "x": 8,
+      "y": 13,
+      "z": 4,
+      "cardId": "Quiz"
+    },
+    {
+      "x": 12,
+      "y": 8,
+      "z": 4,
+      "cardId": "Pen"
+    },
+    {
+      "x": 4,
+      "y": 8,
+      "z": 4,
+      "cardId": "Health"
+    }
+  ],
+  "stock": [
+    "Desk",
+    "Ly",
+    "Chalk",
+    "Fighting",
+    "Placebo",
+    "Disease",
+    "Home",
+    "Notebook",
+    "Ful",
+    "Book",
+    "Street",
+    "Wushu",
+    "Judo",
+    "Tarzan",
+    "Vine",
+    "Therapy",
+    "Kipling",
+    "Ous",
+    "Email",
+    "Humidity",
+    "Ize",
+    "Learning",
+    "Ship",
+    "Tion",
+    "Moss",
+    "Ness",
+    "Mailing",
+    "Lecture",
+    "Savate",
+    "Building",
+    "Aspirin",
+    "Aikido",
+    "Address"
+  ]
+}

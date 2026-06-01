@@ -1,0 +1,387 @@
+{
+  "levelId": "QA_45",
+  "slotsDefault": 4,
+  "movesLimit": 80,
+  "categories": [
+    {
+      "categoryId": "Dish",
+      "wordsData": [
+        {
+          "wordId": "Cook"
+        },
+        {
+          "wordId": "Salad"
+        },
+        {
+          "wordId": "Stew"
+        },
+        {
+          "wordId": "Soup"
+        }
+      ]
+    },
+    {
+      "categoryId": "Build",
+      "wordsData": [
+        {
+          "wordId": "Joists"
+        },
+        {
+          "wordId": "Studs"
+        },
+        {
+          "wordId": "Cement"
+        },
+        {
+          "wordId": "Timber"
+        },
+        {
+          "wordId": "Bricks"
+        },
+        {
+          "wordId": "Blocks"
+        }
+      ]
+    },
+    {
+      "categoryId": "Lab",
+      "wordsData": [
+        {
+          "wordId": "Vial"
+        },
+        {
+          "wordId": "Beaker"
+        },
+        {
+          "wordId": "Funnel"
+        },
+        {
+          "wordId": "Burner"
+        },
+        {
+          "wordId": "Liquid"
+        },
+        {
+          "wordId": "Stirrer"
+        },
+        {
+          "wordId": "Petri"
+        },
+        {
+          "wordId": "Science"
+        }
+      ]
+    },
+    {
+      "categoryId": "Cocoa",
+      "wordsData": [
+        {
+          "wordId": "Pods"
+        },
+        {
+          "wordId": "Bitter"
+        },
+        {
+          "wordId": "Ganache"
+        },
+        {
+          "wordId": "Whip"
+        },
+        {
+          "wordId": "Mug"
+        }
+      ]
+    },
+    {
+      "categoryId": "Emotes",
+      "wordsData": [
+        {
+          "wordId": "Pout"
+        },
+        {
+          "wordId": "Gasp"
+        },
+        {
+          "wordId": "Frown"
+        },
+        {
+          "wordId": "Grin"
+        },
+        {
+          "wordId": "Sigh"
+        },
+        {
+          "wordId": "Smile"
+        }
+      ]
+    },
+    {
+      "categoryId": "East",
+      "wordsData": [
+        {
+          "wordId": "Japan"
+        },
+        {
+          "wordId": "Sun"
+        },
+        {
+          "wordId": "Rise"
+        },
+        {
+          "wordId": "China"
+        }
+      ]
+    },
+    {
+      "categoryId": "Rotate",
+      "wordsData": [
+        {
+          "wordId": "Turn"
+        },
+        {
+          "wordId": "Gyrate"
+        },
+        {
+          "wordId": "Orbit"
+        },
+        {
+          "wordId": "Spin"
+        },
+        {
+          "wordId": "Twirl"
+        },
+        {
+          "wordId": "Swivel"
+        },
+        {
+          "wordId": "Roll"
+        },
+        {
+          "wordId": "Gyre"
+        }
+      ]
+    }
+  ],
+  "board": [
+    {
+      "x": 7,
+      "y": 5,
+      "z": 0,
+      "cardId": "Japan"
+    },
+    {
+      "x": 6,
+      "y": 4,
+      "z": 1,
+      "cardId": "Sun"
+    },
+    {
+      "x": 8,
+      "y": 4,
+      "z": 1,
+      "cardId": "Joists"
+    },
+    {
+      "x": 8,
+      "y": 6,
+      "z": 1,
+      "cardId": "Vial"
+    },
+    {
+      "x": 6,
+      "y": 6,
+      "z": 1,
+      "cardId": "Beaker"
+    },
+    {
+      "x": 7,
+      "y": 5,
+      "z": 2,
+      "cardId": "Funnel"
+    },
+    {
+      "x": 5,
+      "y": 1,
+      "z": 2,
+      "cardId": "Turn"
+    },
+    {
+      "x": 3,
+      "y": 3,
+      "z": 2,
+      "cardId": "Pout"
+    },
+    {
+      "x": 3,
+      "y": 1,
+      "z": 2,
+      "cardId": "Pods"
+    },
+    {
+      "x": 4,
+      "y": 2,
+      "z": 3,
+      "cardId": "Studs"
+    },
+    {
+      "x": 9,
+      "y": 3,
+      "z": 3,
+      "cardId": "Cement"
+    },
+    {
+      "x": 9,
+      "y": 1,
+      "z": 3,
+      "cardId": "Dish"
+    },
+    {
+      "x": 11,
+      "y": 1,
+      "z": 3,
+      "cardId": "Gasp"
+    },
+    {
+      "x": 11,
+      "y": 3,
+      "z": 3,
+      "cardId": "Frown"
+    },
+    {
+      "x": 10,
+      "y": 2,
+      "z": 4,
+      "cardId": "Grin"
+    },
+    {
+      "x": 5,
+      "y": 7,
+      "z": 4,
+      "cardId": "Burner"
+    },
+    {
+      "x": 4,
+      "y": 8,
+      "z": 5,
+      "cardId": "Rise"
+    },
+    {
+      "x": 9,
+      "y": 7,
+      "z": 5,
+      "cardId": "Lab"
+    },
+    {
+      "x": 10,
+      "y": 8,
+      "z": 6,
+      "cardId": "Gyrate"
+    },
+    {
+      "x": 11,
+      "y": 9,
+      "z": 7,
+      "cardId": "Orbit"
+    },
+    {
+      "x": 3,
+      "y": 9,
+      "z": 7,
+      "cardId": "Sigh"
+    },
+    {
+      "x": 5,
+      "y": 9,
+      "z": 7,
+      "cardId": "Smile"
+    },
+    {
+      "x": 9,
+      "y": 9,
+      "z": 7,
+      "cardId": "Spin"
+    },
+    {
+      "x": 7,
+      "y": 9,
+      "z": 7,
+      "cardId": "Twirl"
+    },
+    {
+      "x": 5,
+      "y": 11,
+      "z": 7,
+      "cardId": "China"
+    },
+    {
+      "x": 4,
+      "y": 4,
+      "z": 9,
+      "cardId": "Build"
+    },
+    {
+      "x": 10,
+      "y": 4,
+      "z": 9,
+      "cardId": "Cocoa"
+    },
+    {
+      "x": 6,
+      "y": 10,
+      "z": 8,
+      "cardId": "Cook"
+    },
+    {
+      "x": 8,
+      "y": 10,
+      "z": 8,
+      "cardId": "Swivel"
+    },
+    {
+      "x": 9,
+      "y": 11,
+      "z": 7,
+      "cardId": "Liquid"
+    },
+    {
+      "x": 7,
+      "y": 11,
+      "z": 7,
+      "cardId": "Salad"
+    },
+    {
+      "x": 3,
+      "y": 5,
+      "z": 8,
+      "cardId": "Stirrer"
+    },
+    {
+      "x": 11,
+      "y": 5,
+      "z": 8,
+      "cardId": "Stew"
+    },
+    {
+      "x": 5,
+      "y": 3,
+      "z": 2,
+      "cardId": "Soup"
+    }
+  ],
+  "stock": [
+    "Rotate",
+    "Bitter",
+    "East",
+    "Timber",
+    "Ganache",
+    "Bricks",
+    "Roll",
+    "Petri",
+    "Emotes",
+    "Gyre",
+    "Whip",
+    "Science",
+    "Mug",
+    "Blocks"
+  ]
+}

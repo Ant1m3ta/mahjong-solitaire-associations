@@ -1,0 +1,361 @@
+{
+  "levelId": "QA_37",
+  "slotsDefault": 4,
+  "movesLimit": 90,
+  "categories": [
+    {
+      "categoryId": "Cursed",
+      "wordsData": [
+        {
+          "wordId": "Hexed"
+        },
+        {
+          "wordId": "Jinxed"
+        },
+        {
+          "wordId": "Blighted"
+        },
+        {
+          "wordId": "Plagued"
+        },
+        {
+          "wordId": "Damned"
+        }
+      ]
+    },
+    {
+      "categoryId": "Bells",
+      "wordsData": [
+        {
+          "wordId": "Chime"
+        },
+        {
+          "wordId": "Peal"
+        },
+        {
+          "wordId": "Sleigh"
+        },
+        {
+          "wordId": "Carillon"
+        },
+        {
+          "wordId": "Cowbell"
+        },
+        {
+          "wordId": "Doorbell"
+        },
+        {
+          "wordId": "Tocsin"
+        }
+      ]
+    },
+    {
+      "categoryId": "Hinduism",
+      "wordsData": [
+        {
+          "wordId": "Dharma"
+        },
+        {
+          "wordId": "Rama"
+        },
+        {
+          "wordId": "Vishnu"
+        }
+      ]
+    },
+    {
+      "categoryId": "Stamps",
+      "wordsData": [
+        {
+          "wordId": "Used"
+        },
+        {
+          "wordId": "Vintage"
+        },
+        {
+          "wordId": "Collect"
+        },
+        {
+          "wordId": "Postal"
+        },
+        {
+          "wordId": "Postage"
+        },
+        {
+          "wordId": "Souvenir"
+        }
+      ]
+    },
+    {
+      "categoryId": "Doll",
+      "wordsData": [
+        {
+          "wordId": "Dummy"
+        },
+        {
+          "wordId": "Model"
+        },
+        {
+          "wordId": "Puppet"
+        },
+        {
+          "wordId": "Rag doll"
+        },
+        {
+          "wordId": "Toy"
+        },
+        {
+          "wordId": "Manikin"
+        }
+      ]
+    },
+    {
+      "categoryId": "Knitting",
+      "wordsData": [
+        {
+          "wordId": "Stitch"
+        },
+        {
+          "wordId": "Purl"
+        },
+        {
+          "wordId": "Row"
+        },
+        {
+          "wordId": "Ribbing"
+        },
+        {
+          "wordId": "Knit"
+        },
+        {
+          "wordId": "Yarn"
+        },
+        {
+          "wordId": "Needle"
+        }
+      ]
+    },
+    {
+      "categoryId": "Trek",
+      "wordsData": [
+        {
+          "wordId": "Journeys"
+        },
+        {
+          "wordId": "Paths"
+        },
+        {
+          "wordId": "Trails"
+        }
+      ]
+    }
+  ],
+  "board": [
+    {
+      "x": 2,
+      "y": 2,
+      "z": 0,
+      "cardId": "Chime"
+    },
+    {
+      "x": 2,
+      "y": 4,
+      "z": 0,
+      "cardId": "Used"
+    },
+    {
+      "x": 4,
+      "y": 5,
+      "z": 0,
+      "cardId": "Dummy"
+    },
+    {
+      "x": 2,
+      "y": 6,
+      "z": 0,
+      "cardId": "Hexed"
+    },
+    {
+      "x": 2,
+      "y": 8,
+      "z": 0,
+      "cardId": "Journeys"
+    },
+    {
+      "x": 4,
+      "y": 7,
+      "z": 0,
+      "cardId": "Dharma"
+    },
+    {
+      "x": 4,
+      "y": 3,
+      "z": 0,
+      "cardId": "Peal"
+    },
+    {
+      "x": 6,
+      "y": 2,
+      "z": 0,
+      "cardId": "Stamps"
+    },
+    {
+      "x": 6,
+      "y": 4,
+      "z": 0,
+      "cardId": "Stitch"
+    },
+    {
+      "x": 6,
+      "y": 6,
+      "z": 0,
+      "cardId": "Hinduism"
+    },
+    {
+      "x": 6,
+      "y": 8,
+      "z": 0,
+      "cardId": "Vintage"
+    },
+    {
+      "x": 0,
+      "y": 7,
+      "z": 0,
+      "cardId": "Rama"
+    },
+    {
+      "x": 0,
+      "y": 5,
+      "z": 0,
+      "cardId": "Model"
+    },
+    {
+      "x": 0,
+      "y": 3,
+      "z": 0,
+      "cardId": "Sleigh"
+    },
+    {
+      "x": 8,
+      "y": 3,
+      "z": 0,
+      "cardId": "Purl"
+    },
+    {
+      "x": 8,
+      "y": 5,
+      "z": 0,
+      "cardId": "Vishnu"
+    },
+    {
+      "x": 8,
+      "y": 7,
+      "z": 0,
+      "cardId": "Puppet"
+    },
+    {
+      "x": 7,
+      "y": 6,
+      "z": 1,
+      "cardId": "Jinxed"
+    },
+    {
+      "x": 1,
+      "y": 6,
+      "z": 1,
+      "cardId": "Blighted"
+    },
+    {
+      "x": 3,
+      "y": 7,
+      "z": 1,
+      "cardId": "Paths"
+    },
+    {
+      "x": 5,
+      "y": 7,
+      "z": 1,
+      "cardId": "Collect"
+    },
+    {
+      "x": 3,
+      "y": 3,
+      "z": 1,
+      "cardId": "Cursed"
+    },
+    {
+      "x": 5,
+      "y": 3,
+      "z": 1,
+      "cardId": "Row"
+    },
+    {
+      "x": 3,
+      "y": 5,
+      "z": 1,
+      "cardId": "Plagued"
+    },
+    {
+      "x": 5,
+      "y": 5,
+      "z": 1,
+      "cardId": "Postal"
+    },
+    {
+      "x": 4,
+      "y": 4,
+      "z": 2,
+      "cardId": "Carillon"
+    },
+    {
+      "x": 4,
+      "y": 6,
+      "z": 2,
+      "cardId": "Rag doll"
+    },
+    {
+      "x": 2,
+      "y": 5,
+      "z": 2,
+      "cardId": "Trek"
+    },
+    {
+      "x": 6,
+      "y": 5,
+      "z": 2,
+      "cardId": "Doll"
+    },
+    {
+      "x": 4,
+      "y": 5,
+      "z": 3,
+      "cardId": "Ribbing"
+    },
+    {
+      "x": 7,
+      "y": 4,
+      "z": 1,
+      "cardId": "Trails"
+    },
+    {
+      "x": 1,
+      "y": 4,
+      "z": 1,
+      "cardId": "Knit"
+    }
+  ],
+  "stock": [
+    "Damned",
+    "Yarn",
+    "Cowbell",
+    "Postage",
+    "Knitting",
+    "Souvenir",
+    "Needle",
+    "Toy",
+    "Bells",
+    "Doorbell",
+    "Tocsin",
+    "Manikin"
+  ]
+}

@@ -1,0 +1,353 @@
+{
+  "levelId": "QA_19",
+  "slotsDefault": 4,
+  "movesLimit": 130,
+  "categories": [
+    {
+      "categoryId": "Street",
+      "wordsData": [
+        {
+          "wordId": "Asphalt"
+        },
+        {
+          "wordId": "Sidewalk"
+        },
+        {
+          "wordId": "Pavement"
+        },
+        {
+          "wordId": "Traffic"
+        }
+      ]
+    },
+    {
+      "categoryId": "Limb",
+      "wordsData": [
+        {
+          "wordId": "Leg"
+        },
+        {
+          "wordId": "Hindlimb"
+        },
+        {
+          "wordId": "Arm"
+        },
+        {
+          "wordId": "Talon"
+        },
+        {
+          "wordId": "Forelimb"
+        },
+        {
+          "wordId": "Flipper"
+        }
+      ]
+    },
+    {
+      "categoryId": "Backyard",
+      "wordsData": [
+        {
+          "wordId": "Garden"
+        },
+        {
+          "wordId": "Lawn"
+        },
+        {
+          "wordId": "Pond"
+        },
+        {
+          "wordId": "Swing"
+        },
+        {
+          "wordId": "Fence"
+        },
+        {
+          "wordId": "Shed"
+        },
+        {
+          "wordId": "Patio"
+        },
+        {
+          "wordId": "Grill"
+        }
+      ]
+    },
+    {
+      "categoryId": "Spikes",
+      "wordsData": [
+        {
+          "wordId": "Stud"
+        },
+        {
+          "wordId": "Tine"
+        },
+        {
+          "wordId": "Barb"
+        },
+        {
+          "wordId": "Spur"
+        },
+        {
+          "wordId": "Spear"
+        },
+        {
+          "wordId": "Thistle"
+        }
+      ]
+    },
+    {
+      "categoryId": "Kindness",
+      "wordsData": [
+        {
+          "wordId": "Charity"
+        },
+        {
+          "wordId": "Altruism"
+        },
+        {
+          "wordId": "Empathy"
+        },
+        {
+          "wordId": "Mercy"
+        },
+        {
+          "wordId": "Humanity"
+        },
+        {
+          "wordId": "Sympathy"
+        },
+        {
+          "wordId": "Warmth"
+        },
+        {
+          "wordId": "Goodness"
+        }
+      ]
+    },
+    {
+      "categoryId": "Beams",
+      "wordsData": [
+        {
+          "wordId": "Xray"
+        },
+        {
+          "wordId": "Infrared"
+        },
+        {
+          "wordId": "Ray"
+        },
+        {
+          "wordId": "X-ray"
+        },
+        {
+          "wordId": "Sound"
+        },
+        {
+          "wordId": "Photon"
+        },
+        {
+          "wordId": "Gamma"
+        }
+      ]
+    },
+    {
+      "categoryId": "Gamers",
+      "wordsData": [
+        {
+          "wordId": "Shooter"
+        },
+        {
+          "wordId": "Esports"
+        },
+        {
+          "wordId": "Console"
+        },
+        {
+          "wordId": "Joystick"
+        },
+        {
+          "wordId": "Gamepad"
+        },
+        {
+          "wordId": "RPG"
+        }
+      ]
+    }
+  ],
+  "board": [
+    {
+      "x": 2,
+      "y": 5,
+      "z": 0,
+      "cardId": "Stud"
+    },
+    {
+      "x": 3,
+      "y": 4,
+      "z": 1,
+      "cardId": "Leg"
+    },
+    {
+      "x": 4,
+      "y": 3,
+      "z": 2,
+      "cardId": "Shooter"
+    },
+    {
+      "x": 3,
+      "y": 6,
+      "z": 1,
+      "cardId": "Hindlimb"
+    },
+    {
+      "x": 4,
+      "y": 7,
+      "z": 2,
+      "cardId": "Asphalt"
+    },
+    {
+      "x": 5,
+      "y": 8,
+      "z": 3,
+      "cardId": "Street"
+    },
+    {
+      "x": 5,
+      "y": 2,
+      "z": 3,
+      "cardId": "Arm"
+    },
+    {
+      "x": 6,
+      "y": 9,
+      "z": 4,
+      "cardId": "Charity"
+    },
+    {
+      "x": 6,
+      "y": 1,
+      "z": 4,
+      "cardId": "Garden"
+    },
+    {
+      "x": 7,
+      "y": 10,
+      "z": 5,
+      "cardId": "Lawn"
+    },
+    {
+      "x": 8,
+      "y": 9,
+      "z": 4,
+      "cardId": "Pond"
+    },
+    {
+      "x": 8,
+      "y": 1,
+      "z": 4,
+      "cardId": "Tine"
+    },
+    {
+      "x": 9,
+      "y": 8,
+      "z": 3,
+      "cardId": "Swing"
+    },
+    {
+      "x": 9,
+      "y": 2,
+      "z": 3,
+      "cardId": "Sidewalk"
+    },
+    {
+      "x": 10,
+      "y": 3,
+      "z": 2,
+      "cardId": "Esports"
+    },
+    {
+      "x": 10,
+      "y": 7,
+      "z": 2,
+      "cardId": "Limb"
+    },
+    {
+      "x": 11,
+      "y": 4,
+      "z": 1,
+      "cardId": "Barb"
+    },
+    {
+      "x": 11,
+      "y": 6,
+      "z": 1,
+      "cardId": "Xray"
+    },
+    {
+      "x": 12,
+      "y": 5,
+      "z": 0,
+      "cardId": "Altruism"
+    },
+    {
+      "x": 7,
+      "y": 0,
+      "z": 5,
+      "cardId": "Talon"
+    },
+    {
+      "x": 8,
+      "y": 5,
+      "z": 5,
+      "cardId": "Infrared"
+    },
+    {
+      "x": 6,
+      "y": 5,
+      "z": 5,
+      "cardId": "Console"
+    },
+    {
+      "x": 7,
+      "y": 3,
+      "z": 5,
+      "cardId": "Spur"
+    },
+    {
+      "x": 7,
+      "y": 7,
+      "z": 5,
+      "cardId": "Empathy"
+    }
+  ],
+  "stock": [
+    "Forelimb",
+    "Kindness",
+    "Backyard",
+    "Fence",
+    "Mercy",
+    "Spear",
+    "Joystick",
+    "Humanity",
+    "Ray",
+    "Pavement",
+    "Shed",
+    "Thistle",
+    "Patio",
+    "Flipper",
+    "X-ray",
+    "Gamepad",
+    "Gamers",
+    "Sound",
+    "Spikes",
+    "Grill",
+    "Sympathy",
+    "Warmth",
+    "Traffic",
+    "Photon",
+    "Gamma",
+    "Goodness",
+    "RPG",
+    "Beams"
+  ]
+}

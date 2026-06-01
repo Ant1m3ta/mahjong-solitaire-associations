@@ -1,0 +1,360 @@
+{
+  "levelId": "QA_50",
+  "slotsDefault": 4,
+  "movesLimit": 100,
+  "categories": [
+    {
+      "categoryId": "POTUS",
+      "wordsData": [
+        {
+          "wordId": "Biden"
+        },
+        {
+          "wordId": "Monroe"
+        },
+        {
+          "wordId": "Madison"
+        }
+      ]
+    },
+    {
+      "categoryId": "Bistro",
+      "wordsData": [
+        {
+          "wordId": "Mocha"
+        },
+        {
+          "wordId": "Tables"
+        },
+        {
+          "wordId": "Napkin"
+        },
+        {
+          "wordId": "Cashier"
+        },
+        {
+          "wordId": "Entree"
+        },
+        {
+          "wordId": "Wine"
+        }
+      ]
+    },
+    {
+      "categoryId": "Pathway",
+      "wordsData": [
+        {
+          "wordId": "Alley"
+        },
+        {
+          "wordId": "Avenue"
+        },
+        {
+          "wordId": "Lane"
+        },
+        {
+          "wordId": "Path"
+        }
+      ]
+    },
+    {
+      "categoryId": "Festive",
+      "wordsData": [
+        {
+          "wordId": "Hanukkah"
+        },
+        {
+          "wordId": "Mood"
+        },
+        {
+          "wordId": "Kwanzaa"
+        },
+        {
+          "wordId": "Easter"
+        }
+      ]
+    },
+    {
+      "categoryId": "Boulders",
+      "wordsData": [
+        {
+          "wordId": "Boulder"
+        },
+        {
+          "wordId": "Pebble"
+        },
+        {
+          "wordId": "Cobble"
+        },
+        {
+          "wordId": "Stone"
+        },
+        {
+          "wordId": "Clasts"
+        },
+        {
+          "wordId": "Basalt"
+        },
+        {
+          "wordId": "Rock"
+        },
+        {
+          "wordId": "Scree"
+        }
+      ]
+    },
+    {
+      "categoryId": "Composer",
+      "wordsData": [
+        {
+          "wordId": "Schubert"
+        },
+        {
+          "wordId": "Puccini"
+        },
+        {
+          "wordId": "Liszt"
+        },
+        {
+          "wordId": "Schumann"
+        },
+        {
+          "wordId": "Chopin"
+        },
+        {
+          "wordId": "Mozart"
+        }
+      ]
+    },
+    {
+      "categoryId": "Hammer",
+      "wordsData": [
+        {
+          "wordId": "Gavel"
+        },
+        {
+          "wordId": "Mallet"
+        },
+        {
+          "wordId": "Tool"
+        },
+        {
+          "wordId": "Hit"
+        },
+        {
+          "wordId": "Maul"
+        },
+        {
+          "wordId": "Forge"
+        },
+        {
+          "wordId": "Claw"
+        }
+      ]
+    }
+  ],
+  "board": [
+    {
+      "x": 2,
+      "y": 1,
+      "z": 0,
+      "cardId": "Hanukkah"
+    },
+    {
+      "x": 3,
+      "y": 2,
+      "z": 1,
+      "cardId": "Mocha"
+    },
+    {
+      "x": 4,
+      "y": 3,
+      "z": 2,
+      "cardId": "Alley"
+    },
+    {
+      "x": 5,
+      "y": 2,
+      "z": 3,
+      "cardId": "Tables"
+    },
+    {
+      "x": 6,
+      "y": 1,
+      "z": 4,
+      "cardId": "Napkin"
+    },
+    {
+      "x": 7,
+      "y": 2,
+      "z": 5,
+      "cardId": "Gavel"
+    },
+    {
+      "x": 8,
+      "y": 3,
+      "z": 6,
+      "cardId": "Cashier"
+    },
+    {
+      "x": 9,
+      "y": 2,
+      "z": 7,
+      "cardId": "Avenue"
+    },
+    {
+      "x": 10,
+      "y": 1,
+      "z": 8,
+      "cardId": "Boulder"
+    },
+    {
+      "x": 3,
+      "y": 4,
+      "z": 8,
+      "cardId": "Pebble"
+    },
+    {
+      "x": 2,
+      "y": 5,
+      "z": 9,
+      "cardId": "Cobble"
+    },
+    {
+      "x": 4,
+      "y": 5,
+      "z": 11,
+      "cardId": "Mood"
+    },
+    {
+      "x": 9,
+      "y": 4,
+      "z": 8,
+      "cardId": "Stone"
+    },
+    {
+      "x": 10,
+      "y": 5,
+      "z": 9,
+      "cardId": "Schubert"
+    },
+    {
+      "x": 8,
+      "y": 5,
+      "z": 11,
+      "cardId": "Pathway"
+    },
+    {
+      "x": 7,
+      "y": 6,
+      "z": 12,
+      "cardId": "Biden"
+    },
+    {
+      "x": 6,
+      "y": 7,
+      "z": 13,
+      "cardId": "Puccini"
+    },
+    {
+      "x": 6,
+      "y": 9,
+      "z": 13,
+      "cardId": "Kwanzaa"
+    },
+    {
+      "x": 5,
+      "y": 8,
+      "z": 14,
+      "cardId": "Mallet"
+    },
+    {
+      "x": 7,
+      "y": 8,
+      "z": 14,
+      "cardId": "Monroe"
+    },
+    {
+      "x": 4,
+      "y": 9,
+      "z": 15,
+      "cardId": "Clasts"
+    },
+    {
+      "x": 5,
+      "y": 10,
+      "z": 16,
+      "cardId": "Tool"
+    },
+    {
+      "x": 8,
+      "y": 9,
+      "z": 15,
+      "cardId": "Hit"
+    },
+    {
+      "x": 7,
+      "y": 10,
+      "z": 16,
+      "cardId": "Basalt"
+    },
+    {
+      "x": 10,
+      "y": 8,
+      "z": 16,
+      "cardId": "Maul"
+    },
+    {
+      "x": 2,
+      "y": 8,
+      "z": 16,
+      "cardId": "Forge"
+    },
+    {
+      "x": 5,
+      "y": 6,
+      "z": 12,
+      "cardId": "Liszt"
+    },
+    {
+      "x": 3,
+      "y": 6,
+      "z": 10,
+      "cardId": "Easter"
+    },
+    {
+      "x": 9,
+      "y": 6,
+      "z": 10,
+      "cardId": "Schumann"
+    },
+    {
+      "x": 2,
+      "y": 1,
+      "z": 16,
+      "cardId": "Chopin"
+    },
+    {
+      "x": 6,
+      "y": 4,
+      "z": 16,
+      "cardId": "Hammer"
+    }
+  ],
+  "stock": [
+    "Composer",
+    "Entree",
+    "POTUS",
+    "Mozart",
+    "Wine",
+    "Madison",
+    "Festive",
+    "Rock",
+    "Lane",
+    "Claw",
+    "Bistro",
+    "Path",
+    "Scree",
+    "Boulders"
+  ]
+}

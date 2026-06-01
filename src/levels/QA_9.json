@@ -1,0 +1,433 @@
+{
+  "levelId": "QA_9",
+  "slotsDefault": 4,
+  "movesLimit": 150,
+  "categories": [
+    {
+      "categoryId": "Vacation",
+      "wordsData": [
+        {
+          "wordId": "Journey"
+        },
+        {
+          "wordId": "Resorts"
+        },
+        {
+          "wordId": "Getaway"
+        },
+        {
+          "wordId": "Leisure"
+        }
+      ]
+    },
+    {
+      "categoryId": "Heists",
+      "wordsData": [
+        {
+          "wordId": "Loot"
+        },
+        {
+          "wordId": "Pilfer"
+        },
+        {
+          "wordId": "Swipe"
+        },
+        {
+          "wordId": "Raid"
+        },
+        {
+          "wordId": "Stickup"
+        },
+        {
+          "wordId": "Holdup"
+        },
+        {
+          "wordId": "Smash"
+        },
+        {
+          "wordId": "Burglary"
+        }
+      ]
+    },
+    {
+      "categoryId": "Labors",
+      "wordsData": [
+        {
+          "wordId": "Build"
+        },
+        {
+          "wordId": "Sweat"
+        },
+        {
+          "wordId": "Domestic"
+        },
+        {
+          "wordId": "Strive"
+        },
+        {
+          "wordId": "Mental"
+        },
+        {
+          "wordId": "Form"
+        }
+      ]
+    },
+    {
+      "categoryId": "Tunes",
+      "wordsData": [
+        {
+          "wordId": "Solo"
+        },
+        {
+          "wordId": "Serenade"
+        },
+        {
+          "wordId": "Riff"
+        },
+        {
+          "wordId": "Overture"
+        },
+        {
+          "wordId": "Melody"
+        },
+        {
+          "wordId": "Nocturne"
+        }
+      ]
+    },
+    {
+      "categoryId": "Coffee",
+      "wordsData": [
+        {
+          "wordId": "Lungo"
+        },
+        {
+          "wordId": "Cafe"
+        },
+        {
+          "wordId": "Brew"
+        },
+        {
+          "wordId": "Drink"
+        }
+      ]
+    },
+    {
+      "categoryId": "Wood",
+      "wordsData": [
+        {
+          "wordId": "Teak"
+        },
+        {
+          "wordId": "Doors"
+        },
+        {
+          "wordId": "Tables"
+        },
+        {
+          "wordId": "Poplar"
+        },
+        {
+          "wordId": "Benches"
+        }
+      ]
+    },
+    {
+      "categoryId": "Manicure",
+      "wordsData": [
+        {
+          "wordId": "Hangnail"
+        },
+        {
+          "wordId": "Nails"
+        },
+        {
+          "wordId": "Clipper"
+        }
+      ]
+    },
+    {
+      "categoryId": "Send",
+      "wordsData": [
+        {
+          "wordId": "Dispatch"
+        },
+        {
+          "wordId": "Forward"
+        },
+        {
+          "wordId": "Transmit"
+        }
+      ]
+    },
+    {
+      "categoryId": "Export",
+      "wordsData": [
+        {
+          "wordId": "License"
+        },
+        {
+          "wordId": "Loading"
+        },
+        {
+          "wordId": "Forms"
+        },
+        {
+          "wordId": "Permits"
+        },
+        {
+          "wordId": "Overseas"
+        },
+        {
+          "wordId": "Taxes"
+        },
+        {
+          "wordId": "Routes"
+        },
+        {
+          "wordId": "Tariff"
+        }
+      ]
+    }
+  ],
+  "board": [
+    {
+      "x": 7,
+      "y": 4,
+      "z": 1,
+      "cardId": "Dispatch"
+    },
+    {
+      "x": 4,
+      "y": 3,
+      "z": 0,
+      "cardId": "Build"
+    },
+    {
+      "x": 4,
+      "y": 5,
+      "z": 0,
+      "cardId": "Journey"
+    },
+    {
+      "x": 4,
+      "y": 7,
+      "z": 0,
+      "cardId": "Sweat"
+    },
+    {
+      "x": 4,
+      "y": 9,
+      "z": 0,
+      "cardId": "Resorts"
+    },
+    {
+      "x": 4,
+      "y": 11,
+      "z": 0,
+      "cardId": "Loot"
+    },
+    {
+      "x": 12,
+      "y": 3,
+      "z": 0,
+      "cardId": "Domestic"
+    },
+    {
+      "x": 12,
+      "y": 1,
+      "z": 0,
+      "cardId": "Send"
+    },
+    {
+      "x": 12,
+      "y": 5,
+      "z": 0,
+      "cardId": "License"
+    },
+    {
+      "x": 12,
+      "y": 7,
+      "z": 0,
+      "cardId": "Teak"
+    },
+    {
+      "x": 12,
+      "y": 9,
+      "z": 0,
+      "cardId": "Loading"
+    },
+    {
+      "x": 12,
+      "y": 11,
+      "z": 0,
+      "cardId": "Solo"
+    },
+    {
+      "x": 5,
+      "y": 4,
+      "z": 1,
+      "cardId": "Pilfer"
+    },
+    {
+      "x": 4,
+      "y": 1,
+      "z": 0,
+      "cardId": "Wood"
+    },
+    {
+      "x": 9,
+      "y": 4,
+      "z": 1,
+      "cardId": "Strive"
+    },
+    {
+      "x": 11,
+      "y": 4,
+      "z": 1,
+      "cardId": "Hangnail"
+    },
+    {
+      "x": 5,
+      "y": 8,
+      "z": 1,
+      "cardId": "Mental"
+    },
+    {
+      "x": 7,
+      "y": 8,
+      "z": 1,
+      "cardId": "Swipe"
+    },
+    {
+      "x": 9,
+      "y": 8,
+      "z": 1,
+      "cardId": "Forms"
+    },
+    {
+      "x": 11,
+      "y": 8,
+      "z": 1,
+      "cardId": "Nails"
+    },
+    {
+      "x": 10,
+      "y": 11,
+      "z": 2,
+      "cardId": "Heists"
+    },
+    {
+      "x": 6,
+      "y": 1,
+      "z": 2,
+      "cardId": "Serenade"
+    },
+    {
+      "x": 8,
+      "y": 1,
+      "z": 2,
+      "cardId": "Riff"
+    },
+    {
+      "x": 10,
+      "y": 1,
+      "z": 2,
+      "cardId": "Raid"
+    },
+    {
+      "x": 6,
+      "y": 11,
+      "z": 2,
+      "cardId": "Export"
+    },
+    {
+      "x": 8,
+      "y": 9,
+      "z": 2,
+      "cardId": "Doors"
+    },
+    {
+      "x": 8,
+      "y": 11,
+      "z": 2,
+      "cardId": "Tunes"
+    },
+    {
+      "x": 4,
+      "y": 6,
+      "z": 2,
+      "cardId": "Permits"
+    },
+    {
+      "x": 12,
+      "y": 6,
+      "z": 2,
+      "cardId": "Overture"
+    },
+    {
+      "x": 6,
+      "y": 5,
+      "z": 2,
+      "cardId": "Overseas"
+    },
+    {
+      "x": 6,
+      "y": 7,
+      "z": 2,
+      "cardId": "Taxes"
+    },
+    {
+      "x": 10,
+      "y": 7,
+      "z": 2,
+      "cardId": "Forward"
+    },
+    {
+      "x": 10,
+      "y": 5,
+      "z": 2,
+      "cardId": "Transmit"
+    },
+    {
+      "x": 8,
+      "y": 3,
+      "z": 2,
+      "cardId": "Tables"
+    },
+    {
+      "x": 7,
+      "y": 6,
+      "z": 3,
+      "cardId": "Melody"
+    },
+    {
+      "x": 9,
+      "y": 6,
+      "z": 3,
+      "cardId": "Getaway"
+    }
+  ],
+  "stock": [
+    "Leisure",
+    "Poplar",
+    "Form",
+    "Coffee",
+    "Routes",
+    "Labors",
+    "Nocturne",
+    "Lungo",
+    "Stickup",
+    "Clipper",
+    "Tariff",
+    "Manicure",
+    "Cafe",
+    "Brew",
+    "Holdup",
+    "Vacation",
+    "Drink",
+    "Benches",
+    "Smash",
+    "Burglary"
+  ]
+}

@@ -1,0 +1,379 @@
+{
+  "levelId": "QA_48",
+  "slotsDefault": 4,
+  "movesLimit": 80,
+  "categories": [
+    {
+      "categoryId": "Craters",
+      "wordsData": [
+        {
+          "wordId": "Petavius"
+        },
+        {
+          "wordId": "Korolev"
+        },
+        {
+          "wordId": "Clavius"
+        },
+        {
+          "wordId": "Bailly"
+        },
+        {
+          "wordId": "Kepler"
+        },
+        {
+          "wordId": "Gale"
+        }
+      ]
+    },
+    {
+      "categoryId": "Tremors",
+      "wordsData": [
+        {
+          "wordId": "Shake"
+        },
+        {
+          "wordId": "Shudder"
+        },
+        {
+          "wordId": "Shiver"
+        },
+        {
+          "wordId": "Shook"
+        },
+        {
+          "wordId": "Rumble"
+        },
+        {
+          "wordId": "Quake"
+        }
+      ]
+    },
+    {
+      "categoryId": "Achieve",
+      "wordsData": [
+        {
+          "wordId": "Acclaim"
+        },
+        {
+          "wordId": "Merit"
+        },
+        {
+          "wordId": "Triumph"
+        },
+        {
+          "wordId": "Glory"
+        },
+        {
+          "wordId": "Victory"
+        }
+      ]
+    },
+    {
+      "categoryId": "Glyph",
+      "wordsData": [
+        {
+          "wordId": "Icon"
+        },
+        {
+          "wordId": "Symbol"
+        },
+        {
+          "wordId": "Etch"
+        },
+        {
+          "wordId": "Engrave"
+        },
+        {
+          "wordId": "Sign"
+        },
+        {
+          "wordId": "Signet"
+        },
+        {
+          "wordId": "Carving"
+        },
+        {
+          "wordId": "Motif"
+        }
+      ]
+    },
+    {
+      "categoryId": "Backyard",
+      "wordsData": [
+        {
+          "wordId": "Swing"
+        },
+        {
+          "wordId": "Lawn"
+        },
+        {
+          "wordId": "Grill"
+        }
+      ]
+    },
+    {
+      "categoryId": "Tangle",
+      "wordsData": [
+        {
+          "wordId": "Cables"
+        },
+        {
+          "wordId": "Twist"
+        },
+        {
+          "wordId": "Skein"
+        },
+        {
+          "wordId": "Strands"
+        },
+        {
+          "wordId": "Vines"
+        }
+      ]
+    },
+    {
+      "categoryId": "Bonds",
+      "wordsData": [
+        {
+          "wordId": "Knot"
+        },
+        {
+          "wordId": "Covalent"
+        },
+        {
+          "wordId": "Union"
+        },
+        {
+          "wordId": "Link"
+        },
+        {
+          "wordId": "Tie"
+        },
+        {
+          "wordId": "Pact"
+        }
+      ]
+    }
+  ],
+  "board": [
+    {
+      "x": 7,
+      "y": 1,
+      "z": 0,
+      "cardId": "Icon"
+    },
+    {
+      "x": 7,
+      "y": 3,
+      "z": 0,
+      "cardId": "Acclaim"
+    },
+    {
+      "x": 7,
+      "y": 5,
+      "z": 0,
+      "cardId": "Symbol"
+    },
+    {
+      "x": 7,
+      "y": 7,
+      "z": 0,
+      "cardId": "Petavius"
+    },
+    {
+      "x": 7,
+      "y": 9,
+      "z": 0,
+      "cardId": "Etch"
+    },
+    {
+      "x": 7,
+      "y": 11,
+      "z": 0,
+      "cardId": "Cables"
+    },
+    {
+      "x": 9,
+      "y": 9,
+      "z": 0,
+      "cardId": "Merit"
+    },
+    {
+      "x": 11,
+      "y": 9,
+      "z": 0,
+      "cardId": "Korolev"
+    },
+    {
+      "x": 5,
+      "y": 9,
+      "z": 0,
+      "cardId": "Shake"
+    },
+    {
+      "x": 3,
+      "y": 9,
+      "z": 0,
+      "cardId": "Shudder"
+    },
+    {
+      "x": 8,
+      "y": 8,
+      "z": 1,
+      "cardId": "Knot"
+    },
+    {
+      "x": 6,
+      "y": 8,
+      "z": 1,
+      "cardId": "Twist"
+    },
+    {
+      "x": 6,
+      "y": 10,
+      "z": 1,
+      "cardId": "Clavius"
+    },
+    {
+      "x": 8,
+      "y": 10,
+      "z": 1,
+      "cardId": "Tangle"
+    },
+    {
+      "x": 6,
+      "y": 6,
+      "z": 1,
+      "cardId": "Craters"
+    },
+    {
+      "x": 6,
+      "y": 4,
+      "z": 1,
+      "cardId": "Skein"
+    },
+    {
+      "x": 8,
+      "y": 4,
+      "z": 1,
+      "cardId": "Triumph"
+    },
+    {
+      "x": 7,
+      "y": 5,
+      "z": 2,
+      "cardId": "Swing"
+    },
+    {
+      "x": 7,
+      "y": 7,
+      "z": 2,
+      "cardId": "Strands"
+    },
+    {
+      "x": 7,
+      "y": 9,
+      "z": 2,
+      "cardId": "Lawn"
+    },
+    {
+      "x": 9,
+      "y": 7,
+      "z": 0,
+      "cardId": "Covalent"
+    },
+    {
+      "x": 5,
+      "y": 7,
+      "z": 0,
+      "cardId": "Union"
+    },
+    {
+      "x": 9,
+      "y": 3,
+      "z": 0,
+      "cardId": "Link"
+    },
+    {
+      "x": 11,
+      "y": 3,
+      "z": 0,
+      "cardId": "Engrave"
+    },
+    {
+      "x": 3,
+      "y": 3,
+      "z": 0,
+      "cardId": "Bonds"
+    },
+    {
+      "x": 6,
+      "y": 2,
+      "z": 1,
+      "cardId": "Vines"
+    },
+    {
+      "x": 8,
+      "y": 2,
+      "z": 1,
+      "cardId": "Shiver"
+    },
+    {
+      "x": 7,
+      "y": 3,
+      "z": 2,
+      "cardId": "Tremors"
+    },
+    {
+      "x": 4,
+      "y": 4,
+      "z": 2,
+      "cardId": "Bailly"
+    },
+    {
+      "x": 10,
+      "y": 8,
+      "z": 2,
+      "cardId": "Grill"
+    },
+    {
+      "x": 4,
+      "y": 8,
+      "z": 2,
+      "cardId": "Tie"
+    },
+    {
+      "x": 10,
+      "y": 4,
+      "z": 2,
+      "cardId": "Shook"
+    },
+    {
+      "x": 8,
+      "y": 6,
+      "z": 1,
+      "cardId": "Pact"
+    },
+    {
+      "x": 5,
+      "y": 3,
+      "z": 0,
+      "cardId": "Glory"
+    }
+  ],
+  "stock": [
+    "Sign",
+    "Signet",
+    "Carving",
+    "Motif",
+    "Victory",
+    "Rumble",
+    "Quake",
+    "Kepler",
+    "Gale",
+    "Glyph",
+    "Achieve",
+    "Backyard"
+  ]
+}

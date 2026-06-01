@@ -1,0 +1,385 @@
+{
+  "levelId": "QA_49",
+  "slotsDefault": 4,
+  "movesLimit": 100,
+  "categories": [
+    {
+      "categoryId": "Spy gear",
+      "wordsData": [
+        {
+          "wordId": "Disguise"
+        },
+        {
+          "wordId": "Codebook"
+        },
+        {
+          "wordId": "Wiretap"
+        }
+      ]
+    },
+    {
+      "categoryId": "Reefs",
+      "wordsData": [
+        {
+          "wordId": "Anemones"
+        },
+        {
+          "wordId": "Atoll"
+        },
+        {
+          "wordId": "Kelp"
+        },
+        {
+          "wordId": "Corals"
+        },
+        {
+          "wordId": "Seagrass"
+        },
+        {
+          "wordId": "Cays"
+        },
+        {
+          "wordId": "Backreef"
+        },
+        {
+          "wordId": "Algae"
+        }
+      ]
+    },
+    {
+      "categoryId": "Kite",
+      "wordsData": [
+        {
+          "wordId": "Glide"
+        },
+        {
+          "wordId": "Float"
+        }
+      ]
+    },
+    {
+      "categoryId": "Malware",
+      "wordsData": [
+        {
+          "wordId": "Rootkit"
+        },
+        {
+          "wordId": "Worm"
+        },
+        {
+          "wordId": "Spyware"
+        },
+        {
+          "wordId": "Virus"
+        },
+        {
+          "wordId": "Botnet"
+        },
+        {
+          "wordId": "Trojan"
+        },
+        {
+          "wordId": "Adware"
+        },
+        {
+          "wordId": "Fileless"
+        }
+      ]
+    },
+    {
+      "categoryId": "Tone",
+      "wordsData": [
+        {
+          "wordId": "Bitter"
+        },
+        {
+          "wordId": "Harsh"
+        },
+        {
+          "wordId": "Clear"
+        },
+        {
+          "wordId": "Gentle"
+        },
+        {
+          "wordId": "Smooth"
+        },
+        {
+          "wordId": "Loving"
+        }
+      ]
+    },
+    {
+      "categoryId": "Success",
+      "wordsData": [
+        {
+          "wordId": "Triumph"
+        },
+        {
+          "wordId": "Victory"
+        },
+        {
+          "wordId": "Progress"
+        }
+      ]
+    },
+    {
+      "categoryId": "Adj.",
+      "wordsData": [
+        {
+          "wordId": "Size"
+        },
+        {
+          "wordId": "Origin"
+        },
+        {
+          "wordId": "Color"
+        },
+        {
+          "wordId": "Age"
+        },
+        {
+          "wordId": "Purpose"
+        },
+        {
+          "wordId": "Material"
+        },
+        {
+          "wordId": "Opinion"
+        },
+        {
+          "wordId": "Shape"
+        }
+      ]
+    },
+    {
+      "categoryId": "Ruminant",
+      "wordsData": [
+        {
+          "wordId": "Yak"
+        },
+        {
+          "wordId": "Reindeer"
+        },
+        {
+          "wordId": "Ox"
+        },
+        {
+          "wordId": "Antelope"
+        },
+        {
+          "wordId": "Gazelle"
+        },
+        {
+          "wordId": "Mouflon"
+        }
+      ]
+    }
+  ],
+  "board": [
+    {
+      "x": 1,
+      "y": 1,
+      "z": 0,
+      "cardId": "Bitter"
+    },
+    {
+      "x": 3,
+      "y": 1,
+      "z": 0,
+      "cardId": "Harsh"
+    },
+    {
+      "x": 1,
+      "y": 3,
+      "z": 0,
+      "cardId": "Glide"
+    },
+    {
+      "x": 3,
+      "y": 3,
+      "z": 0,
+      "cardId": "Size"
+    },
+    {
+      "x": 1,
+      "y": 5,
+      "z": 0,
+      "cardId": "Adj."
+    },
+    {
+      "x": 3,
+      "y": 5,
+      "z": 0,
+      "cardId": "Rootkit"
+    },
+    {
+      "x": 1,
+      "y": 7,
+      "z": 0,
+      "cardId": "Triumph"
+    },
+    {
+      "x": 3,
+      "y": 7,
+      "z": 0,
+      "cardId": "Spy gear"
+    },
+    {
+      "x": 8,
+      "y": 3,
+      "z": 0,
+      "cardId": "Clear"
+    },
+    {
+      "x": 6,
+      "y": 5,
+      "z": 0,
+      "cardId": "Gentle"
+    },
+    {
+      "x": 8,
+      "y": 5,
+      "z": 0,
+      "cardId": "Origin"
+    },
+    {
+      "x": 6,
+      "y": 7,
+      "z": 0,
+      "cardId": "Anemones"
+    },
+    {
+      "x": 8,
+      "y": 7,
+      "z": 0,
+      "cardId": "Worm"
+    },
+    {
+      "x": 6,
+      "y": 9,
+      "z": 0,
+      "cardId": "Smooth"
+    },
+    {
+      "x": 8,
+      "y": 9,
+      "z": 0,
+      "cardId": "Victory"
+    },
+    {
+      "x": 2,
+      "y": 8,
+      "z": 1,
+      "cardId": "Color"
+    },
+    {
+      "x": 3,
+      "y": 9,
+      "z": 2,
+      "cardId": "Atoll"
+    },
+    {
+      "x": 4,
+      "y": 8,
+      "z": 3,
+      "cardId": "Kelp"
+    },
+    {
+      "x": 6,
+      "y": 1,
+      "z": 5,
+      "cardId": "Age"
+    },
+    {
+      "x": 5,
+      "y": 2,
+      "z": 6,
+      "cardId": "Spyware"
+    },
+    {
+      "x": 6,
+      "y": 3,
+      "z": 7,
+      "cardId": "Yak"
+    },
+    {
+      "x": 2,
+      "y": 5,
+      "z": 7,
+      "cardId": "Reindeer"
+    },
+    {
+      "x": 7,
+      "y": 5,
+      "z": 7,
+      "cardId": "Corals"
+    },
+    {
+      "x": 3,
+      "y": 5,
+      "z": 8,
+      "cardId": "Ox"
+    },
+    {
+      "x": 6,
+      "y": 5,
+      "z": 8,
+      "cardId": "Purpose"
+    },
+    {
+      "x": 4,
+      "y": 5,
+      "z": 9,
+      "cardId": "Loving"
+    },
+    {
+      "x": 5,
+      "y": 5,
+      "z": 10,
+      "cardId": "Reefs"
+    },
+    {
+      "x": 7,
+      "y": 2,
+      "z": 4,
+      "cardId": "Virus"
+    },
+    {
+      "x": 3,
+      "y": 7,
+      "z": 4,
+      "cardId": "Seagrass"
+    },
+    {
+      "x": 6,
+      "y": 3,
+      "z": 0,
+      "cardId": "Botnet"
+    }
+  ],
+  "stock": [
+    "Progress",
+    "Material",
+    "Antelope",
+    "Disguise",
+    "Ruminant",
+    "Cays",
+    "Codebook",
+    "Success",
+    "Backreef",
+    "Gazelle",
+    "Trojan",
+    "Opinion",
+    "Shape",
+    "Algae",
+    "Wiretap",
+    "Adware",
+    "Float",
+    "Mouflon",
+    "Fileless",
+    "Kite",
+    "Tone",
+    "Malware"
+  ]
+}

@@ -1,0 +1,506 @@
+{
+  "levelId": "QA_10",
+  "slotsDefault": 5,
+  "movesLimit": 120,
+  "categories": [
+    {
+      "categoryId": "Bolts",
+      "wordsData": [
+        {
+          "wordId": "J-bolt"
+        },
+        {
+          "wordId": "Screw"
+        },
+        {
+          "wordId": "Hex nut"
+        },
+        {
+          "wordId": "Nut"
+        },
+        {
+          "wordId": "Nail"
+        },
+        {
+          "wordId": "U-bolt"
+        }
+      ]
+    },
+    {
+      "categoryId": "Thesis",
+      "wordsData": [
+        {
+          "wordId": "Findings"
+        },
+        {
+          "wordId": "Academic"
+        },
+        {
+          "wordId": "Degree"
+        }
+      ]
+    },
+    {
+      "categoryId": "Dynamite",
+      "wordsData": [
+        {
+          "wordId": "Nobel"
+        },
+        {
+          "wordId": "Destroy"
+        },
+        {
+          "wordId": "Bang"
+        },
+        {
+          "wordId": "Blast"
+        },
+        {
+          "wordId": "Detonate"
+        },
+        {
+          "wordId": "Explode"
+        }
+      ]
+    },
+    {
+      "categoryId": "Speed",
+      "wordsData": [
+        {
+          "wordId": "Slow"
+        },
+        {
+          "wordId": "Limit"
+        },
+        {
+          "wordId": "Mph"
+        },
+        {
+          "wordId": "Rush"
+        },
+        {
+          "wordId": "Dash"
+        },
+        {
+          "wordId": "Race"
+        },
+        {
+          "wordId": "Fast"
+        },
+        {
+          "wordId": "Hastle"
+        },
+        {
+          "wordId": "Sprint"
+        },
+        {
+          "wordId": "Pace"
+        }
+      ]
+    },
+    {
+      "categoryId": "Artists",
+      "wordsData": [
+        {
+          "wordId": "Renoir"
+        },
+        {
+          "wordId": "Munch"
+        },
+        {
+          "wordId": "Da Vinci"
+        },
+        {
+          "wordId": "Matisse"
+        },
+        {
+          "wordId": "Monet"
+        },
+        {
+          "wordId": "Banksy"
+        },
+        {
+          "wordId": "Picasso"
+        },
+        {
+          "wordId": "Kahlo"
+        }
+      ]
+    },
+    {
+      "categoryId": "Vanish",
+      "wordsData": [
+        {
+          "wordId": "Flee"
+        },
+        {
+          "wordId": "Disperse"
+        },
+        {
+          "wordId": "Fade"
+        },
+        {
+          "wordId": "Evanesce"
+        },
+        {
+          "wordId": "Dissolve"
+        },
+        {
+          "wordId": "Abscond"
+        }
+      ]
+    },
+    {
+      "categoryId": "Particle",
+      "wordsData": [
+        {
+          "wordId": "Hadron"
+        },
+        {
+          "wordId": "Proton"
+        },
+        {
+          "wordId": "Electron"
+        },
+        {
+          "wordId": "Graviton"
+        },
+        {
+          "wordId": "Quark"
+        },
+        {
+          "wordId": "Neutron"
+        },
+        {
+          "wordId": "Neutrino"
+        },
+        {
+          "wordId": "Photon"
+        }
+      ]
+    },
+    {
+      "categoryId": "Drive",
+      "wordsData": [
+        {
+          "wordId": "Overtake"
+        },
+        {
+          "wordId": "Parking"
+        },
+        {
+          "wordId": "RWD"
+        },
+        {
+          "wordId": "Lane"
+        },
+        {
+          "wordId": "FWD"
+        },
+        {
+          "wordId": "4WD"
+        }
+      ]
+    }
+  ],
+  "board": [
+    {
+      "x": 3,
+      "y": 2,
+      "z": 0,
+      "cardId": "Speed"
+    },
+    {
+      "x": 5,
+      "y": 2,
+      "z": 0,
+      "cardId": "J-bolt"
+    },
+    {
+      "x": 7,
+      "y": 2,
+      "z": 0,
+      "cardId": "Renoir"
+    },
+    {
+      "x": 9,
+      "y": 2,
+      "z": 0,
+      "cardId": "Flee"
+    },
+    {
+      "x": 13,
+      "y": 2,
+      "z": 0,
+      "cardId": "Slow"
+    },
+    {
+      "x": 12,
+      "y": 4,
+      "z": 0,
+      "cardId": "Limit"
+    },
+    {
+      "x": 12,
+      "y": 6,
+      "z": 0,
+      "cardId": "Munch"
+    },
+    {
+      "x": 12,
+      "y": 8,
+      "z": 0,
+      "cardId": "Overtake"
+    },
+    {
+      "x": 13,
+      "y": 10,
+      "z": 0,
+      "cardId": "Disperse"
+    },
+    {
+      "x": 11,
+      "y": 10,
+      "z": 0,
+      "cardId": "Hadron"
+    },
+    {
+      "x": 9,
+      "y": 10,
+      "z": 0,
+      "cardId": "Fade"
+    },
+    {
+      "x": 7,
+      "y": 10,
+      "z": 0,
+      "cardId": "Proton"
+    },
+    {
+      "x": 5,
+      "y": 10,
+      "z": 0,
+      "cardId": "Electron"
+    },
+    {
+      "x": 4,
+      "y": 8,
+      "z": 0,
+      "cardId": "Findings"
+    },
+    {
+      "x": 4,
+      "y": 6,
+      "z": 0,
+      "cardId": "Mph"
+    },
+    {
+      "x": 4,
+      "y": 4,
+      "z": 0,
+      "cardId": "Rush"
+    },
+    {
+      "x": 8,
+      "y": 4,
+      "z": 0,
+      "cardId": "Parking"
+    },
+    {
+      "x": 3,
+      "y": 10,
+      "z": 0,
+      "cardId": "Da Vinci"
+    },
+    {
+      "x": 8,
+      "y": 8,
+      "z": 0,
+      "cardId": "Screw"
+    },
+    {
+      "x": 9,
+      "y": 5,
+      "z": 1,
+      "cardId": "Dash"
+    },
+    {
+      "x": 7,
+      "y": 5,
+      "z": 1,
+      "cardId": "Nobel"
+    },
+    {
+      "x": 4,
+      "y": 3,
+      "z": 1,
+      "cardId": "Academic"
+    },
+    {
+      "x": 4,
+      "y": 9,
+      "z": 1,
+      "cardId": "Destroy"
+    },
+    {
+      "x": 12,
+      "y": 9,
+      "z": 1,
+      "cardId": "Hex nut"
+    },
+    {
+      "x": 12,
+      "y": 3,
+      "z": 1,
+      "cardId": "Bang"
+    },
+    {
+      "x": 6,
+      "y": 7,
+      "z": 1,
+      "cardId": "Blast"
+    },
+    {
+      "x": 10,
+      "y": 7,
+      "z": 1,
+      "cardId": "Matisse"
+    },
+    {
+      "x": 8,
+      "y": 3,
+      "z": 2,
+      "cardId": "Graviton"
+    },
+    {
+      "x": 10,
+      "y": 2,
+      "z": 1,
+      "cardId": "Degree"
+    },
+    {
+      "x": 12,
+      "y": 7,
+      "z": 1,
+      "cardId": "Detonate"
+    },
+    {
+      "x": 4,
+      "y": 5,
+      "z": 1,
+      "cardId": "Quark"
+    },
+    {
+      "x": 8,
+      "y": 9,
+      "z": 1,
+      "cardId": "RWD"
+    },
+    {
+      "x": 8,
+      "y": 4,
+      "z": 3,
+      "cardId": "Neutron"
+    },
+    {
+      "x": 9,
+      "y": 6,
+      "z": 2,
+      "cardId": "Particle"
+    },
+    {
+      "x": 7,
+      "y": 6,
+      "z": 2,
+      "cardId": "Monet"
+    },
+    {
+      "x": 5,
+      "y": 6,
+      "z": 2,
+      "cardId": "Banksy"
+    },
+    {
+      "x": 6,
+      "y": 2,
+      "z": 1,
+      "cardId": "Race"
+    },
+    {
+      "x": 4,
+      "y": 7,
+      "z": 1,
+      "cardId": "Nut"
+    },
+    {
+      "x": 6,
+      "y": 10,
+      "z": 1,
+      "cardId": "Fast"
+    },
+    {
+      "x": 10,
+      "y": 10,
+      "z": 1,
+      "cardId": "Picasso"
+    },
+    {
+      "x": 6,
+      "y": 7,
+      "z": 3,
+      "cardId": "Lane"
+    },
+    {
+      "x": 11,
+      "y": 6,
+      "z": 2,
+      "cardId": "FWD"
+    },
+    {
+      "x": 10,
+      "y": 5,
+      "z": 3,
+      "cardId": "Kahlo"
+    },
+    {
+      "x": 6,
+      "y": 5,
+      "z": 3,
+      "cardId": "Hastle"
+    },
+    {
+      "x": 10,
+      "y": 7,
+      "z": 3,
+      "cardId": "4WD"
+    },
+    {
+      "x": 12,
+      "y": 5,
+      "z": 1,
+      "cardId": "Evanesce"
+    },
+    {
+      "x": 11,
+      "y": 2,
+      "z": 0,
+      "cardId": "Sprint"
+    }
+  ],
+  "stock": [
+    "Dynamite",
+    "Explode",
+    "Drive",
+    "Dissolve",
+    "Vanish",
+    "Pace",
+    "Neutrino",
+    "Photon",
+    "Nail",
+    "Bolts",
+    "U-bolt",
+    "Abscond",
+    "Thesis",
+    "Artists"
+  ]
+}

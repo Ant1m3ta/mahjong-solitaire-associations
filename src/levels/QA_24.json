@@ -1,0 +1,385 @@
+{
+  "levelId": "QA_24",
+  "slotsDefault": 4,
+  "movesLimit": 120,
+  "categories": [
+    {
+      "categoryId": "Novel",
+      "wordsData": [
+        {
+          "wordId": "Conflict"
+        },
+        {
+          "wordId": "Plotline"
+        },
+        {
+          "wordId": "Prologue"
+        },
+        {
+          "wordId": "Setting"
+        },
+        {
+          "wordId": "Subplot"
+        },
+        {
+          "wordId": "Epilogue"
+        },
+        {
+          "wordId": "Narrator"
+        }
+      ]
+    },
+    {
+      "categoryId": "Glyph",
+      "wordsData": [
+        {
+          "wordId": "Engrave"
+        },
+        {
+          "wordId": "Carving"
+        },
+        {
+          "wordId": "Icon"
+        },
+        {
+          "wordId": "Grapheme"
+        },
+        {
+          "wordId": "Motif"
+        },
+        {
+          "wordId": "Sigil"
+        }
+      ]
+    },
+    {
+      "categoryId": "Lairs",
+      "wordsData": [
+        {
+          "wordId": "Hideout"
+        },
+        {
+          "wordId": "Den"
+        },
+        {
+          "wordId": "Cave"
+        },
+        {
+          "wordId": "Burrow"
+        }
+      ]
+    },
+    {
+      "categoryId": "Shade",
+      "wordsData": [
+        {
+          "wordId": "Bower"
+        },
+        {
+          "wordId": "Trees"
+        },
+        {
+          "wordId": "Canopy"
+        },
+        {
+          "wordId": "Tint"
+        },
+        {
+          "wordId": "Hue"
+        },
+        {
+          "wordId": "Gazebo"
+        },
+        {
+          "wordId": "Umbrella"
+        },
+        {
+          "wordId": "Tone"
+        }
+      ]
+    },
+    {
+      "categoryId": "Crew",
+      "wordsData": [
+        {
+          "wordId": "Deckhand"
+        },
+        {
+          "wordId": "Seaman"
+        },
+        {
+          "wordId": "Lifeboat"
+        },
+        {
+          "wordId": "Liner"
+        },
+        {
+          "wordId": "Sailor"
+        },
+        {
+          "wordId": "Starship"
+        }
+      ]
+    },
+    {
+      "categoryId": "Toxic",
+      "wordsData": [
+        {
+          "wordId": "Behavior"
+        },
+        {
+          "wordId": "Arsenic"
+        },
+        {
+          "wordId": "Poison"
+        }
+      ]
+    },
+    {
+      "categoryId": "Material",
+      "wordsData": [
+        {
+          "wordId": "Rayon"
+        },
+        {
+          "wordId": "Chiffon"
+        },
+        {
+          "wordId": "Resin"
+        },
+        {
+          "wordId": "Graphene"
+        },
+        {
+          "wordId": "Porous"
+        },
+        {
+          "wordId": "Metal"
+        }
+      ]
+    },
+    {
+      "categoryId": "Peel",
+      "wordsData": [
+        {
+          "wordId": "Banana"
+        },
+        {
+          "wordId": "Shuck"
+        },
+        {
+          "wordId": "Zest"
+        },
+        {
+          "wordId": "Remove"
+        }
+      ]
+    }
+  ],
+  "board": [
+    {
+      "x": 2,
+      "y": 1,
+      "z": 0,
+      "cardId": "Engrave"
+    },
+    {
+      "x": 6,
+      "y": 1,
+      "z": 0,
+      "cardId": "Banana"
+    },
+    {
+      "x": 10,
+      "y": 1,
+      "z": 0,
+      "cardId": "Deckhand"
+    },
+    {
+      "x": 8,
+      "y": 3,
+      "z": 0,
+      "cardId": "Seaman"
+    },
+    {
+      "x": 4,
+      "y": 3,
+      "z": 0,
+      "cardId": "Lifeboat"
+    },
+    {
+      "x": 2,
+      "y": 5,
+      "z": 0,
+      "cardId": "Bower"
+    },
+    {
+      "x": 6,
+      "y": 5,
+      "z": 0,
+      "cardId": "Conflict"
+    },
+    {
+      "x": 10,
+      "y": 5,
+      "z": 0,
+      "cardId": "Crew"
+    },
+    {
+      "x": 4,
+      "y": 7,
+      "z": 0,
+      "cardId": "Liner"
+    },
+    {
+      "x": 8,
+      "y": 7,
+      "z": 0,
+      "cardId": "Rayon"
+    },
+    {
+      "x": 5,
+      "y": 4,
+      "z": 1,
+      "cardId": "Carving"
+    },
+    {
+      "x": 7,
+      "y": 2,
+      "z": 1,
+      "cardId": "Plotline"
+    },
+    {
+      "x": 3,
+      "y": 2,
+      "z": 1,
+      "cardId": "Peel"
+    },
+    {
+      "x": 9,
+      "y": 4,
+      "z": 1,
+      "cardId": "Behavior"
+    },
+    {
+      "x": 3,
+      "y": 6,
+      "z": 1,
+      "cardId": "Trees"
+    },
+    {
+      "x": 7,
+      "y": 6,
+      "z": 1,
+      "cardId": "Hideout"
+    },
+    {
+      "x": 8,
+      "y": 3,
+      "z": 2,
+      "cardId": "Prologue"
+    },
+    {
+      "x": 4,
+      "y": 3,
+      "z": 2,
+      "cardId": "Novel"
+    },
+    {
+      "x": 6,
+      "y": 5,
+      "z": 2,
+      "cardId": "Chiffon"
+    },
+    {
+      "x": 2,
+      "y": 9,
+      "z": 0,
+      "cardId": "Icon"
+    },
+    {
+      "x": 6,
+      "y": 9,
+      "z": 0,
+      "cardId": "Setting"
+    },
+    {
+      "x": 10,
+      "y": 9,
+      "z": 0,
+      "cardId": "Subplot"
+    },
+    {
+      "x": 5,
+      "y": 8,
+      "z": 1,
+      "cardId": "Resin"
+    },
+    {
+      "x": 9,
+      "y": 8,
+      "z": 1,
+      "cardId": "Graphene"
+    },
+    {
+      "x": 4,
+      "y": 7,
+      "z": 2,
+      "cardId": "Canopy"
+    },
+    {
+      "x": 8,
+      "y": 7,
+      "z": 2,
+      "cardId": "Sailor"
+    },
+    {
+      "x": 2,
+      "y": 1,
+      "z": 2,
+      "cardId": "Tint"
+    },
+    {
+      "x": 10,
+      "y": 9,
+      "z": 2,
+      "cardId": "Epilogue"
+    },
+    {
+      "x": 2,
+      "y": 9,
+      "z": 2,
+      "cardId": "Hue"
+    },
+    {
+      "x": 10,
+      "y": 1,
+      "z": 2,
+      "cardId": "Narrator"
+    }
+  ],
+  "stock": [
+    "Den",
+    "Lairs",
+    "Shade",
+    "Cave",
+    "Toxic",
+    "Glyph",
+    "Porous",
+    "Grapheme",
+    "Motif",
+    "Starship",
+    "Material",
+    "Metal",
+    "Shuck",
+    "Zest",
+    "Remove",
+    "Gazebo",
+    "Sigil",
+    "Arsenic",
+    "Burrow",
+    "Umbrella",
+    "Tone",
+    "Poison"
+  ]
+}

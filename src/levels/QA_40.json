@@ -1,0 +1,373 @@
+{
+  "levelId": "QA_40",
+  "slotsDefault": 4,
+  "movesLimit": 100,
+  "categories": [
+    {
+      "categoryId": "Teens",
+      "wordsData": [
+        {
+          "wordId": "Prom"
+        },
+        {
+          "wordId": "School"
+        },
+        {
+          "wordId": "Journal"
+        },
+        {
+          "wordId": "Friends"
+        },
+        {
+          "wordId": "Youth"
+        },
+        {
+          "wordId": "Rebel"
+        },
+        {
+          "wordId": "Gossip"
+        }
+      ]
+    },
+    {
+      "categoryId": "Fabrics",
+      "wordsData": [
+        {
+          "wordId": "Organza"
+        },
+        {
+          "wordId": "Satin"
+        },
+        {
+          "wordId": "Silk"
+        },
+        {
+          "wordId": "Brocade"
+        },
+        {
+          "wordId": "Jersey"
+        },
+        {
+          "wordId": "Cotton"
+        }
+      ]
+    },
+    {
+      "categoryId": "Ants",
+      "wordsData": [
+        {
+          "wordId": "Scout"
+        },
+        {
+          "wordId": "Colony"
+        },
+        {
+          "wordId": "Insect"
+        },
+        {
+          "wordId": "Anthill"
+        },
+        {
+          "wordId": "Worker"
+        }
+      ]
+    },
+    {
+      "categoryId": "Cabins",
+      "wordsData": [
+        {
+          "wordId": "Lodge"
+        },
+        {
+          "wordId": "Gable"
+        },
+        {
+          "wordId": "Roof"
+        },
+        {
+          "wordId": "Shack"
+        },
+        {
+          "wordId": "Chalet"
+        },
+        {
+          "wordId": "Cottage"
+        },
+        {
+          "wordId": "Lean-to"
+        },
+        {
+          "wordId": "Yurt"
+        }
+      ]
+    },
+    {
+      "categoryId": "Audio",
+      "wordsData": [
+        {
+          "wordId": "Cello"
+        },
+        {
+          "wordId": "Clarinet"
+        },
+        {
+          "wordId": "Delay"
+        },
+        {
+          "wordId": "Trumpet"
+        },
+        {
+          "wordId": "Reverb"
+        },
+        {
+          "wordId": "Limiter"
+        }
+      ]
+    },
+    {
+      "categoryId": "Oath",
+      "wordsData": [
+        {
+          "wordId": "Avowal"
+        },
+        {
+          "wordId": "Covenant"
+        },
+        {
+          "wordId": "Affirm"
+        },
+        {
+          "wordId": "Pledge"
+        },
+        {
+          "wordId": "Vow"
+        },
+        {
+          "wordId": "Swear"
+        },
+        {
+          "wordId": "Attest"
+        }
+      ]
+    },
+    {
+      "categoryId": "Limbs",
+      "wordsData": [
+        {
+          "wordId": "Paws"
+        },
+        {
+          "wordId": "Pincer"
+        },
+        {
+          "wordId": "Leg"
+        },
+        {
+          "wordId": "Foot"
+        },
+        {
+          "wordId": "Spur"
+        },
+        {
+          "wordId": "Arm"
+        }
+      ]
+    }
+  ],
+  "board": [
+    {
+      "x": 2,
+      "y": 4,
+      "z": 0,
+      "cardId": "Lodge"
+    },
+    {
+      "x": 3,
+      "y": 5,
+      "z": 1,
+      "cardId": "Gable"
+    },
+    {
+      "x": 4,
+      "y": 4,
+      "z": 2,
+      "cardId": "Paws"
+    },
+    {
+      "x": 5,
+      "y": 3,
+      "z": 3,
+      "cardId": "Roof"
+    },
+    {
+      "x": 6,
+      "y": 4,
+      "z": 4,
+      "cardId": "Avowal"
+    },
+    {
+      "x": 7,
+      "y": 5,
+      "z": 5,
+      "cardId": "Organza"
+    },
+    {
+      "x": 5,
+      "y": 6,
+      "z": 6,
+      "cardId": "Audio"
+    },
+    {
+      "x": 1,
+      "y": 7,
+      "z": 6,
+      "cardId": "Pincer"
+    },
+    {
+      "x": 2,
+      "y": 8,
+      "z": 7,
+      "cardId": "Prom"
+    },
+    {
+      "x": 3,
+      "y": 7,
+      "z": 8,
+      "cardId": "Cello"
+    },
+    {
+      "x": 4,
+      "y": 8,
+      "z": 9,
+      "cardId": "Scout"
+    },
+    {
+      "x": 4,
+      "y": 10,
+      "z": 9,
+      "cardId": "Clarinet"
+    },
+    {
+      "x": 6,
+      "y": 10,
+      "z": 9,
+      "cardId": "Leg"
+    },
+    {
+      "x": 6,
+      "y": 8,
+      "z": 9,
+      "cardId": "Covenant"
+    },
+    {
+      "x": 7,
+      "y": 7,
+      "z": 10,
+      "cardId": "School"
+    },
+    {
+      "x": 8,
+      "y": 8,
+      "z": 11,
+      "cardId": "Affirm"
+    },
+    {
+      "x": 9,
+      "y": 7,
+      "z": 12,
+      "cardId": "Journal"
+    },
+    {
+      "x": 5,
+      "y": 11,
+      "z": 12,
+      "cardId": "Shack"
+    },
+    {
+      "x": 4,
+      "y": 12,
+      "z": 13,
+      "cardId": "Pledge"
+    },
+    {
+      "x": 5,
+      "y": 13,
+      "z": 14,
+      "cardId": "Colony"
+    },
+    {
+      "x": 2,
+      "y": 10,
+      "z": 15,
+      "cardId": "Delay"
+    },
+    {
+      "x": 8,
+      "y": 10,
+      "z": 15,
+      "cardId": "Vow"
+    },
+    {
+      "x": 6,
+      "y": 12,
+      "z": 15,
+      "cardId": "Ants"
+    },
+    {
+      "x": 8,
+      "y": 4,
+      "z": 6,
+      "cardId": "Friends"
+    },
+    {
+      "x": 2,
+      "y": 4,
+      "z": 15,
+      "cardId": "Satin"
+    },
+    {
+      "x": 1,
+      "y": 7,
+      "z": 15,
+      "cardId": "Trumpet"
+    },
+    {
+      "x": 4,
+      "y": 12,
+      "z": 15,
+      "cardId": "Cabins"
+    },
+    {
+      "x": 6,
+      "y": 8,
+      "z": 15,
+      "cardId": "Swear"
+    }
+  ],
+  "stock": [
+    "Attest",
+    "Chalet",
+    "Reverb",
+    "Cottage",
+    "Insect",
+    "Youth",
+    "Lean-to",
+    "Rebel",
+    "Foot",
+    "Gossip",
+    "Spur",
+    "Silk",
+    "Fabrics",
+    "Brocade",
+    "Anthill",
+    "Teens",
+    "Arm",
+    "Limbs",
+    "Oath",
+    "Jersey",
+    "Worker",
+    "Cotton",
+    "Limiter",
+    "Yurt"
+  ]
+}

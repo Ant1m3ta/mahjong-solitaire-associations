@@ -1,0 +1,457 @@
+{
+  "levelId": "QA_26",
+  "slotsDefault": 5,
+  "movesLimit": 150,
+  "categories": [
+    {
+      "categoryId": "Mansion",
+      "wordsData": [
+        {
+          "wordId": "Parlor"
+        },
+        {
+          "wordId": "Floor"
+        },
+        {
+          "wordId": "Gallery"
+        },
+        {
+          "wordId": "Solarium"
+        },
+        {
+          "wordId": "Dwelling"
+        },
+        {
+          "wordId": "Building"
+        },
+        {
+          "wordId": "Foyer"
+        },
+        {
+          "wordId": "Library"
+        }
+      ]
+    },
+    {
+      "categoryId": "Shut",
+      "wordsData": [
+        {
+          "wordId": "Bolt"
+        },
+        {
+          "wordId": "Padlock"
+        },
+        {
+          "wordId": "Latch"
+        },
+        {
+          "wordId": "Slam"
+        },
+        {
+          "wordId": "Fasten"
+        },
+        {
+          "wordId": "Secure"
+        },
+        {
+          "wordId": "Snap"
+        }
+      ]
+    },
+    {
+      "categoryId": "Spirit",
+      "wordsData": [
+        {
+          "wordId": "Phantom"
+        },
+        {
+          "wordId": "Ghost"
+        },
+        {
+          "wordId": "Presence"
+        },
+        {
+          "wordId": "Energy"
+        },
+        {
+          "wordId": "Aura"
+        },
+        {
+          "wordId": "Soul"
+        }
+      ]
+    },
+    {
+      "categoryId": "Detect",
+      "wordsData": [
+        {
+          "wordId": "Probe"
+        },
+        {
+          "wordId": "Find"
+        },
+        {
+          "wordId": "Trace"
+        },
+        {
+          "wordId": "Sniff"
+        },
+        {
+          "wordId": "Locate"
+        },
+        {
+          "wordId": "Test"
+        }
+      ]
+    },
+    {
+      "categoryId": "Needle",
+      "wordsData": [
+        {
+          "wordId": "Sharp"
+        },
+        {
+          "wordId": "Thin"
+        },
+        {
+          "wordId": "Sew"
+        },
+        {
+          "wordId": "Pin"
+        },
+        {
+          "wordId": "Pointed"
+        },
+        {
+          "wordId": "Metallic"
+        },
+        {
+          "wordId": "Thread"
+        }
+      ]
+    },
+    {
+      "categoryId": "Teasers",
+      "wordsData": [
+        {
+          "wordId": "Riddle"
+        },
+        {
+          "wordId": "Quiz"
+        },
+        {
+          "wordId": "Anagram"
+        },
+        {
+          "wordId": "Enigma"
+        },
+        {
+          "wordId": "Maze"
+        }
+      ]
+    },
+    {
+      "categoryId": "Fuzz",
+      "wordsData": [
+        {
+          "wordId": "Lint"
+        },
+        {
+          "wordId": "Down"
+        },
+        {
+          "wordId": "Fiber"
+        }
+      ]
+    },
+    {
+      "categoryId": "Pencils",
+      "wordsData": [
+        {
+          "wordId": "Color"
+        },
+        {
+          "wordId": "Eraser"
+        },
+        {
+          "wordId": "F"
+        },
+        {
+          "wordId": "H"
+        },
+        {
+          "wordId": "Wooden"
+        },
+        {
+          "wordId": "2H"
+        }
+      ]
+    },
+    {
+      "categoryId": "IT",
+      "wordsData": [
+        {
+          "wordId": "Modem"
+        },
+        {
+          "wordId": "Frontend"
+        },
+        {
+          "wordId": "Server"
+        },
+        {
+          "wordId": "Syntax"
+        },
+        {
+          "wordId": "Computer"
+        }
+      ]
+    }
+  ],
+  "board": [
+    {
+      "x": 7,
+      "y": 6,
+      "z": 0,
+      "cardId": "Phantom"
+    },
+    {
+      "x": 7,
+      "y": 14,
+      "z": 0,
+      "cardId": "Modem"
+    },
+    {
+      "x": 7,
+      "y": 16,
+      "z": 0,
+      "cardId": "Spirit"
+    },
+    {
+      "x": 9,
+      "y": 12,
+      "z": 0,
+      "cardId": "Ghost"
+    },
+    {
+      "x": 9,
+      "y": 10,
+      "z": 0,
+      "cardId": "Lint"
+    },
+    {
+      "x": 5,
+      "y": 10,
+      "z": 0,
+      "cardId": "Down"
+    },
+    {
+      "x": 5,
+      "y": 12,
+      "z": 0,
+      "cardId": "Bolt"
+    },
+    {
+      "x": 3,
+      "y": 12,
+      "z": 0,
+      "cardId": "Parlor"
+    },
+    {
+      "x": 3,
+      "y": 10,
+      "z": 0,
+      "cardId": "Floor"
+    },
+    {
+      "x": 11,
+      "y": 10,
+      "z": 0,
+      "cardId": "Probe"
+    },
+    {
+      "x": 11,
+      "y": 12,
+      "z": 0,
+      "cardId": "Sharp"
+    },
+    {
+      "x": 13,
+      "y": 11,
+      "z": 0,
+      "cardId": "Find"
+    },
+    {
+      "x": 1,
+      "y": 11,
+      "z": 0,
+      "cardId": "Frontend"
+    },
+    {
+      "x": 9,
+      "y": 8,
+      "z": 2,
+      "cardId": "IT"
+    },
+    {
+      "x": 10,
+      "y": 11,
+      "z": 1,
+      "cardId": "Color"
+    },
+    {
+      "x": 8,
+      "y": 9,
+      "z": 1,
+      "cardId": "Riddle"
+    },
+    {
+      "x": 6,
+      "y": 9,
+      "z": 1,
+      "cardId": "Thin"
+    },
+    {
+      "x": 6,
+      "y": 13,
+      "z": 1,
+      "cardId": "Padlock"
+    },
+    {
+      "x": 8,
+      "y": 13,
+      "z": 1,
+      "cardId": "Presence"
+    },
+    {
+      "x": 4,
+      "y": 11,
+      "z": 1,
+      "cardId": "Energy"
+    },
+    {
+      "x": 5,
+      "y": 8,
+      "z": 2,
+      "cardId": "Pencils"
+    },
+    {
+      "x": 10,
+      "y": 15,
+      "z": 1,
+      "cardId": "Gallery"
+    },
+    {
+      "x": 4,
+      "y": 15,
+      "z": 1,
+      "cardId": "Server"
+    },
+    {
+      "x": 5,
+      "y": 12,
+      "z": 2,
+      "cardId": "Sew"
+    },
+    {
+      "x": 9,
+      "y": 12,
+      "z": 2,
+      "cardId": "Quiz"
+    },
+    {
+      "x": 7,
+      "y": 15,
+      "z": 2,
+      "cardId": "Detect"
+    },
+    {
+      "x": 9,
+      "y": 10,
+      "z": 2,
+      "cardId": "Trace"
+    },
+    {
+      "x": 4,
+      "y": 7,
+      "z": 1,
+      "cardId": "Latch"
+    },
+    {
+      "x": 10,
+      "y": 7,
+      "z": 1,
+      "cardId": "Syntax"
+    },
+    {
+      "x": 7,
+      "y": 7,
+      "z": 2,
+      "cardId": "Anagram"
+    },
+    {
+      "x": 5,
+      "y": 14,
+      "z": 2,
+      "cardId": "Aura"
+    },
+    {
+      "x": 9,
+      "y": 14,
+      "z": 2,
+      "cardId": "Slam"
+    },
+    {
+      "x": 5,
+      "y": 10,
+      "z": 2,
+      "cardId": "Eraser"
+    },
+    {
+      "x": 6,
+      "y": 11,
+      "z": 3,
+      "cardId": "Pin"
+    },
+    {
+      "x": 7,
+      "y": 8,
+      "z": 0,
+      "cardId": "Solarium"
+    },
+    {
+      "x": 8,
+      "y": 11,
+      "z": 3,
+      "cardId": "Needle"
+    }
+  ],
+  "stock": [
+    "Pointed",
+    "Fasten",
+    "Fuzz",
+    "Mansion",
+    "Dwelling",
+    "Computer",
+    "Building",
+    "Metallic",
+    "Thread",
+    "Secure",
+    "Foyer",
+    "F",
+    "H",
+    "Library",
+    "Snap",
+    "Soul",
+    "Sniff",
+    "Shut",
+    "Fiber",
+    "Teasers",
+    "Locate",
+    "Enigma",
+    "Test",
+    "Wooden",
+    "Maze",
+    "2H"
+  ]
+}

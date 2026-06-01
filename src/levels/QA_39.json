@@ -1,0 +1,346 @@
+{
+  "levelId": "QA_39",
+  "slotsDefault": 5,
+  "movesLimit": 100,
+  "categories": [
+    {
+      "categoryId": "Spooks",
+      "wordsData": [
+        {
+          "wordId": "Spectre"
+        },
+        {
+          "wordId": "Phantom"
+        },
+        {
+          "wordId": "Wraith"
+        },
+        {
+          "wordId": "Banshee"
+        },
+        {
+          "wordId": "Ghost"
+        }
+      ]
+    },
+    {
+      "categoryId": "J",
+      "wordsData": [
+        {
+          "wordId": "j"
+        },
+        {
+          "wordId": "j"
+        },
+        {
+          "wordId": "j"
+        },
+        {
+          "wordId": "j"
+        },
+        {
+          "wordId": "j"
+        },
+        {
+          "wordId": "j"
+        },
+        {
+          "wordId": "j"
+        },
+        {
+          "wordId": "j"
+        }
+      ]
+    },
+    {
+      "categoryId": "Boulder",
+      "wordsData": [
+        {
+          "wordId": "Schist"
+        },
+        {
+          "wordId": "Slab"
+        },
+        {
+          "wordId": "Pebble"
+        },
+        {
+          "wordId": "Sarsen"
+        },
+        {
+          "wordId": "Flint"
+        },
+        {
+          "wordId": "Cobble"
+        }
+      ]
+    },
+    {
+      "categoryId": "Fabrics",
+      "wordsData": [
+        {
+          "wordId": "Silk"
+        },
+        {
+          "wordId": "Brocade"
+        },
+        {
+          "wordId": "Cotton"
+        },
+        {
+          "wordId": "Denim"
+        },
+        {
+          "wordId": "Satin"
+        }
+      ]
+    },
+    {
+      "categoryId": "Chairs",
+      "wordsData": [
+        {
+          "wordId": "Folding"
+        },
+        {
+          "wordId": "Recliner"
+        },
+        {
+          "wordId": "Chaise"
+        },
+        {
+          "wordId": "Rocker"
+        },
+        {
+          "wordId": "Stool"
+        },
+        {
+          "wordId": "Office"
+        }
+      ]
+    },
+    {
+      "categoryId": "Sediment",
+      "wordsData": [
+        {
+          "wordId": "Mudstone"
+        },
+        {
+          "wordId": "Clay"
+        },
+        {
+          "wordId": "Loam"
+        },
+        {
+          "wordId": "Alluvium"
+        },
+        {
+          "wordId": "Loess"
+        },
+        {
+          "wordId": "Silt"
+        }
+      ]
+    },
+    {
+      "categoryId": "Cascade",
+      "wordsData": [
+        {
+          "wordId": "Spray"
+        },
+        {
+          "wordId": "Plunge"
+        },
+        {
+          "wordId": "Gorges"
+        },
+        {
+          "wordId": "Rapids"
+        },
+        {
+          "wordId": "Torrent"
+        },
+        {
+          "wordId": "Chute"
+        }
+      ]
+    }
+  ],
+  "board": [
+    {
+      "x": 6,
+      "y": 7,
+      "z": 0,
+      "cardId": "Fabrics"
+    },
+    {
+      "x": 4,
+      "y": 5,
+      "z": 0,
+      "cardId": "Spray"
+    },
+    {
+      "x": 10,
+      "y": 3,
+      "z": 0,
+      "cardId": "j"
+    },
+    {
+      "x": 8,
+      "y": 5,
+      "z": 0,
+      "cardId": "Mudstone"
+    },
+    {
+      "x": 3,
+      "y": 2,
+      "z": 1,
+      "cardId": "j"
+    },
+    {
+      "x": 4,
+      "y": 9,
+      "z": 0,
+      "cardId": "Spectre"
+    },
+    {
+      "x": 2,
+      "y": 11,
+      "z": 0,
+      "cardId": "Plunge"
+    },
+    {
+      "x": 8,
+      "y": 9,
+      "z": 0,
+      "cardId": "Silk"
+    },
+    {
+      "x": 10,
+      "y": 11,
+      "z": 0,
+      "cardId": "j"
+    },
+    {
+      "x": 9,
+      "y": 6,
+      "z": 1,
+      "cardId": "Phantom"
+    },
+    {
+      "x": 7,
+      "y": 10,
+      "z": 1,
+      "cardId": "Schist"
+    },
+    {
+      "x": 5,
+      "y": 10,
+      "z": 1,
+      "cardId": "Slab"
+    },
+    {
+      "x": 3,
+      "y": 8,
+      "z": 1,
+      "cardId": "Pebble"
+    },
+    {
+      "x": 3,
+      "y": 6,
+      "z": 1,
+      "cardId": "Spooks"
+    },
+    {
+      "x": 9,
+      "y": 2,
+      "z": 1,
+      "cardId": "Clay"
+    },
+    {
+      "x": 3,
+      "y": 12,
+      "z": 1,
+      "cardId": "Sarsen"
+    },
+    {
+      "x": 9,
+      "y": 12,
+      "z": 1,
+      "cardId": "Folding"
+    },
+    {
+      "x": 2,
+      "y": 7,
+      "z": 2,
+      "cardId": "Loam"
+    },
+    {
+      "x": 10,
+      "y": 7,
+      "z": 2,
+      "cardId": "Flint"
+    },
+    {
+      "x": 6,
+      "y": 3,
+      "z": 2,
+      "cardId": "Gorges"
+    },
+    {
+      "x": 6,
+      "y": 11,
+      "z": 2,
+      "cardId": "Recliner"
+    },
+    {
+      "x": 5,
+      "y": 4,
+      "z": 1,
+      "cardId": "Chaise"
+    },
+    {
+      "x": 7,
+      "y": 4,
+      "z": 1,
+      "cardId": "Brocade"
+    },
+    {
+      "x": 9,
+      "y": 8,
+      "z": 1,
+      "cardId": "Wraith"
+    },
+    {
+      "x": 2,
+      "y": 3,
+      "z": 0,
+      "cardId": "Banshee"
+    }
+  ],
+  "stock": [
+    "Rapids",
+    "Ghost",
+    "j",
+    "Boulder",
+    "Cotton",
+    "j",
+    "j",
+    "Alluvium",
+    "Chairs",
+    "Rocker",
+    "j",
+    "Loess",
+    "Stool",
+    "Torrent",
+    "Office",
+    "Chute",
+    "Cascade",
+    "Denim",
+    "Silt",
+    "j",
+    "Sediment",
+    "Cobble",
+    "J",
+    "Satin"
+  ]
+}

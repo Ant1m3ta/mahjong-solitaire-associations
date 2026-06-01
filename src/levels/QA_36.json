@@ -1,0 +1,319 @@
+{
+  "levelId": "QA_36",
+  "slotsDefault": 4,
+  "movesLimit": 90,
+  "categories": [
+    {
+      "categoryId": "A",
+      "wordsData": [
+        {
+          "wordId": "a"
+        },
+        {
+          "wordId": "a"
+        },
+        {
+          "wordId": "a"
+        },
+        {
+          "wordId": "a"
+        },
+        {
+          "wordId": "a"
+        },
+        {
+          "wordId": "a"
+        },
+        {
+          "wordId": "a"
+        },
+        {
+          "wordId": "a"
+        }
+      ]
+    },
+    {
+      "categoryId": "B",
+      "wordsData": [
+        {
+          "wordId": "b"
+        },
+        {
+          "wordId": "b"
+        },
+        {
+          "wordId": "b"
+        },
+        {
+          "wordId": "b"
+        },
+        {
+          "wordId": "b"
+        },
+        {
+          "wordId": "b"
+        },
+        {
+          "wordId": "b"
+        },
+        {
+          "wordId": "b"
+        }
+      ]
+    },
+    {
+      "categoryId": "C",
+      "wordsData": [
+        {
+          "wordId": "c"
+        },
+        {
+          "wordId": "c"
+        },
+        {
+          "wordId": "c"
+        },
+        {
+          "wordId": "c"
+        },
+        {
+          "wordId": "c"
+        },
+        {
+          "wordId": "c"
+        },
+        {
+          "wordId": "c"
+        }
+      ]
+    },
+    {
+      "categoryId": "Photons",
+      "wordsData": [
+        {
+          "wordId": "Diffuse"
+        },
+        {
+          "wordId": "Beam"
+        },
+        {
+          "wordId": "Reflect"
+        },
+        {
+          "wordId": "Absorb"
+        },
+        {
+          "wordId": "Particle"
+        },
+        {
+          "wordId": "Polarize"
+        },
+        {
+          "wordId": "Quantum"
+        },
+        {
+          "wordId": "Refract"
+        }
+      ]
+    },
+    {
+      "categoryId": "Monsters",
+      "wordsData": [
+        {
+          "wordId": "Gorgon"
+        },
+        {
+          "wordId": "Kraken"
+        },
+        {
+          "wordId": "Chimera"
+        },
+        {
+          "wordId": "Hydra"
+        },
+        {
+          "wordId": "Goblin"
+        },
+        {
+          "wordId": "Troll"
+        }
+      ]
+    }
+  ],
+  "board": [
+    {
+      "x": 3,
+      "y": 2,
+      "z": 0,
+      "cardId": "c"
+    },
+    {
+      "x": 4,
+      "y": 3,
+      "z": 1,
+      "cardId": "c"
+    },
+    {
+      "x": 5,
+      "y": 2,
+      "z": 2,
+      "cardId": "a"
+    },
+    {
+      "x": 6,
+      "y": 3,
+      "z": 3,
+      "cardId": "Diffuse"
+    },
+    {
+      "x": 7,
+      "y": 2,
+      "z": 4,
+      "cardId": "a"
+    },
+    {
+      "x": 5,
+      "y": 5,
+      "z": 4,
+      "cardId": "C"
+    },
+    {
+      "x": 4,
+      "y": 6,
+      "z": 5,
+      "cardId": "b"
+    },
+    {
+      "x": 6,
+      "y": 6,
+      "z": 7,
+      "cardId": "b"
+    },
+    {
+      "x": 3,
+      "y": 9,
+      "z": 7,
+      "cardId": "a"
+    },
+    {
+      "x": 4,
+      "y": 10,
+      "z": 8,
+      "cardId": "c"
+    },
+    {
+      "x": 5,
+      "y": 9,
+      "z": 9,
+      "cardId": "c"
+    },
+    {
+      "x": 6,
+      "y": 10,
+      "z": 10,
+      "cardId": "Beam"
+    },
+    {
+      "x": 7,
+      "y": 9,
+      "z": 11,
+      "cardId": "b"
+    },
+    {
+      "x": 5,
+      "y": 7,
+      "z": 6,
+      "cardId": "b"
+    },
+    {
+      "x": 3,
+      "y": 2,
+      "z": 12,
+      "cardId": "Photons"
+    },
+    {
+      "x": 4,
+      "y": 6,
+      "z": 12,
+      "cardId": "a"
+    },
+    {
+      "x": 7,
+      "y": 2,
+      "z": 13,
+      "cardId": "B"
+    },
+    {
+      "x": 9,
+      "y": 6,
+      "z": 12,
+      "cardId": "a"
+    },
+    {
+      "x": 1,
+      "y": 6,
+      "z": 12,
+      "cardId": "b"
+    },
+    {
+      "x": 5,
+      "y": 0,
+      "z": 12,
+      "cardId": "c"
+    },
+    {
+      "x": 5,
+      "y": 0,
+      "z": 13,
+      "cardId": "A"
+    },
+    {
+      "x": 3,
+      "y": 9,
+      "z": 12,
+      "cardId": "b"
+    },
+    {
+      "x": 9,
+      "y": 6,
+      "z": 13,
+      "cardId": "Reflect"
+    },
+    {
+      "x": 1,
+      "y": 6,
+      "z": 13,
+      "cardId": "Absorb"
+    },
+    {
+      "x": 7,
+      "y": 9,
+      "z": 12,
+      "cardId": "a"
+    },
+    {
+      "x": 6,
+      "y": 6,
+      "z": 12,
+      "cardId": "Particle"
+    }
+  ],
+  "stock": [
+    "Polarize",
+    "Quantum",
+    "c",
+    "a",
+    "b",
+    "c",
+    "Refract",
+    "b",
+    "Monsters",
+    "Gorgon",
+    "Kraken",
+    "Chimera",
+    "Hydra",
+    "Goblin",
+    "Troll",
+    "a"
+  ]
+}

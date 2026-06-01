@@ -1,0 +1,367 @@
+{
+  "levelId": "QA_22",
+  "slotsDefault": 5,
+  "movesLimit": 120,
+  "categories": [
+    {
+      "categoryId": "Deity",
+      "wordsData": [
+        {
+          "wordId": "Morpheus"
+        },
+        {
+          "wordId": "Ishtar"
+        },
+        {
+          "wordId": "Bastet"
+        }
+      ]
+    },
+    {
+      "categoryId": "Satchels",
+      "wordsData": [
+        {
+          "wordId": "Mailbag"
+        },
+        {
+          "wordId": "Tote"
+        },
+        {
+          "wordId": "Sling"
+        },
+        {
+          "wordId": "Satchel"
+        },
+        {
+          "wordId": "Duffle"
+        },
+        {
+          "wordId": "Hobo"
+        },
+        {
+          "wordId": "Pouch"
+        },
+        {
+          "wordId": "Duffel"
+        }
+      ]
+    },
+    {
+      "categoryId": "Woodwork",
+      "wordsData": [
+        {
+          "wordId": "Lathe"
+        },
+        {
+          "wordId": "Timber"
+        },
+        {
+          "wordId": "Joinery"
+        },
+        {
+          "wordId": "Plane"
+        },
+        {
+          "wordId": "Screws"
+        },
+        {
+          "wordId": "Jigsaw"
+        }
+      ]
+    },
+    {
+      "categoryId": "Cartoons",
+      "wordsData": [
+        {
+          "wordId": "Felix"
+        },
+        {
+          "wordId": "Popeye"
+        },
+        {
+          "wordId": "Donald"
+        },
+        {
+          "wordId": "Daffy"
+        },
+        {
+          "wordId": "Pluto"
+        },
+        {
+          "wordId": "Scooby"
+        }
+      ]
+    },
+    {
+      "categoryId": "Lantern",
+      "wordsData": [
+        {
+          "wordId": "Snuffer"
+        },
+        {
+          "wordId": "Lighting"
+        },
+        {
+          "wordId": "Flicker"
+        },
+        {
+          "wordId": "Handle"
+        },
+        {
+          "wordId": "Frame"
+        },
+        {
+          "wordId": "Kerosene"
+        },
+        {
+          "wordId": "Radiance"
+        },
+        {
+          "wordId": "Glow"
+        }
+      ]
+    },
+    {
+      "categoryId": "Quarks",
+      "wordsData": [
+        {
+          "wordId": "Charm"
+        },
+        {
+          "wordId": "Bottom"
+        },
+        {
+          "wordId": "Up"
+        },
+        {
+          "wordId": "Top"
+        },
+        {
+          "wordId": "Beauty"
+        }
+      ]
+    },
+    {
+      "categoryId": "Poets",
+      "wordsData": [
+        {
+          "wordId": "Milton"
+        },
+        {
+          "wordId": "Byron"
+        },
+        {
+          "wordId": "Plath"
+        },
+        {
+          "wordId": "Neruda"
+        },
+        {
+          "wordId": "Dante"
+        }
+      ]
+    }
+  ],
+  "board": [
+    {
+      "x": 3,
+      "y": 2,
+      "z": 1,
+      "cardId": "Milton"
+    },
+    {
+      "x": 5,
+      "y": 3,
+      "z": 1,
+      "cardId": "Lantern"
+    },
+    {
+      "x": 9,
+      "y": 3,
+      "z": 1,
+      "cardId": "Charm"
+    },
+    {
+      "x": 11,
+      "y": 2,
+      "z": 1,
+      "cardId": "Snuffer"
+    },
+    {
+      "x": 4,
+      "y": 4,
+      "z": 0,
+      "cardId": "Lathe"
+    },
+    {
+      "x": 3,
+      "y": 5,
+      "z": 1,
+      "cardId": "Byron"
+    },
+    {
+      "x": 4,
+      "y": 6,
+      "z": 2,
+      "cardId": "Mailbag"
+    },
+    {
+      "x": 5,
+      "y": 5,
+      "z": 3,
+      "cardId": "Felix"
+    },
+    {
+      "x": 6,
+      "y": 6,
+      "z": 4,
+      "cardId": "Timber"
+    },
+    {
+      "x": 5,
+      "y": 7,
+      "z": 5,
+      "cardId": "Joinery"
+    },
+    {
+      "x": 4,
+      "y": 8,
+      "z": 6,
+      "cardId": "Satchels"
+    },
+    {
+      "x": 3,
+      "y": 7,
+      "z": 7,
+      "cardId": "Lighting"
+    },
+    {
+      "x": 2,
+      "y": 6,
+      "z": 8,
+      "cardId": "Flicker"
+    },
+    {
+      "x": 10,
+      "y": 4,
+      "z": 0,
+      "cardId": "Bottom"
+    },
+    {
+      "x": 11,
+      "y": 5,
+      "z": 1,
+      "cardId": "Tote"
+    },
+    {
+      "x": 10,
+      "y": 6,
+      "z": 2,
+      "cardId": "Handle"
+    },
+    {
+      "x": 9,
+      "y": 5,
+      "z": 3,
+      "cardId": "Popeye"
+    },
+    {
+      "x": 8,
+      "y": 6,
+      "z": 4,
+      "cardId": "Donald"
+    },
+    {
+      "x": 9,
+      "y": 7,
+      "z": 5,
+      "cardId": "Frame"
+    },
+    {
+      "x": 10,
+      "y": 8,
+      "z": 6,
+      "cardId": "Kerosene"
+    },
+    {
+      "x": 11,
+      "y": 7,
+      "z": 7,
+      "cardId": "Up"
+    },
+    {
+      "x": 12,
+      "y": 6,
+      "z": 8,
+      "cardId": "Top"
+    },
+    {
+      "x": 6,
+      "y": 8,
+      "z": 8,
+      "cardId": "Deity"
+    },
+    {
+      "x": 8,
+      "y": 8,
+      "z": 8,
+      "cardId": "Radiance"
+    },
+    {
+      "x": 5,
+      "y": 9,
+      "z": 9,
+      "cardId": "Daffy"
+    },
+    {
+      "x": 9,
+      "y": 9,
+      "z": 9,
+      "cardId": "Plath"
+    },
+    {
+      "x": 7,
+      "y": 9,
+      "z": 9,
+      "cardId": "Pluto"
+    },
+    {
+      "x": 6,
+      "y": 10,
+      "z": 10,
+      "cardId": "Neruda"
+    },
+    {
+      "x": 8,
+      "y": 10,
+      "z": 10,
+      "cardId": "Scooby"
+    },
+    {
+      "x": 7,
+      "y": 11,
+      "z": 11,
+      "cardId": "Plane"
+    }
+  ],
+  "stock": [
+    "Sling",
+    "Woodwork",
+    "Satchel",
+    "Duffle",
+    "Screws",
+    "Jigsaw",
+    "Hobo",
+    "Quarks",
+    "Morpheus",
+    "Beauty",
+    "Ishtar",
+    "Pouch",
+    "Glow",
+    "Dante",
+    "Poets",
+    "Duffel",
+    "Cartoons",
+    "Bastet"
+  ]
+}

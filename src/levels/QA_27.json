@@ -1,0 +1,394 @@
+{
+  "levelId": "QA_27",
+  "slotsDefault": 5,
+  "movesLimit": 150,
+  "categories": [
+    {
+      "categoryId": "Cereal",
+      "wordsData": [
+        {
+          "wordId": "Gruel"
+        },
+        {
+          "wordId": "Millet"
+        },
+        {
+          "wordId": "Flakes"
+        },
+        {
+          "wordId": "Wheat"
+        },
+        {
+          "wordId": "Muesli"
+        }
+      ]
+    },
+    {
+      "categoryId": "Sweets",
+      "wordsData": [
+        {
+          "wordId": "Candy"
+        },
+        {
+          "wordId": "Lollipop"
+        },
+        {
+          "wordId": "Cookie"
+        },
+        {
+          "wordId": "Nougat"
+        },
+        {
+          "wordId": "Marzipan"
+        },
+        {
+          "wordId": "fudge",
+          "icon": true,
+          "imageId": "sweets__fudge"
+        }
+      ]
+    },
+    {
+      "categoryId": "Bicycle",
+      "wordsData": [
+        {
+          "wordId": "Saddle"
+        },
+        {
+          "wordId": "Headset"
+        },
+        {
+          "wordId": "Rim"
+        },
+        {
+          "wordId": "Tires"
+        },
+        {
+          "wordId": "Grips"
+        },
+        {
+          "wordId": "Pedals"
+        },
+        {
+          "wordId": "Spokes"
+        },
+        {
+          "wordId": "Chain"
+        }
+      ]
+    },
+    {
+      "categoryId": "Faces",
+      "wordsData": [
+        {
+          "wordId": "Pout"
+        },
+        {
+          "wordId": "Scowl"
+        },
+        {
+          "wordId": "Smile"
+        },
+        {
+          "wordId": "Grin"
+        },
+        {
+          "wordId": "Sneer"
+        },
+        {
+          "wordId": "Gaze"
+        },
+        {
+          "wordId": "Smirk"
+        }
+      ]
+    },
+    {
+      "categoryId": "X-sports",
+      "wordsData": [
+        {
+          "wordId": "Rafting"
+        },
+        {
+          "wordId": "BMX"
+        },
+        {
+          "wordId": "Parkour"
+        },
+        {
+          "wordId": "Surfing"
+        }
+      ]
+    },
+    {
+      "categoryId": "Hotel",
+      "wordsData": [
+        {
+          "wordId": "Bathrobe"
+        },
+        {
+          "wordId": "Buffet"
+        },
+        {
+          "wordId": "Key card"
+        },
+        {
+          "wordId": "Maid"
+        }
+      ]
+    },
+    {
+      "categoryId": "Raptors",
+      "wordsData": [
+        {
+          "wordId": "Condor"
+        },
+        {
+          "wordId": "Buzzard"
+        },
+        {
+          "wordId": "Owl"
+        },
+        {
+          "wordId": "Eagle"
+        }
+      ]
+    },
+    {
+      "categoryId": "Postal",
+      "wordsData": [
+        {
+          "wordId": "Postman"
+        },
+        {
+          "wordId": "Envelope"
+        },
+        {
+          "wordId": "Mailbag"
+        }
+      ]
+    },
+    {
+      "categoryId": "Gift",
+      "wordsData": [
+        {
+          "wordId": "Alms"
+        },
+        {
+          "wordId": "Boon"
+        },
+        {
+          "wordId": "Bounty"
+        }
+      ]
+    },
+    {
+      "categoryId": "Floors",
+      "wordsData": [
+        {
+          "wordId": "Rubber"
+        },
+        {
+          "wordId": "Parquet"
+        },
+        {
+          "wordId": "Carpet"
+        },
+        {
+          "wordId": "Bamboo"
+        },
+        {
+          "wordId": "Vinyl"
+        }
+      ]
+    }
+  ],
+  "board": [
+    {
+      "x": 3,
+      "y": 1,
+      "z": 0,
+      "cardId": "Floors"
+    },
+    {
+      "x": 4,
+      "y": 2,
+      "z": 1,
+      "cardId": "Candy"
+    },
+    {
+      "x": 3,
+      "y": 3,
+      "z": 2,
+      "cardId": "Lollipop"
+    },
+    {
+      "x": 2,
+      "y": 2,
+      "z": 3,
+      "cardId": "Saddle"
+    },
+    {
+      "x": 7,
+      "y": 5,
+      "z": 3,
+      "cardId": "Gruel"
+    },
+    {
+      "x": 8,
+      "y": 6,
+      "z": 4,
+      "cardId": "Bathrobe"
+    },
+    {
+      "x": 7,
+      "y": 7,
+      "z": 5,
+      "cardId": "Postman"
+    },
+    {
+      "x": 6,
+      "y": 6,
+      "z": 6,
+      "cardId": "Headset"
+    },
+    {
+      "x": 3,
+      "y": 9,
+      "z": 6,
+      "cardId": "Envelope"
+    },
+    {
+      "x": 4,
+      "y": 10,
+      "z": 7,
+      "cardId": "Pout"
+    },
+    {
+      "x": 3,
+      "y": 11,
+      "z": 8,
+      "cardId": "Condor"
+    },
+    {
+      "x": 2,
+      "y": 10,
+      "z": 9,
+      "cardId": "Rubber"
+    },
+    {
+      "x": 2,
+      "y": 6,
+      "z": 9,
+      "cardId": "Rim"
+    },
+    {
+      "x": 8,
+      "y": 2,
+      "z": 9,
+      "cardId": "Buffet"
+    },
+    {
+      "x": 8,
+      "y": 10,
+      "z": 9,
+      "cardId": "X-sports"
+    },
+    {
+      "x": 4,
+      "y": 6,
+      "z": 9,
+      "cardId": "Millet"
+    },
+    {
+      "x": 6,
+      "y": 2,
+      "z": 9,
+      "cardId": "Flakes"
+    },
+    {
+      "x": 6,
+      "y": 10,
+      "z": 9,
+      "cardId": "Scowl"
+    },
+    {
+      "x": 10,
+      "y": 6,
+      "z": 9,
+      "cardId": "Key card"
+    },
+    {
+      "x": 10,
+      "y": 2,
+      "z": 9,
+      "cardId": "Buzzard"
+    },
+    {
+      "x": 10,
+      "y": 10,
+      "z": 9,
+      "cardId": "Hotel"
+    },
+    {
+      "x": 7,
+      "y": 9,
+      "z": 10,
+      "cardId": "Wheat"
+    },
+    {
+      "x": 7,
+      "y": 11,
+      "z": 10,
+      "cardId": "Smile"
+    },
+    {
+      "x": 7,
+      "y": 3,
+      "z": 10,
+      "cardId": "Alms"
+    },
+    {
+      "x": 7,
+      "y": 1,
+      "z": 10,
+      "cardId": "Tires"
+    }
+  ],
+  "stock": [
+    "Cookie",
+    "Parquet",
+    "Cereal",
+    "Postal",
+    "Nougat",
+    "Marzipan",
+    "Grips",
+    "Mailbag",
+    "Grin",
+    "Sneer",
+    "Sweets",
+    "Boon",
+    "Muesli",
+    "Maid",
+    "Owl",
+    "Eagle",
+    "Pedals",
+    "Raptors",
+    "Faces",
+    "Bicycle",
+    "Carpet",
+    "Rafting",
+    "Gaze",
+    "BMX",
+    "Spokes",
+    "Bamboo",
+    "Chain",
+    "Smirk",
+    "Bounty",
+    "Parkour",
+    "Vinyl",
+    "fudge",
+    "Surfing",
+    "Gift"
+  ]
+}

@@ -1,0 +1,354 @@
+{
+  "levelId": "QA_29",
+  "slotsDefault": 4,
+  "movesLimit": 80,
+  "categories": [
+    {
+      "categoryId": "Fuels",
+      "wordsData": [
+        {
+          "wordId": "Ethanol"
+        },
+        {
+          "wordId": "Gasoline"
+        },
+        {
+          "wordId": "Petrol"
+        },
+        {
+          "wordId": "Methane"
+        },
+        {
+          "wordId": "Coal"
+        },
+        {
+          "wordId": "Wood"
+        },
+        {
+          "wordId": "Charcoal"
+        },
+        {
+          "wordId": "Diesel"
+        }
+      ]
+    },
+    {
+      "categoryId": "Mission",
+      "wordsData": [
+        {
+          "wordId": "Errand"
+        },
+        {
+          "wordId": "Goal"
+        },
+        {
+          "wordId": "Vocation"
+        }
+      ]
+    },
+    {
+      "categoryId": "Pinguin",
+      "wordsData": [
+        {
+          "wordId": "Iceberg"
+        },
+        {
+          "wordId": "Colony"
+        },
+        {
+          "wordId": "Egg"
+        },
+        {
+          "wordId": "Waddle"
+        },
+        {
+          "wordId": "Flippers"
+        },
+        {
+          "wordId": "Bird"
+        }
+      ]
+    },
+    {
+      "categoryId": "Quirky",
+      "wordsData": [
+        {
+          "wordId": "Freakish"
+        },
+        {
+          "wordId": "Weird"
+        },
+        {
+          "wordId": "Zany"
+        }
+      ]
+    },
+    {
+      "categoryId": "Size",
+      "wordsData": [
+        {
+          "wordId": "M"
+        },
+        {
+          "wordId": "S"
+        },
+        {
+          "wordId": "L"
+        },
+        {
+          "wordId": "XL"
+        },
+        {
+          "wordId": "Large"
+        },
+        {
+          "wordId": "Big"
+        }
+      ]
+    },
+    {
+      "categoryId": "Wedding",
+      "wordsData": [
+        {
+          "wordId": "Vows"
+        },
+        {
+          "wordId": "Rings"
+        },
+        {
+          "wordId": "Ceremony"
+        },
+        {
+          "wordId": "Groom"
+        },
+        {
+          "wordId": "Altar"
+        },
+        {
+          "wordId": "Bouquet"
+        },
+        {
+          "wordId": "Veil"
+        },
+        {
+          "wordId": "Bride"
+        }
+      ]
+    },
+    {
+      "categoryId": "Public",
+      "wordsData": [
+        {
+          "wordId": "School"
+        },
+        {
+          "wordId": "Church"
+        },
+        {
+          "wordId": "Library"
+        },
+        {
+          "wordId": "Pool"
+        },
+        {
+          "wordId": "Hospital"
+        }
+      ]
+    }
+  ],
+  "board": [
+    {
+      "x": 3,
+      "y": 6,
+      "z": 0,
+      "cardId": "Pinguin"
+    },
+    {
+      "x": 1,
+      "y": 8,
+      "z": 0,
+      "cardId": "School"
+    },
+    {
+      "x": 5,
+      "y": 8,
+      "z": 0,
+      "cardId": "Iceberg"
+    },
+    {
+      "x": 3,
+      "y": 8,
+      "z": 0,
+      "cardId": "Vows"
+    },
+    {
+      "x": 5,
+      "y": 12,
+      "z": 0,
+      "cardId": "Errand"
+    },
+    {
+      "x": 7,
+      "y": 12,
+      "z": 0,
+      "cardId": "Goal"
+    },
+    {
+      "x": 9,
+      "y": 12,
+      "z": 0,
+      "cardId": "Ethanol"
+    },
+    {
+      "x": 7,
+      "y": 14,
+      "z": 0,
+      "cardId": "Gasoline"
+    },
+    {
+      "x": 5,
+      "y": 10,
+      "z": 0,
+      "cardId": "Church"
+    },
+    {
+      "x": 9,
+      "y": 7,
+      "z": 0,
+      "cardId": "Rings"
+    },
+    {
+      "x": 1,
+      "y": 13,
+      "z": 0,
+      "cardId": "Freakish"
+    },
+    {
+      "x": 2,
+      "y": 7,
+      "z": 1,
+      "cardId": "Petrol"
+    },
+    {
+      "x": 8,
+      "y": 13,
+      "z": 1,
+      "cardId": "Methane"
+    },
+    {
+      "x": 6,
+      "y": 13,
+      "z": 1,
+      "cardId": "Vocation"
+    },
+    {
+      "x": 4,
+      "y": 7,
+      "z": 1,
+      "cardId": "Coal"
+    },
+    {
+      "x": 4,
+      "y": 9,
+      "z": 1,
+      "cardId": "Ceremony"
+    },
+    {
+      "x": 6,
+      "y": 11,
+      "z": 1,
+      "cardId": "Groom"
+    },
+    {
+      "x": 8,
+      "y": 11,
+      "z": 1,
+      "cardId": "Altar"
+    },
+    {
+      "x": 8,
+      "y": 8,
+      "z": 1,
+      "cardId": "Fuels"
+    },
+    {
+      "x": 2,
+      "y": 12,
+      "z": 1,
+      "cardId": "Bouquet"
+    },
+    {
+      "x": 7,
+      "y": 12,
+      "z": 2,
+      "cardId": "Veil"
+    },
+    {
+      "x": 3,
+      "y": 8,
+      "z": 2,
+      "cardId": "Library"
+    },
+    {
+      "x": 2,
+      "y": 14,
+      "z": 2,
+      "cardId": "Mission"
+    },
+    {
+      "x": 8,
+      "y": 6,
+      "z": 2,
+      "cardId": "Colony"
+    },
+    {
+      "x": 7,
+      "y": 7,
+      "z": 3,
+      "cardId": "M"
+    },
+    {
+      "x": 3,
+      "y": 13,
+      "z": 3,
+      "cardId": "Bride"
+    },
+    {
+      "x": 9,
+      "y": 9,
+      "z": 0,
+      "cardId": "S"
+    },
+    {
+      "x": 1,
+      "y": 11,
+      "z": 0,
+      "cardId": "Egg"
+    },
+    {
+      "x": 2,
+      "y": 9,
+      "z": 1,
+      "cardId": "Wood"
+    }
+  ],
+  "stock": [
+    "Charcoal",
+    "L",
+    "Pool",
+    "Waddle",
+    "Diesel",
+    "XL",
+    "Flippers",
+    "Hospital",
+    "Bird",
+    "Public",
+    "Weird",
+    "Large",
+    "Zany",
+    "Big",
+    "Quirky",
+    "Size",
+    "Wedding"
+  ]
+}

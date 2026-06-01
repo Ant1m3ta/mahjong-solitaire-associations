@@ -1,0 +1,430 @@
+{
+  "levelId": "QA_43",
+  "slotsDefault": 4,
+  "movesLimit": 90,
+  "categories": [
+    {
+      "categoryId": "Paper",
+      "wordsData": [
+        {
+          "wordId": "Flyer"
+        },
+        {
+          "wordId": "Leaflet"
+        },
+        {
+          "wordId": "News"
+        },
+        {
+          "wordId": "Liner"
+        }
+      ]
+    },
+    {
+      "categoryId": "Pirates",
+      "wordsData": [
+        {
+          "wordId": "Ship"
+        },
+        {
+          "wordId": "Loot"
+        },
+        {
+          "wordId": "Booty"
+        },
+        {
+          "wordId": "Plank"
+        },
+        {
+          "wordId": "Plunder"
+        },
+        {
+          "wordId": "Cutlass"
+        }
+      ]
+    },
+    {
+      "categoryId": "Clarity",
+      "wordsData": [
+        {
+          "wordId": "Purity"
+        },
+        {
+          "wordId": "Apparent"
+        },
+        {
+          "wordId": "Vivid"
+        },
+        {
+          "wordId": "Obvious"
+        },
+        {
+          "wordId": "Lucidity"
+        },
+        {
+          "wordId": "Distinct"
+        }
+      ]
+    },
+    {
+      "categoryId": "Coins",
+      "wordsData": [
+        {
+          "wordId": "Denarius"
+        },
+        {
+          "wordId": "Solidus"
+        },
+        {
+          "wordId": "Denarii"
+        },
+        {
+          "wordId": "Nickel"
+        },
+        {
+          "wordId": "Florin"
+        }
+      ]
+    },
+    {
+      "categoryId": "Goth",
+      "wordsData": [
+        {
+          "wordId": "Vampire"
+        },
+        {
+          "wordId": "Lace"
+        },
+        {
+          "wordId": "Velvet"
+        },
+        {
+          "wordId": "Darkness"
+        },
+        {
+          "wordId": "Mistery"
+        }
+      ]
+    },
+    {
+      "categoryId": "Autumn",
+      "wordsData": [
+        {
+          "wordId": "Pumpkin"
+        },
+        {
+          "wordId": "Blower"
+        },
+        {
+          "wordId": "Cider"
+        },
+        {
+          "wordId": "Clouds"
+        },
+        {
+          "wordId": "Fall"
+        },
+        {
+          "wordId": "Foliage"
+        },
+        {
+          "wordId": "Hayride"
+        },
+        {
+          "wordId": "Acorns"
+        }
+      ]
+    },
+    {
+      "categoryId": "Umbrella",
+      "wordsData": [
+        {
+          "wordId": "Canopy"
+        },
+        {
+          "wordId": "Shower"
+        },
+        {
+          "wordId": "Rainfall"
+        },
+        {
+          "wordId": "Drizzle"
+        },
+        {
+          "wordId": "Raindrop"
+        },
+        {
+          "wordId": "Rain"
+        }
+      ]
+    },
+    {
+      "categoryId": "Vases",
+      "wordsData": [
+        {
+          "wordId": "Stem"
+        },
+        {
+          "wordId": "Rim"
+        },
+        {
+          "wordId": "Plastic"
+        },
+        {
+          "wordId": "Glaze"
+        }
+      ]
+    }
+  ],
+  "board": [
+    {
+      "x": 5,
+      "y": 3,
+      "z": 0,
+      "cardId": "Purity"
+    },
+    {
+      "x": 7,
+      "y": 3,
+      "z": 0,
+      "cardId": "Canopy"
+    },
+    {
+      "x": 9,
+      "y": 3,
+      "z": 0,
+      "cardId": "Vampire"
+    },
+    {
+      "x": 11,
+      "y": 3,
+      "z": 0,
+      "cardId": "Pumpkin"
+    },
+    {
+      "x": 4,
+      "y": 5,
+      "z": 0,
+      "cardId": "Lace"
+    },
+    {
+      "x": 10,
+      "y": 5,
+      "z": 0,
+      "cardId": "Clarity"
+    },
+    {
+      "x": 4,
+      "y": 7,
+      "z": 0,
+      "cardId": "Ship"
+    },
+    {
+      "x": 3,
+      "y": 9,
+      "z": 0,
+      "cardId": "Blower"
+    },
+    {
+      "x": 5,
+      "y": 9,
+      "z": 0,
+      "cardId": "Apparent"
+    },
+    {
+      "x": 11,
+      "y": 9,
+      "z": 0,
+      "cardId": "Velvet"
+    },
+    {
+      "x": 9,
+      "y": 9,
+      "z": 0,
+      "cardId": "Shower"
+    },
+    {
+      "x": 7,
+      "y": 9,
+      "z": 0,
+      "cardId": "Denarius"
+    },
+    {
+      "x": 4,
+      "y": 1,
+      "z": 0,
+      "cardId": "Rainfall"
+    },
+    {
+      "x": 4,
+      "y": 11,
+      "z": 0,
+      "cardId": "Stem"
+    },
+    {
+      "x": 10,
+      "y": 1,
+      "z": 0,
+      "cardId": "Cider"
+    },
+    {
+      "x": 10,
+      "y": 11,
+      "z": 0,
+      "cardId": "Clouds"
+    },
+    {
+      "x": 9,
+      "y": 10,
+      "z": 1,
+      "cardId": "Loot"
+    },
+    {
+      "x": 5,
+      "y": 10,
+      "z": 1,
+      "cardId": "Vivid"
+    },
+    {
+      "x": 7,
+      "y": 10,
+      "z": 1,
+      "cardId": "Obvious"
+    },
+    {
+      "x": 6,
+      "y": 8,
+      "z": 1,
+      "cardId": "Booty"
+    },
+    {
+      "x": 8,
+      "y": 8,
+      "z": 1,
+      "cardId": "Darkness"
+    },
+    {
+      "x": 5,
+      "y": 6,
+      "z": 1,
+      "cardId": "Plank"
+    },
+    {
+      "x": 9,
+      "y": 6,
+      "z": 1,
+      "cardId": "Drizzle"
+    },
+    {
+      "x": 7,
+      "y": 6,
+      "z": 1,
+      "cardId": "Solidus"
+    },
+    {
+      "x": 6,
+      "y": 4,
+      "z": 1,
+      "cardId": "Denarii"
+    },
+    {
+      "x": 8,
+      "y": 4,
+      "z": 1,
+      "cardId": "Flyer"
+    },
+    {
+      "x": 5,
+      "y": 2,
+      "z": 1,
+      "cardId": "Leaflet"
+    },
+    {
+      "x": 7,
+      "y": 2,
+      "z": 1,
+      "cardId": "Lucidity"
+    },
+    {
+      "x": 9,
+      "y": 2,
+      "z": 1,
+      "cardId": "Distinct"
+    },
+    {
+      "x": 6,
+      "y": 3,
+      "z": 2,
+      "cardId": "Raindrop"
+    },
+    {
+      "x": 8,
+      "y": 3,
+      "z": 2,
+      "cardId": "Fall"
+    },
+    {
+      "x": 7,
+      "y": 5,
+      "z": 2,
+      "cardId": "Foliage"
+    },
+    {
+      "x": 6,
+      "y": 7,
+      "z": 2,
+      "cardId": "News"
+    },
+    {
+      "x": 8,
+      "y": 7,
+      "z": 2,
+      "cardId": "Umbrella"
+    },
+    {
+      "x": 7,
+      "y": 9,
+      "z": 2,
+      "cardId": "Liner"
+    },
+    {
+      "x": 7,
+      "y": 4,
+      "z": 3,
+      "cardId": "Paper"
+    },
+    {
+      "x": 7,
+      "y": 8,
+      "z": 3,
+      "cardId": "Autumn"
+    },
+    {
+      "x": 10,
+      "y": 7,
+      "z": 0,
+      "cardId": "Mistery"
+    },
+    {
+      "x": 3,
+      "y": 3,
+      "z": 0,
+      "cardId": "Plunder"
+    }
+  ],
+  "stock": [
+    "Rim",
+    "Rain",
+    "Plastic",
+    "Hayride",
+    "Vases",
+    "Nickel",
+    "Cutlass",
+    "Coins",
+    "Florin",
+    "Pirates",
+    "Acorns",
+    "Glaze",
+    "Goth"
+  ]
+}

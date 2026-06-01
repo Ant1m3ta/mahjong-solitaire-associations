@@ -1,0 +1,386 @@
+{
+  "levelId": "QA_33",
+  "slotsDefault": 5,
+  "movesLimit": 90,
+  "categories": [
+    {
+      "categoryId": "Sport",
+      "wordsData": [
+        {
+          "wordId": "Pitch"
+        },
+        {
+          "wordId": "Golf"
+        },
+        {
+          "wordId": "Cricket"
+        },
+        {
+          "wordId": "Tennis"
+        },
+        {
+          "wordId": "Hockey"
+        },
+        {
+          "wordId": "Dribble"
+        }
+      ]
+    },
+    {
+      "categoryId": "Risk",
+      "wordsData": [
+        {
+          "wordId": "Pitfall"
+        },
+        {
+          "wordId": "Gamble"
+        },
+        {
+          "wordId": "Jeopardy"
+        },
+        {
+          "wordId": "Hazard"
+        },
+        {
+          "wordId": "Threat"
+        },
+        {
+          "wordId": "Peril"
+        },
+        {
+          "wordId": "Danger"
+        },
+        {
+          "wordId": "Roulette"
+        }
+      ]
+    },
+    {
+      "categoryId": "Music",
+      "wordsData": [
+        {
+          "wordId": "Staccato"
+        },
+        {
+          "wordId": "Fermata"
+        },
+        {
+          "wordId": "Guitar"
+        },
+        {
+          "wordId": "Adagio"
+        },
+        {
+          "wordId": "Violin"
+        }
+      ]
+    },
+    {
+      "categoryId": "Photon",
+      "wordsData": [
+        {
+          "wordId": "Particle"
+        },
+        {
+          "wordId": "Spectrum"
+        },
+        {
+          "wordId": "Quantum"
+        },
+        {
+          "wordId": "Energy"
+        },
+        {
+          "wordId": "Boson"
+        }
+      ]
+    },
+    {
+      "categoryId": "R",
+      "wordsData": [
+        {
+          "wordId": "r"
+        },
+        {
+          "wordId": "r"
+        },
+        {
+          "wordId": "r"
+        }
+      ]
+    },
+    {
+      "categoryId": "Skincare",
+      "wordsData": [
+        {
+          "wordId": "Blemish"
+        },
+        {
+          "wordId": "Pores"
+        },
+        {
+          "wordId": "Gel"
+        },
+        {
+          "wordId": "Retinol"
+        },
+        {
+          "wordId": "Serum"
+        },
+        {
+          "wordId": "Toner"
+        },
+        {
+          "wordId": "Lotion"
+        }
+      ]
+    },
+    {
+      "categoryId": "Bricks",
+      "wordsData": [
+        {
+          "wordId": "Kiln"
+        },
+        {
+          "wordId": "Sand"
+        },
+        {
+          "wordId": "Clinker"
+        },
+        {
+          "wordId": "Concrete"
+        },
+        {
+          "wordId": "Clay"
+        },
+        {
+          "wordId": "Mold"
+        },
+        {
+          "wordId": "Adobe"
+        },
+        {
+          "wordId": "Fly ash"
+        }
+      ]
+    }
+  ],
+  "board": [
+    {
+      "x": 7,
+      "y": 1,
+      "z": 0,
+      "cardId": "Photon"
+    },
+    {
+      "x": 7,
+      "y": 3,
+      "z": 0,
+      "cardId": "Blemish"
+    },
+    {
+      "x": 7,
+      "y": 5,
+      "z": 0,
+      "cardId": "Staccato"
+    },
+    {
+      "x": 7,
+      "y": 7,
+      "z": 0,
+      "cardId": "Fermata"
+    },
+    {
+      "x": 7,
+      "y": 9,
+      "z": 0,
+      "cardId": "Music"
+    },
+    {
+      "x": 7,
+      "y": 11,
+      "z": 0,
+      "cardId": "Pitfall"
+    },
+    {
+      "x": 9,
+      "y": 9,
+      "z": 0,
+      "cardId": "Gamble"
+    },
+    {
+      "x": 5,
+      "y": 9,
+      "z": 0,
+      "cardId": "Kiln"
+    },
+    {
+      "x": 5,
+      "y": 3,
+      "z": 0,
+      "cardId": "Jeopardy"
+    },
+    {
+      "x": 9,
+      "y": 3,
+      "z": 0,
+      "cardId": "Pitch"
+    },
+    {
+      "x": 5,
+      "y": 5,
+      "z": 0,
+      "cardId": "r"
+    },
+    {
+      "x": 5,
+      "y": 7,
+      "z": 0,
+      "cardId": "r"
+    },
+    {
+      "x": 9,
+      "y": 7,
+      "z": 0,
+      "cardId": "Hazard"
+    },
+    {
+      "x": 9,
+      "y": 5,
+      "z": 0,
+      "cardId": "Golf"
+    },
+    {
+      "x": 11,
+      "y": 5,
+      "z": 0,
+      "cardId": "Particle"
+    },
+    {
+      "x": 11,
+      "y": 7,
+      "z": 0,
+      "cardId": "Pores"
+    },
+    {
+      "x": 3,
+      "y": 7,
+      "z": 0,
+      "cardId": "Cricket"
+    },
+    {
+      "x": 3,
+      "y": 5,
+      "z": 0,
+      "cardId": "Tennis"
+    },
+    {
+      "x": 10,
+      "y": 6,
+      "z": 1,
+      "cardId": "Sport"
+    },
+    {
+      "x": 4,
+      "y": 6,
+      "z": 1,
+      "cardId": "Skincare"
+    },
+    {
+      "x": 6,
+      "y": 6,
+      "z": 1,
+      "cardId": "Gel"
+    },
+    {
+      "x": 8,
+      "y": 6,
+      "z": 1,
+      "cardId": "Retinol"
+    },
+    {
+      "x": 6,
+      "y": 4,
+      "z": 1,
+      "cardId": "Sand"
+    },
+    {
+      "x": 8,
+      "y": 4,
+      "z": 1,
+      "cardId": "Serum"
+    },
+    {
+      "x": 7,
+      "y": 2,
+      "z": 1,
+      "cardId": "Threat"
+    },
+    {
+      "x": 6,
+      "y": 8,
+      "z": 1,
+      "cardId": "Hockey"
+    },
+    {
+      "x": 8,
+      "y": 8,
+      "z": 1,
+      "cardId": "Spectrum"
+    },
+    {
+      "x": 7,
+      "y": 10,
+      "z": 1,
+      "cardId": "r"
+    },
+    {
+      "x": 7,
+      "y": 7,
+      "z": 2,
+      "cardId": "Peril"
+    },
+    {
+      "x": 5,
+      "y": 6,
+      "z": 2,
+      "cardId": "Danger"
+    },
+    {
+      "x": 7,
+      "y": 5,
+      "z": 2,
+      "cardId": "Guitar"
+    },
+    {
+      "x": 9,
+      "y": 6,
+      "z": 2,
+      "cardId": "Toner"
+    },
+    {
+      "x": 7,
+      "y": 6,
+      "z": 3,
+      "cardId": "Risk"
+    }
+  ],
+  "stock": [
+    "Bricks",
+    "Clinker",
+    "Concrete",
+    "Clay",
+    "Dribble",
+    "Roulette",
+    "Mold",
+    "R",
+    "Quantum",
+    "Lotion",
+    "Adobe",
+    "Fly ash",
+    "Energy",
+    "Boson",
+    "Adagio",
+    "Violin"
+  ]
+}

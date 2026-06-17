@@ -1166,6 +1166,31 @@
   opacity: 0.4;
   cursor: not-allowed;
 }
+.batch-range {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-bottom: 1px solid #2a2a4a;
+  font-size: 12px;
+}
+.batch-range-label {
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  opacity: 0.7;
+  font-size: 11px;
+}
+.batch-range .level-select {
+  max-width: 200px;
+}
+.batch-range-to {
+  opacity: 0.6;
+}
+.batch-range-count {
+  margin-left: auto;
+  opacity: 0.6;
+  font-variant-numeric: tabular-nums;
+}
 .batch-rows {
   flex: 1;
   overflow-y: auto;
@@ -1173,6 +1198,18 @@
   display: flex;
   flex-direction: column;
   gap: 3px;
+}
+.batch-row.countonly {
+  opacity: 0.55;
+}
+.batch-tag {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  opacity: 0.6;
+  border: 1px dashed #4a4a6a;
+  border-radius: 8px;
+  padding: 1px 6px;
 }
 .batch-row {
   display: flex;
@@ -1192,12 +1229,108 @@
 .batch-row.bad .batch-row-name {
   color: #ff8a8a;
 }
+.batch-row-main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  cursor: pointer;
+}
 .batch-row-name {
   flex: 1;
   font-weight: 600;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+.batch-expand {
+  cursor: pointer;
+  font: inherit;
+  font-size: 10px;
+}
+.batch-gaps {
+  margin: 2px 0 6px 34px;
+  padding: 6px 10px;
+  border-left: 2px solid #3a3a5a;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.batch-gap-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.batch-gap-name {
+  font-weight: 600;
+  font-size: 12px;
+}
+.batch-gap-count {
+  font-size: 11px;
+  opacity: 0.6;
+}
+.batch-gap-missing {
+  color: #ffb454;
+  opacity: 1;
+}
+.batch-gap-words {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 4px;
+}
+.batch-chevron {
+  width: 18px;
+  flex: none;
+  background: transparent;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  font-size: 9px;
+  opacity: 0.7;
+  padding: 0;
+}
+.batch-chevron:disabled {
+  cursor: default;
+  opacity: 0;
+}
+.batch-cats {
+  margin: 2px 0 8px 30px;
+  padding: 6px 10px;
+  border-left: 2px solid #3a3a5a;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.batch-cat-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.batch-cat-name {
+  font-weight: 600;
+  font-size: 12px;
+}
+.batch-cat-count {
+  font-size: 11px;
+  opacity: 0.55;
+  font-variant-numeric: tabular-nums;
+  margin-left: auto;
+}
+.batch-cat-count.short {
+  color: #ffb454;
+  opacity: 1;
+  margin-left: auto;
+}
+.batch-cat-head .editor-btn.small {
+  margin-left: 0;
+}
+.batch-cat-words {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 5px;
 }
 .batch-row-range,
 .batch-row-cats {

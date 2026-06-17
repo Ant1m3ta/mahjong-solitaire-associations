@@ -65,6 +65,30 @@ export function pools() {
   return cachedPools;
 }
 
+// Merge words into the in-memory catalog (mirrors the on-disk words.json write
+// the dev server does). Returns the words actually added (new, case-insensitive)
+// so callers can mark them as freshly generated.
+export function addCatalogWords(categoryId: string, words: string[]): string[] {
+  const { all, byId } = pools();
+  let entry = byId.get(categoryId);
+  if (!entry) {
+    entry = { categoryId, wordsIds: [] };
+    all.push(entry);
+    byId.set(categoryId, entry);
+  }
+  const seen = new Set(entry.wordsIds.map((w) => w.toLowerCase()));
+  const added: string[] = [];
+  for (const w of words) {
+    const k = w.toLowerCase();
+    if (!seen.has(k)) {
+      seen.add(k);
+      entry.wordsIds.push(w);
+      added.push(w);
+    }
+  }
+  return added;
+}
+
 function shuffleInPlace<T>(arr: T[]): T[] {
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));

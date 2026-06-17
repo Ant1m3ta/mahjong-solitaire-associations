@@ -1,8 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
 import { CATEGORY_LIST } from './rangeAssign';
-import { buildPlan, collectGenRequests, fillRow } from './batchFill';
+import { buildPlan, collectGenRequests, fillRow, overrideKey } from './batchFill';
 import { generateWords, wordGenAvailable } from './wordGen';
+import { pools } from './fill';
 import { saveLevelJSON, type LevelFileEntry } from './save';
+import type { SlotPreview } from './rangeAssign';
+import type { BatchRow } from './batchFill';
 
 interface Props {
   entries: LevelFileEntry[];
@@ -29,10 +32,20 @@ export function BatchFillModal({ entries, needsFolder, boundFolder, onPickFolder
   const [progress, setProgress] = useState('');
   const [results, setResults] = useState<RunResult[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [expanded, setExpanded] = useState<Set<string>>(new Set());
+  // Write range, as positions among the selected (sequence) files. `to` starts
+  // at a sentinel so the default is "through the last level".
+  const [writeFrom, setWriteFrom] = useState(0);
+  const [writeTo, setWriteTo] = useState(Number.MAX_SAFE_INTEGER);
+  // Per-slot category replacements, keyed overrideKey(levelName, letter).
+  const [overrides, setOverrides] = useState<Record<string, string>>({});
 
-  // Keep the selection in sync if the folder listing changes underneath us.
+  // Keep the selection + range in sync if the folder listing changes underneath us.
   useEffect(() => {
     setSelected(new Set(entries.map((e) => e.name)));
+    setWriteFrom(0);
+    setWriteTo(Number.MAX_SAFE_INTEGER);
+    setOverrides({});
   }, [entries]);
 
   useEffect(() => {
@@ -46,20 +59,32 @@ export function BatchFillModal({ entries, needsFolder, boundFolder, onPickFolder
     return () => window.removeEventListener('keydown', onKey);
   }, [onClose, phase]);
 
+  const selectedCount = useMemo(
+    () => entries.filter((e) => selected.has(e.name)).length,
+    [entries, selected],
+  );
+  const lastPos = Math.max(0, selectedCount - 1);
+  const rangeFrom = Math.min(Math.max(0, writeFrom), lastPos);
+  const rangeTo = Math.min(Math.max(rangeFrom, writeTo), lastPos);
+
   const plan = useMemo(
-    () => buildPlan(entries, selected),
+    () => buildPlan(entries, selected, { from: rangeFrom, to: rangeTo }, overrides),
     // planVersion bumps after generation so previews re-read the word cache.
-    [entries, selected, planVersion],
+    [entries, selected, rangeFrom, rangeTo, overrides, planVersion],
   );
 
-  const selectedRows = plan.filter((r) => r.selected);
-  const okRows = selectedRows.filter((r) => r.status === 'ok');
-  const errorRows = selectedRows.filter((r) => r.status === 'error');
-  const totalCategories = okRows.reduce((n, r) => n + r.categoryCount, 0);
-  const totalGaps = okRows.reduce((n, r) => n + r.gapCount, 0);
-  const gapCategories = collectGenRequests(plan).length;
-  const dupRows = okRows.filter((r) => r.duplicateCount > 0).length;
-  const lastIndex = okRows.reduce((m, r) => Math.max(m, r.startIndex + r.categoryCount - 1), -1);
+  const seqRows = plan.filter((r) => r.selected); // ordered; index === seqPos
+  const writeRows = plan.filter((r) => r.willWrite); // selected, valid, in range
+  const countOnlyRows = plan.filter((r) => r.selected && r.status === 'ok' && !r.willWrite);
+  const errorInRange = plan.filter(
+    (r) => r.status === 'error' && r.seqPos >= rangeFrom && r.seqPos <= rangeTo,
+  );
+  const totalCategories = writeRows.reduce((n, r) => n + r.categoryCount, 0);
+  const totalGaps = writeRows.reduce((n, r) => n + r.gapCount, 0);
+  const gapCategories = collectGenRequests(writeRows).length;
+  const dupRows = writeRows.filter((r) => r.duplicateCount > 0).length;
+  const firstIndex = writeRows.reduce((m, r) => Math.min(m, r.startIndex), Number.MAX_SAFE_INTEGER);
+  const lastIndex = writeRows.reduce((m, r) => Math.max(m, r.startIndex + r.categoryCount - 1), -1);
   const running = phase === 'generating' || phase === 'writing';
   const overflow = lastIndex >= CATEGORY_LIST.length;
 
@@ -74,13 +99,46 @@ export function BatchFillModal({ entries, needsFolder, boundFolder, onPickFolder
   function setAll(on: boolean) {
     setSelected(on ? new Set(entries.map((e) => e.name)) : new Set());
   }
+  function toggleExpand(name: string) {
+    setExpanded((prev) => {
+      const next = new Set(prev);
+      if (next.has(name)) next.delete(name);
+      else next.add(name);
+      return next;
+    });
+  }
+
+  // Swap a slot's category for a random catalog category that has enough words
+  // and isn't already used in that level — for finite categories (e.g. Days)
+  // that can't be extended by generation.
+  function replaceCategory(row: BatchRow, p: SlotPreview) {
+    const usedInLevel = new Set(row.previews.map((x) => x.categoryId.toLowerCase()));
+    const candidates = pools().all.filter(
+      (c) => c.wordsIds.length >= p.simpleCards && !usedInLevel.has(c.categoryId.toLowerCase()),
+    );
+    if (candidates.length === 0) {
+      setError(`No catalog category has ≥ ${p.simpleCards} words to replace "${p.categoryId}".`);
+      return;
+    }
+    const pick = candidates[Math.floor(Math.random() * candidates.length)];
+    setError(null);
+    setOverrides((prev) => ({ ...prev, [overrideKey(row.name, p.letter)]: pick.categoryId }));
+  }
+
+  function clearOverride(row: BatchRow, p: SlotPreview) {
+    setOverrides((prev) => {
+      const next = { ...prev };
+      delete next[overrideKey(row.name, p.letter)];
+      return next;
+    });
+  }
 
   async function run() {
     setError(null);
     setResults([]);
     try {
       if (aiEnabled) {
-        const reqs = collectGenRequests(plan);
+        const reqs = collectGenRequests(writeRows);
         if (reqs.length > 0) {
           setPhase('generating');
           for (let i = 0; i < reqs.length; i += GEN_CHUNK) {
@@ -91,11 +149,12 @@ export function BatchFillModal({ entries, needsFolder, boundFolder, onPickFolder
         }
       }
       // Fresh plan so previews reflect any words just generated.
-      const fresh = buildPlan(entries, selected);
+      const fresh = buildPlan(entries, selected, { from: rangeFrom, to: rangeTo }, overrides);
       setPhase('writing');
       const res: RunResult[] = [];
       for (const row of fresh) {
-        if (!row.selected) continue;
+        const targeted = row.selected && row.seqPos >= rangeFrom && row.seqPos <= rangeTo;
+        if (!targeted) continue;
         if (row.status !== 'ok') {
           res.push({ name: row.name, ok: false, detail: row.error ?? 'unreadable' });
           continue;
@@ -132,7 +191,7 @@ export function BatchFillModal({ entries, needsFolder, boundFolder, onPickFolder
     <div className="picker-overlay" onClick={() => !running && onClose()}>
       <div className="picker-modal batch-modal" onClick={(e) => e.stopPropagation()}>
         <div className="picker-header">
-          <span>Fill all levels from list</span>
+          <span>Fill levels from list</span>
           <span className="picker-constraint">{CATEGORY_LIST.length.toLocaleString()} entries</span>
           <button className="editor-btn small" onClick={onClose} disabled={running}>×</button>
         </div>
@@ -196,45 +255,148 @@ export function BatchFillModal({ entries, needsFolder, boundFolder, onPickFolder
               </label>
             </div>
 
+            {selectedCount > 0 && (
+              <div className="batch-range">
+                <span className="batch-range-label">Write range</span>
+                <select
+                  className="level-select"
+                  value={rangeFrom}
+                  disabled={running}
+                  onChange={(e) => setWriteFrom(Number(e.target.value))}
+                  title="First level to (re)write. Earlier selected levels still count toward the category index."
+                >
+                  {seqRows.map((r, i) => (
+                    <option key={r.name} value={i}>{i + 1}. {r.name}</option>
+                  ))}
+                </select>
+                <span className="batch-range-to">to</span>
+                <select
+                  className="level-select"
+                  value={rangeTo}
+                  disabled={running}
+                  onChange={(e) => setWriteTo(Number(e.target.value))}
+                  title="Last level to (re)write."
+                >
+                  {seqRows.map((r, i) => i >= rangeFrom ? (
+                    <option key={r.name} value={i}>{i + 1}. {r.name}</option>
+                  ) : null)}
+                </select>
+                <span className="batch-range-count">
+                  {writeRows.length} to write
+                  {countOnlyRows.length > 0 && ` · ${countOnlyRows.length} counted only`}
+                </span>
+              </div>
+            )}
+
             <div className="batch-rows">
-              {plan.map((row) => (
-                <label key={row.name} className={`batch-row${row.selected ? '' : ' off'}${row.status === 'error' ? ' bad' : ''}`}>
-                  <input
-                    type="checkbox"
-                    checked={row.selected}
-                    disabled={running}
-                    onChange={() => toggle(row.name)}
-                  />
-                  <span className="batch-row-name">{row.name}</span>
-                  {row.selected && row.status === 'ok' && (
-                    <>
-                      <span className="batch-row-range">
-                        #{row.startIndex}–{row.startIndex + row.categoryCount - 1}
-                      </span>
-                      <span className="batch-row-cats">{row.categoryCount} cats</span>
-                      {row.duplicateCount > 0 && <span className="batch-badge bad">{row.duplicateCount} dup</span>}
-                      {row.gapCount > 0 && <span className="batch-badge warn">{row.gapCount} to gen</span>}
-                    </>
-                  )}
-                  {row.selected && row.status === 'error' && (
-                    <span className="batch-row-error">{row.error}</span>
-                  )}
-                </label>
-              ))}
+              {plan.map((row) => {
+                const expandable = row.selected && row.status === 'ok';
+                const countOnly = expandable && !row.willWrite;
+                const isOpen = expanded.has(row.name);
+                return (
+                  <div key={row.name}>
+                    <div className={`batch-row${row.selected ? '' : ' off'}${countOnly ? ' countonly' : ''}${row.status === 'error' ? ' bad' : ''}`}>
+                      <button
+                        className="batch-chevron"
+                        onClick={() => expandable && toggleExpand(row.name)}
+                        disabled={!expandable}
+                        title={expandable ? 'Show this level’s categories and words' : ''}
+                      >
+                        {expandable ? (isOpen ? '▼' : '▶') : ''}
+                      </button>
+                      <label className="batch-row-main">
+                        <input
+                          type="checkbox"
+                          checked={row.selected}
+                          disabled={running}
+                          onChange={() => toggle(row.name)}
+                        />
+                        <span className="batch-row-name">{row.name}</span>
+                      </label>
+                      {expandable && (
+                        <>
+                          <span className="batch-row-range">
+                            #{row.startIndex}–{row.startIndex + row.categoryCount - 1}
+                          </span>
+                          <span className="batch-row-cats">{row.categoryCount} cats</span>
+                          {countOnly && <span className="batch-tag">index only</span>}
+                          {row.willWrite && row.duplicateCount > 0 && <span className="batch-badge bad">{row.duplicateCount} dup</span>}
+                          {row.willWrite && row.gapCount > 0 && <span className="batch-badge warn">{row.gapCount} to gen</span>}
+                        </>
+                      )}
+                      {row.selected && row.status === 'error' && (
+                        <span className="batch-row-error">{row.error}</span>
+                      )}
+                    </div>
+                    {expandable && isOpen && (
+                      <div className="batch-cats">
+                        {row.previews.map((p) => (
+                          <div className="batch-cat" key={p.letter}>
+                            <div className="batch-cat-head">
+                              <span className="cat-letter">{p.letter}</span>
+                              <span className="batch-cat-name">
+                                {p.categoryId || <span className="range-oob">out of range</span>}
+                              </span>
+                              {p.overridden && <span className="batch-tag">replaced</span>}
+                              {p.duplicate && <span className="batch-badge bad">dup</span>}
+                              <span className={`batch-cat-count${p.shortfall > 0 ? ' short' : ''}`}>
+                                {p.chosen.length}/{p.simpleCards}
+                              </span>
+                              {(p.shortfall > 0 || p.overridden) && (
+                                <button
+                                  className="editor-btn small"
+                                  onClick={() => replaceCategory(row, p)}
+                                  disabled={running}
+                                  title="Replace with a random catalog category that has enough words"
+                                >
+                                  ↻ replace
+                                </button>
+                              )}
+                              {p.overridden && (
+                                <button
+                                  className="editor-btn small"
+                                  onClick={() => clearOverride(row, p)}
+                                  disabled={running}
+                                  title="Restore the category from the list at this index"
+                                >
+                                  reset
+                                </button>
+                              )}
+                            </div>
+                            <div className="batch-cat-words">
+                              {p.chosen.map((w, j) => (
+                                <span key={`w-${j}`} className={`range-word${p.generated[j] ? ' gen' : ''}`}>
+                                  {p.generated[j] ? '✦ ' : ''}
+                                  {w}
+                                </span>
+                              ))}
+                              {Array.from({ length: p.shortfall }).map((_, j) => (
+                                <span key={`m-${j}`} className="range-word missing">needed</span>
+                              ))}
+                              {p.simpleCards === 0 && <span className="range-empty-note">category card only</span>}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
 
             <div className="range-footer">
               <div className="range-status">
                 <span>
-                  {okRows.length} level{okRows.length === 1 ? '' : 's'} · {totalCategories} categories · indexes 0–{Math.max(0, lastIndex)}
+                  Writing {writeRows.length} level{writeRows.length === 1 ? '' : 's'} · {totalCategories} categories · indexes {writeRows.length > 0 ? `${firstIndex}–${Math.max(0, lastIndex)}` : '—'}
+                  {countOnlyRows.length > 0 && ` (${countOnlyRows.length} earlier level${countOnlyRows.length === 1 ? '' : 's'} counted for indexing)`}
                 </span>
                 {overflow && <span className="range-bad">Range exceeds the {CATEGORY_LIST.length.toLocaleString()}-entry list.</span>}
-                {errorRows.length > 0 && <span className="range-bad">{errorRows.length} file(s) can’t be read and will be skipped.</span>}
+                {errorInRange.length > 0 && <span className="range-bad">{errorInRange.length} file(s) in range can’t be read and will be skipped.</span>}
                 {dupRows > 0 && <span className="range-warn-text">{dupRows} level(s) hit a duplicate category and will be skipped.</span>}
                 {totalGaps > 0 && (
                   aiEnabled
                     ? <span className="range-warn-text">Will generate {totalGaps} word(s) across {gapCategories} categor{gapCategories === 1 ? 'y' : 'ies'} (~{Math.ceil(gapCategories / GEN_CHUNK)} AI call(s)).</span>
-                    : <span className="range-warn-text">{skippedForGaps ? `${okRows.filter((r) => r.gapCount > 0).length} level(s) have word gaps and will be skipped (enable AI to fill them).` : ''}</span>
+                    : <span className="range-warn-text">{skippedForGaps ? `${writeRows.filter((r) => r.gapCount > 0).length} level(s) have word gaps and will be skipped (enable AI to fill them).` : ''}</span>
                 )}
                 {running && <span className="range-warn-text">{progress}</span>}
                 {error && <span className="range-bad">{error}</span>}
@@ -244,10 +406,10 @@ export function BatchFillModal({ entries, needsFolder, boundFolder, onPickFolder
                 <button
                   className="editor-btn primary"
                   onClick={run}
-                  disabled={running || okRows.length === 0 || overflow}
-                  title="Overwrite each selected level file with categories drawn from the list at its computed index."
+                  disabled={running || writeRows.length === 0 || overflow}
+                  title="Overwrite each level in the write range with categories drawn from the list at its computed index."
                 >
-                  {running ? 'Working…' : `Run — write ${okRows.length} file${okRows.length === 1 ? '' : 's'}`}
+                  {running ? 'Working…' : `Run — write ${writeRows.length} file${writeRows.length === 1 ? '' : 's'}`}
                 </button>
               </div>
             </div>

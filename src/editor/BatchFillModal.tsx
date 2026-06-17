@@ -59,11 +59,9 @@ export function BatchFillModal({ entries, needsFolder, boundFolder, onPickFolder
     return () => window.removeEventListener('keydown', onKey);
   }, [onClose, phase]);
 
-  const selectedCount = useMemo(
-    () => entries.filter((e) => selected.has(e.name)).length,
-    [entries, selected],
-  );
-  const lastPos = Math.max(0, selectedCount - 1);
+  // Range positions index into the full file list (every level counts toward
+  // the category index regardless of selection).
+  const lastPos = Math.max(0, entries.length - 1);
   const rangeFrom = Math.min(Math.max(0, writeFrom), lastPos);
   const rangeTo = Math.min(Math.max(rangeFrom, writeTo), lastPos);
 
@@ -73,11 +71,10 @@ export function BatchFillModal({ entries, needsFolder, boundFolder, onPickFolder
     [entries, selected, rangeFrom, rangeTo, overrides, planVersion],
   );
 
-  const seqRows = plan.filter((r) => r.selected); // ordered; index === seqPos
   const writeRows = plan.filter((r) => r.willWrite); // selected, valid, in range
-  const countOnlyRows = plan.filter((r) => r.selected && r.status === 'ok' && !r.willWrite);
+  const countOnlyRows = plan.filter((r) => r.status === 'ok' && !r.willWrite);
   const errorInRange = plan.filter(
-    (r) => r.status === 'error' && r.seqPos >= rangeFrom && r.seqPos <= rangeTo,
+    (r) => r.status === 'error' && r.selected && r.seqPos >= rangeFrom && r.seqPos <= rangeTo,
   );
   const totalCategories = writeRows.reduce((n, r) => n + r.categoryCount, 0);
   const totalGaps = writeRows.reduce((n, r) => n + r.gapCount, 0);
@@ -87,6 +84,12 @@ export function BatchFillModal({ entries, needsFolder, boundFolder, onPickFolder
   const lastIndex = writeRows.reduce((m, r) => Math.max(m, r.startIndex + r.categoryCount - 1), -1);
   const running = phase === 'generating' || phase === 'writing';
   const overflow = lastIndex >= CATEGORY_LIST.length;
+  // What will actually be written: no in-window duplicate, and either no gaps
+  // or AI is on to fill them. Levels with gaps + AI off are skipped by fillRow.
+  const writableRows = writeRows.filter(
+    (r) => r.duplicateCount === 0 && (aiEnabled || r.gapCount === 0),
+  );
+  const willSkip = writeRows.length - writableRows.length;
 
   function toggle(name: string) {
     setSelected((prev) => {
@@ -255,7 +258,7 @@ export function BatchFillModal({ entries, needsFolder, boundFolder, onPickFolder
               </label>
             </div>
 
-            {selectedCount > 0 && (
+            {entries.length > 0 && (
               <div className="batch-range">
                 <span className="batch-range-label">Write range</span>
                 <select
@@ -263,9 +266,9 @@ export function BatchFillModal({ entries, needsFolder, boundFolder, onPickFolder
                   value={rangeFrom}
                   disabled={running}
                   onChange={(e) => setWriteFrom(Number(e.target.value))}
-                  title="First level to (re)write. Earlier selected levels still count toward the category index."
+                  title="First level to (re)write. Earlier levels still count toward the category index."
                 >
-                  {seqRows.map((r, i) => (
+                  {plan.map((r, i) => (
                     <option key={r.name} value={i}>{i + 1}. {r.name}</option>
                   ))}
                 </select>
@@ -277,25 +280,25 @@ export function BatchFillModal({ entries, needsFolder, boundFolder, onPickFolder
                   onChange={(e) => setWriteTo(Number(e.target.value))}
                   title="Last level to (re)write."
                 >
-                  {seqRows.map((r, i) => i >= rangeFrom ? (
+                  {plan.map((r, i) => i >= rangeFrom ? (
                     <option key={r.name} value={i}>{i + 1}. {r.name}</option>
                   ) : null)}
                 </select>
                 <span className="batch-range-count">
                   {writeRows.length} to write
-                  {countOnlyRows.length > 0 && ` · ${countOnlyRows.length} counted only`}
+                  {countOnlyRows.length > 0 && ` · ${countOnlyRows.length} counted for index`}
                 </span>
               </div>
             )}
 
             <div className="batch-rows">
               {plan.map((row) => {
-                const expandable = row.selected && row.status === 'ok';
+                const expandable = row.status === 'ok';
                 const countOnly = expandable && !row.willWrite;
                 const isOpen = expanded.has(row.name);
                 return (
                   <div key={row.name}>
-                    <div className={`batch-row${row.selected ? '' : ' off'}${countOnly ? ' countonly' : ''}${row.status === 'error' ? ' bad' : ''}`}>
+                    <div className={`batch-row${countOnly ? ' countonly' : ''}${row.status === 'error' ? ' bad' : ''}`}>
                       <button
                         className="batch-chevron"
                         onClick={() => expandable && toggleExpand(row.name)}
@@ -388,15 +391,18 @@ export function BatchFillModal({ entries, needsFolder, boundFolder, onPickFolder
               <div className="range-status">
                 <span>
                   Writing {writeRows.length} level{writeRows.length === 1 ? '' : 's'} · {totalCategories} categories · indexes {writeRows.length > 0 ? `${firstIndex}–${Math.max(0, lastIndex)}` : '—'}
-                  {countOnlyRows.length > 0 && ` (${countOnlyRows.length} earlier level${countOnlyRows.length === 1 ? '' : 's'} counted for indexing)`}
+                  {countOnlyRows.length > 0 && ` (${countOnlyRows.length} other level${countOnlyRows.length === 1 ? '' : 's'} counted for indexing)`}
                 </span>
                 {overflow && <span className="range-bad">Range exceeds the {CATEGORY_LIST.length.toLocaleString()}-entry list.</span>}
                 {errorInRange.length > 0 && <span className="range-bad">{errorInRange.length} file(s) in range can’t be read and will be skipped.</span>}
-                {dupRows > 0 && <span className="range-warn-text">{dupRows} level(s) hit a duplicate category and will be skipped.</span>}
+                {dupRows > 0 && <span className="range-warn-text">{dupRows} level(s) hit a duplicate category and will be skipped — use ↻ replace.</span>}
                 {totalGaps > 0 && (
                   aiEnabled
                     ? <span className="range-warn-text">Will generate {totalGaps} word(s) across {gapCategories} categor{gapCategories === 1 ? 'y' : 'ies'} (~{Math.ceil(gapCategories / GEN_CHUNK)} AI call(s)).</span>
-                    : <span className="range-warn-text">{skippedForGaps ? `${writeRows.filter((r) => r.gapCount > 0).length} level(s) have word gaps and will be skipped (enable AI to fill them).` : ''}</span>
+                    : <span className="range-warn-text">{skippedForGaps ? `${writeRows.filter((r) => r.gapCount > 0).length} in-range level(s) have word gaps and will be skipped — enable “Generate missing words with AI” to fill them.` : ''}</span>
+                )}
+                {writableRows.length === 0 && writeRows.length > 0 && (
+                  <span className="range-bad">Nothing to write — all {writeRows.length} in-range level(s) would be skipped. {aiEnabled ? 'Resolve duplicates with ↻ replace.' : 'Turn on AI generation, or use ↻ replace.'}</span>
                 )}
                 {running && <span className="range-warn-text">{progress}</span>}
                 {error && <span className="range-bad">{error}</span>}
@@ -406,10 +412,12 @@ export function BatchFillModal({ entries, needsFolder, boundFolder, onPickFolder
                 <button
                   className="editor-btn primary"
                   onClick={run}
-                  disabled={running || writeRows.length === 0 || overflow}
+                  disabled={running || writableRows.length === 0 || overflow}
                   title="Overwrite each level in the write range with categories drawn from the list at its computed index."
                 >
-                  {running ? 'Working…' : `Run — write ${writeRows.length} file${writeRows.length === 1 ? '' : 's'}`}
+                  {running
+                    ? 'Working…'
+                    : `Run — write ${writableRows.length} file${writableRows.length === 1 ? '' : 's'}${willSkip > 0 ? ` (${willSkip} skipped)` : ''}`}
                 </button>
               </div>
             </div>

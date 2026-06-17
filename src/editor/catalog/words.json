@@ -2144,7 +2144,11 @@
       "Gauntlet",
       "Cuirass",
       "Security",
-      "Greaves"
+      "Greaves",
+      "Shield",
+      "Breastplate",
+      "Chainmail",
+      "Pauldron"
     ]
   },
   {
@@ -27649,7 +27653,10 @@
       "Juicy",
       "Colorful",
       "Sour",
-      "Fruity"
+      "Fruity",
+      "Candy",
+      "Stick",
+      "Swirl"
     ]
   },
   {
@@ -32764,7 +32771,10 @@
       "Atom",
       "Neutron",
       "Proton",
-      "Electron"
+      "Electron",
+      "Reactor",
+      "Radiation",
+      "Fission"
     ]
   },
   {
@@ -34214,7 +34224,10 @@
       "Totem",
       "Idol",
       "Altar",
-      "Nature"
+      "Nature",
+      "Wicca",
+      "Druid",
+      "Rune"
     ]
   },
   {
@@ -48732,7 +48745,10 @@
       "Teepee",
       "Yurt",
       "Canopy",
-      "Shelter"
+      "Shelter",
+      "Canvas",
+      "Camping",
+      "Rope"
     ]
   },
   {

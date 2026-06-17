@@ -48,6 +48,16 @@ export function Editor() {
     persistEditorState(state);
   }, [state]);
 
+  // Re-read the bound folder whenever the batch tool opens so it reflects the
+  // actual files on disk, not a stale snapshot from when the folder was picked.
+  useEffect(() => {
+    if (batchOpen && boundFolder) {
+      listLevelsInFolder()
+        .then(setFolderLevels)
+        .catch(() => {});
+    }
+  }, [batchOpen, boundFolder]);
+
   function suggestedLevelFilename(): string {
     const id = state.level.levelId?.trim();
     if (id && id !== 'skeleton-1') {

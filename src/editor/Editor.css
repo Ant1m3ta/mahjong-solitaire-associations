@@ -1332,6 +1332,35 @@
   gap: 5px;
   margin-top: 5px;
 }
+.batch-cat-cur {
+  opacity: 0.7;
+}
+.batch-cat-arrow {
+  opacity: 0.5;
+}
+.batch-cat-new {
+  color: #66ccff;
+  font-weight: 600;
+}
+.batch-cat-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-top: 5px;
+}
+.batch-cat-row .batch-cat-words {
+  margin-top: 0;
+  flex: 1;
+}
+.batch-cat-role {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  opacity: 0.45;
+  width: 52px;
+  flex: none;
+  font-variant-numeric: tabular-nums;
+}
 .batch-row-range,
 .batch-row-cats {
   font-size: 11px;

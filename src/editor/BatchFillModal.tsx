@@ -24,6 +24,10 @@ interface RunResult {
 
 const GEN_CHUNK = 20;
 
+// Normalize for comparing current vs proposed (handles icon snake_case vs
+// Title Case, e.g. "bald_eagle" ≡ "Bald Eagle").
+const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '');
+
 export function BatchFillModal({ entries, needsFolder, boundFolder, onPickFolder, onWrote, onClose }: Props) {
   const [selected, setSelected] = useState<Set<string>>(() => new Set(entries.map((e) => e.name)));
   const [aiEnabled, setAiEnabled] = useState(false);
@@ -76,6 +80,8 @@ export function BatchFillModal({ entries, needsFolder, boundFolder, onPickFolder
   const errorInRange = plan.filter(
     (r) => r.status === 'error' && r.selected && r.seqPos >= rangeFrom && r.seqPos <= rangeTo,
   );
+  // Current on-disk content per level, to compare against the proposed assignment.
+  const levelByName = useMemo(() => new Map(entries.map((e) => [e.name, e.level])), [entries]);
   const totalCategories = writeRows.reduce((n, r) => n + r.categoryCount, 0);
   const totalGaps = writeRows.reduce((n, r) => n + r.gapCount, 0);
   const gapCategories = collectGenRequests(writeRows).length;
@@ -333,53 +339,91 @@ export function BatchFillModal({ entries, needsFolder, boundFolder, onPickFolder
                     </div>
                     {expandable && isOpen && (
                       <div className="batch-cats">
-                        {row.previews.map((p) => (
-                          <div className="batch-cat" key={p.letter}>
-                            <div className="batch-cat-head">
-                              <span className="cat-letter">{p.letter}</span>
-                              <span className="batch-cat-name">
-                                {p.categoryId || <span className="range-oob">out of range</span>}
-                              </span>
-                              {p.overridden && <span className="batch-tag">replaced</span>}
-                              {p.duplicate && <span className="batch-badge bad">dup</span>}
-                              <span className={`batch-cat-count${p.shortfall > 0 ? ' short' : ''}`}>
-                                {p.chosen.length}/{p.simpleCards}
-                              </span>
-                              {(p.shortfall > 0 || p.overridden) && (
-                                <button
-                                  className="editor-btn small"
-                                  onClick={() => replaceCategory(row, p)}
-                                  disabled={running}
-                                  title="Replace with a random catalog category that has enough words"
-                                >
-                                  ↻ replace
-                                </button>
-                              )}
-                              {p.overridden && (
-                                <button
-                                  className="editor-btn small"
-                                  onClick={() => clearOverride(row, p)}
-                                  disabled={running}
-                                  title="Restore the category from the list at this index"
-                                >
-                                  reset
-                                </button>
-                              )}
-                            </div>
-                            <div className="batch-cat-words">
-                              {p.chosen.map((w, j) => (
-                                <span key={`w-${j}`} className={`range-word${p.generated[j] ? ' gen' : ''}`}>
-                                  {p.generated[j] ? '✦ ' : ''}
-                                  {w}
+                        {row.previews.map((p, j) => {
+                          const cur = levelByName.get(row.name)?.categories[j];
+                          const curId = cur?.categoryId ?? '';
+                          const curWords = cur?.wordsData.map((w) => w.wordId) ?? [];
+                          const curNorm = curWords.map(norm).sort();
+                          const propNorm = p.chosen.map(norm).sort();
+                          // "Same" = the file already holds exactly what the index would write.
+                          const same =
+                            !!curId &&
+                            norm(curId) === norm(p.categoryId) &&
+                            curNorm.length === propNorm.length &&
+                            curNorm.every((w, k) => w === propNorm[k]);
+                          return (
+                            <div className="batch-cat" key={p.letter}>
+                              <div className="batch-cat-head">
+                                <span className="cat-letter">{p.letter}</span>
+                                {same ? (
+                                  <span className="batch-cat-name">{p.categoryId}</span>
+                                ) : (
+                                  <span className="batch-cat-name">
+                                    <span className="batch-cat-cur">{curId || '(none)'}</span>
+                                    <span className="batch-cat-arrow"> → </span>
+                                    <span className="batch-cat-new">
+                                      {p.categoryId || <span className="range-oob">out of range</span>}
+                                    </span>
+                                  </span>
+                                )}
+                                {p.overridden && <span className="batch-tag">replaced</span>}
+                                {p.duplicate && <span className="batch-badge bad">dup</span>}
+                                <span className={`batch-cat-count${p.shortfall > 0 ? ' short' : ''}`}>
+                                  {p.chosen.length}/{p.simpleCards}
                                 </span>
-                              ))}
-                              {Array.from({ length: p.shortfall }).map((_, j) => (
-                                <span key={`m-${j}`} className="range-word missing">needed</span>
-                              ))}
-                              {p.simpleCards === 0 && <span className="range-empty-note">category card only</span>}
+                                {(p.shortfall > 0 || p.overridden) && (
+                                  <button
+                                    className="editor-btn small"
+                                    onClick={() => replaceCategory(row, p)}
+                                    disabled={running}
+                                    title="Replace with a random catalog category that has enough words"
+                                  >
+                                    ↻ replace
+                                  </button>
+                                )}
+                                {p.overridden && (
+                                  <button
+                                    className="editor-btn small"
+                                    onClick={() => clearOverride(row, p)}
+                                    disabled={running}
+                                    title="Restore the category from the list at this index"
+                                  >
+                                    reset
+                                  </button>
+                                )}
+                              </div>
+                              {!same && (
+                                <div className="batch-cat-row">
+                                  <span className="batch-cat-role">current</span>
+                                  <div className="batch-cat-words">
+                                    {curWords.length > 0 ? (
+                                      curWords.map((w, k) => (
+                                        <span key={`c-${k}`} className="range-word">{w}</span>
+                                      ))
+                                    ) : (
+                                      <span className="range-empty-note">empty</span>
+                                    )}
+                                  </div>
+                                </div>
+                              )}
+                              <div className="batch-cat-row">
+                                {!same && <span className="batch-cat-role">#{p.listIndex}</span>}
+                                <div className="batch-cat-words">
+                                  {p.chosen.map((w, k) => (
+                                    <span key={`w-${k}`} className={`range-word${p.generated[k] ? ' gen' : ''}`}>
+                                      {p.generated[k] ? '✦ ' : ''}
+                                      {w}
+                                    </span>
+                                  ))}
+                                  {Array.from({ length: p.shortfall }).map((_, k) => (
+                                    <span key={`m-${k}`} className="range-word missing">needed</span>
+                                  ))}
+                                  {p.simpleCards === 0 && <span className="range-empty-note">category card only</span>}
+                                </div>
+                              </div>
                             </div>
-                          </div>
-                        ))}
+                          );
+                        })}
                       </div>
                     )}
                   </div>

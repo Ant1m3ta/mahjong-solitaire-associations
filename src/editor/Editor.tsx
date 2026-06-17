@@ -3,6 +3,7 @@ import { initialEditorState, normalizeLevel, persistEditorState, reduceEditor } 
 import { CategoriesRail } from './CategoriesRail';
 import { CategoryPicker } from './CategoryPicker';
 import { CategoryRangePicker } from './CategoryRangePicker';
+import { BatchFillModal } from './BatchFillModal';
 import { BoardCanvas } from './BoardCanvas';
 import { useSolver, type SolverViewState } from './solver/useSolver';
 import { DifficultyChip } from './DifficultyChip';
@@ -26,6 +27,8 @@ export function Editor() {
   const [fillError, setFillError] = useState<string | null>(null);
   const [pickerLetter, setPickerLetter] = useState<string | null>(null);
   const [rangePickerOpen, setRangePickerOpen] = useState(false);
+  const [toolsOpen, setToolsOpen] = useState(false);
+  const [batchOpen, setBatchOpen] = useState(false);
   const [boundFolder, setBoundFolder] = useState<string | null>(boundSaveFolder());
   const [folderLevels, setFolderLevels] = useState<LevelFileEntry[]>([]);
   const [solverEnabled, setSolverEnabled] = useState(true);
@@ -200,6 +203,34 @@ export function Editor() {
           </label>
         </div>
         <div className="editor-actions">
+          <div className="editor-menu-anchor">
+            <button
+              className={`editor-btn${toolsOpen ? ' active' : ''}`}
+              onClick={() => setToolsOpen((v) => !v)}
+              title="Batch tools"
+            >
+              Tools ▾
+            </button>
+            {toolsOpen && (
+              <>
+                <div className="editor-menu-backdrop" onClick={() => setToolsOpen(false)} />
+                <div className="editor-menu">
+                  <button
+                    className="editor-menu-item"
+                    onClick={() => {
+                      setToolsOpen(false);
+                      setBatchOpen(true);
+                    }}
+                  >
+                    Fill all levels from list…
+                    <span className="editor-menu-hint">
+                      Reassign every level's categories from category_list.json, sequential indexes.
+                    </span>
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
           <button
             className="editor-btn"
             disabled={state.history.length === 0}
@@ -496,6 +527,16 @@ export function Editor() {
           categories={state.level.categories}
           dispatch={dispatch}
           onClose={() => setRangePickerOpen(false)}
+        />
+      )}
+      {batchOpen && (
+        <BatchFillModal
+          entries={folderLevels}
+          needsFolder={needsFolder}
+          boundFolder={boundFolder}
+          onPickFolder={handlePickFolder}
+          onWrote={async () => setFolderLevels(await listLevelsInFolder())}
+          onClose={() => setBatchOpen(false)}
         />
       )}
     </div>

@@ -1,103 +1,14 @@
 import { useCallback, useEffect, useMemo, useState, type Dispatch } from 'react';
-import categoryList from './catalog/category_list.json';
-import { pools } from './fill';
-import { cachedWordsFor, generateWords, wordGenAvailable, type GenRequest } from './wordGen';
+import { generateWords, wordGenAvailable } from './wordGen';
+import { CATEGORY_LIST, buildGenRequests, computeAssignments } from './rangeAssign';
 import type { EditorAction, RangeAssignment, SkeletonCategory } from './types';
 
-const LIST = categoryList as string[];
+const LIST = CATEGORY_LIST;
 
 interface Props {
   categories: SkeletonCategory[];
   dispatch: Dispatch<EditorAction>;
   onClose: () => void;
-}
-
-interface SlotPreview {
-  letter: string;
-  simpleCards: number;
-  listIndex: number;
-  inRange: boolean;
-  categoryId: string;
-  chosen: string[];
-  generated: boolean[]; // parallel to chosen — true if the word came from AI, not the catalog
-  shortfall: number;
-  duplicate: boolean;
-}
-
-// Catalog ∪ AI cache for a name, deduped case-insensitively, catalog first.
-function wordsForName(name: string): string[] {
-  const pool = pools().byId.get(name)?.wordsIds ?? [];
-  const seen = new Set<string>();
-  const out: string[] = [];
-  for (const w of [...pool, ...cachedWordsFor(name)]) {
-    const k = w.toLowerCase();
-    if (!seen.has(k)) {
-      seen.add(k);
-      out.push(w);
-    }
-  }
-  return out;
-}
-
-// Assign the next `categories.length` list entries (from startIndex) to the
-// level's slots, choosing each slot's words deterministically and keeping every
-// word unique across the whole window (the game resolver needs that).
-function computeAssignments(categories: SkeletonCategory[], startIndex: number): SlotPreview[] {
-  const reserved = new Set<string>(); // every window category name — words may not equal one
-  for (let i = 0; i < categories.length; i++) {
-    const name = LIST[startIndex + i];
-    if (name !== undefined) reserved.add(name.toLowerCase());
-  }
-
-  const usedWords = new Set<string>();
-  const seenNames = new Set<string>();
-  const out: SlotPreview[] = [];
-
-  for (let i = 0; i < categories.length; i++) {
-    const cat = categories[i];
-    const idx = startIndex + i;
-    const name = LIST[idx];
-    if (name === undefined) {
-      out.push({
-        letter: cat.letter,
-        simpleCards: cat.simpleCards,
-        listIndex: idx,
-        inRange: false,
-        categoryId: '',
-        chosen: [],
-        generated: [],
-        shortfall: cat.simpleCards,
-        duplicate: false,
-      });
-      continue;
-    }
-    const duplicate = seenNames.has(name.toLowerCase());
-    seenNames.add(name.toLowerCase());
-
-    const poolSet = new Set((pools().byId.get(name)?.wordsIds ?? []).map((w) => w.toLowerCase()));
-    const chosen: string[] = [];
-    const generated: boolean[] = [];
-    for (const w of wordsForName(name)) {
-      if (chosen.length >= cat.simpleCards) break;
-      const k = w.toLowerCase();
-      if (usedWords.has(k) || reserved.has(k)) continue;
-      chosen.push(w);
-      generated.push(!poolSet.has(k));
-      usedWords.add(k);
-    }
-    out.push({
-      letter: cat.letter,
-      simpleCards: cat.simpleCards,
-      listIndex: idx,
-      inRange: true,
-      categoryId: name,
-      chosen,
-      generated,
-      shortfall: cat.simpleCards - chosen.length,
-      duplicate,
-    });
-  }
-  return out;
 }
 
 export function CategoryRangePicker({ categories, dispatch, onClose }: Props) {
@@ -144,17 +55,7 @@ export function CategoryRangePicker({ categories, dispatch, onClose }: Props) {
     setGenerating(true);
     setGenError(null);
     try {
-      const windowNames = previews.filter((p) => p.inRange).map((p) => p.categoryId);
-      const allChosen = previews.flatMap((p) => p.chosen);
-      const byName = new Map<string, GenRequest>();
-      for (const p of shortSlots) {
-        if (byName.has(p.categoryId)) continue;
-        const avoid = Array.from(
-          new Set([...wordsForName(p.categoryId), ...allChosen, ...windowNames]),
-        );
-        byName.set(p.categoryId, { categoryId: p.categoryId, count: p.shortfall, avoid });
-      }
-      await generateWords(Array.from(byName.values()));
+      await generateWords(buildGenRequests(previews));
       setCacheVersion((v) => v + 1);
     } catch (e) {
       setGenError(String(e instanceof Error ? e.message : e));

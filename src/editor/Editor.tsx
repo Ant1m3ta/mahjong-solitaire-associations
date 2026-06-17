@@ -2,6 +2,7 @@ import { useReducer, useEffect, useState, useMemo } from 'react';
 import { initialEditorState, normalizeLevel, persistEditorState, reduceEditor } from './reducer';
 import { CategoriesRail } from './CategoriesRail';
 import { CategoryPicker } from './CategoryPicker';
+import { CategoryRangePicker } from './CategoryRangePicker';
 import { BoardCanvas } from './BoardCanvas';
 import { useSolver, type SolverViewState } from './solver/useSolver';
 import { DifficultyChip } from './DifficultyChip';
@@ -24,6 +25,7 @@ export function Editor() {
   const [state, dispatch] = useReducer(reduceEditor, undefined, initialEditorState);
   const [fillError, setFillError] = useState<string | null>(null);
   const [pickerLetter, setPickerLetter] = useState<string | null>(null);
+  const [rangePickerOpen, setRangePickerOpen] = useState(false);
   const [boundFolder, setBoundFolder] = useState<string | null>(boundSaveFolder());
   const [folderLevels, setFolderLevels] = useState<LevelFileEntry[]>([]);
   const [solverEnabled, setSolverEnabled] = useState(true);
@@ -271,7 +273,12 @@ export function Editor() {
       </div>
 
       <div className="editor-body">
-        <CategoriesRail state={state} dispatch={dispatch} onOpenPicker={setPickerLetter} />
+        <CategoriesRail
+          state={state}
+          dispatch={dispatch}
+          onOpenPicker={setPickerLetter}
+          onOpenRangePicker={() => setRangePickerOpen(true)}
+        />
 
         <main className="editor-main">
           <div className="editor-canvas-controls">
@@ -482,6 +489,13 @@ export function Editor() {
           category={pickerCategory}
           dispatch={dispatch}
           onClose={() => setPickerLetter(null)}
+        />
+      )}
+      {rangePickerOpen && (
+        <CategoryRangePicker
+          categories={state.level.categories}
+          dispatch={dispatch}
+          onClose={() => setRangePickerOpen(false)}
         />
       )}
     </div>

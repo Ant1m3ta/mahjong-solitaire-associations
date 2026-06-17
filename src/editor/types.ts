@@ -4,6 +4,11 @@ export interface SkeletonCategory {
   letter: string;
   simpleCards: number;
   pinnedCategoryId?: string;
+  // Exact words to use, in order. When set, fill takes the first `simpleCards`
+  // of these verbatim instead of picking randomly from the catalog — so the
+  // editor preview is exactly what plays. Categories pinned this way need not
+  // exist in the catalog (AI-generated ranges resolve here).
+  pinnedWords?: string[];
 }
 
 export interface SkeletonBoardCard {
@@ -26,6 +31,12 @@ export interface SkeletonLevel {
   categories: SkeletonCategory[];
   board: SkeletonBoardCard[];
   stock: SkeletonStockEntry[];
+}
+
+export interface RangeAssignment {
+  letter: string;
+  categoryId: string;
+  words: string[];
 }
 
 export interface BrushState {
@@ -65,6 +76,7 @@ export type EditorAction =
   | { type: 'ADD_CATEGORY' }
   | { type: 'REMOVE_CATEGORY'; letter: string }
   | { type: 'SET_PINNED_CATEGORY'; letter: string; categoryId: string | null }
+  | { type: 'APPLY_CATEGORY_RANGE'; assignments: RangeAssignment[] }
   | { type: 'FILL_BASIC' }
   | { type: 'FILL_WORDS' }
   | { type: 'CLEAR_PINS' }

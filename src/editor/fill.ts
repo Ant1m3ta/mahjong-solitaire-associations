@@ -115,6 +115,21 @@ export function fillSkeleton(skel: SkeletonLevel): LevelData {
   const map = new Map<string, { real: Usable; assigned: string[] }>();
 
   for (const cat of skel.categories) {
+    if (cat.pinnedWords) {
+      const categoryId = cat.pinnedCategoryId;
+      if (!categoryId) {
+        throw new FillError(`Letter ${cat.letter}: locked words present without a category name.`);
+      }
+      if (cat.pinnedWords.length < cat.simpleCards) {
+        throw new FillError(
+          `Letter ${cat.letter}: "${categoryId}" has ${cat.pinnedWords.length} locked words, need ${cat.simpleCards}.`,
+        );
+      }
+      const real: Usable = { categoryId, wordsIds: cat.pinnedWords.slice() };
+      used.add(categoryId);
+      map.set(cat.letter, { real, assigned: cat.pinnedWords.slice(0, cat.simpleCards) });
+      continue;
+    }
     const real = pickReal(cat, all, byId, used);
     const assigned = shuffleInPlace(real.wordsIds.slice()).slice(0, cat.simpleCards);
     map.set(cat.letter, { real, assigned });

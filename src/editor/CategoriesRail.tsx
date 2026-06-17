@@ -6,9 +6,10 @@ interface Props {
   state: EditorState;
   dispatch: Dispatch<EditorAction>;
   onOpenPicker: (letter: string) => void;
+  onOpenRangePicker: () => void;
 }
 
-export function CategoriesRail({ state, dispatch, onOpenPicker }: Props) {
+export function CategoriesRail({ state, dispatch, onOpenPicker, onOpenRangePicker }: Props) {
   return (
     <aside className="editor-rail editor-rail-left">
       <div className="editor-rail-title">
@@ -58,6 +59,14 @@ export function CategoriesRail({ state, dispatch, onOpenPicker }: Props) {
         </button>
       </div>
       <div className="fill-row">
+        <button
+          className="editor-btn"
+          disabled={state.level.categories.length === 0}
+          onClick={onOpenRangePicker}
+          title="Fill every category from a contiguous slice of category_list.json, picking the start index. Words are locked exactly as previewed; missing ones can be generated."
+        >
+          From list…
+        </button>
         <button
           className="editor-btn"
           disabled={state.level.categories.length === 0}

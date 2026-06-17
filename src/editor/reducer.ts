@@ -117,6 +117,7 @@ const HISTORY_ACTIONS: ReadonlySet<EditorAction['type']> = new Set([
   'ADD_CATEGORY',
   'REMOVE_CATEGORY',
   'SET_PINNED_CATEGORY',
+  'APPLY_CATEGORY_RANGE',
   'FILL_BASIC',
   'FILL_WORDS',
   'CLEAR_PINS',
@@ -259,9 +260,18 @@ function reduceCore(state: EditorState, action: Exclude<EditorAction, { type: 'R
     case 'SET_PINNED_CATEGORY': {
       const cats = level.categories.map((c) =>
         c.letter === action.letter
-          ? { ...c, pinnedCategoryId: action.categoryId ?? undefined }
+          ? { ...c, pinnedCategoryId: action.categoryId ?? undefined, pinnedWords: undefined }
           : c,
       );
+      return ok(state, { ...level, categories: cats });
+    }
+
+    case 'APPLY_CATEGORY_RANGE': {
+      const byLetter = new Map(action.assignments.map((a) => [a.letter, a]));
+      const cats = level.categories.map((c) => {
+        const a = byLetter.get(c.letter);
+        return a ? { ...c, pinnedCategoryId: a.categoryId, pinnedWords: a.words } : c;
+      });
       return ok(state, { ...level, categories: cats });
     }
 
@@ -269,7 +279,7 @@ function reduceCore(state: EditorState, action: Exclude<EditorAction, { type: 'R
       const byLetter = new Map(BASIC_FILL.map((b) => [b.letter, b.categoryId]));
       const cats = level.categories.map((c) => {
         const id = byLetter.get(c.letter);
-        return id ? { ...c, pinnedCategoryId: id } : c;
+        return id ? { ...c, pinnedCategoryId: id, pinnedWords: undefined } : c;
       });
       return ok(state, { ...level, categories: cats });
     }
@@ -277,7 +287,7 @@ function reduceCore(state: EditorState, action: Exclude<EditorAction, { type: 'R
     case 'FILL_WORDS': {
       const cats = level.categories.map((c) => {
         const id = WORD_FILL[c.letter];
-        return id ? { ...c, pinnedCategoryId: id } : c;
+        return id ? { ...c, pinnedCategoryId: id, pinnedWords: undefined } : c;
       });
       const next = ok(state, { ...level, categories: cats });
       const missing = level.categories.filter((c) => !WORD_FILL[c.letter]).length;
@@ -292,7 +302,9 @@ function reduceCore(state: EditorState, action: Exclude<EditorAction, { type: 'R
 
     case 'CLEAR_PINS': {
       const cats = level.categories.map((c) =>
-        c.pinnedCategoryId === undefined ? c : { ...c, pinnedCategoryId: undefined },
+        c.pinnedCategoryId === undefined && c.pinnedWords === undefined
+          ? c
+          : { ...c, pinnedCategoryId: undefined, pinnedWords: undefined },
       );
       return ok(state, { ...level, categories: cats });
     }

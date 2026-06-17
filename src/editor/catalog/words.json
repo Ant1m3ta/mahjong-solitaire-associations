@@ -5203,7 +5203,11 @@
       "Keel",
       "Deck",
       "Sail",
-      "Stern"
+      "Stern",
+      "Anchor",
+      "Rudder",
+      "Cabin",
+      "Buoy"
     ]
   },
   {
@@ -7283,7 +7287,10 @@
       "Dingo",
       "Jackal",
       "Fox",
-      "Dhole"
+      "Dhole",
+      "Dog",
+      "Puppy",
+      "Husky"
     ]
   },
   {
@@ -24370,7 +24377,12 @@
       "Fracture",
       "Bruise",
       "Wound",
-      "Scratch"
+      "Scratch",
+      "Burn",
+      "Cut",
+      "Laceration",
+      "Strain",
+      "Concussion"
     ]
   },
   {
@@ -29271,7 +29283,12 @@
       "Kingdom",
       "Lord",
       "Knight",
-      "Castle"
+      "Castle",
+      "Dragon",
+      "Sword",
+      "Armor",
+      "Tavern",
+      "Moat"
     ]
   },
   {
@@ -31134,7 +31151,11 @@
       "Egypt",
       "Pyramid",
       "Tomb",
-      "Pharaoh"
+      "Pharaoh",
+      "Bandage",
+      "Curse",
+      "Sarcophagus",
+      "Amulet"
     ]
   },
   {
@@ -32104,7 +32125,11 @@
       "Tribeca",
       "Astoria",
       "Bronx",
-      "Queens"
+      "Queens",
+      "Broadway",
+      "Empire",
+      "Statue",
+      "Yellow"
     ]
   },
   {
@@ -34885,7 +34910,11 @@
       "Draco",
       "Scorpius",
       "Cygnus",
-      "Serpens"
+      "Serpens",
+      "Striped",
+      "Mosaic",
+      "Paisley",
+      "Plaid"
     ]
   },
   {
@@ -39994,7 +40023,11 @@
       "Risotto",
       "Congee",
       "Paella",
-      "Sushi"
+      "Sushi",
+      "Grain",
+      "Paddy",
+      "Basmati",
+      "Harvest"
     ]
   },
   {
@@ -42219,7 +42252,12 @@
       "Kelp",
       "Algae",
       "Seagrass",
-      "Wakame"
+      "Wakame",
+      "Shark",
+      "Dolphin",
+      "Octopus",
+      "Starfish",
+      "Whale"
     ]
   },
   {
@@ -53260,7 +53298,13 @@
       "Alarm",
       "Siren",
       "Whistle",
-      "Klaxon"
+      "Klaxon",
+      "Alert",
+      "Caution",
+      "Danger",
+      "Hazard",
+      "Omen",
+      "Threat"
     ]
   },
   {

@@ -56,4 +56,18 @@ The `highlightUnplayable` UI toggle dims cards with no legal destination ("stran
 
 Levels are JSON in `src/levels/`, picked up by `src/levels/index.ts` via `import.meta.glob('./*.json', { eager: true })` and sorted by filename (numeric-aware). Adding a level: drop a new `*.json` file in the folder — no code edit needed. Format documented in `DESIGN.md`. A `cardId` resolves first against `categoryId` (becomes a category card) then against any `wordId` (becomes a simple card of that category) — see `createCardFromId` in `src/game/cards.ts`. Card UIDs are reset per level load via `resetUidForLevel`.
 
-Words can optionally render as images (`icon: true` + `imageId` referencing `/public/images/<imageId>.png`).
+Words can optionally render as images (`icon: true` + `imageId` referencing `/public/images/<imageId>.png`). Words may also carry `missing: true` and categories `incomplete: true` — placeholder markers the editor's base-fill tool writes for words it couldn't supply (see below); the game ignores them.
+
+### Level editor (`src/editor/`, route `#/editor`)
+
+A separate in-browser authoring tool; never part of gameplay (the build still bundles it). It has its own reducer (`reducer.ts`) over a `SkeletonLevel` — categories as `{ letter, simpleCards, pinnedCategoryId?, pinnedWords? }`, board/stock referenced by letter. `unfill.ts` turns a `LevelData` back into a skeleton; `fillSkeleton` in `fill.ts` turns a skeleton into `LevelData`, resolving categories/words from the catalog. Saving uses the File System Access API (`save.ts`): pick a folder once, then writes go straight to `<folder>/<name>.json` (Chrome/Edge; other browsers blob-download).
+
+**Word catalog.** `catalog/words.json` is `[{ categoryId, wordsIds }]` — the lookup library; `pools()` in `fill.ts` caches it (merged with `basics.ts`). `catalog/category_list.json` is an ordered list of category names used to assign categories by index. Category-assignment logic for the batch tools is centralized in `rangeAssign.ts` (`computeAssignments`).
+
+**AI word generation (dev only).** A Vite middleware in `vite.config.ts` exposes `POST /__editor/generate-words`; it shells out to the local `claude` CLI (`--json-schema`, Haiku) — no API key, only exists under `vite dev`. Generated words are appended to `catalog/words.json` on disk *and* merged into the in-memory pool (`fill.addCatalogWords`); `wordGen.ts` is the client. Vite is configured to ignore `words.json` writes so growing the library mid-session doesn't trigger a reload.
+
+**Tools menu — two batch tools, both write in place to the bound folder:**
+- *Fill levels from list* (`BatchFillModal` / `batchFill.ts`): base fill. Walks all level files in order with a category-index cursor that accumulates over **every** valid level (so a level always starts at the index implied by all levels before it, regardless of selection); checkboxes + a write range choose which to (re)write. A category that can't supply enough words is written anyway, padding each missing card slot with a placeholder. No AI, no category replacement here.
+- *Fix levels* (`BatchFixModal` / `batchFix.ts`): finds levels with missing words and resolves them per level — generate the missing words (AI) or replace a category with a random catalog one that has enough — then saves. Operates on each level's existing categories (no index reassignment).
+
+**Gap markers.** When base-fill is short it pads with placeholder words `(needs word N)` (unique level-wide), flagged `missing: true` on the `WordData` and `incomplete: true` on the `CategoryData`. `fillSkeleton(skel, { padGaps: true })` does the padding; without it, fill throws on a shortfall. The fix tool locates levels by these markers (plus live shortfall against the current catalog) and clears them on save.

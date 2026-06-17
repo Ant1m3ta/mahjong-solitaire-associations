@@ -127,16 +127,26 @@ function pickReal(skel: SkeletonCategory, basePool: Usable[], byId: Map<string, 
   return pick;
 }
 
-function wordData(categoryId: string, word: string) {
+function wordData(categoryId: string, word: string, missing: boolean) {
+  if (missing) return { wordId: word, missing: true };
   return hasImage(categoryId, word)
     ? { wordId: toSnake(word), icon: true, imageId: imageBasename(categoryId, word) }
     : { wordId: word };
 }
 
-export function fillSkeleton(skel: SkeletonLevel): LevelData {
+// Base-fill pads a short category up to its simple-card count with these,
+// flagged so the fix tool can find them. Unique level-wide so board/stock
+// cardIds stay unambiguous.
+function placeholderWord(n: number): string {
+  return `(needs word ${n})`;
+}
+
+export function fillSkeleton(skel: SkeletonLevel, opts: { padGaps?: boolean } = {}): LevelData {
   const { all, byId } = pools();
   const used = new Set<string>();
   const map = new Map<string, { real: Usable; assigned: string[] }>();
+  const placeholders = new Set<string>();
+  let phCounter = 0;
 
   for (const cat of skel.categories) {
     if (cat.pinnedWords) {
@@ -144,14 +154,22 @@ export function fillSkeleton(skel: SkeletonLevel): LevelData {
       if (!categoryId) {
         throw new FillError(`Letter ${cat.letter}: locked words present without a category name.`);
       }
-      if (cat.pinnedWords.length < cat.simpleCards) {
-        throw new FillError(
-          `Letter ${cat.letter}: "${categoryId}" has ${cat.pinnedWords.length} locked words, need ${cat.simpleCards}.`,
-        );
+      const assigned = cat.pinnedWords.slice(0, cat.simpleCards);
+      if (assigned.length < cat.simpleCards) {
+        if (!opts.padGaps) {
+          throw new FillError(
+            `Letter ${cat.letter}: "${categoryId}" has ${cat.pinnedWords.length} locked words, need ${cat.simpleCards}.`,
+          );
+        }
+        for (let n = assigned.length; n < cat.simpleCards; n++) {
+          phCounter += 1;
+          const ph = placeholderWord(phCounter);
+          assigned.push(ph);
+          placeholders.add(ph);
+        }
       }
-      const real: Usable = { categoryId, wordsIds: cat.pinnedWords.slice() };
       used.add(categoryId);
-      map.set(cat.letter, { real, assigned: cat.pinnedWords.slice(0, cat.simpleCards) });
+      map.set(cat.letter, { real: { categoryId, wordsIds: assigned.slice() }, assigned });
       continue;
     }
     const real = pickReal(cat, all, byId, used);
@@ -162,8 +180,10 @@ export function fillSkeleton(skel: SkeletonLevel): LevelData {
   const categories: LevelData['categories'] = [];
   for (const cat of skel.categories) {
     const entry = map.get(cat.letter)!;
-    const wordsData = entry.assigned.map((w) => wordData(entry.real.categoryId, w));
-    categories.push({ categoryId: entry.real.categoryId, wordsData });
+    const wordsData = entry.assigned.map((w) => wordData(entry.real.categoryId, w, placeholders.has(w)));
+    const catData: LevelData['categories'][number] = { categoryId: entry.real.categoryId, wordsData };
+    if (entry.assigned.some((w) => placeholders.has(w))) catData.incomplete = true;
+    categories.push(catData);
   }
 
   const wordCursor = new Map<string, number>();
@@ -177,6 +197,7 @@ export function fillSkeleton(skel: SkeletonLevel): LevelData {
     }
     const w = entry.assigned[cursor];
     wordCursor.set(letter, cursor + 1);
+    if (placeholders.has(w)) return w;
     return hasImage(entry.real.categoryId, w) ? toSnake(w) : w;
   }
 

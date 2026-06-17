@@ -28,15 +28,18 @@ export function wordsForName(name: string): string[] {
 // Assign the next `categories.length` list entries (from startIndex) to the
 // given slots, choosing each slot's words deterministically and keeping every
 // word unique across the whole window (the game resolver needs that).
-// `overrides` (by letter) replaces a slot's sequential category with an
-// explicit one — used when the listed category can't supply enough words.
+// `overrides` (by letter) replaces a slot's category with an explicit one.
+// `baseNames` (by slot) supplies the base category per slot — when omitted the
+// base comes from the list at startIndex+i (Tool 1); Tool 2 passes each level's
+// existing category ids.
 export function computeAssignments(
   categories: SkeletonCategory[],
   startIndex: number,
   overrides?: Record<string, string>,
+  baseNames?: (string | undefined)[],
 ): SlotPreview[] {
   const nameFor = (cat: SkeletonCategory, i: number): string | undefined =>
-    overrides?.[cat.letter] ?? CATEGORY_LIST[startIndex + i];
+    overrides?.[cat.letter] ?? (baseNames ? baseNames[i] : CATEGORY_LIST[startIndex + i]);
 
   const reserved = new Set<string>(); // every window category name — words may not equal one
   categories.forEach((cat, i) => {

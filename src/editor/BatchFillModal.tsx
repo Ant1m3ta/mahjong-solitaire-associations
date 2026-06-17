@@ -1,11 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { CATEGORY_LIST } from './rangeAssign';
-import { buildPlan, collectGenRequests, fillRow, overrideKey } from './batchFill';
-import { generateWords, wordGenAvailable } from './wordGen';
-import { pools } from './fill';
+import { buildPlan, fillRow } from './batchFill';
 import { saveLevelJSON, type LevelFileEntry } from './save';
-import type { SlotPreview } from './rangeAssign';
-import type { BatchRow } from './batchFill';
 
 interface Props {
   entries: LevelFileEntry[];
@@ -22,39 +18,29 @@ interface RunResult {
   detail: string;
 }
 
-const GEN_CHUNK = 20;
-
 // Normalize for comparing current vs proposed (handles icon snake_case vs
 // Title Case, e.g. "bald_eagle" ≡ "Bald Eagle").
 const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '');
 
 export function BatchFillModal({ entries, needsFolder, boundFolder, onPickFolder, onWrote, onClose }: Props) {
   const [selected, setSelected] = useState<Set<string>>(() => new Set(entries.map((e) => e.name)));
-  const [aiEnabled, setAiEnabled] = useState(false);
-  const [planVersion, setPlanVersion] = useState(0);
-  const [phase, setPhase] = useState<'idle' | 'generating' | 'writing' | 'done'>('idle');
+  const [phase, setPhase] = useState<'idle' | 'writing' | 'done'>('idle');
   const [progress, setProgress] = useState('');
   const [results, setResults] = useState<RunResult[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
-  // Write range, as positions among the selected (sequence) files. `to` starts
-  // at a sentinel so the default is "through the last level".
   const [writeFrom, setWriteFrom] = useState(0);
   const [writeTo, setWriteTo] = useState(Number.MAX_SAFE_INTEGER);
-  // Per-slot category replacements, keyed overrideKey(levelName, letter).
-  const [overrides, setOverrides] = useState<Record<string, string>>({});
 
-  // Keep the selection + range in sync if the folder listing changes underneath us.
   useEffect(() => {
     setSelected(new Set(entries.map((e) => e.name)));
     setWriteFrom(0);
     setWriteTo(Number.MAX_SAFE_INTEGER);
-    setOverrides({});
   }, [entries]);
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
-      if (e.key === 'Escape' && phase !== 'generating' && phase !== 'writing') {
+      if (e.key === 'Escape' && phase !== 'writing') {
         e.preventDefault();
         onClose();
       }
@@ -63,39 +49,30 @@ export function BatchFillModal({ entries, needsFolder, boundFolder, onPickFolder
     return () => window.removeEventListener('keydown', onKey);
   }, [onClose, phase]);
 
-  // Range positions index into the full file list (every level counts toward
-  // the category index regardless of selection).
   const lastPos = Math.max(0, entries.length - 1);
   const rangeFrom = Math.min(Math.max(0, writeFrom), lastPos);
   const rangeTo = Math.min(Math.max(rangeFrom, writeTo), lastPos);
 
   const plan = useMemo(
-    () => buildPlan(entries, selected, { from: rangeFrom, to: rangeTo }, overrides),
-    // planVersion bumps after generation so previews re-read the word cache.
-    [entries, selected, rangeFrom, rangeTo, overrides, planVersion],
+    () => buildPlan(entries, selected, { from: rangeFrom, to: rangeTo }),
+    [entries, selected, rangeFrom, rangeTo],
   );
 
-  const writeRows = plan.filter((r) => r.willWrite); // selected, valid, in range
+  const writeRows = plan.filter((r) => r.willWrite);
   const countOnlyRows = plan.filter((r) => r.status === 'ok' && !r.willWrite);
   const errorInRange = plan.filter(
     (r) => r.status === 'error' && r.selected && r.seqPos >= rangeFrom && r.seqPos <= rangeTo,
   );
-  // Current on-disk content per level, to compare against the proposed assignment.
   const levelByName = useMemo(() => new Map(entries.map((e) => [e.name, e.level])), [entries]);
   const totalCategories = writeRows.reduce((n, r) => n + r.categoryCount, 0);
-  const totalGaps = writeRows.reduce((n, r) => n + r.gapCount, 0);
-  const gapCategories = collectGenRequests(writeRows).length;
-  const dupRows = writeRows.filter((r) => r.duplicateCount > 0).length;
   const firstIndex = writeRows.reduce((m, r) => Math.min(m, r.startIndex), Number.MAX_SAFE_INTEGER);
   const lastIndex = writeRows.reduce((m, r) => Math.max(m, r.startIndex + r.categoryCount - 1), -1);
-  const running = phase === 'generating' || phase === 'writing';
   const overflow = lastIndex >= CATEGORY_LIST.length;
-  // What will actually be written: no in-window duplicate, and either no gaps
-  // or AI is on to fill them. Levels with gaps + AI off are skipped by fillRow.
-  const writableRows = writeRows.filter(
-    (r) => r.duplicateCount === 0 && (aiEnabled || r.gapCount === 0),
-  );
-  const willSkip = writeRows.length - writableRows.length;
+  // Gaps no longer block writing — only an in-window duplicate does.
+  const writableRows = writeRows.filter((r) => r.duplicateCount === 0);
+  const dupRows = writeRows.filter((r) => r.duplicateCount > 0).length;
+  const gapLevels = writableRows.filter((r) => r.gapCount > 0).length;
+  const running = phase === 'writing';
 
   function toggle(name: string) {
     setSelected((prev) => {
@@ -117,49 +94,12 @@ export function BatchFillModal({ entries, needsFolder, boundFolder, onPickFolder
     });
   }
 
-  // Swap a slot's category for a random catalog category that has enough words
-  // and isn't already used in that level — for finite categories (e.g. Days)
-  // that can't be extended by generation.
-  function replaceCategory(row: BatchRow, p: SlotPreview) {
-    const usedInLevel = new Set(row.previews.map((x) => x.categoryId.toLowerCase()));
-    const candidates = pools().all.filter(
-      (c) => c.wordsIds.length >= p.simpleCards && !usedInLevel.has(c.categoryId.toLowerCase()),
-    );
-    if (candidates.length === 0) {
-      setError(`No catalog category has ≥ ${p.simpleCards} words to replace "${p.categoryId}".`);
-      return;
-    }
-    const pick = candidates[Math.floor(Math.random() * candidates.length)];
-    setError(null);
-    setOverrides((prev) => ({ ...prev, [overrideKey(row.name, p.letter)]: pick.categoryId }));
-  }
-
-  function clearOverride(row: BatchRow, p: SlotPreview) {
-    setOverrides((prev) => {
-      const next = { ...prev };
-      delete next[overrideKey(row.name, p.letter)];
-      return next;
-    });
-  }
-
   async function run() {
     setError(null);
     setResults([]);
     try {
-      if (aiEnabled) {
-        const reqs = collectGenRequests(writeRows);
-        if (reqs.length > 0) {
-          setPhase('generating');
-          for (let i = 0; i < reqs.length; i += GEN_CHUNK) {
-            setProgress(`Generating words… ${Math.min(i + GEN_CHUNK, reqs.length)}/${reqs.length} categories`);
-            await generateWords(reqs.slice(i, i + GEN_CHUNK));
-          }
-          setPlanVersion((v) => v + 1);
-        }
-      }
-      // Fresh plan so previews reflect any words just generated.
-      const fresh = buildPlan(entries, selected, { from: rangeFrom, to: rangeTo }, overrides);
       setPhase('writing');
+      const fresh = buildPlan(entries, selected, { from: rangeFrom, to: rangeTo });
       const res: RunResult[] = [];
       for (const row of fresh) {
         const targeted = row.selected && row.seqPos >= rangeFrom && row.seqPos <= rangeTo;
@@ -171,10 +111,13 @@ export function BatchFillModal({ entries, needsFolder, boundFolder, onPickFolder
         try {
           const level = fillRow(row);
           await saveLevelJSON(level, row.name);
+          const gaps = row.gapCount;
           res.push({
             name: row.name,
             ok: true,
-            detail: `#${row.startIndex}–${row.startIndex + row.categoryCount - 1} · ${row.categoryCount} cats`,
+            detail:
+              `#${row.startIndex}–${row.startIndex + row.categoryCount - 1} · ${row.categoryCount} cats` +
+              (gaps > 0 ? ` · ${gaps} placeholder${gaps === 1 ? '' : 's'}` : ''),
           });
         } catch (e) {
           res.push({ name: row.name, ok: false, detail: e instanceof Error ? e.message : String(e) });
@@ -191,17 +134,16 @@ export function BatchFillModal({ entries, needsFolder, boundFolder, onPickFolder
   }
 
   const needsPick = needsFolder && !boundFolder;
-  const unsupported = !needsFolder; // no File System Access API → can't write in place
+  const unsupported = !needsFolder;
   const wroteOk = results.filter((r) => r.ok).length;
   const wroteFail = results.length - wroteOk;
-  const skippedForGaps = !aiEnabled && totalGaps > 0;
 
   return (
     <div className="picker-overlay" onClick={() => !running && onClose()}>
       <div className="picker-modal batch-modal" onClick={(e) => e.stopPropagation()}>
         <div className="picker-header">
           <span>Fill levels from list</span>
-          <span className="picker-constraint">{CATEGORY_LIST.length.toLocaleString()} entries</span>
+          <span className="picker-constraint">base fill · {CATEGORY_LIST.length.toLocaleString()} entries</span>
           <button className="editor-btn small" onClick={onClose} disabled={running}>×</button>
         </div>
 
@@ -253,15 +195,7 @@ export function BatchFillModal({ entries, needsFolder, boundFolder, onPickFolder
                 <button className="editor-btn small" onClick={() => setAll(false)} disabled={running}>None</button>
                 <span className="batch-folder">→ {boundFolder}</span>
               </div>
-              <label className={`batch-ai${wordGenAvailable ? '' : ' disabled'}`} title={wordGenAvailable ? 'Generate missing words via the local claude CLI' : 'Word generation only works under `npm run dev`.'}>
-                <input
-                  type="checkbox"
-                  checked={aiEnabled}
-                  disabled={running || !wordGenAvailable}
-                  onChange={(e) => setAiEnabled(e.target.checked)}
-                />
-                Generate missing words with AI
-              </label>
+              <span className="batch-hint">Gaps are written as placeholders — fix them in the Fix tool.</span>
             </div>
 
             {entries.length > 0 && (
@@ -330,7 +264,7 @@ export function BatchFillModal({ entries, needsFolder, boundFolder, onPickFolder
                           <span className="batch-row-cats">{row.categoryCount} cats</span>
                           {countOnly && <span className="batch-tag">index only</span>}
                           {row.willWrite && row.duplicateCount > 0 && <span className="batch-badge bad">{row.duplicateCount} dup</span>}
-                          {row.willWrite && row.gapCount > 0 && <span className="batch-badge warn">{row.gapCount} to gen</span>}
+                          {row.willWrite && row.gapCount > 0 && <span className="batch-badge warn">{row.gapCount} placeholder{row.gapCount === 1 ? '' : 's'}</span>}
                         </>
                       )}
                       {row.selected && row.status === 'error' && (
@@ -345,7 +279,6 @@ export function BatchFillModal({ entries, needsFolder, boundFolder, onPickFolder
                           const curWords = cur?.wordsData.map((w) => w.wordId) ?? [];
                           const curNorm = curWords.map(norm).sort();
                           const propNorm = p.chosen.map(norm).sort();
-                          // "Same" = the file already holds exactly what the index would write.
                           const same =
                             !!curId &&
                             norm(curId) === norm(p.categoryId) &&
@@ -366,31 +299,10 @@ export function BatchFillModal({ entries, needsFolder, boundFolder, onPickFolder
                                     </span>
                                   </span>
                                 )}
-                                {p.overridden && <span className="batch-tag">replaced</span>}
                                 {p.duplicate && <span className="batch-badge bad">dup</span>}
                                 <span className={`batch-cat-count${p.shortfall > 0 ? ' short' : ''}`}>
                                   {p.chosen.length}/{p.simpleCards}
                                 </span>
-                                {(p.shortfall > 0 || p.overridden) && (
-                                  <button
-                                    className="editor-btn small"
-                                    onClick={() => replaceCategory(row, p)}
-                                    disabled={running}
-                                    title="Replace with a random catalog category that has enough words"
-                                  >
-                                    ↻ replace
-                                  </button>
-                                )}
-                                {p.overridden && (
-                                  <button
-                                    className="editor-btn small"
-                                    onClick={() => clearOverride(row, p)}
-                                    disabled={running}
-                                    title="Restore the category from the list at this index"
-                                  >
-                                    reset
-                                  </button>
-                                )}
                               </div>
                               {!same && (
                                 <div className="batch-cat-row">
@@ -416,7 +328,7 @@ export function BatchFillModal({ entries, needsFolder, boundFolder, onPickFolder
                                     </span>
                                   ))}
                                   {Array.from({ length: p.shortfall }).map((_, k) => (
-                                    <span key={`m-${k}`} className="range-word missing">needed</span>
+                                    <span key={`m-${k}`} className="range-word missing">needs word</span>
                                   ))}
                                   {p.simpleCards === 0 && <span className="range-empty-note">category card only</span>}
                                 </div>
@@ -434,20 +346,13 @@ export function BatchFillModal({ entries, needsFolder, boundFolder, onPickFolder
             <div className="range-footer">
               <div className="range-status">
                 <span>
-                  Writing {writeRows.length} level{writeRows.length === 1 ? '' : 's'} · {totalCategories} categories · indexes {writeRows.length > 0 ? `${firstIndex}–${Math.max(0, lastIndex)}` : '—'}
+                  Writing {writableRows.length} level{writableRows.length === 1 ? '' : 's'} · {totalCategories} categories · indexes {writeRows.length > 0 ? `${firstIndex}–${Math.max(0, lastIndex)}` : '—'}
                   {countOnlyRows.length > 0 && ` (${countOnlyRows.length} other level${countOnlyRows.length === 1 ? '' : 's'} counted for indexing)`}
                 </span>
                 {overflow && <span className="range-bad">Range exceeds the {CATEGORY_LIST.length.toLocaleString()}-entry list.</span>}
+                {dupRows > 0 && <span className="range-bad">{dupRows} level(s) hit a duplicate category and will be skipped.</span>}
                 {errorInRange.length > 0 && <span className="range-bad">{errorInRange.length} file(s) in range can’t be read and will be skipped.</span>}
-                {dupRows > 0 && <span className="range-warn-text">{dupRows} level(s) hit a duplicate category and will be skipped — use ↻ replace.</span>}
-                {totalGaps > 0 && (
-                  aiEnabled
-                    ? <span className="range-warn-text">Will generate {totalGaps} word(s) across {gapCategories} categor{gapCategories === 1 ? 'y' : 'ies'} (~{Math.ceil(gapCategories / GEN_CHUNK)} AI call(s)).</span>
-                    : <span className="range-warn-text">{skippedForGaps ? `${writeRows.filter((r) => r.gapCount > 0).length} in-range level(s) have word gaps and will be skipped — enable “Generate missing words with AI” to fill them.` : ''}</span>
-                )}
-                {writableRows.length === 0 && writeRows.length > 0 && (
-                  <span className="range-bad">Nothing to write — all {writeRows.length} in-range level(s) would be skipped. {aiEnabled ? 'Resolve duplicates with ↻ replace.' : 'Turn on AI generation, or use ↻ replace.'}</span>
-                )}
+                {gapLevels > 0 && <span className="range-warn-text">{gapLevels} level(s) have missing words → written as placeholders; fix in the Fix tool.</span>}
                 {running && <span className="range-warn-text">{progress}</span>}
                 {error && <span className="range-bad">{error}</span>}
               </div>
@@ -459,9 +364,7 @@ export function BatchFillModal({ entries, needsFolder, boundFolder, onPickFolder
                   disabled={running || writableRows.length === 0 || overflow}
                   title="Overwrite each level in the write range with categories drawn from the list at its computed index."
                 >
-                  {running
-                    ? 'Working…'
-                    : `Run — write ${writableRows.length} file${writableRows.length === 1 ? '' : 's'}${willSkip > 0 ? ` (${willSkip} skipped)` : ''}`}
+                  {running ? 'Working…' : `Run — write ${writableRows.length} file${writableRows.length === 1 ? '' : 's'}`}
                 </button>
               </div>
             </div>

@@ -53,12 +53,18 @@ export interface LevelData {
 export interface CategoryData {
   categoryId: string;
   wordsData: WordData[];
+  // Set by the base-fill tool when the category couldn't supply enough real
+  // words; some wordsData entries are placeholders. Cleared once fixed.
+  incomplete?: boolean;
 }
 
 export interface WordData {
   wordId: string;
   icon?: boolean;
   imageId?: string;
+  // A placeholder word standing in for a missing one (base-fill ran out of
+  // real words for the category). The fix tool finds and replaces these.
+  missing?: boolean;
 }
 
 export interface BoardCardData {

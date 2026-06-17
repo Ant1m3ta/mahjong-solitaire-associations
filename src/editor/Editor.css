@@ -1162,6 +1162,17 @@
   font-size: 12px;
   cursor: pointer;
 }
+.batch-hint {
+  font-size: 11px;
+  opacity: 0.55;
+}
+.batch-fix-toolbar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 6px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #2a2a4a;
+}
 .batch-ai.disabled {
   opacity: 0.4;
   cursor: not-allowed;

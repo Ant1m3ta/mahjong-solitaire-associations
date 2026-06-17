@@ -4,6 +4,7 @@ import { CategoriesRail } from './CategoriesRail';
 import { CategoryPicker } from './CategoryPicker';
 import { CategoryRangePicker } from './CategoryRangePicker';
 import { BatchFillModal } from './BatchFillModal';
+import { BatchFixModal } from './BatchFixModal';
 import { BoardCanvas } from './BoardCanvas';
 import { useSolver, type SolverViewState } from './solver/useSolver';
 import { DifficultyChip } from './DifficultyChip';
@@ -29,6 +30,7 @@ export function Editor() {
   const [rangePickerOpen, setRangePickerOpen] = useState(false);
   const [toolsOpen, setToolsOpen] = useState(false);
   const [batchOpen, setBatchOpen] = useState(false);
+  const [fixOpen, setFixOpen] = useState(false);
   const [boundFolder, setBoundFolder] = useState<string | null>(boundSaveFolder());
   const [folderLevels, setFolderLevels] = useState<LevelFileEntry[]>([]);
   const [solverEnabled, setSolverEnabled] = useState(true);
@@ -51,12 +53,12 @@ export function Editor() {
   // Re-read the bound folder whenever the batch tool opens so it reflects the
   // actual files on disk, not a stale snapshot from when the folder was picked.
   useEffect(() => {
-    if (batchOpen && boundFolder) {
+    if ((batchOpen || fixOpen) && boundFolder) {
       listLevelsInFolder()
         .then(setFolderLevels)
         .catch(() => {});
     }
-  }, [batchOpen, boundFolder]);
+  }, [batchOpen, fixOpen, boundFolder]);
 
   function suggestedLevelFilename(): string {
     const id = state.level.levelId?.trim();
@@ -232,9 +234,21 @@ export function Editor() {
                       setBatchOpen(true);
                     }}
                   >
-                    Fill all levels from list…
+                    Fill levels from list…
                     <span className="editor-menu-hint">
-                      Reassign every level's categories from category_list.json, sequential indexes.
+                      Base fill: reassign categories from category_list.json by index; gaps become placeholders.
+                    </span>
+                  </button>
+                  <button
+                    className="editor-menu-item"
+                    onClick={() => {
+                      setToolsOpen(false);
+                      setFixOpen(true);
+                    }}
+                  >
+                    Fix levels…
+                    <span className="editor-menu-hint">
+                      Find levels with missing words and resolve them (generate words / replace category).
                     </span>
                   </button>
                 </div>
@@ -547,6 +561,16 @@ export function Editor() {
           onPickFolder={handlePickFolder}
           onWrote={async () => setFolderLevels(await listLevelsInFolder())}
           onClose={() => setBatchOpen(false)}
+        />
+      )}
+      {fixOpen && (
+        <BatchFixModal
+          entries={folderLevels}
+          needsFolder={needsFolder}
+          boundFolder={boundFolder}
+          onPickFolder={handlePickFolder}
+          onWrote={async () => setFolderLevels(await listLevelsInFolder())}
+          onClose={() => setFixOpen(false)}
         />
       )}
     </div>

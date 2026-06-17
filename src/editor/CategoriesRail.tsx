@@ -56,13 +56,23 @@ export function CategoriesRail({ state, dispatch, onOpenPicker }: Props) {
         >
           + Add category
         </button>
+      </div>
+      <div className="fill-row">
         <button
           className="editor-btn"
           disabled={state.level.categories.length === 0}
-          onClick={() => dispatch({ type: 'FILL_BASIC' })}
-          title="Pin every letter to a fixed basic word category (A→Colors, B→Fruits, …). Overwrites existing pins."
+          onClick={() => dispatch({ type: 'FILL_WORDS' })}
+          title="Pin every category to its predefined real word category (A→Animals, B→Birds, …). Edit the mapping in basics.ts → WORD_FILL."
         >
-          Fill basic
+          Fill words
+        </button>
+        <button
+          className="editor-btn"
+          disabled={state.level.categories.length === 0}
+          onClick={() => dispatch({ type: 'CLEAR_PINS' })}
+          title="Clear all pins back to ‘random’; the real category is then picked at Save/Play."
+        >
+          Clear pins
         </button>
       </div>
     </aside>

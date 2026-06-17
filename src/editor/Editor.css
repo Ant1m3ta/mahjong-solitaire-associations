@@ -185,6 +185,14 @@
 .editor-rail .add-category-row .add-category {
   flex: 1;
 }
+.editor-rail .fill-row {
+  display: flex;
+  gap: 8px;
+  margin: 0 12px 12px;
+}
+.editor-rail .fill-row .editor-btn {
+  flex: 1;
+}
 .add-category-default {
   display: flex;
   flex-direction: column;

@@ -6,7 +6,7 @@ import type {
   SkeletonLevel,
   SkeletonStockEntry,
 } from './types';
-import { BASIC_FILL } from './basics';
+import { BASIC_FILL, WORD_FILL } from './basics';
 
 const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
@@ -118,6 +118,8 @@ const HISTORY_ACTIONS: ReadonlySet<EditorAction['type']> = new Set([
   'REMOVE_CATEGORY',
   'SET_PINNED_CATEGORY',
   'FILL_BASIC',
+  'FILL_WORDS',
+  'CLEAR_PINS',
   'INC_SIMPLE',
   'DEC_SIMPLE',
   'PLACE_BOARD',
@@ -269,6 +271,29 @@ function reduceCore(state: EditorState, action: Exclude<EditorAction, { type: 'R
         const id = byLetter.get(c.letter);
         return id ? { ...c, pinnedCategoryId: id } : c;
       });
+      return ok(state, { ...level, categories: cats });
+    }
+
+    case 'FILL_WORDS': {
+      const cats = level.categories.map((c) => {
+        const id = WORD_FILL[c.letter];
+        return id ? { ...c, pinnedCategoryId: id } : c;
+      });
+      const next = ok(state, { ...level, categories: cats });
+      const missing = level.categories.filter((c) => !WORD_FILL[c.letter]).length;
+      if (missing > 0) {
+        return {
+          ...next,
+          lastError: `${missing} categor${missing === 1 ? 'y' : 'ies'} left unpinned — no mapping in WORD_FILL.`,
+        };
+      }
+      return next;
+    }
+
+    case 'CLEAR_PINS': {
+      const cats = level.categories.map((c) =>
+        c.pinnedCategoryId === undefined ? c : { ...c, pinnedCategoryId: undefined },
+      );
       return ok(state, { ...level, categories: cats });
     }
 

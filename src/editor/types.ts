@@ -66,6 +66,8 @@ export type EditorAction =
   | { type: 'REMOVE_CATEGORY'; letter: string }
   | { type: 'SET_PINNED_CATEGORY'; letter: string; categoryId: string | null }
   | { type: 'FILL_BASIC' }
+  | { type: 'FILL_WORDS' }
+  | { type: 'CLEAR_PINS' }
   | { type: 'INC_SIMPLE'; letter: string }
   | { type: 'DEC_SIMPLE'; letter: string }
   | { type: 'PLACE_BOARD'; x: number; y: number; z: number; letter: string; cardKind: CardKind }

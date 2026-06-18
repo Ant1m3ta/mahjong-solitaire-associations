@@ -12,8 +12,8 @@
 //  3. Per cycle apply the tightness mask easy-tight-easy-tight-tight (positions
 //     1 & 3 stay generous; 2,4,5 are tightened). A tightened WINNABLE level gets
 //     movesLimit = competent (greedy) move cost + a spare cushion (--spare, default
-//     +10): a clean competent run wins with that cushion, sloppier play hits the
-//     out-of-moves popup. A board-driven trap is
+//     0 = competent cost, so any wasted move hits the out-of-moves popup; raise
+//     --spare for a more forgiving cushion). A board-driven trap is
 //     left as-is (it auto-pops: the player burns moves cycling a deck it can't
 //     clear). Generous positions are untouched.
 //
@@ -31,7 +31,7 @@ const argv = process.argv.slice(2);
 const WRITE = argv.includes('--write');
 const curveName = (argv.find((a) => a.startsWith('--curve=')) ?? '').split('=')[1] || 'sawtooth';
 const spareArg = (argv.find((a) => a.startsWith('--spare=')) ?? '').split('=')[1];
-const SPARE = spareArg === undefined ? 10 : Math.max(0, Math.floor(Number(spareArg))); // moves of cushion above the competent line on tightened levels
+const SPARE = spareArg === undefined ? 0 : Math.max(0, Math.floor(Number(spareArg))); // moves of cushion above the competent line on tightened levels (0 = competent cost, playtested)
 const positional = argv.filter((a) => !a.startsWith('--'));
 const levelsDir = positional[0];
 const orderFile = positional[1];

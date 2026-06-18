@@ -60,6 +60,8 @@ Levels are JSON in `src/levels/`, picked up by `src/levels/index.ts` via `import
 
 Words can optionally render as images (`icon: true` + `imageId` referencing `/public/images/<imageId>.png`). Words may also carry `missing: true` and categories `incomplete: true` — placeholder markers the editor's base-fill tool writes for words it couldn't supply (see below); the game ignores them.
 
+A level may carry an optional top-level `difficulty` string (e.g. `"hard"`), authored to flag intentionally hard levels — typically order-traps that straightforward play softlocks on but a stock reorder can't fix (category cards sit on the board). The game ignores it; the editor surfaces it as a dropdown and preserves it through unfill→fill so saves don't drop the tag. The Unity model (`SoliLevelData`) reads it via `[JsonProperty("difficulty")]`.
+
 ### Level editor (`src/editor/`, route `#/editor`)
 
 A separate in-browser authoring tool; never part of gameplay (the build still bundles it). It has its own reducer (`reducer.ts`) over a `SkeletonLevel` — categories as `{ letter, simpleCards, pinnedCategoryId?, pinnedWords? }`, board/stock referenced by letter. `unfill.ts` turns a `LevelData` back into a skeleton; `fillSkeleton` in `fill.ts` turns a skeleton into `LevelData`, resolving categories/words from the catalog. Saving uses the File System Access API (`save.ts`): pick a folder once, then writes go straight to `<folder>/<name>.json` (Chrome/Edge; other browsers blob-download).

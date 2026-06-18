@@ -218,6 +218,8 @@ export function fillSkeleton(skel: SkeletonLevel, opts: { padGaps?: boolean } = 
 
   return {
     levelId: skel.levelId || 'editor-out',
+    // Keep the difficulty tag (and its position after levelId) on round-trip.
+    ...(skel.difficulty ? { difficulty: skel.difficulty } : {}),
     slotsDefault: skel.slotsDefault,
     movesLimit: skel.movesLimit,
     categories,

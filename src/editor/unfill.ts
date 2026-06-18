@@ -70,6 +70,7 @@ export function unfillLevel(level: LevelData): SkeletonLevel {
 
   return {
     levelId: level.levelId,
+    difficulty: level.difficulty,
     slotsDefault: level.slotsDefault,
     movesLimit: level.movesLimit,
     categories,

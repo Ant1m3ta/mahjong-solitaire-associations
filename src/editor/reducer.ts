@@ -213,6 +213,13 @@ function reduceCore(state: EditorState, action: Exclude<EditorAction, { type: 'R
     case 'SET_MOVES':
       return ok(state, { ...level, movesLimit: action.moves | 0 });
 
+    case 'SET_DIFFICULTY': {
+      const next = { ...level };
+      if (action.difficulty) next.difficulty = action.difficulty;
+      else delete next.difficulty;
+      return ok(state, next);
+    }
+
     case 'ADD_CATEGORY': {
       const letter = nextAvailableLetter(level.categories);
       if (!letter) return fail(state, 'No more letters available.');

@@ -26,6 +26,7 @@ export interface SkeletonStockEntry {
 
 export interface SkeletonLevel {
   levelId: string;
+  difficulty?: string;
   slotsDefault: number;
   movesLimit: number;
   categories: SkeletonCategory[];
@@ -73,6 +74,7 @@ export type EditorAction =
   | { type: 'SET_LEVEL_ID'; id: string }
   | { type: 'SET_SLOTS'; slots: number }
   | { type: 'SET_MOVES'; moves: number }
+  | { type: 'SET_DIFFICULTY'; difficulty: string | undefined }
   | { type: 'ADD_CATEGORY' }
   | { type: 'REMOVE_CATEGORY'; letter: string }
   | { type: 'SET_PINNED_CATEGORY'; letter: string; categoryId: string | null }

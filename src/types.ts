@@ -43,6 +43,9 @@ export interface GameState {
 
 export interface LevelData {
   levelId: string;
+  // Optional authored tag (e.g. "hard"). The game ignores it; it is preserved
+  // through the editor's load/save so flagged levels keep the marker.
+  difficulty?: string;
   slotsDefault: number;
   movesLimit: number;
   categories: CategoryData[];

@@ -237,6 +237,20 @@ export function Editor() {
             />
             unlimited
           </label>
+          <label>
+            difficulty
+            <select
+              className="editor-input small"
+              value={state.level.difficulty ?? ''}
+              onChange={(e) =>
+                dispatch({ type: 'SET_DIFFICULTY', difficulty: e.target.value || undefined })
+              }
+              title="Authored difficulty tag, written to the level JSON. Preserved on save."
+            >
+              <option value="">normal</option>
+              <option value="hard">hard</option>
+            </select>
+          </label>
         </div>
         <div className="editor-actions">
           <div className="editor-menu-anchor">

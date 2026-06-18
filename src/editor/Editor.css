@@ -1048,6 +1048,21 @@
   opacity: 0.4;
   font-style: italic;
 }
+.img-thumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 5px;
+  align-items: center;
+}
+.img-thumb {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+  border-radius: 6px;
+  border: 1px solid #3a3a5a;
+  background: rgba(102, 204, 255, 0.06);
+}
 .range-slot-warn {
   margin-top: 6px;
   font-size: 11px;

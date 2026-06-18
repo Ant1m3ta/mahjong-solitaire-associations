@@ -5,6 +5,7 @@ import { CategoryPicker } from './CategoryPicker';
 import { CategoryRangePicker } from './CategoryRangePicker';
 import { BatchFillModal } from './BatchFillModal';
 import { BatchFixModal } from './BatchFixModal';
+import { ImagesModal } from './ImagesModal';
 import { BoardCanvas } from './BoardCanvas';
 import { useSolver, type SolverViewState } from './solver/useSolver';
 import { DifficultyChip } from './DifficultyChip';
@@ -31,6 +32,7 @@ export function Editor() {
   const [toolsOpen, setToolsOpen] = useState(false);
   const [batchOpen, setBatchOpen] = useState(false);
   const [fixOpen, setFixOpen] = useState(false);
+  const [imagesOpen, setImagesOpen] = useState(false);
   const [boundFolder, setBoundFolder] = useState<string | null>(boundSaveFolder());
   const [folderLevels, setFolderLevels] = useState<LevelFileEntry[]>([]);
   const [solverEnabled, setSolverEnabled] = useState(true);
@@ -53,12 +55,12 @@ export function Editor() {
   // Re-read the bound folder whenever the batch tool opens so it reflects the
   // actual files on disk, not a stale snapshot from when the folder was picked.
   useEffect(() => {
-    if ((batchOpen || fixOpen) && boundFolder) {
+    if ((batchOpen || fixOpen || imagesOpen) && boundFolder) {
       listLevelsInFolder()
         .then(setFolderLevels)
         .catch(() => {});
     }
-  }, [batchOpen, fixOpen, boundFolder]);
+  }, [batchOpen, fixOpen, imagesOpen, boundFolder]);
 
   function suggestedLevelFilename(): string {
     const id = state.level.levelId?.trim();
@@ -249,6 +251,18 @@ export function Editor() {
                     Fix levels…
                     <span className="editor-menu-hint">
                       Find levels with missing words and resolve them (generate words / replace category).
+                    </span>
+                  </button>
+                  <button
+                    className="editor-menu-item"
+                    onClick={() => {
+                      setToolsOpen(false);
+                      setImagesOpen(true);
+                    }}
+                  >
+                    Images…
+                    <span className="editor-menu-hint">
+                      Swap a level's categories to image-ready ones so the tiles render pictures.
                     </span>
                   </button>
                 </div>
@@ -571,6 +585,16 @@ export function Editor() {
           onPickFolder={handlePickFolder}
           onWrote={async () => setFolderLevels(await listLevelsInFolder())}
           onClose={() => setFixOpen(false)}
+        />
+      )}
+      {imagesOpen && (
+        <ImagesModal
+          entries={folderLevels}
+          needsFolder={needsFolder}
+          boundFolder={boundFolder}
+          onPickFolder={handlePickFolder}
+          onWrote={async () => setFolderLevels(await listLevelsInFolder())}
+          onClose={() => setImagesOpen(false)}
         />
       )}
     </div>

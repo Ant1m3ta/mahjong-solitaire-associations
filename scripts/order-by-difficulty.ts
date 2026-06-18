@@ -1,8 +1,13 @@
 // Re-optimize the level play-order into a difficulty curve. Repeatable: drop new
-// level files into <levelsDir>, re-run, and the whole sequence is re-scored and
+// level files into <levelsDir>, re-run, and the sequence is re-scored and
 // re-ordered. The order file is reconciled against the files actually present —
-// new levels are picked up, deleted ones are dropped — so this is safe to run at
-// will as the level set grows.
+// new levels are picked up, deleted ones are dropped.
+//
+// LIVE-SAFE re-ordering: `--from=K` freezes play-positions 1..K-1 (keeps them
+// exactly as they are, so a returning player's saved progress index still points
+// at the same level) and re-orders only positions K..end. Newly-added levels
+// land in that re-ordered tail. Set K to "released/reached level count + 1";
+// `--from=<currentCount+1>` is a pure append. Default (no --from) re-orders all.
 //
 // Difficulty per level is composed from the existing analyzers:
 //   * foresight wall  — straightforward (greedy) player softlocks  -> top band
@@ -10,10 +15,11 @@
 //   * cognitive load  — categories minus parallel slots
 //   D = 0.5*tight + 0.3*load + 0.2*length  (softlocks forced to the top band)
 // The metric yields a difficulty RANKING; the curve is a lossless permutation of
-// that ranking onto positions.
+// that ranking onto the (non-frozen) positions.
 //
 //   npx tsx scripts/order-by-difficulty.ts <levelsDir> [orderFile] [flags]
 //     --write           apply the new order to orderFile (default: dry run)
+//     --from=K          freeze positions 1..K-1, re-order K..end (1-based)
 //     --skip-invalid    exclude broken/unsolvable levels instead of aborting
 //     --curve=NAME      sawtooth (default) | sawtooth-rising | sine-rising
 //
@@ -31,12 +37,13 @@ const argv = process.argv.slice(2);
 const WRITE = argv.includes('--write');
 const SKIP_INVALID = argv.includes('--skip-invalid');
 const curveName = (argv.find((a) => a.startsWith('--curve=')) ?? '').split('=')[1] || 'sawtooth';
+const FROM = Math.max(1, Math.floor(Number((argv.find((a) => a.startsWith('--from=')) ?? '').split('=')[1]) || 1));
 const positional = argv.filter((a) => !a.startsWith('--'));
 const levelsDir = positional[0];
 const orderFile = positional[1];
 if (!levelsDir) {
   console.error(
-    'usage: order-by-difficulty.ts <levelsDir> [orderFile] [--write] [--skip-invalid] [--curve=sawtooth|sawtooth-rising|sine-rising]',
+    'usage: order-by-difficulty.ts <levelsDir> [orderFile] [--write] [--from=K] [--skip-invalid] [--curve=sawtooth|sawtooth-rising|sine-rising]',
   );
   process.exit(1);
 }
@@ -144,8 +151,45 @@ if (process.env.DEBUG_RANK) {
   );
 }
 
+// Current order file (needed for the prefix freeze and the diff).
+let existing: string[] = [];
+let raw = '';
+if (orderFile) {
+  try {
+    raw = readFileSync(resolve(orderFile), 'utf-8');
+    existing = JSON.parse(raw) as string[];
+  } catch {
+    /* missing/new order file — treated as empty */
+  }
+}
+
+// Prefix freeze: keep the first (FROM-1) play positions exactly as the order file
+// has them; only positions FROM..N are re-ordered. New levels go into that tail.
+const freezeCount = FROM - 1;
+if (freezeCount > 0) {
+  if (!existing.length) {
+    console.error('ABORT: --from>1 needs an existing orderFile to freeze a prefix from.');
+    process.exit(1);
+  }
+  if (freezeCount > existing.length) {
+    console.error(`ABORT: --from=${FROM} exceeds the ${existing.length}-level order (max --from=${existing.length + 1}).`);
+    process.exit(1);
+  }
+}
+const frozen = existing.slice(0, freezeCount);
+const frozenSet = new Set(frozen);
+const validIds = new Set(lvls.map((l) => l.levelId));
+const missingFrozen = frozen.filter((id) => !validIds.has(id));
+if (missingFrozen.length) {
+  console.error(`ABORT: frozen prefix references levels with no valid file (deleted/invalid) — ${missingFrozen.join(', ')}.`);
+  console.error('Lower --from below them, or restore/fix those level files.');
+  process.exit(1);
+}
+
 // Difficulty target per position, by curve shape. phase ramps 0->1 within each
-// 5-level cycle; baseline ramps 0->1 across cycles (rising variants only).
+// 5-level cycle; baseline ramps 0->1 across cycles (rising variants only). The
+// target is on ABSOLUTE play position, so a frozen prefix + re-ordered tail still
+// reads as one continuous curve.
 const cycles = Math.ceil(N / CYCLE);
 const phase = (pos: number) => (pos % CYCLE) / (CYCLE - 1);
 const baseline = (pos: number) => (cycles > 1 ? Math.floor(pos / CYCLE) / (cycles - 1) : 0);
@@ -161,37 +205,32 @@ if (!targetOf) {
   process.exit(1);
 }
 
-// Rank-match: the k-th easiest level fills the k-th lowest-target position.
-const positionsByTarget = [...Array(N).keys()].sort((a, b) => targetOf(a) - targetOf(b) || a - b);
+// Place: frozen ids hold positions 0..freezeCount-1; the remaining levels
+// rank-match onto the remaining positions (k-th easiest -> k-th lowest target).
 const order: string[] = new Array(N);
-ranked.forEach((lvl, k) => {
-  order[positionsByTarget[k]] = lvl.levelId;
-});
+frozen.forEach((id, i) => (order[i] = id));
+const tailRanked = ranked.filter((l) => !frozenSet.has(l.levelId));
+const tailPositions = [...Array(N).keys()].filter((p) => p >= freezeCount).sort((a, b) => targetOf(a) - targetOf(b) || a - b);
+tailRanked.forEach((lvl, k) => (order[tailPositions[k]] = lvl.levelId));
 
 // Reporting: realized-difficulty sparkline + per-cycle listing.
 const rankOf = new Map(ranked.map((l, i) => [l.levelId, i]));
 const trapOf = new Map(lvls.map((l) => [l.levelId, l.trap]));
 const spark = '▁▂▃▄▅▆▇█';
-console.log(`curve: ${curveName}\n`);
+const legend = `(* trap${freezeCount ? ', = frozen' : ''})`;
+console.log(`curve: ${curveName}  ${legend}\n`);
 console.log(order.map((id) => spark[Math.min(7, Math.floor((rankOf.get(id)! * 8) / N))]).join('') + '\n');
 for (let c = 0; c * CYCLE < N; c++) {
   const cells = order
     .slice(c * CYCLE, c * CYCLE + CYCLE)
-    .map((id) => `${id}${trapOf.get(id) ? '*' : ''}`.padStart(8));
+    .map((id, j) => `${id}${trapOf.get(id) ? '*' : ''}${frozenSet.has(id) && c * CYCLE + j < freezeCount ? '=' : ''}`.padStart(9));
   console.log(`cyc${String(c + 1).padStart(2)}:${cells.join('')}`);
 }
-
-// Reconcile against the current order file (informational diff).
-let existing: string[] = [];
-let raw = '';
-if (orderFile) {
-  try {
-    raw = readFileSync(resolve(orderFile), 'utf-8');
-    existing = JSON.parse(raw) as string[];
-  } catch {
-    /* missing/new order file — treated as empty */
-  }
+if (freezeCount) {
+  console.log(`\nfrozen: positions 1–${freezeCount} kept as-is; positions ${FROM}–${N} re-ordered.`);
 }
+
+// Diff vs the current order file.
 const added = order.filter((id) => !existing.includes(id));
 const dropped = existing.filter((id) => !order.includes(id));
 const moved = existing.length ? order.filter((id, i) => existing[i] !== id).length : N;
@@ -213,9 +252,11 @@ const serialized = '[\n' + order.map((id) => JSON.stringify(id)).join(',\n') + '
 if (WRITE) {
   writeFileSync(resolve(orderFile), serialized);
   console.log(`\n[written] ${orderFile} — ${N} levels.`);
-  console.log(
-    'note: this changes which level sits at each play index — a returning player’s saved progress index now points at a different level. Fine pre-launch; for a live build prefer appending new levels over a full re-optimization.',
-  );
+  if (!freezeCount) {
+    console.log(
+      'note: full re-order — a returning player’s saved progress index now points at a different level. Use --from=<reached level + 1> to freeze the played prefix.',
+    );
+  }
 } else {
   console.log(`\n[dry-run] re-run with --write to apply to ${orderFile}.`);
 }

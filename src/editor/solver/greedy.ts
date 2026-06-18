@@ -28,8 +28,13 @@ export interface GreedyResult {
 //
 //  1. Feed a simple into a matching locked slot (board first, then hand) — pure
 //     progress, and clearing a category auto-frees its slot.
-//  2. Lock an empty slot with an exposed board category card / category-chain.
-//  3. Lock an empty slot with a drawn (hand) category card — "lock on sight".
+//  2. Lock an empty slot with the category we can make the MOST immediate
+//     progress on — the one with the most reachable simples right now (a person
+//     locks what they can actually start matching, board card or drawn card,
+//     not a buried blocker). Only categories with a reachable simple qualify.
+//  3. Nothing immediately feedable — lock on sight: a board category card to
+//     uncover what's beneath it, else commit the drawn (hand) category card.
+//     This is where genuine order traps bite.
 //  4. Draw.
 //  5. Stuck.
 export function chooseGreedyAction(state: GameState): Action | null {
@@ -59,25 +64,59 @@ export function chooseGreedyAction(state: GameState): Action | null {
   }
 
   const emptyIdx = cats.findIndex((s) => s.lockedCategory === null);
-
-  // 2 — lock an empty slot from the board (board takes priority over the deck).
-  if (emptyIdx >= 0) {
-    for (const slot of state.boardSlots) {
-      if (!isSlotRevealed(slot, state.boardSlots)) continue;
-      const chain = getChainEntries(slot);
-      if (chain.length === 0) continue;
-      const canLock =
-        chain.length === 1
-          ? chain[0].card.isCategory
-          : chain.some((e) => e.card.isCategory);
-      if (canLock) {
-        return { type: 'BOARD_TO_CATEGORY', from: { x: slot.x, y: slot.y }, slotIndex: emptyIdx };
-      }
-    }
+  if (emptyIdx < 0) {
+    // 4 — no slot to lock into; draw (recycles the hand when stock is empty).
+    return state.stock.length > 0 || state.hand !== null ? { type: 'DRAW' } : null;
   }
 
-  // 3 — lock an empty slot with the drawn category card.
-  if (emptyIdx >= 0 && state.hand && state.hand.isCategory) {
+  const locked = new Set<string>();
+  for (const s of cats) if (s.lockedCategory) locked.add(s.lockedCategory);
+  const reach = reachableSimpleCountByCat(state);
+
+  // 2 — lock the most-feedable new category (board card or drawn card). Highest
+  // reachable-simple score wins; ties keep board order (then hand) for stability.
+  const candidates: { action: Action; score: number }[] = [];
+  for (const slot of state.boardSlots) {
+    if (!isSlotRevealed(slot, state.boardSlots)) continue;
+    const chain = getChainEntries(slot);
+    if (chain.length === 0) continue;
+    const canLock =
+      chain.length === 1 ? chain[0].card.isCategory : chain.some((e) => e.card.isCategory);
+    if (!canLock) continue;
+    const cat = chain[chain.length - 1].card.category;
+    if (locked.has(cat)) continue;
+    const score = reach.get(cat) ?? 0;
+    if (score > 0) {
+      candidates.push({
+        action: { type: 'BOARD_TO_CATEGORY', from: { x: slot.x, y: slot.y }, slotIndex: emptyIdx },
+        score,
+      });
+    }
+  }
+  if (state.hand && state.hand.isCategory && !locked.has(state.hand.category)) {
+    const score = reach.get(state.hand.category) ?? 0;
+    if (score > 0) candidates.push({ action: { type: 'HAND_TO_CATEGORY', slotIndex: emptyIdx }, score });
+  }
+  if (candidates.length > 0) {
+    let bestI = 0;
+    for (let i = 1; i < candidates.length; i++) {
+      if (candidates[i].score > candidates[bestI].score) bestI = i;
+    }
+    return candidates[bestI].action;
+  }
+
+  // 3 — nothing feedable: lock on sight (board to uncover, else commit the draw).
+  for (const slot of state.boardSlots) {
+    if (!isSlotRevealed(slot, state.boardSlots)) continue;
+    const chain = getChainEntries(slot);
+    if (chain.length === 0) continue;
+    const canLock =
+      chain.length === 1 ? chain[0].card.isCategory : chain.some((e) => e.card.isCategory);
+    if (canLock) {
+      return { type: 'BOARD_TO_CATEGORY', from: { x: slot.x, y: slot.y }, slotIndex: emptyIdx };
+    }
+  }
+  if (state.hand && state.hand.isCategory) {
     return { type: 'HAND_TO_CATEGORY', slotIndex: emptyIdx };
   }
 
@@ -85,8 +124,21 @@ export function chooseGreedyAction(state: GameState): Action | null {
   if (state.stock.length > 0 || state.hand !== null) {
     return { type: 'DRAW' };
   }
-
   return null;
+}
+
+// Reachable, immediately-consumable simples per category: revealed board slots
+// whose chain holds a simple, keyed by the chain's category.
+function reachableSimpleCountByCat(state: GameState): Map<string, number> {
+  const m = new Map<string, number>();
+  for (const slot of state.boardSlots) {
+    if (!isSlotRevealed(slot, state.boardSlots)) continue;
+    const chain = getChainEntries(slot);
+    if (chain.length === 0 || !chain.some((e) => !e.card.isCategory)) continue;
+    const cat = chain[chain.length - 1].card.category;
+    m.set(cat, (m.get(cat) ?? 0) + 1);
+  }
+  return m;
 }
 
 // Hard backstop. Non-draw moves are strictly productive (each consumes a simple

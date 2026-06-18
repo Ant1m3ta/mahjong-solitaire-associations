@@ -11,8 +11,9 @@
 //  2. Lay onto the curve (sawtooth: each 5-level cycle ramps easy->hard).
 //  3. Per cycle apply the tightness mask easy-tight-easy-tight-tight (positions
 //     1 & 3 stay generous; 2,4,5 are tightened). A tightened WINNABLE level gets
-//     movesLimit = its competent (greedy) move cost — 0 spare, so anyone short of
-//     a clean competent run hits the out-of-moves popup. A board-driven trap is
+//     movesLimit = competent (greedy) move cost + a spare cushion (--spare, default
+//     +10): a clean competent run wins with that cushion, sloppier play hits the
+//     out-of-moves popup. A board-driven trap is
 //     left as-is (it auto-pops: the player burns moves cycling a deck it can't
 //     clear). Generous positions are untouched.
 //
@@ -29,11 +30,13 @@ import type { LevelData } from '../src/types';
 const argv = process.argv.slice(2);
 const WRITE = argv.includes('--write');
 const curveName = (argv.find((a) => a.startsWith('--curve=')) ?? '').split('=')[1] || 'sawtooth';
+const spareArg = (argv.find((a) => a.startsWith('--spare=')) ?? '').split('=')[1];
+const SPARE = spareArg === undefined ? 10 : Math.max(0, Math.floor(Number(spareArg))); // moves of cushion above the competent line on tightened levels
 const positional = argv.filter((a) => !a.startsWith('--'));
 const levelsDir = positional[0];
 const orderFile = positional[1];
 if (!levelsDir) {
-  console.error('usage: tune-levels.ts <levelsDir> [orderFile] [--write] [--curve=NAME]');
+  console.error('usage: tune-levels.ts <levelsDir> [orderFile] [--write] [--spare=N] [--curve=NAME]');
   process.exit(1);
 }
 
@@ -142,7 +145,7 @@ const slots: Slot[] = order.map((lvl, pos) => {
     if (lvl.trap) {
       cls = 'trap'; // auto-pops; leave the budget alone
     } else {
-      newLimit = lvl.competent as number; // 0 spare
+      newLimit = (lvl.competent as number) + SPARE; // competent line + SPARE-move cushion
       cls = 'tightened';
     }
   }
@@ -151,7 +154,7 @@ const slots: Slot[] = order.map((lvl, pos) => {
 
 // ---- Report ----
 const tag = (s: Slot) => `${s.lvl.levelId}${s.lvl.trap ? '*' : ''}`;
-console.log(`curve: ${curveName}   mask: easy-tight-easy-tight-tight   (* board-driven trap)\n`);
+console.log(`curve: ${curveName}   mask: easy-tight-easy-tight-tight   tight spare: +${SPARE}   (* board-driven trap)\n`);
 for (let c = 0; c * CYCLE < N; c++) {
   const row = slots.slice(c * CYCLE, c * CYCLE + CYCLE).map((s) => {
     const lim = s.cls === 'tightened' ? `${s.lvl.oldLimit}→${s.newLimit}` : s.cls === 'trap' ? `${s.newLimit}!` : `${s.newLimit}`;
@@ -164,7 +167,7 @@ const tightened = slots.filter((s) => s.cls === 'tightened');
 const traps = slots.filter((s) => s.cls === 'trap');
 console.log('\nMove-limit changes (tightened levels):');
 for (const s of tightened.sort((a, b) => a.pos - b.pos)) {
-  console.log(`  ${s.lvl.levelId.padEnd(7)} pos ${String(s.pos + 1).padStart(2)}  ${String(s.lvl.oldLimit).padStart(3)} → ${String(s.newLimit).padStart(3)}  (−${s.lvl.oldLimit - s.newLimit} spare, competent ${s.lvl.competent})`);
+  console.log(`  ${s.lvl.levelId.padEnd(7)} pos ${String(s.pos + 1).padStart(2)}  ${String(s.lvl.oldLimit).padStart(3)} → ${String(s.newLimit).padStart(3)}  (competent ${s.lvl.competent} + ${SPARE})`);
 }
 
 const popLevels = slots.filter((s) => s.cls === 'tightened' || s.cls === 'trap').length;
@@ -172,6 +175,7 @@ console.log(
   `\nprojected popup levels: ${popLevels}/${N} (${tightened.length} tightened + ${traps.length} trap auto-pop)` +
     ` = once per ${(N / popLevels).toFixed(2)} levels`,
 );
+console.log(`(tightened levels carry a +${SPARE}-move cushion over the competent line; a player pops only by wasting more than ${SPARE} moves there.)`);
 // Verify no two consecutive generous (would violate "once per 2").
 let maxGap = 0;
 let gap = 0;

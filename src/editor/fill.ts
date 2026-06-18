@@ -126,8 +126,9 @@ function pickReal(skel: SkeletonCategory, basePool: Usable[], byId: Map<string, 
   return pick;
 }
 
-function wordData(categoryId: string, word: string, missing: boolean) {
+function wordData(categoryId: string, word: string, missing: boolean, textOnly: boolean) {
   if (missing) return { wordId: word, missing: true };
+  if (textOnly) return { wordId: word };
   return hasImage(categoryId, word)
     ? { wordId: toSnake(word), icon: true, imageId: imageBasename(categoryId, word) }
     : { wordId: word };
@@ -140,7 +141,10 @@ function placeholderWord(n: number): string {
   return `(needs word ${n})`;
 }
 
-export function fillSkeleton(skel: SkeletonLevel, opts: { padGaps?: boolean } = {}): LevelData {
+export function fillSkeleton(
+  skel: SkeletonLevel,
+  opts: { padGaps?: boolean; textOnly?: boolean } = {},
+): LevelData {
   const { all, byId } = pools();
   const used = new Set<string>();
   const map = new Map<string, { real: Usable; assigned: string[] }>();
@@ -187,7 +191,9 @@ export function fillSkeleton(skel: SkeletonLevel, opts: { padGaps?: boolean } = 
   const categories: LevelData['categories'] = [];
   for (const cat of skel.categories) {
     const entry = map.get(cat.letter)!;
-    const wordsData = entry.assigned.map((w) => wordData(entry.real.categoryId, w, placeholders.has(w)));
+    const wordsData = entry.assigned.map((w) =>
+      wordData(entry.real.categoryId, w, placeholders.has(w), opts.textOnly ?? false),
+    );
     const catData: LevelData['categories'][number] = { categoryId: entry.real.categoryId, wordsData };
     if (entry.assigned.some((w) => placeholders.has(w))) catData.incomplete = true;
     categories.push(catData);
@@ -205,7 +211,7 @@ export function fillSkeleton(skel: SkeletonLevel, opts: { padGaps?: boolean } = 
     const w = entry.assigned[cursor];
     wordCursor.set(letter, cursor + 1);
     if (placeholders.has(w)) return w;
-    return hasImage(entry.real.categoryId, w) ? toSnake(w) : w;
+    return !opts.textOnly && hasImage(entry.real.categoryId, w) ? toSnake(w) : w;
   }
 
   const board: LevelData['board'] = skel.board.map((b) => ({

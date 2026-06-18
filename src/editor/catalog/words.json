@@ -1070,7 +1070,13 @@
       "Mist",
       "Haze",
       "Smog",
-      "Vapor"
+      "Vapor",
+      "Fogbank",
+      "Cloud",
+      "Murk",
+      "Steam",
+      "Drizzle",
+      "Brume"
     ]
   },
   {
@@ -1424,7 +1430,15 @@
       "CPU",
       "GPU",
       "RAM",
-      "SSD"
+      "SSD",
+      "Printer",
+      "Webcam",
+      "Router",
+      "Modem",
+      "Laptop",
+      "Server",
+      "Speaker",
+      "Chipset"
     ]
   },
   {
@@ -1884,7 +1898,12 @@
       "Dingo",
       "Jackal",
       "Fox",
-      "Dhole"
+      "Dhole",
+      "Dog",
+      "Husky",
+      "Fennec",
+      "Akita",
+      "Malamute"
     ]
   },
   {
@@ -2343,7 +2362,17 @@
       "Kelp",
       "Algae",
       "Seagrass",
-      "Wakame"
+      "Wakame",
+      "Shark",
+      "Dolphin",
+      "Octopus",
+      "Whale",
+      "Crab",
+      "Lobster",
+      "Jellyfish",
+      "Starfish",
+      "Seahorse",
+      "Turtle"
     ]
   },
   {
@@ -2547,7 +2576,15 @@
       "Keel",
       "Deck",
       "Sail",
-      "Stern"
+      "Stern",
+      "Anchor",
+      "Rudder",
+      "Bow",
+      "Cabin",
+      "Galley",
+      "Helm",
+      "Propeller",
+      "Porthole"
     ]
   },
   {
@@ -2592,7 +2629,15 @@
       "Kingdom",
       "Lord",
       "Knight",
-      "Castle"
+      "Castle",
+      "Dragon",
+      "Sword",
+      "Armor",
+      "Squire",
+      "Peasant",
+      "Jester",
+      "Moat",
+      "Crusade"
     ]
   },
   {
@@ -2827,7 +2872,15 @@
       "Sprain",
       "Fracture",
       "Bruise",
-      "Wound"
+      "Wound",
+      "Scratch",
+      "Burn",
+      "Cut",
+      "Laceration",
+      "Gash",
+      "Blister",
+      "Concussion",
+      "Dislocation"
     ]
   },
   {
@@ -2915,7 +2968,15 @@
       "Alarm",
       "Siren",
       "Whistle",
-      "Klaxon"
+      "Klaxon",
+      "Alert",
+      "Caution",
+      "Danger",
+      "Hazard",
+      "Signal",
+      "Beacon",
+      "Notice",
+      "Threat"
     ]
   },
   {
@@ -3182,7 +3243,15 @@
       "Tribeca",
       "Astoria",
       "Bronx",
-      "Queens"
+      "Queens",
+      "Broadway",
+      "Brooklyn",
+      "Manhattan",
+      "Chelsea",
+      "Bowery",
+      "Chinatown",
+      "Midtown",
+      "Flatiron"
     ]
   },
   {
@@ -3277,7 +3346,13 @@
       "Egypt",
       "Pyramid",
       "Tomb",
-      "Pharaoh"
+      "Pharaoh",
+      "Bandage",
+      "Curse",
+      "Sarcophagus",
+      "Amulet",
+      "Scarab",
+      "Embalm"
     ]
   },
   {
@@ -3771,7 +3846,13 @@
       "Risotto",
       "Congee",
       "Paella",
-      "Sushi"
+      "Sushi",
+      "Grain",
+      "Paddy",
+      "Pilaf",
+      "Biryani",
+      "Jasmine",
+      "Basmati"
     ]
   },
   {
@@ -4002,7 +4083,13 @@
       "Atom",
       "Neutron",
       "Proton",
-      "Electron"
+      "Electron",
+      "Reactor",
+      "Fission",
+      "Fusion",
+      "Isotope",
+      "Radiation",
+      "Uranium"
     ]
   },
   {
@@ -4658,7 +4745,13 @@
       "Kayak",
       "Sloop",
       "Skiff",
-      "Rowboat"
+      "Rowboat",
+      "Dinghy",
+      "Yacht",
+      "Ferry",
+      "Catamaran",
+      "Schooner",
+      "Punt"
     ]
   },
   {
@@ -5414,7 +5507,13 @@
       "Broom",
       "Spell",
       "Coven",
-      "Cauldron"
+      "Cauldron",
+      "Potion",
+      "Hat",
+      "Wand",
+      "Hex",
+      "Familiar",
+      "Brew"
     ]
   },
   {
@@ -5719,7 +5818,13 @@
       "Name",
       "Surname",
       "Photo",
-      "Hologram"
+      "Hologram",
+      "Identity",
+      "Border",
+      "Customs",
+      "Nationality",
+      "Expiry",
+      "Biometric"
     ]
   },
   {
@@ -36188,7 +36293,13 @@
       "Design",
       "Develop",
       "Conceive",
-      "Generate"
+      "Generate",
+      "Produce",
+      "Innovate",
+      "Originate",
+      "Formulate",
+      "Pioneer",
+      "Construct"
     ]
   },
   {

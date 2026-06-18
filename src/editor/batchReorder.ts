@@ -5,6 +5,11 @@ import { unfillLevel, UnfillError } from './unfill';
 import { analyzeGreedySkeleton, type GreedyResult } from './solver/greedy';
 import { applyOrderToLevel, applyOrderToSkeleton, planStockReorder } from './reorderFix';
 
+// The modal classifies every level eagerly on open, so cap the per-level random
+// search lower than the CLI default to keep it responsive. Fixable levels are
+// still found fast (winning orders are plentiful); the CLI is the thorough path.
+const MODAL_SEARCH_BUDGET = 1000;
+
 export type ReorderStatusKind = 'error' | 'fair' | 'trap-fixed' | 'trap-unfixable';
 
 // One level's reorder state: whether the straightforward player softlocks and,
@@ -45,7 +50,7 @@ export function buildReorderPlan(entries: LevelFileEntry[]): ReorderRow[] {
 
     const before = analyzeGreedySkeleton(skel);
     const beforeStock = skel.stock.map(token);
-    const plan = planStockReorder(skel);
+    const plan = planStockReorder(skel, MODAL_SEARCH_BUDGET);
 
     if (plan.status === 'already-fair') {
       return { name: entry.name, status: 'fair', before, beforeStock, level: entry.level };

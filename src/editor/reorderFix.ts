@@ -27,7 +27,17 @@ export function applyOrderToLevel(level: LevelData, order: number[]): LevelData 
   return { ...level, stock: order.map((i) => level.stock[i]) };
 }
 
-export function planStockReorder(skel: SkeletonLevel): ReorderPlan {
+// Random stock orders to try before declaring a level unfixable. Each trial is
+// one greedy simulation; fixable levels almost always hit within a handful of
+// trials (winning orders are usually plentiful), so the full budget is only
+// spent on genuinely board-driven traps. The interactive batch modal passes a
+// smaller budget to stay responsive; the CLI uses the default.
+export const REORDER_SEARCH_BUDGET = 4000;
+
+export function planStockReorder(
+  skel: SkeletonLevel,
+  searchBudget: number = REORDER_SEARCH_BUDGET,
+): ReorderPlan {
   const before = analyzeGreedySkeleton(skel);
   if (before.outcome === 'won') return { status: 'already-fair' };
   if (before.outcome === 'empty') return { status: 'already-fair' };
@@ -48,16 +58,48 @@ export function planStockReorder(skel: SkeletonLevel): ReorderPlan {
   // Try a couple of deterministic scheduling heuristics; accept the first whose
   // concrete order makes the straightforward player win (a greedy win is itself
   // a proof the level stays solvable, so no A* re-check is needed).
+  const verify = (order: number[]): boolean =>
+    analyzeGreedySkeleton(applyOrderToSkeleton(skel, order)).outcome === 'won';
+
+  // 1) Constructive greedy-safe scheduler — fast, and yields the smallest diff
+  //    when it works.
   for (const pref of ['progress', 'close'] as const) {
     const order = buildSchedule(initial, pref);
-    if (!order) continue;
-    const candidate = applyOrderToSkeleton(skel, order);
-    if (analyzeGreedySkeleton(candidate).outcome === 'won') {
-      return { status: 'fixed', order };
-    }
+    if (order && verify(order)) return { status: 'fixed', order };
+  }
+
+  // 2) Randomized search over stock orderings. The constructive scheduler can
+  //    corner itself even when many winning orders exist (e.g. every category
+  //    card is in the stock and slots are tight), so fall back to verified
+  //    shuffles. Seeded, so a given level always resolves to the same fix.
+  const n = skel.stock.length;
+  const indices = Array.from({ length: n }, (_, i) => i);
+  const rng = mulberry32((0x9e3779b9 ^ Math.imul(n, 2654435761)) >>> 0);
+  for (let t = 0; t < searchBudget; t++) {
+    const order = shuffleWith(indices.slice(), rng);
+    if (verify(order)) return { status: 'fixed', order };
   }
 
   return { status: 'unfixable', reason: unfixableReason(before) };
+}
+
+function mulberry32(seed: number): () => number {
+  let s = seed >>> 0;
+  return () => {
+    s = (s + 0x6d2b79f5) >>> 0;
+    let t = s;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+function shuffleWith(arr: number[], rng: () => number): number[] {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(rng() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
 }
 
 type OpenPref = 'progress' | 'close';

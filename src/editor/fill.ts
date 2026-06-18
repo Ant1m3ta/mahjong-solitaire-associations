@@ -102,9 +102,8 @@ function pickReal(skel: SkeletonCategory, basePool: Usable[], byId: Map<string, 
   if (skel.pinnedCategoryId) {
     const pinned = byId.get(skel.pinnedCategoryId);
     if (!pinned) {
-      throw new FillError(
-        `Letter ${skel.letter}: pinned category "${skel.pinnedCategoryId}" not in pool.`,
-      );
+      used.add(skel.pinnedCategoryId);
+      return { categoryId: skel.pinnedCategoryId, wordsIds: [] };
     }
     if (pinned.wordsIds.length < minWords) {
       throw new FillError(
@@ -174,6 +173,14 @@ export function fillSkeleton(skel: SkeletonLevel, opts: { padGaps?: boolean } = 
     }
     const real = pickReal(cat, all, byId, used);
     const assigned = shuffleInPlace(real.wordsIds.slice()).slice(0, cat.simpleCards);
+    // A pinned category absent from the catalog yields no words; pad with
+    // placeholders so the level still saves and the Fix tool can resolve them.
+    for (let n = assigned.length; n < cat.simpleCards; n++) {
+      phCounter += 1;
+      const ph = placeholderWord(phCounter);
+      assigned.push(ph);
+      placeholders.add(ph);
+    }
     map.set(cat.letter, { real, assigned });
   }
 

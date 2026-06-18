@@ -127,6 +127,7 @@ const HISTORY_ACTIONS: ReadonlySet<EditorAction['type']> = new Set([
   'REMOVE_BOARD',
   'MOVE_BOARD',
   'REORDER_STOCK',
+  'APPLY_STOCK_ORDER',
   'DELETE_STOCK',
   'SHUFFLE_STOCK',
   'SHUFFLE_BOARD',
@@ -404,6 +405,11 @@ function reduceCore(state: EditorState, action: Exclude<EditorAction, { type: 'R
       const [moved] = copy.splice(from, 1);
       copy.splice(to, 0, moved);
       return ok(state, { ...level, stock: copy });
+    }
+
+    case 'APPLY_STOCK_ORDER': {
+      if (action.stock.length !== level.stock.length) return state;
+      return ok(state, { ...level, stock: action.stock });
     }
 
     case 'DELETE_STOCK': {

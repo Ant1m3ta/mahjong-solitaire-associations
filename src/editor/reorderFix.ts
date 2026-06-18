@@ -1,0 +1,180 @@
+import type { Card, GameState, LevelData } from '../types';
+import { applyAction, isWon } from '../game/moves';
+import { getChainEntries, isSlotRevealed } from '../game/coverage';
+import type { SkeletonLevel } from './types';
+import { buildSolverInput, SolverInputError } from './solver/buildState';
+import { analyzeGreedySkeleton, chooseGreedyAction } from './solver/greedy';
+
+export type ReorderStatus = 'already-fair' | 'fixed' | 'unfixable';
+
+export interface ReorderPlan {
+  status: ReorderStatus;
+  reason?: string;
+  // Array-order indices into the ORIGINAL stock, present only when 'fixed'.
+  // skel.stock[i] aligns 1:1 with level.stock[i] (unfill maps them index-for-
+  // index), so the same permutation applies losslessly to either.
+  order?: number[];
+}
+
+// Apply a reorder permutation to a skeleton's stock (for the live editor).
+export function applyOrderToSkeleton(skel: SkeletonLevel, order: number[]): SkeletonLevel {
+  return { ...skel, stock: order.map((i) => skel.stock[i]) };
+}
+
+// Apply the same permutation to a concrete LevelData's stock cardIds. Lossless —
+// just a permutation of the existing ids; board / words / images untouched.
+export function applyOrderToLevel(level: LevelData, order: number[]): LevelData {
+  return { ...level, stock: order.map((i) => level.stock[i]) };
+}
+
+export function planStockReorder(skel: SkeletonLevel): ReorderPlan {
+  const before = analyzeGreedySkeleton(skel);
+  if (before.outcome === 'won') return { status: 'already-fair' };
+  if (before.outcome === 'empty') return { status: 'already-fair' };
+  if (before.outcome === 'invalid') {
+    return { status: 'unfixable', reason: before.message ?? 'invalid level' };
+  }
+
+  let initial: GameState;
+  try {
+    initial = buildSolverInput(skel).initialState;
+  } catch (err) {
+    return {
+      status: 'unfixable',
+      reason: err instanceof SolverInputError ? err.message : String(err),
+    };
+  }
+
+  // Try a couple of deterministic scheduling heuristics; accept the first whose
+  // concrete order makes the straightforward player win (a greedy win is itself
+  // a proof the level stays solvable, so no A* re-check is needed).
+  for (const pref of ['progress', 'close'] as const) {
+    const order = buildSchedule(initial, pref);
+    if (!order) continue;
+    const candidate = applyOrderToSkeleton(skel, order);
+    if (analyzeGreedySkeleton(candidate).outcome === 'won') {
+      return { status: 'fixed', order };
+    }
+  }
+
+  return { status: 'unfixable', reason: unfixableReason(before) };
+}
+
+type OpenPref = 'progress' | 'close';
+
+interface BagItem {
+  card: Card;
+  idx: number; // original index in skel.stock / level.stock
+}
+
+// Constructive greedy-safe scheduler. Replays the straightforward policy but
+// chooses which stock card to "draw" next so the player never strands itself:
+// feed locked categories first, open a new category only into a free slot and
+// only when it can actually progress. Returns array-order indices (first-drawn
+// last, matching applyDraw popping from the end) or null if it stalls.
+function buildSchedule(initial: GameState, pref: OpenPref): number[] | null {
+  let state: GameState = { ...initial, stock: [], hand: null, movesUsed: 0, movesLimit: -1 };
+  const bag: BagItem[] = initial.stock.map((card, idx) => ({ card, idx }));
+  const drawn: number[] = [];
+
+  const exhaust = () => {
+    while (true) {
+      const a = chooseGreedyAction(state);
+      if (a === null || a.type === 'DRAW') break;
+      state = applyAction(state, a);
+    }
+  };
+
+  exhaust();
+  let guard = bag.length + 5;
+  while (!isWon(state)) {
+    if (--guard < 0 || bag.length === 0) return null;
+    const pick = chooseBagCard(state, bag, pref);
+    if (pick < 0) return null;
+    const item = bag.splice(pick, 1)[0];
+    state = { ...state, hand: item.card };
+    drawn.push(item.idx);
+    exhaust();
+    // The pick should have been placed; if it lingers in hand it was unplaceable.
+    if (state.hand && state.hand.uid === item.card.uid) return null;
+  }
+
+  const leftover = bag.map((b) => b.idx).sort((a, b) => a - b);
+  return [...drawn, ...leftover].reverse();
+}
+
+function chooseBagCard(state: GameState, bag: BagItem[], pref: OpenPref): number {
+  const locked = new Set<string>();
+  for (const s of state.categorySlots) if (s.lockedCategory) locked.add(s.lockedCategory);
+
+  // 1 — feed a locked category from the bag (pure progress, hastens auto-clear).
+  let bestSimple = -1;
+  for (let i = 0; i < bag.length; i++) {
+    const c = bag[i].card;
+    if (!c.isCategory && locked.has(c.category)) {
+      if (bestSimple < 0 || bag[i].idx < bag[bestSimple].idx) bestSimple = i;
+    }
+  }
+  if (bestSimple >= 0) return bestSimple;
+
+  if (!state.categorySlots.some((s) => s.lockedCategory === null)) return -1;
+
+  // 2 — open a new category. Only those with simples still to consume; prefer a
+  // category we can feed right away (board-reachable now, or sitting in the bag)
+  // so the freshly taken slot makes progress instead of dead-locking.
+  const rem = remainingByCategory(state);
+  const reachable = reachableBoardSimpleCategories(state);
+  const inBag = new Set<string>();
+  for (const b of bag) if (!b.card.isCategory) inBag.add(b.card.category);
+
+  const openable: number[] = [];
+  for (let i = 0; i < bag.length; i++) {
+    const c = bag[i].card;
+    if (!c.isCategory || locked.has(c.category)) continue;
+    if ((rem.get(c.category) ?? 0) <= 0) continue;
+    openable.push(i);
+  }
+  if (openable.length === 0) return -1;
+
+  const feedable = openable.filter((i) => {
+    const cat = bag[i].card.category;
+    return reachable.has(cat) || inBag.has(cat);
+  });
+  const pool = feedable.length > 0 ? feedable : openable;
+
+  pool.sort((a, b) => {
+    if (pref === 'close') {
+      const d = (rem.get(bag[a].card.category) ?? 0) - (rem.get(bag[b].card.category) ?? 0);
+      if (d !== 0) return d;
+    }
+    return bag[a].idx - bag[b].idx;
+  });
+  return pool[0];
+}
+
+function remainingByCategory(state: GameState): Map<string, number> {
+  const rem = new Map<string, number>();
+  for (const c of state.level.categories) rem.set(c.categoryId, c.wordsData.length);
+  for (const c of state.consumedSimple) rem.set(c.category, (rem.get(c.category) ?? 0) - 1);
+  return rem;
+}
+
+function reachableBoardSimpleCategories(state: GameState): Set<string> {
+  const cats = new Set<string>();
+  for (const slot of state.boardSlots) {
+    if (!isSlotRevealed(slot, state.boardSlots)) continue;
+    const chain = getChainEntries(slot);
+    if (chain.some((e) => !e.card.isCategory)) cats.add(chain[chain.length - 1].card.category);
+  }
+  return cats;
+}
+
+function unfixableReason(before: { deadLockedCategories: string[]; starvedCategories: string[] }): string {
+  const dead = before.deadLockedCategories;
+  const starved = before.starvedCategories;
+  const bits: string[] = [];
+  if (dead.length) bits.push(`${dead.join(', ')} dead-lock a slot`);
+  if (starved.length) bits.push(`${starved.join(', ')} starve`);
+  const detail = bits.length ? ` (${bits.join('; ')})` : '';
+  return `Reordering the stock can't avoid the softlock${detail} — a blocking category is locked from the board or its simples are buried. Needs a board / slot-count change.`;
+}

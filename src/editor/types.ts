@@ -85,6 +85,7 @@ export type EditorAction =
   | { type: 'PLACE_BOARD'; x: number; y: number; z: number; letter: string; cardKind: CardKind }
   | { type: 'REMOVE_BOARD'; x: number; y: number; z: number }
   | { type: 'REORDER_STOCK'; from: number; to: number }
+  | { type: 'APPLY_STOCK_ORDER'; stock: SkeletonStockEntry[] }
   | { type: 'DELETE_STOCK'; index: number }
   | { type: 'SET_BRUSH_LETTER'; letter: string | null }
   | { type: 'SET_BRUSH_KIND'; kind: CardKind }

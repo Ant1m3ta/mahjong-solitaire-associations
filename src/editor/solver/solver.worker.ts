@@ -7,12 +7,14 @@ import {
   type DifficultyOptions,
   type DifficultyResult,
 } from './difficulty';
+import { analyzeGreedySkeleton, type GreedyResult } from './greedy';
 import type { SkeletonLevel } from '../types';
 import type { GameState } from '../../types';
 
 export type SolverRequest =
   | { requestId: number; kind: 'skeleton'; skeleton: SkeletonLevel }
   | { requestId: number; kind: 'state'; state: GameState }
+  | { requestId: number; kind: 'greedy'; skeleton: SkeletonLevel }
   | {
       requestId: number;
       kind: 'difficulty';
@@ -23,6 +25,7 @@ export type SolverRequest =
 
 export type SolverResponse =
   | { requestId: number; kind: 'solver'; result: SolverResult }
+  | { requestId: number; kind: 'greedy'; result: GreedyResult }
   | { requestId: number; kind: 'difficulty'; result: DifficultyResult };
 
 const ctx = self as unknown as DedicatedWorkerGlobalScope;
@@ -33,6 +36,12 @@ ctx.onmessage = (e: MessageEvent<SolverRequest>) => {
     const base = req.mode === 'deep' ? DEEP_DIFFICULTY_OPTIONS : AUTO_DIFFICULTY_OPTIONS;
     const result = analyzeDifficulty(req.skeleton, { ...base, ...(req.opts ?? {}) });
     const response: SolverResponse = { requestId: req.requestId, kind: 'difficulty', result };
+    ctx.postMessage(response);
+    return;
+  }
+  if (req.kind === 'greedy') {
+    const result = analyzeGreedySkeleton(req.skeleton);
+    const response: SolverResponse = { requestId: req.requestId, kind: 'greedy', result };
     ctx.postMessage(response);
     return;
   }

@@ -914,6 +914,46 @@
   margin: 0;
   line-height: 1.5;
 }
+.difficulty-fix-note {
+  flex-basis: 100%;
+  font-size: 11px;
+  opacity: 0.85;
+}
+
+/* ================ Reorder (Fix draw order) modal ================ */
+.reorder-diag {
+  font-size: 11px;
+  opacity: 0.8;
+  margin-bottom: 6px;
+  font-variant-numeric: tabular-nums;
+}
+.reorder-stock-line {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 2px 0;
+}
+.reorder-stock-label {
+  font-size: 11px;
+  opacity: 0.6;
+  width: 44px;
+  flex: none;
+  text-align: right;
+}
+.reorder-stock {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+  letter-spacing: 1px;
+  word-break: break-all;
+}
+.reorder-stock.changed {
+  color: #a3e6bb;
+}
+.reorder-stock-hint {
+  font-size: 10px;
+  opacity: 0.5;
+  margin-top: 4px;
+}
 
 /* ================ Ghost toggles ================ */
 .ghost-toggles {

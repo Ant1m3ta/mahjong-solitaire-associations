@@ -6,9 +6,12 @@ import { CategoryRangePicker } from './CategoryRangePicker';
 import { BatchFillModal } from './BatchFillModal';
 import { BatchFixModal } from './BatchFixModal';
 import { ImagesModal } from './ImagesModal';
+import { ReorderModal } from './ReorderModal';
 import { BoardCanvas } from './BoardCanvas';
 import { useSolver, type SolverViewState } from './solver/useSolver';
 import { DifficultyChip } from './DifficultyChip';
+import { GreedyChip } from './GreedyChip';
+import { planStockReorder } from './reorderFix';
 import { fillSkeleton, FillError } from './fill';
 import {
   boundSaveFolder,
@@ -33,10 +36,12 @@ export function Editor() {
   const [batchOpen, setBatchOpen] = useState(false);
   const [fixOpen, setFixOpen] = useState(false);
   const [imagesOpen, setImagesOpen] = useState(false);
+  const [reorderOpen, setReorderOpen] = useState(false);
   const [boundFolder, setBoundFolder] = useState<string | null>(boundSaveFolder());
   const [folderLevels, setFolderLevels] = useState<LevelFileEntry[]>([]);
   const [solverEnabled, setSolverEnabled] = useState(true);
-  const { solver, difficulty, runDeepAnalysis } = useSolver(state.level, solverEnabled);
+  const [orderFixNote, setOrderFixNote] = useState<string | null>(null);
+  const { solver, difficulty, greedy, runDeepAnalysis } = useSolver(state.level, solverEnabled);
   const needsFolder = supportsFileSystemAccess();
   const dropdownEntries: { label: string; level: LevelData }[] = needsFolder
     ? folderLevels.map((e) => ({ label: e.name.replace(/\.json$/, ''), level: e.level }))
@@ -52,15 +57,32 @@ export function Editor() {
     persistEditorState(state);
   }, [state]);
 
+  // Drop a stale order-fix note once the analyzer re-runs on a fresh edit.
+  useEffect(() => {
+    if (greedy.status === 'analyzing') setOrderFixNote(null);
+  }, [greedy.status]);
+
+  function handleFixOrder() {
+    const plan = planStockReorder(state.level);
+    if (plan.status === 'fixed' && plan.order) {
+      const order = plan.order;
+      dispatch({ type: 'APPLY_STOCK_ORDER', stock: order.map((i) => state.level.stock[i]) });
+    } else if (plan.status === 'already-fair') {
+      setOrderFixNote('already fair');
+    } else {
+      setOrderFixNote(plan.reason ?? 'could not fix by reordering');
+    }
+  }
+
   // Re-read the bound folder whenever the batch tool opens so it reflects the
   // actual files on disk, not a stale snapshot from when the folder was picked.
   useEffect(() => {
-    if ((batchOpen || fixOpen || imagesOpen) && boundFolder) {
+    if ((batchOpen || fixOpen || imagesOpen || reorderOpen) && boundFolder) {
       listLevelsInFolder()
         .then(setFolderLevels)
         .catch(() => {});
     }
-  }, [batchOpen, fixOpen, imagesOpen, boundFolder]);
+  }, [batchOpen, fixOpen, imagesOpen, reorderOpen, boundFolder]);
 
   function suggestedLevelFilename(): string {
     const id = state.level.levelId?.trim();
@@ -265,6 +287,18 @@ export function Editor() {
                       Swap a level's categories to image-ready ones so the tiles render pictures.
                     </span>
                   </button>
+                  <button
+                    className="editor-menu-item"
+                    onClick={() => {
+                      setToolsOpen(false);
+                      setReorderOpen(true);
+                    }}
+                  >
+                    Fix draw order…
+                    <span className="editor-menu-hint">
+                      Find levels where straightforward play softlocks and reorder the stock to fix them (lossless).
+                    </span>
+                  </button>
                 </div>
               </>
             )}
@@ -459,6 +493,12 @@ export function Editor() {
                     difficulty={difficulty}
                     runDeepAnalysis={runDeepAnalysis}
                   />
+                  <GreedyChip
+                    greedy={greedy}
+                    solver={solver}
+                    onFixOrder={handleFixOrder}
+                    fixNote={orderFixNote}
+                  />
                 </>
               )}
             </div>
@@ -595,6 +635,16 @@ export function Editor() {
           onPickFolder={handlePickFolder}
           onWrote={async () => setFolderLevels(await listLevelsInFolder())}
           onClose={() => setImagesOpen(false)}
+        />
+      )}
+      {reorderOpen && (
+        <ReorderModal
+          entries={folderLevels}
+          needsFolder={needsFolder}
+          boundFolder={boundFolder}
+          onPickFolder={handlePickFolder}
+          onWrote={async () => setFolderLevels(await listLevelsInFolder())}
+          onClose={() => setReorderOpen(false)}
         />
       )}
     </div>

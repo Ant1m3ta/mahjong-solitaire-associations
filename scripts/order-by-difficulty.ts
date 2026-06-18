@@ -1,19 +1,25 @@
-// Order levels into a difficulty curve and (optionally) rewrite the Unity
-// level-order file. Difficulty is computed from the existing analyzers:
-//   * foresight wall  — straightforward (greedy) player softlocks  -> hardest band
+// Re-optimize the level play-order into a difficulty curve. Repeatable: drop new
+// level files into <levelsDir>, re-run, and the whole sequence is re-scored and
+// re-ordered. The order file is reconciled against the files actually present —
+// new levels are picked up, deleted ones are dropped — so this is safe to run at
+// will as the level set grows.
+//
+// Difficulty per level is composed from the existing analyzers:
+//   * foresight wall  — straightforward (greedy) player softlocks  -> top band
 //   * execution tight — A* optimal moves / authored move limit
 //   * cognitive load  — categories minus parallel slots
 //   D = 0.5*tight + 0.3*load + 0.2*length  (softlocks forced to the top band)
+// The metric yields a difficulty RANKING; the curve is a lossless permutation of
+// that ranking onto positions.
 //
-// The metric yields a difficulty RANKING; the curve is a lossless permutation
-// of that ranking onto positions. Curve "A" (sawtooth/flat): each 5-level cycle
-// ramps easy->hard then resets to the same band (no macro progression).
+//   npx tsx scripts/order-by-difficulty.ts <levelsDir> [orderFile] [flags]
+//     --write           apply the new order to orderFile (default: dry run)
+//     --skip-invalid    exclude broken/unsolvable levels instead of aborting
+//     --curve=NAME      sawtooth (default) | sawtooth-rising | sine-rising
 //
-//   npx tsx scripts/order-by-difficulty.ts <levelsDir> [orderFile] [--write]
-//
-// Without --write it prints the order (dry run). With --write it rewrites
-// orderFile (a JSON array of levelIds), preserving its one-id-per-line style,
-// after verifying the new order is a pure permutation of the existing ids.
+// orderFile is the Unity level-order array (a JSON list of levelIds loaded by
+// LevelOrderProvider; array position = play order). DEBUG_RANK=1 dumps the
+// per-level ranking to stderr.
 import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { unfillLevel } from '../src/editor/unfill';
@@ -23,15 +29,20 @@ import type { LevelData } from '../src/types';
 
 const argv = process.argv.slice(2);
 const WRITE = argv.includes('--write');
+const SKIP_INVALID = argv.includes('--skip-invalid');
+const curveName = (argv.find((a) => a.startsWith('--curve=')) ?? '').split('=')[1] || 'sawtooth';
 const positional = argv.filter((a) => !a.startsWith('--'));
 const levelsDir = positional[0];
 const orderFile = positional[1];
 if (!levelsDir) {
-  console.error('usage: order-by-difficulty.ts <levelsDir> [orderFile] [--write]');
+  console.error(
+    'usage: order-by-difficulty.ts <levelsDir> [orderFile] [--write] [--skip-invalid] [--curve=sawtooth|sawtooth-rising|sine-rising]',
+  );
   process.exit(1);
 }
 
 const CYCLE = 5;
+const SOLVE_OPTS = { maxStates: 300_000, maxMs: 8000 }; // ~bounds A* per level
 
 const numKey = (f: string) => Number(f.replace(/\D/g, '')) || 0;
 const files = readdirSync(resolve(levelsDir))
@@ -48,11 +59,31 @@ interface Lvl {
 }
 
 const lvls: Lvl[] = [];
+const problems: { file: string; reason: string }[] = [];
+const timeouts: string[] = [];
+
 for (const file of files) {
-  const data = JSON.parse(readFileSync(resolve(levelsDir, file), 'utf-8')) as LevelData;
-  const skel = unfillLevel(data);
+  let data: LevelData;
+  try {
+    data = JSON.parse(readFileSync(resolve(levelsDir, file), 'utf-8')) as LevelData;
+  } catch (e) {
+    problems.push({ file, reason: `parse error — ${(e as Error).message}` });
+    continue;
+  }
+  let skel;
+  try {
+    skel = unfillLevel(data);
+  } catch (e) {
+    problems.push({ file, reason: `unfill error — ${(e as Error).message}` });
+    continue;
+  }
   const greedy = analyzeGreedySkeleton(skel);
-  const opt = solveSkeleton(skel, { maxStates: 300_000, maxMs: 8000 });
+  const opt = solveSkeleton(skel, SOLVE_OPTS);
+  if (opt.status === 'unsolvable') {
+    problems.push({ file, reason: 'A* proved the level unsolvable (broken level)' });
+    continue;
+  }
+  if (opt.status === 'timeout') timeouts.push(data.levelId);
   // A* optimal when it solves; otherwise fall back to the straightforward line.
   let optMoves = greedy.movesUsed;
   if (opt.status === 'solved' && opt.movesUsed !== undefined) optMoves = opt.movesUsed;
@@ -64,6 +95,27 @@ for (const file of files) {
     length: optMoves,
     D: 0,
   });
+}
+
+const dupIds = [...new Set(lvls.map((l) => l.levelId).filter((id, i, a) => a.indexOf(id) !== i))];
+if (dupIds.length) {
+  console.error(`ABORT: duplicate levelId(s) across files — ${dupIds.join(', ')}`);
+  process.exit(1);
+}
+
+if (problems.length) {
+  console.error(`\n${problems.length} problem level(s):`);
+  for (const p of problems) console.error(`  ${p.file}: ${p.reason}`);
+  if (!SKIP_INVALID) {
+    console.error('\nABORT: fix these, or re-run with --skip-invalid to drop them from the order.');
+    process.exit(1);
+  }
+  console.error('\n--skip-invalid: dropping the above from the order.');
+}
+
+if (lvls.length === 0) {
+  console.error('ABORT: no valid levels found.');
+  process.exit(1);
 }
 
 const norm = (vals: number[]) => {
@@ -92,10 +144,24 @@ if (process.env.DEBUG_RANK) {
   );
 }
 
-// Curve A — sawtooth/flat: target within each cycle is its phase 0..1; cycles
-// are equivalent. Stable sort of positions by target (ascending position on
-// ties) -> the k-th easiest level fills the k-th lowest-target position.
-const targetOf = (pos: number) => (pos % CYCLE) / (CYCLE - 1);
+// Difficulty target per position, by curve shape. phase ramps 0->1 within each
+// 5-level cycle; baseline ramps 0->1 across cycles (rising variants only).
+const cycles = Math.ceil(N / CYCLE);
+const phase = (pos: number) => (pos % CYCLE) / (CYCLE - 1);
+const baseline = (pos: number) => (cycles > 1 ? Math.floor(pos / CYCLE) / (cycles - 1) : 0);
+const hump = (pos: number) => (-Math.cos((2 * Math.PI * (pos % CYCLE)) / CYCLE) + 1) / 2;
+const curves: Record<string, (pos: number) => number> = {
+  sawtooth: phase, // each cycle ramps easy->hard, same band (the shipped curve)
+  'sawtooth-rising': (pos) => 0.55 * baseline(pos) + 0.45 * phase(pos),
+  'sine-rising': (pos) => 0.55 * baseline(pos) + 0.45 * hump(pos),
+};
+const targetOf = curves[curveName];
+if (!targetOf) {
+  console.error(`ABORT: unknown --curve=${curveName} (use ${Object.keys(curves).join(' | ')}).`);
+  process.exit(1);
+}
+
+// Rank-match: the k-th easiest level fills the k-th lowest-target position.
 const positionsByTarget = [...Array(N).keys()].sort((a, b) => targetOf(a) - targetOf(b) || a - b);
 const order: string[] = new Array(N);
 ranked.forEach((lvl, k) => {
@@ -106,8 +172,8 @@ ranked.forEach((lvl, k) => {
 const rankOf = new Map(ranked.map((l, i) => [l.levelId, i]));
 const trapOf = new Map(lvls.map((l) => [l.levelId, l.trap]));
 const spark = '▁▂▃▄▅▆▇█';
-const line = order.map((id) => spark[Math.min(7, Math.floor((rankOf.get(id)! * 8) / N))]).join('');
-console.log(line + '\n');
+console.log(`curve: ${curveName}\n`);
+console.log(order.map((id) => spark[Math.min(7, Math.floor((rankOf.get(id)! * 8) / N))]).join('') + '\n');
 for (let c = 0; c * CYCLE < N; c++) {
   const cells = order
     .slice(c * CYCLE, c * CYCLE + CYCLE)
@@ -115,25 +181,41 @@ for (let c = 0; c * CYCLE < N; c++) {
   console.log(`cyc${String(c + 1).padStart(2)}:${cells.join('')}`);
 }
 
+// Reconcile against the current order file (informational diff).
+let existing: string[] = [];
+let raw = '';
+if (orderFile) {
+  try {
+    raw = readFileSync(resolve(orderFile), 'utf-8');
+    existing = JSON.parse(raw) as string[];
+  } catch {
+    /* missing/new order file — treated as empty */
+  }
+}
+const added = order.filter((id) => !existing.includes(id));
+const dropped = existing.filter((id) => !order.includes(id));
+const moved = existing.length ? order.filter((id, i) => existing[i] !== id).length : N;
+const traps = lvls.filter((l) => l.trap).length;
+console.log(
+  `\nsummary: ${N} levels · ${traps} trap${traps === 1 ? '' : 's'}` +
+    ` · added ${added.length}${added.length ? ` [${added.join(', ')}]` : ''}` +
+    ` · dropped ${dropped.length}${dropped.length ? ` [${dropped.join(', ')}]` : ''}` +
+    ` · ${moved}/${N} positions changed` +
+    (timeouts.length ? ` · A* timeout, approx score [${timeouts.join(', ')}]` : ''),
+);
+
 if (!orderFile) {
   console.log('\n(no orderFile given — dry run only)');
   process.exit(0);
 }
 
-const raw = readFileSync(resolve(orderFile), 'utf-8');
-const existing = JSON.parse(raw) as string[];
-const samePermutation = [...existing].sort().join('|') === [...order].sort().join('|');
-if (!samePermutation) {
-  console.error('\nABORT: new order is not a pure permutation of the existing order file.');
-  console.error('  missing: ' + existing.filter((x) => !order.includes(x)).join(', '));
-  console.error('  extra:   ' + order.filter((x) => !existing.includes(x)).join(', '));
-  process.exit(1);
-}
-
-const serialized = '[\n' + order.map((id) => JSON.stringify(id)).join(',\n') + '\n]' + (raw.endsWith('\n') ? '\n' : '');
+const serialized = '[\n' + order.map((id) => JSON.stringify(id)).join(',\n') + '\n]' + (raw === '' || raw.endsWith('\n') ? '\n' : '');
 if (WRITE) {
   writeFileSync(resolve(orderFile), serialized);
-  console.log(`\n[written] ${orderFile} — ${order.length} levels reordered.`);
+  console.log(`\n[written] ${orderFile} — ${N} levels.`);
+  console.log(
+    'note: this changes which level sits at each play index — a returning player’s saved progress index now points at a different level. Fine pre-launch; for a live build prefer appending new levels over a full re-optimization.',
+  );
 } else {
-  console.log(`\n[dry-run] ${order.length} levels · permutation OK. Re-run with --write to apply.`);
+  console.log(`\n[dry-run] re-run with --write to apply to ${orderFile}.`);
 }

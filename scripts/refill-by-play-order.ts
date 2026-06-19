@@ -105,18 +105,25 @@ function assign(): LevelPlan[] {
 const shortOf = (plan: LevelPlan[]): CatPick[] =>
   plan.flatMap((l) => l.picks).filter((p) => p.chosen.length < p.need);
 
-interface GenReq { categoryId: string; count: number; avoid?: string[] }
+interface GenReq { categoryId: string; count: number; existing?: string[] }
 
 function buildPrompt(requests: GenReq[]): string {
   const lines = requests.map((r) => {
-    const avoid = r.avoid && r.avoid.length ? ` Do not use any of these: ${r.avoid.join(', ')}.` : '';
-    return `- "${r.categoryId}": ${r.count} word${r.count === 1 ? '' : 's'}.${avoid}`;
+    const have = r.existing && r.existing.length
+      ? ` Words already in this category: ${r.existing.join(', ')}.`
+      : ' (no example words available — infer from the name.)';
+    return `- "${r.categoryId}": ${r.count} more word${r.count === 1 ? '' : 's'}.${have}`;
   });
   return [
     'You generate tile words for a word-association game.',
-    'For every category below, return exactly the requested number of distinct words that clearly and unambiguously belong to that category.',
+    'For every category below, add the requested number of NEW words that belong to it.',
+    'Each category lists the words already in it. Treat those existing words as the source of truth for what the category means — not the name alone:',
+    '  - They fix the sense when the name has more than one meaning (e.g. "Palm" the wrist vs. the tree, "Loader" the warehouse worker vs. the digger). Match the SAME sense the existing words establish.',
+    '  - They fix the type and specificity. If they are body parts, return more body parts; if they are the literal members of a set, return more members of that set — not adjectives, descriptions, or loosely related concepts.',
+    'Never return a synonym or alternate spelling of a word already present (e.g. if "Autumn" is listed do not add "Fall"; if "Sight" is listed do not add "Vision"; if "Hearing" is listed do not add "Sound").',
+    'If the category is a small closed set whose real members are exhausted (the four seasons, the five/six senses, the cardinal directions, etc.), extend only with the most specifically and consistently associated terms of a single kind — never synonyms of the members already listed.',
     'Each word must be a single common English word (occasionally two), Title Case, recognizable, and suitable for a small game tile.',
-    'Words must be distinct within a category and must not repeat any word in that category’s exclusion list.',
+    'Return exactly the requested count of distinct new words per category, none repeating its existing words.',
     '',
     'Categories:',
     ...lines,
@@ -173,7 +180,7 @@ async function main(): Promise<void> {
       const count = p.need - p.chosen.length + GEN_BUFFER;
       const prev = byCat.get(p.categoryId);
       if (prev) prev.count = Math.max(prev.count, count);
-      else byCat.set(p.categoryId, { categoryId: p.categoryId, count, avoid: wordsFor(p.categoryId) });
+      else byCat.set(p.categoryId, { categoryId: p.categoryId, count, existing: wordsFor(p.categoryId) });
     }
     const requests = [...byCat.values()];
     console.log(`\ngenerating words for ${requests.length} categories (${requests.reduce((n, r) => n + r.count, 0)} requested)…`);

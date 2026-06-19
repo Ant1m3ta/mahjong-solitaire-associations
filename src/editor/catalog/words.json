@@ -28,12 +28,12 @@
       "Paper",
       "Cover",
       "Bookmark",
-      "Author",
-      "Chapter",
-      "Plot",
       "Spine",
+      "Binding",
+      "Chapter",
+      "Index",
       "Preface",
-      "Index"
+      "Appendix"
     ]
   },
   {
@@ -104,9 +104,9 @@
       "South",
       "East",
       "West",
-      "Up",
-      "Down",
-      "Left"
+      "Northeast",
+      "Southeast",
+      "Southwest"
     ]
   },
   {
@@ -315,12 +315,12 @@
       "Autumn",
       "Winter",
       "Summer",
-      "Snow",
-      "Heat",
-      "Fall",
+      "Solstice",
+      "Equinox",
+      "Frost",
       "Bloom",
       "Harvest",
-      "Frost"
+      "Thaw"
     ]
   },
   {
@@ -483,9 +483,9 @@
       "Weapon",
       "Horse",
       "Chivalry",
-      "Lance",
-      "Battle",
-      "Duel"
+      "Sword",
+      "Squire",
+      "Lance"
     ]
   },
   {
@@ -953,10 +953,10 @@
       "Sight",
       "Hearing",
       "Balance",
-      "Vision",
-      "Texture",
-      "Flavor",
-      "Sound"
+      "Pain",
+      "Warmth",
+      "Pressure",
+      "Vibration"
     ]
   },
   {
@@ -1144,11 +1144,11 @@
       "Penalty",
       "Goal",
       "Rink",
-      "Skate",
       "Stick",
-      "Check",
-      "Jersey",
-      "Assist"
+      "Skates",
+      "Goalie",
+      "Assist",
+      "Check"
     ]
   },
   {
@@ -1599,11 +1599,11 @@
       "Coupe",
       "Sedan",
       "Pickup",
-      "Truck",
       "Hatchback",
-      "Minivan",
       "Convertible",
-      "Hybrid"
+      "Minivan",
+      "Crossover",
+      "Truck"
     ]
   },
   {
@@ -1836,10 +1836,10 @@
       "Breath",
       "Peace",
       "Mantra",
-      "Mindful",
-      "Contemplate",
-      "Reflection",
-      "Stillness"
+      "Mindfulness",
+      "Chakra",
+      "Lotus",
+      "Enlightenment"
     ]
   },
   {
@@ -1851,9 +1851,9 @@
       "Renown",
       "Notable",
       "Prestige",
+      "Acclaim",
       "Celebrity",
-      "Stardom",
-      "Spotlight"
+      "Stardom"
     ]
   },
   {
@@ -1863,9 +1863,9 @@
       "Polyglot",
       "Grammar",
       "Scholar",
-      "Language",
-      "Words",
-      "Dialect"
+      "Semantics",
+      "Dialect",
+      "Lexicon"
     ]
   },
   {
@@ -2083,10 +2083,10 @@
       "Stroller",
       "Crib",
       "Rattle",
-      "Infant",
+      "Bottle",
       "Pacifier",
-      "Nursery",
-      "Lullaby"
+      "Blanket",
+      "Onesie"
     ]
   },
   {
@@ -2249,10 +2249,10 @@
       "Ballot",
       "Campaign",
       "Turnout",
-      "Vote",
-      "Poll",
       "Candidate",
-      "Incumbent"
+      "Poll",
+      "Incumbent",
+      "Booth"
     ]
   },
   {
@@ -2802,8 +2802,8 @@
       "Matrix",
       "Cortex",
       "Algorithm",
-      "Learning",
-      "Machine"
+      "Tensor",
+      "Training"
     ]
   },
   {
@@ -2854,9 +2854,9 @@
       "Acute",
       "Obtuse",
       "Oblique",
-      "Degree",
-      "Arc",
-      "Reflex"
+      "Reflex",
+      "Vertical",
+      "Complementary"
     ]
   },
   {
@@ -2866,11 +2866,11 @@
       "Country",
       "State",
       "City",
-      "Section",
+      "County",
       "District",
-      "Sector",
-      "Territory",
       "Township",
+      "Province",
+      "Territory",
       "Ward"
     ]
   },
@@ -3022,10 +3022,10 @@
       "Fallout",
       "Curie",
       "X-rays",
-      "Glow",
-      "Shine",
-      "Emit",
-      "Energy"
+      "Uranium",
+      "Isotope",
+      "Gamma",
+      "Fission"
     ]
   },
   {
@@ -3111,10 +3111,10 @@
       "Bronchi",
       "Trachea",
       "Exhale",
-      "Breath",
+      "Alveoli",
+      "Diaphragm",
       "Oxygen",
-      "Respiratory",
-      "Alveoli"
+      "Pulmonary"
     ]
   },
   {
@@ -3124,9 +3124,9 @@
       "Fur",
       "Trunk",
       "Tusks",
-      "Elephant",
-      "Massive",
-      "Ancient"
+      "Woolly",
+      "Extinct",
+      "Prehistoric"
     ]
   },
   {
@@ -3394,10 +3394,10 @@
       "Break",
       "Hold",
       "Halt",
-      "Delay",
-      "Hesitate",
-      "Interval",
-      "Intermission"
+      "Rest",
+      "Freeze",
+      "Wait",
+      "Suspend"
     ]
   },
   {
@@ -3541,12 +3541,12 @@
       "Register",
       "Barcode",
       "Customer",
-      "Cart",
-      "Aisle",
-      "Price",
+      "Scanner",
       "Receipt",
-      "Scan",
-      "Coupon"
+      "Lane",
+      "Coupon",
+      "Price",
+      "Payment"
     ]
   },
   {
@@ -3743,10 +3743,10 @@
       "Vitamin",
       "Sour",
       "Citrus",
-      "Fruit",
-      "Juice",
       "Zest",
-      "Pulp"
+      "Juice",
+      "Peel",
+      "Seed"
     ]
   },
   {
@@ -4427,10 +4427,10 @@
       "Colorful",
       "Sour",
       "Fruity",
-      "Candy",
-      "Stick",
       "Sweet",
-      "Swirl"
+      "Sticky",
+      "Hard",
+      "Sugary"
     ]
   },
   {
@@ -4967,12 +4967,12 @@
       "Muscles",
       "Joints",
       "Carpals",
-      "Hand",
-      "Finger",
-      "Tree",
-      "Frond",
-      "Beach",
-      "Lifeline"
+      "Fingers",
+      "Nerves",
+      "Veins",
+      "Ligaments",
+      "Knuckles",
+      "Skin"
     ]
   },
   {
@@ -5154,10 +5154,10 @@
       "Box",
       "Pallet",
       "Crate",
-      "Machine",
-      "Excavator",
-      "Bucket",
-      "Operator"
+      "Forklift",
+      "Conveyor",
+      "Dolly",
+      "Warehouse"
     ]
   },
   {
@@ -5192,9 +5192,9 @@
       "Idol",
       "Altar",
       "Nature",
-      "Pagan",
-      "Goddess",
-      "Mythology"
+      "Ceremony",
+      "Deity",
+      "Shaman"
     ]
   },
   {
@@ -5455,9 +5455,9 @@
       "Delude",
       "Falsify",
       "Mislead",
-      "Untruth",
-      "Fib",
-      "Falsehood"
+      "Fabricate",
+      "Exaggerate",
+      "Distort"
     ]
   },
   {
@@ -5476,12 +5476,12 @@
       "Surfing",
       "BMX",
       "Rafting",
-      "Skateboard",
-      "Snowboard",
-      "Skydive",
-      "Cliff",
-      "Extreme",
-      "Stunt"
+      "Skateboarding",
+      "Snowboarding",
+      "Skydiving",
+      "Rock Climbing",
+      "Motocross",
+      "Wakeboarding"
     ]
   },
   {
@@ -5701,9 +5701,9 @@
       "Quiver",
       "Arrow",
       "Crush",
-      "Valentines",
+      "Valentine",
       "Heart",
-      "Cherub"
+      "Desire"
     ]
   },
   {
@@ -5870,9 +5870,9 @@
       "Latch",
       "Strap",
       "Belt",
-      "Safety",
-      "Restraint",
-      "Harness"
+      "Retractor",
+      "Webbing",
+      "Safety"
     ]
   },
   {
@@ -6086,11 +6086,11 @@
       "Nuts",
       "Pollen",
       "Latex",
-      "Dander",
       "Mold",
-      "Gluten",
+      "Dander",
       "Shellfish",
-      "Dairy"
+      "Milk",
+      "Eggs"
     ]
   },
   {
@@ -6100,10 +6100,10 @@
       "Password",
       "Keycard",
       "Passcode",
-      "Permission",
-      "Entrance",
-      "Entry",
-      "Admission"
+      "Badge",
+      "PIN",
+      "Biometric",
+      "Lock"
     ]
   },
   {
@@ -6171,10 +6171,10 @@
       "Tired",
       "Dozy",
       "Sluggish",
-      "Boredom",
-      "Fatigue",
-      "Stretch",
-      "Contagious"
+      "Lethargic",
+      "Groggy",
+      "Listless",
+      "Bleary"
     ]
   },
   {
@@ -6269,10 +6269,10 @@
       "Blast",
       "Destroy",
       "Bang",
-      "Powerful",
-      "Explosive",
-      "Stick",
-      "Fuse"
+      "Fuse",
+      "Powder",
+      "TNT",
+      "Ignite"
     ]
   },
   {
@@ -6395,8 +6395,8 @@
       "Intrigue",
       "Tension",
       "Mystery",
-      "Scary",
-      "Climax"
+      "Twist",
+      "Cliffhanger"
     ]
   },
   {

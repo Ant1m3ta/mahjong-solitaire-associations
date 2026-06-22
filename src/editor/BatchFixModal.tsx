@@ -1,10 +1,21 @@
 import { useEffect, useMemo, useState } from 'react';
 import { buildFixPlan, fillFixRow, type FixRow } from './batchFix';
-import { overrideKey } from './batchFill';
+import { overrideKey, overridesForLevel } from './batchFill';
 import { buildGenRequests, type SlotPreview } from './rangeAssign';
 import { generateWords, wordGenAvailable } from './wordGen';
 import { pools } from './fill';
 import { saveLevelJSON, type LevelFileEntry } from './save';
+
+const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+// Words a category already holds in the file (excluding placeholder stubs), so
+// the modal can flag which preview words are NEW — the ones a save will write in
+// place of a `(needs word N)` stub (or the whole vocabulary of a replaced one).
+function fileRealWords(row: FixRow, letter: string): Set<string> {
+  const cat = row.level.categories[LETTERS.indexOf(letter)];
+  if (!cat) return new Set();
+  return new Set(cat.wordsData.filter((w) => !w.missing).map((w) => w.wordId.toLowerCase()));
+}
 
 interface Props {
   entries: LevelFileEntry[];
@@ -107,6 +118,40 @@ export function BatchFixModal({ entries, needsFolder, boundFolder, onPickFolder,
     }
   }
 
+  // A save changes the file when it can cleanly clear placeholder stubs
+  // (gap-free + incomplete) or when the category was replaced via an override.
+  // Levels with remaining gaps are excluded — they'd re-pad new placeholders.
+  function willChange(r: FixRow): boolean {
+    if (r.status !== 'ok' || r.duplicateCount > 0) return false;
+    const overridden = Object.keys(overridesForLevel(overrides, r.name)).length > 0;
+    return (r.gapCount === 0 && r.fileIncomplete) || overridden;
+  }
+
+  async function saveAllChanged() {
+    const targets = plan.filter(willChange);
+    if (targets.length === 0) return;
+    setBusy('__all__');
+    setError(null);
+    setSavedNote(null);
+    let saved = 0;
+    try {
+      for (const row of targets) {
+        const level = fillFixRow(row);
+        await saveLevelJSON(level, row.name);
+        saved++;
+        setSavedNote(`Saving… ${saved}/${targets.length}`);
+      }
+      setSavedNote(`Saved ${saved} level${saved === 1 ? '' : 's'}.`);
+      onWrote();
+    } catch (e) {
+      setError(`Saved ${saved}/${targets.length}, then failed: ${e instanceof Error ? e.message : String(e)}`);
+    } finally {
+      setBusy(null);
+    }
+  }
+
+  const changedCount = plan.filter(willChange).length;
+
   const needsPick = needsFolder && !boundFolder;
   const unsupported = !needsFolder;
 
@@ -201,17 +246,23 @@ export function BatchFixModal({ entries, needsFolder, boundFolder, onPickFolder,
                               {busy === row.name ? 'Saving…' : 'Save level'}
                             </button>
                           </div>
-                          {row.previews.map((p) => (
+                          {row.previews.map((p) => {
+                            const isImg = row.imageLetters.has(p.letter);
+                            const existing = fileRealWords(row, p.letter);
+                            return (
                             <div className="batch-cat" key={p.letter}>
                               <div className="batch-cat-head">
                                 <span className="cat-letter">{p.letter}</span>
                                 <span className="batch-cat-name">{p.categoryId}</span>
+                                {isImg && <span className="batch-tag">🖼 images</span>}
                                 {p.overridden && <span className="batch-tag">replaced</span>}
                                 {p.duplicate && <span className="batch-badge bad">dup</span>}
-                                <span className={`batch-cat-count${p.shortfall > 0 ? ' short' : ''}`}>
-                                  {p.chosen.length}/{p.simpleCards}
-                                </span>
-                                {(p.shortfall > 0 || p.overridden) && (
+                                {!isImg && (
+                                  <span className={`batch-cat-count${p.shortfall > 0 ? ' short' : ''}`}>
+                                    {p.chosen.length}/{p.simpleCards}
+                                  </span>
+                                )}
+                                {!isImg && (p.shortfall > 0 || p.overridden) && (
                                   <button
                                     className="editor-btn small"
                                     onClick={() => replaceCategory(row, p)}
@@ -233,19 +284,42 @@ export function BatchFixModal({ entries, needsFolder, boundFolder, onPickFolder,
                                 )}
                               </div>
                               <div className="batch-cat-words">
-                                {p.chosen.map((w, k) => (
-                                  <span key={`w-${k}`} className={`range-word${p.generated[k] ? ' gen' : ''}`}>
-                                    {p.generated[k] ? '✦ ' : ''}
-                                    {w}
+                                {isImg ? (
+                                  <span className="range-empty-note">
+                                    {p.simpleCards} picture{p.simpleCards === 1 ? '' : 's'} — kept as-is
                                   </span>
-                                ))}
-                                {Array.from({ length: p.shortfall }).map((_, k) => (
-                                  <span key={`m-${k}`} className="range-word missing">needs word</span>
-                                ))}
-                                {p.simpleCards === 0 && <span className="range-empty-note">category card only</span>}
+                                ) : (
+                                  <>
+                                    {p.chosen.map((w, k) => {
+                                      const isNew = !p.generated[k] && !existing.has(w.toLowerCase());
+                                      const cls = p.generated[k] ? ' gen' : isNew ? ' fills' : '';
+                                      return (
+                                        <span
+                                          key={`w-${k}`}
+                                          className={`range-word${cls}`}
+                                          title={
+                                            p.generated[k]
+                                              ? 'AI-generated'
+                                              : isNew
+                                                ? 'will be written in place of a placeholder'
+                                                : undefined
+                                          }
+                                        >
+                                          {p.generated[k] ? '✦ ' : isNew ? '＋ ' : ''}
+                                          {w}
+                                        </span>
+                                      );
+                                    })}
+                                    {Array.from({ length: p.shortfall }).map((_, k) => (
+                                      <span key={`m-${k}`} className="range-word missing">needs word</span>
+                                    ))}
+                                    {p.simpleCards === 0 && <span className="range-empty-note">category card only</span>}
+                                  </>
+                                )}
                               </div>
                             </div>
-                          ))}
+                            );
+                          })}
                         </div>
                       )}
                     </div>
@@ -261,6 +335,14 @@ export function BatchFixModal({ entries, needsFolder, boundFolder, onPickFolder,
                 {error && <span className="range-bad">{error}</span>}
               </div>
               <div className="range-actions">
+                <button
+                  className="editor-btn"
+                  onClick={saveAllChanged}
+                  disabled={!!busy || changedCount === 0}
+                  title="Save every level whose placeholders can be cleared or whose category was replaced"
+                >
+                  {busy === '__all__' ? 'Saving all…' : `Save all changed (${changedCount})`}
+                </button>
                 <button className="editor-btn primary" onClick={onClose} disabled={!!busy}>Done</button>
               </div>
             </div>

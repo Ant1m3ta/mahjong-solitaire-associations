@@ -1,8 +1,13 @@
 import imageCatsRaw from './catalog/image_categories.json';
 import { AVAILABLE_IMAGES } from './catalog/images';
+import { pools } from './fill';
 import type { LevelData, WordData } from '../types';
 import type { LevelFileEntry } from './save';
 import { overridesForLevel } from './batchFill';
+
+// Sentinel override value meaning "roll this slot back from pictures to text
+// words" (the reverse of an image swap). Cannot collide with a real categoryId.
+export const TO_WORDS = '__to_words__';
 
 // The image-ready catalog: categories whose words all have PNGs in
 // public/images. Derived from the card-illustration filenames, so each wordId
@@ -48,6 +53,25 @@ export function ownImageCategory(categoryId: string, distinctWords: number): Ima
   return c && c.wordsIds.length >= distinctWords ? c : null;
 }
 
+// Text-word catalog keyed by normalized name, so an imaged "birds" finds the
+// "Birds" word list when rolling back to words.
+let TEXT_BY_NORM: Map<string, { categoryId: string; wordsIds: string[] }> | null = null;
+function textCatFor(categoryId: string): { categoryId: string; wordsIds: string[] } | null {
+  if (!TEXT_BY_NORM) {
+    TEXT_BY_NORM = new Map();
+    for (const c of pools().all) {
+      const k = normId(c.categoryId);
+      if (!TEXT_BY_NORM.has(k)) TEXT_BY_NORM.set(k, c);
+    }
+  }
+  return TEXT_BY_NORM.get(normId(categoryId)) ?? null;
+}
+
+// How many text words are available to roll a category back to words (0 = none).
+export function rollbackWordCount(categoryId: string): number {
+  return textCatFor(categoryId)?.wordsIds.length ?? 0;
+}
+
 // How many pictures the category's own theme has (0 if it has none) — for the
 // per-category availability badge, independent of how many the slot needs.
 export function ownImageTokenCount(categoryId: string): number {
@@ -71,6 +95,7 @@ export interface ImageSlot {
   imageIds: string[]; // resolved image keys to render (empty for text slots)
   stale: boolean; // an image slot whose pictures are missing from public/images
   ownImageCount: number; // pictures the slot's own category theme has (0 if none)
+  rollbackWords: number; // text words available to roll this category back to words
   ok: boolean;
   problem?: string;
 }
@@ -92,10 +117,15 @@ interface SwapResult {
   slots: ImageSlot[];
 }
 
-// Surgical reskin: replace each selected category's id + word vocabulary with an
-// image category's, mapping the slot's distinct words 1:1 onto picture tokens and
-// rewriting every board/stock reference. The placement/match structure (including
-// any word reuse across tiles) is preserved exactly — only the imagery changes.
+// Surgical reskin: replace each selected category's id + word vocabulary, mapping
+// the slot's distinct words 1:1 onto the target's (picture tokens for an image
+// swap, or text words for a TO_WORDS rollback) and rewriting every board/stock
+// reference. The placement/match structure (including word reuse across tiles)
+// is preserved exactly — only the imagery/vocabulary changes.
+type Resolved =
+  | { kind: 'image'; catId: string; tokens: string[] }
+  | { kind: 'words'; catId: string; words: string[] };
+
 function buildSwapResult(level: LevelData, swaps: Map<number, string>): SwapResult {
   const cats = level.categories;
   const origWords = cats.map((c) => c.wordsData.map((w) => w.wordId));
@@ -104,52 +134,86 @@ function buildSwapResult(level: LevelData, swaps: Map<number, string>): SwapResu
     (c) => c.wordsData.length > 0 && c.wordsData.every((w) => w.icon),
   );
 
-  // Image wordIds are namespaced ("<categoryId>__<token>"), so a swapped slot's
-  // words can never collide with another slot's or an untouched category — only
-  // a reused category id is ambiguous, guarded by idCounts below.
-  const finalCatIds = cats.map((c, i) => (swaps.get(i) ?? c.categoryId));
+  const problem = new Map<number, string>();
+
+  // Resolve each swapped slot's TARGET category id first (image cat id, or the
+  // matching text cat id for a rollback) — needed for the collision check below.
+  const targetId = new Map<number, string>();
+  cats.forEach((c, i) => {
+    if (!swaps.has(i)) return;
+    const ov = swaps.get(i)!;
+    if (ov === TO_WORDS) {
+      const tc = textCatFor(c.categoryId);
+      if (!tc) problem.set(i, `no words found for "${c.categoryId}"`);
+      else targetId.set(i, tc.categoryId);
+    } else if (!IMG_BY_ID.get(ov)) {
+      problem.set(i, `unknown image category "${ov}"`);
+    } else {
+      targetId.set(i, ov);
+    }
+  });
+
+  const finalCatIds = cats.map((c, i) => targetId.get(i) ?? c.categoryId);
   // A category id reused across two final slots is an ambiguous collision.
   const idCounts = new Map<string, number>();
   finalCatIds.forEach((id) => idCounts.set(id.toLowerCase(), (idCounts.get(id.toLowerCase()) ?? 0) + 1));
 
-  const chosen = new Map<number, string[]>();
-  const wordMap = new Map<string, string>(); // old wordId → new token (swapped slots)
+  // Vocabulary already taken (final cat ids + words of untouched slots); rollback
+  // text words must avoid it to keep every cardId unique. Image tokens are
+  // namespaced so they can't collide, but adding them is harmless.
+  const used = new Set<string>();
+  finalCatIds.forEach((id) => used.add(id.toLowerCase()));
+  cats.forEach((_c, i) => {
+    if (!swaps.has(i)) origWords[i].forEach((w) => used.add(w.toLowerCase()));
+  });
+
+  const resolved = new Map<number, Resolved>();
+  const wordMap = new Map<string, string>(); // old wordId → new wordId/token
   const catMap = new Map<string, string>(); // old categoryId → new categoryId
-  const problem = new Map<number, string>();
 
   cats.forEach((c, i) => {
-    if (!swaps.has(i)) return;
-    const id = swaps.get(i)!;
-    const cat = IMG_BY_ID.get(id);
-    if (!cat) {
-      problem.set(i, `unknown image category "${id}"`);
-      return;
-    }
-    if ((idCounts.get(id.toLowerCase()) ?? 0) > 1) {
-      problem.set(i, `category "${id}" used by another slot`);
-    }
+    if (!swaps.has(i) || problem.has(i)) return;
+    const tid = targetId.get(i)!;
+    if ((idCounts.get(tid.toLowerCase()) ?? 0) > 1) problem.set(i, `category "${tid}" used by another slot`);
     const need = origWords[i].length;
-    const tokens = cat.wordsIds.slice(0, need);
-    chosen.set(i, tokens);
-    if (tokens.length < need && !problem.has(i)) {
-      problem.set(i, `only ${tokens.length}/${need} pictures available`);
+    catMap.set(c.categoryId, tid);
+
+    if (swaps.get(i) === TO_WORDS) {
+      const tc = textCatFor(c.categoryId)!;
+      const words: string[] = [];
+      for (const w of tc.wordsIds) {
+        if (words.length >= need) break;
+        if (used.has(w.toLowerCase())) continue;
+        words.push(w);
+        used.add(w.toLowerCase());
+      }
+      if (words.length < need && !problem.has(i)) {
+        problem.set(i, `only ${words.length}/${need} unique words available`);
+      }
+      resolved.set(i, { kind: 'words', catId: tid, words });
+      origWords[i].forEach((ow, k) => {
+        if (k < words.length) wordMap.set(ow, words[k]);
+      });
+    } else {
+      const tokens = IMG_BY_ID.get(tid)!.wordsIds.slice(0, need);
+      if (tokens.length < need && !problem.has(i)) {
+        problem.set(i, `only ${tokens.length}/${need} pictures available`);
+      }
+      resolved.set(i, { kind: 'image', catId: tid, tokens });
+      origWords[i].forEach((ow, k) => {
+        if (k < tokens.length) wordMap.set(ow, imageIdFor(tid, tokens[k]));
+      });
     }
-    catMap.set(c.categoryId, id);
-    origWords[i].forEach((ow, k) => {
-      if (k < tokens.length) wordMap.set(ow, imageIdFor(id, tokens[k]));
-    });
   });
 
   const categories = cats.map((c, i) => {
-    if (!swaps.has(i)) return c;
-    const id = swaps.get(i)!;
-    const tokens = chosen.get(i) ?? [];
-    const wordsData: WordData[] = tokens.map((t) => ({
-      wordId: imageIdFor(id, t),
-      icon: true,
-      imageId: imageIdFor(id, t),
-    }));
-    return { categoryId: id, wordsData };
+    const r = resolved.get(i);
+    if (!r) return c;
+    const wordsData: WordData[] =
+      r.kind === 'image'
+        ? r.tokens.map((t) => ({ wordId: imageIdFor(r.catId, t), icon: true, imageId: imageIdFor(r.catId, t) }))
+        : r.words.map((w) => ({ wordId: w }));
+    return { categoryId: r.catId, wordsData };
   });
 
   const remap = (cardId: string): string => catMap.get(cardId) ?? wordMap.get(cardId) ?? cardId;
@@ -158,12 +222,16 @@ function buildSwapResult(level: LevelData, swaps: Map<number, string>): SwapResu
 
   const slots: ImageSlot[] = cats.map((c, i) => {
     const swapped = swaps.has(i);
-    const swapId = swapped ? swaps.get(i)! : undefined;
-    const imageIds = swapped
-      ? (chosen.get(i) ?? []).map((t) => imageIdFor(swapId!, t))
+    const r = resolved.get(i);
+    const isImage = r ? r.kind === 'image' : origIsImage[i];
+    const imageIds = r
+      ? r.kind === 'image'
+        ? r.tokens.map((t) => imageIdFor(r.catId, t))
+        : []
       : origIsImage[i]
         ? origImageIds[i]
         : [];
+    const tokens = r ? (r.kind === 'image' ? r.tokens : r.words) : origWords[i];
     // A non-swapped image slot is stale when its pictures aren't in the current
     // public/images set (e.g. left over from a previous art set) — re-imagize it.
     const stale =
@@ -172,14 +240,15 @@ function buildSwapResult(level: LevelData, swaps: Map<number, string>): SwapResu
       index: i,
       letter: LETTERS[i] ?? String(i),
       originalCategoryId: c.categoryId,
-      categoryId: swapped ? swaps.get(i)! : c.categoryId,
+      categoryId: r ? r.catId : c.categoryId,
       distinctWords: origWords[i].length,
-      isImage: swapped ? true : origIsImage[i],
+      isImage,
       swapped,
-      tokens: swapped ? (chosen.get(i) ?? []) : origWords[i],
+      tokens,
       imageIds,
       stale,
       ownImageCount: ownImageTokenCount(c.categoryId),
+      rollbackWords: rollbackWordCount(c.categoryId),
       ok: !problem.has(i),
       problem: problem.get(i),
     };

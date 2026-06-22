@@ -450,6 +450,62 @@
   padding: 6px 10px;
   border-radius: 4px;
 }
+/* Image-set picker: a header line + a strip of preview thumbnails. */
+.imgset-row {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+}
+.imgset-row:hover {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: #3a3a5a;
+}
+.imgset-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.imgset-head .picker-name {
+  flex: 1;
+}
+.imgset-hint {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  opacity: 0.5;
+  white-space: nowrap;
+}
+.imgset-thumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 6px;
+}
+/* Outline the pictures that will actually be used; dim the rest. */
+.imgset-thumbs .img-thumb {
+  width: 30px;
+  height: 30px;
+}
+.imgset-thumbs .img-thumb.sel {
+  outline: 2px solid #6cf;
+  outline-offset: 1px;
+}
+.imgset-thumbs .img-thumb.unsel {
+  opacity: 0.3;
+  filter: grayscale(0.6);
+}
+.picker-uses {
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  color: #e8cd80;
+  opacity: 0.85;
+  white-space: nowrap;
+}
+.picker-uses.zero {
+  color: #8a8aa0;
+  opacity: 0.6;
+}
 .picker-row:hover {
   background: rgba(255, 255, 255, 0.04);
 }
@@ -1082,6 +1138,11 @@
   background: transparent;
   color: #ff8a8a;
   opacity: 0.8;
+}
+.range-word.fills {
+  border-color: rgba(118, 224, 150, 0.6);
+  background: rgba(118, 224, 150, 0.12);
+  color: #9be8b4;
 }
 .range-empty-note {
   font-size: 11px;

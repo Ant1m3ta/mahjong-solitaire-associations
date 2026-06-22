@@ -3,9 +3,11 @@ import { overrideKey } from './batchFill';
 import {
   buildImagePlan,
   imageCatsWithAtLeast,
+  imageIdFor,
   ownImageCategory,
   prettyToken,
   resolveImageLevel,
+  TO_WORDS,
   type ImageRow,
   type ImageSlot,
 } from './imageSwap';
@@ -43,6 +45,18 @@ export function ImagesModal({ entries, needsFolder, boundFolder, onPickFolder, o
   }, [onClose, busy]);
 
   const plan = useMemo(() => buildImagePlan(entries, overrides), [entries, overrides]);
+
+  // How many slots across all the levels currently resolve to each image
+  // category (so the picker can show how often each set is already used).
+  const usageByCat = useMemo(() => {
+    const m = new Map<string, number>();
+    for (const row of plan) {
+      for (const s of row.slots) {
+        if (s.isImage) m.set(s.categoryId, (m.get(s.categoryId) ?? 0) + 1);
+      }
+    }
+    return m;
+  }, [plan]);
 
   function toggleExpand(name: string) {
     setExpanded((prev) => {
@@ -246,6 +260,20 @@ export function ImagesModal({ entries, needsFolder, boundFolder, onPickFolder, o
                                 >
                                   pick…
                                 </button>
+                                {slot.isImage && (
+                                  <button
+                                    className="editor-btn small"
+                                    onClick={() => setOverride(row.name, slot.letter, TO_WORDS)}
+                                    disabled={!!busy || slot.rollbackWords < slot.distinctWords}
+                                    title={
+                                      slot.rollbackWords < slot.distinctWords
+                                        ? `only ${slot.rollbackWords} text words available, need ${slot.distinctWords}`
+                                        : 'Roll back from pictures to text words'
+                                    }
+                                  >
+                                    → words
+                                  </button>
+                                )}
                                 {slot.swapped && (
                                   <button
                                     className="editor-btn small"
@@ -298,6 +326,7 @@ export function ImagesModal({ entries, needsFolder, boundFolder, onPickFolder, o
     {pickFor && (
       <ImageSetPicker
         need={pickFor.need}
+        usage={usageByCat}
         onPick={(id) => {
           setOverride(pickFor.name, pickFor.letter, id);
           setPickFor(null);
@@ -327,12 +356,15 @@ function OwnBadge({ slot }: { slot: ImageSlot }) {
 }
 
 // Searchable list of image sets (≥ the slot's word count) for manual override.
+// Each row shows how many slots across the loaded levels already use that set.
 function ImageSetPicker({
   need,
+  usage,
   onPick,
   onClose,
 }: {
   need: number;
+  usage: Map<string, number>;
   onPick: (categoryId: string) => void;
   onClose: () => void;
 }) {
@@ -376,16 +408,38 @@ function ImageSetPicker({
           {matches.length === 0 ? (
             <div className="editor-empty">No image set has enough pictures.</div>
           ) : (
-            matches.map((c) => (
-              <div key={c.categoryId} className="picker-row">
-                <span className="picker-kind kind-icon">icon</span>
-                <span className="picker-name">{c.categoryId}</span>
-                <span className="picker-count">{c.wordsIds.length}🖼</span>
-                <button className="editor-btn small primary" onClick={() => onPick(c.categoryId)}>
-                  Pick
-                </button>
-              </div>
-            ))
+            matches.map((c) => {
+              const uses = usage.get(c.categoryId) ?? 0;
+              return (
+                <div key={c.categoryId} className="imgset-row">
+                  <div className="imgset-head">
+                    <span className="picker-name">{c.categoryId}</span>
+                    <span className="picker-count">{c.wordsIds.length}🖼</span>
+                    <span className="imgset-hint" title={`the first ${need} picture${need === 1 ? '' : 's'} (outlined) will be used`}>
+                      uses first {need}
+                    </span>
+                    <span
+                      className={`picker-uses${uses === 0 ? ' zero' : ''}`}
+                      title={`used by ${uses} slot${uses === 1 ? '' : 's'} across the loaded levels`}
+                    >
+                      {uses === 0 ? 'unused' : `used ${uses}×`}
+                    </span>
+                    <button className="editor-btn small primary" onClick={() => onPick(c.categoryId)}>
+                      Pick
+                    </button>
+                  </div>
+                  <div className="imgset-thumbs">
+                    {c.wordsIds.map((t, i) => (
+                      <Thumb
+                        key={t}
+                        imageId={imageIdFor(c.categoryId, t)}
+                        className={i < need ? 'sel' : 'unsel'}
+                      />
+                    ))}
+                  </div>
+                </div>
+              );
+            })
           )}
         </div>
       </div>
@@ -395,18 +449,18 @@ function ImageSetPicker({
 
 // A picture thumbnail that falls back to a visible "missing" box if the PNG
 // isn't in public/images (e.g. a stale image id left over from another art set).
-function Thumb({ imageId }: { imageId: string }) {
+function Thumb({ imageId, className = '' }: { imageId: string; className?: string }) {
   const [broken, setBroken] = useState(false);
   if (broken) {
     return (
-      <span className="img-thumb missing" title={`missing: ${imageId}.png`}>
+      <span className={`img-thumb missing ${className}`} title={`missing: ${imageId}.png`}>
         ?
       </span>
     );
   }
   return (
     <img
-      className="img-thumb"
+      className={`img-thumb ${className}`}
       src={`${IMG_BASE}${imageId}.png`}
       alt={imageId}
       title={imageId}

@@ -119,7 +119,9 @@ export function buildGenRequests(previews: SlotPreview[], buffer = 0): GenReques
     const avoid = Array.from(
       new Set([...wordsForName(p.categoryId), ...allChosen, ...windowNames]),
     );
-    byName.set(p.categoryId, { categoryId: p.categoryId, count, avoid });
+    // The category's own words anchor the sense/type for the model; `avoid`
+    // still carries them (plus cross-category words) as the no-repeat list.
+    byName.set(p.categoryId, { categoryId: p.categoryId, count, existing: wordsForName(p.categoryId), avoid });
   }
   return Array.from(byName.values());
 }

@@ -4,6 +4,12 @@ import { execFile } from 'node:child_process';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import type { IncomingMessage } from 'node:http';
+import {
+  buildWordGenPrompt,
+  WORD_GEN_MODEL,
+  WORD_GEN_SCHEMA,
+  type WordGenReq,
+} from './src/editor/wordGenPrompt';
 
 const WORDS_PATH = fileURLToPath(new URL('./src/editor/catalog/words.json', import.meta.url));
 
@@ -11,51 +17,9 @@ const WORDS_PATH = fileURLToPath(new URL('./src/editor/catalog/words.json', impo
 // only inside `vite dev` (configureServer + apply: 'serve'), so it is never
 // part of the production build and needs no API key — it reuses the
 // developer's local Claude Code auth. The editor's "Generate missing words"
-// button calls it.
-const WORD_GEN_MODEL = 'claude-haiku-4-5';
-
-interface GenReq {
-  categoryId: string;
-  count: number;
-  avoid?: string[];
-}
-
-function buildPrompt(requests: GenReq[]): string {
-  const lines = requests.map((r) => {
-    const avoid =
-      r.avoid && r.avoid.length ? ` Do not use any of these: ${r.avoid.join(', ')}.` : '';
-    return `- "${r.categoryId}": ${r.count} word${r.count === 1 ? '' : 's'}.${avoid}`;
-  });
-  return [
-    'You generate tile words for a word-association game.',
-    'For every category below, return exactly the requested number of distinct words that clearly and unambiguously belong to that category.',
-    'Each word must be a single common English word (occasionally two), Title Case, recognizable, and suitable for a small game tile.',
-    'Words must be distinct within a category and must not repeat any word in that category’s exclusion list.',
-    '',
-    'Categories:',
-    ...lines,
-  ].join('\n');
-}
-
-const WORD_GEN_SCHEMA = JSON.stringify({
-  type: 'object',
-  properties: {
-    categories: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          categoryId: { type: 'string' },
-          words: { type: 'array', items: { type: 'string' } },
-        },
-        required: ['categoryId', 'words'],
-        additionalProperties: false,
-      },
-    },
-  },
-  required: ['categories'],
-  additionalProperties: false,
-});
+// button calls it. Prompt/schema/model are shared with the refill CLI via
+// src/editor/wordGenPrompt.ts.
+type GenReq = WordGenReq;
 
 function runClaude(prompt: string): Promise<{ categoryId: string; words: string[] }[]> {
   return new Promise((resolve, reject) => {
@@ -145,7 +109,7 @@ function wordGenPlugin(): Plugin {
             res.end(JSON.stringify({ error: 'no requests' }));
             return;
           }
-          const categories = await runClaude(buildPrompt(requests));
+          const categories = await runClaude(buildWordGenPrompt(requests));
           let persisted = 0;
           try {
             persisted = persistToCatalog(categories);

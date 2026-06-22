@@ -17,31 +17,20 @@ import { promisify } from 'node:util';
 import { unfillLevel } from '../src/editor/unfill';
 import { pools, addCatalogWords, fillSkeleton } from '../src/editor/fill';
 import categoryListRaw from '../src/editor/catalog/category_list.json';
+import {
+  buildWordGenPrompt,
+  WORD_GEN_MODEL,
+  WORD_GEN_SCHEMA,
+  type WordGenReq,
+} from '../src/editor/wordGenPrompt';
 import type { LevelData } from '../src/types';
 import type { SkeletonLevel } from '../src/editor/types';
 
 const execFileAsync = promisify(execFile);
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const WORDS_PATH = resolve(__dirname, '..', 'src', 'editor', 'catalog', 'words.json');
-const WORD_GEN_MODEL = 'claude-haiku-4-5';
 const GEN_BUFFER = 2; // ask for a couple extra to absorb dedup/avoid collisions
 const CATEGORY_LIST = categoryListRaw as string[];
-const WORD_GEN_SCHEMA = JSON.stringify({
-  type: 'object',
-  properties: {
-    categories: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: { categoryId: { type: 'string' }, words: { type: 'array', items: { type: 'string' } } },
-        required: ['categoryId', 'words'],
-        additionalProperties: false,
-      },
-    },
-  },
-  required: ['categories'],
-  additionalProperties: false,
-});
 
 const argv = process.argv.slice(2);
 const GENERATE = argv.includes('--generate');
@@ -105,30 +94,7 @@ function assign(): LevelPlan[] {
 const shortOf = (plan: LevelPlan[]): CatPick[] =>
   plan.flatMap((l) => l.picks).filter((p) => p.chosen.length < p.need);
 
-interface GenReq { categoryId: string; count: number; existing?: string[] }
-
-function buildPrompt(requests: GenReq[]): string {
-  const lines = requests.map((r) => {
-    const have = r.existing && r.existing.length
-      ? ` Words already in this category: ${r.existing.join(', ')}.`
-      : ' (no example words available — infer from the name.)';
-    return `- "${r.categoryId}": ${r.count} more word${r.count === 1 ? '' : 's'}.${have}`;
-  });
-  return [
-    'You generate tile words for a word-association game.',
-    'For every category below, add the requested number of NEW words that belong to it.',
-    'Each category lists the words already in it. Treat those existing words as the source of truth for what the category means — not the name alone:',
-    '  - They fix the sense when the name has more than one meaning (e.g. "Palm" the wrist vs. the tree, "Loader" the warehouse worker vs. the digger). Match the SAME sense the existing words establish.',
-    '  - They fix the type and specificity. If they are body parts, return more body parts; if they are the literal members of a set, return more members of that set — not adjectives, descriptions, or loosely related concepts.',
-    'Never return a synonym or alternate spelling of a word already present (e.g. if "Autumn" is listed do not add "Fall"; if "Sight" is listed do not add "Vision"; if "Hearing" is listed do not add "Sound").',
-    'If the category is a small closed set whose real members are exhausted (the four seasons, the five/six senses, the cardinal directions, etc.), extend only with the most specifically and consistently associated terms of a single kind — never synonyms of the members already listed.',
-    'Each word must be a single common English word (occasionally two), Title Case, recognizable, and suitable for a small game tile.',
-    'Return exactly the requested count of distinct new words per category, none repeating its existing words.',
-    '',
-    'Categories:',
-    ...lines,
-  ].join('\n');
-}
+type GenReq = WordGenReq;
 
 async function runClaude(prompt: string): Promise<{ categoryId: string; words: string[] }[]> {
   const { stdout } = await execFileAsync(
@@ -184,7 +150,7 @@ async function main(): Promise<void> {
     }
     const requests = [...byCat.values()];
     console.log(`\ngenerating words for ${requests.length} categories (${requests.reduce((n, r) => n + r.count, 0)} requested)…`);
-    const results = await runClaude(buildPrompt(requests));
+    const results = await runClaude(buildWordGenPrompt(requests));
     for (const r of results) addCatalogWords(r.categoryId, r.words);
     const persisted = persistToCatalog(results);
     console.log(`generated ${results.reduce((n, r) => n + r.words.length, 0)} words · persisted ${persisted} new to words.json`);

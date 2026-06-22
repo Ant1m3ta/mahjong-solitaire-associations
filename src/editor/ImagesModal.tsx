@@ -2,8 +2,8 @@ import { useEffect, useMemo, useState } from 'react';
 import { overrideKey } from './batchFill';
 import {
   buildImagePlan,
-  imageIdFor,
-  pickImageCategory,
+  imageCatsWithAtLeast,
+  ownImageCategory,
   prettyToken,
   resolveImageLevel,
   type ImageRow,
@@ -28,6 +28,8 @@ export function ImagesModal({ entries, needsFolder, boundFolder, onPickFolder, o
   const [busy, setBusy] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [savedNote, setSavedNote] = useState<string | null>(null);
+  // Open manual image-set picker for a specific slot.
+  const [pickFor, setPickFor] = useState<{ name: string; letter: string; need: number } | null>(null);
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
@@ -51,23 +53,19 @@ export function ImagesModal({ entries, needsFolder, boundFolder, onPickFolder, o
     });
   }
 
-  // Image category ids already in use across this level — never pick a duplicate.
-  function usedIds(row: ImageRow): Set<string> {
-    return new Set(row.slots.map((s) => s.categoryId.toLowerCase()));
-  }
-
   function setOverride(name: string, letter: string, id: string) {
     setOverrides((prev) => ({ ...prev, [overrideKey(name, letter)]: id }));
   }
 
-  function imagize(row: ImageRow, slot: ImageSlot) {
-    const pick = pickImageCategory(slot.distinctWords, usedIds(row));
-    if (!pick) {
-      setError(`No image category has ≥ ${slot.distinctWords} words for slot ${slot.letter}.`);
+  // Show a slot as its own category's pictures (matched by normalized name).
+  function useOwn(row: ImageRow, slot: ImageSlot) {
+    const own = ownImageCategory(slot.categoryId, slot.distinctWords);
+    if (!own) {
+      setError(`${slot.categoryId} has no image set with ≥ ${slot.distinctWords} pictures.`);
       return;
     }
     setError(null);
-    setOverride(row.name, slot.letter, pick.categoryId);
+    setOverride(row.name, slot.letter, own.categoryId);
   }
 
   function reset(row: ImageRow, slot: ImageSlot) {
@@ -78,21 +76,22 @@ export function ImagesModal({ entries, needsFolder, boundFolder, onPickFolder, o
     });
   }
 
-  function autoImagize(row: ImageRow) {
-    const exclude = usedIds(row);
+  // Bulk: set every category that has its own image set (and enough pictures)
+  // to those pictures. Leaves categories without their own images for manual
+  // picking — no random theme is ever assigned.
+  function useOwnAll(row: ImageRow) {
     const next: Record<string, string> = { ...overrides };
     let any = false;
     for (const slot of row.slots) {
-      if (slot.swapped || slot.isImage) continue;
-      const pick = pickImageCategory(slot.distinctWords, exclude);
-      if (!pick) continue;
-      exclude.add(pick.categoryId.toLowerCase());
-      exclude.delete(slot.categoryId.toLowerCase());
-      next[overrideKey(row.name, slot.letter)] = pick.categoryId;
+      if (slot.swapped) continue;
+      if (slot.isImage && !slot.stale) continue;
+      const own = ownImageCategory(slot.categoryId, slot.distinctWords);
+      if (!own) continue;
+      next[overrideKey(row.name, slot.letter)] = own.categoryId;
       any = true;
     }
     if (!any) {
-      setError(`No convertible categories in ${row.name}.`);
+      setError(`No categories with their own images in ${row.name}.`);
       return;
     }
     setError(null);
@@ -128,11 +127,8 @@ export function ImagesModal({ entries, needsFolder, boundFolder, onPickFolder, o
   const unsupported = !needsFolder;
   const swappedLevels = plan.filter((r) => r.swapCount > 0).length;
 
-  function thumbFor(slot: ImageSlot, token: string): string {
-    return `${IMG_BASE}${imageIdFor(slot.categoryId, token)}.png`;
-  }
-
   return (
+    <>
     <div className="picker-overlay" onClick={() => !busy && onClose()}>
       <div className="picker-modal batch-modal" onClick={(e) => e.stopPropagation()}>
         <div className="picker-header">
@@ -185,6 +181,12 @@ export function ImagesModal({ entries, needsFolder, boundFolder, onPickFolder, o
                       {expandable && (
                         <span className="batch-badge">{row.imageSlotCount}/{row.slots.length} image</span>
                       )}
+                      {expandable && (
+                        <span className="batch-badge" title="categories with enough of their own pictures">
+                          {row.ownReadyCount} own-ready
+                        </span>
+                      )}
+                      {row.staleCount > 0 && <span className="batch-badge warn">{row.staleCount} stale</span>}
                       {row.swapCount > 0 && <span className="batch-badge warn">{row.swapCount} pending</span>}
                       {row.hasProblem && <span className="batch-badge bad">unresolved</span>}
                     </div>
@@ -193,11 +195,11 @@ export function ImagesModal({ entries, needsFolder, boundFolder, onPickFolder, o
                         <div className="batch-fix-toolbar">
                           <button
                             className="editor-btn small"
-                            onClick={() => autoImagize(row)}
+                            onClick={() => useOwnAll(row)}
                             disabled={!!busy}
-                            title="Swap every non-image category to a random image-ready one"
+                            title="Show every category that has its own image set as those pictures (categories without their own images are left for manual picking)"
                           >
-                            🖼 Imagize all
+                            🖼 Use own (all)
                           </button>
                           <button
                             className="editor-btn small primary"
@@ -216,48 +218,54 @@ export function ImagesModal({ entries, needsFolder, boundFolder, onPickFolder, o
                               {slot.swapped && (
                                 <span className="batch-tag">← {slot.originalCategoryId}</span>
                               )}
-                              {slot.isImage && !slot.swapped && <span className="batch-tag">images</span>}
+                              {slot.isImage && !slot.swapped && !slot.stale && (
+                                <span className="batch-tag">images</span>
+                              )}
+                              {slot.stale && <span className="batch-tag warn">stale</span>}
                               <span className={`batch-cat-count${slot.problem ? ' short' : ''}`}>
                                 {slot.distinctWords} word{slot.distinctWords === 1 ? '' : 's'}
                               </span>
+                              <OwnBadge slot={slot} />
                               {slot.problem && <span className="batch-badge bad">{slot.problem}</span>}
-                              <button
-                                className="editor-btn small"
-                                onClick={() => imagize(row, slot)}
-                                disabled={!!busy}
-                                title="Swap to a random image-ready category with enough words"
-                              >
-                                {slot.swapped ? '↻ reroll' : '🖼 imagize'}
-                              </button>
-                              {slot.swapped && (
+                              <span className="batch-cat-actions">
                                 <button
                                   className="editor-btn small"
-                                  onClick={() => reset(row, slot)}
-                                  disabled={!!busy}
-                                  title="Restore the level's original category"
+                                  onClick={() => useOwn(row, slot)}
+                                  disabled={!!busy || slot.ownImageCount < slot.distinctWords || slot.distinctWords === 0}
+                                  title="Show this category as its own pictures"
                                 >
-                                  reset
+                                  use own
                                 </button>
-                              )}
+                                <button
+                                  className="editor-btn small"
+                                  onClick={() =>
+                                    setPickFor({ name: row.name, letter: slot.letter, need: slot.distinctWords })
+                                  }
+                                  disabled={!!busy || slot.distinctWords === 0}
+                                  title="Pick any image set for this category"
+                                >
+                                  pick…
+                                </button>
+                                {slot.swapped && (
+                                  <button
+                                    className="editor-btn small"
+                                    onClick={() => reset(row, slot)}
+                                    disabled={!!busy}
+                                    title="Restore the level's original category"
+                                  >
+                                    reset
+                                  </button>
+                                )}
+                              </span>
                             </div>
                             <div className="img-thumbs">
-                              {slot.isImage ? (
-                                slot.tokens.map((t, k) => (
-                                  <img
-                                    key={`${t}-${k}`}
-                                    className="img-thumb"
-                                    src={thumbFor(slot, t)}
-                                    alt={prettyToken(t)}
-                                    title={prettyToken(t)}
-                                    draggable={false}
-                                    onError={(e) => {
-                                      (e.target as HTMLImageElement).style.visibility = 'hidden';
-                                    }}
-                                  />
+                              {slot.imageIds.length > 0 ? (
+                                slot.imageIds.map((imageId, k) => (
+                                  <Thumb key={`${imageId}-${k}`} imageId={imageId} />
                                 ))
                               ) : (
                                 slot.tokens.map((t, k) => (
-                                  <span key={`${t}-${k}`} className="range-word">{t}</span>
+                                  <span key={`${t}-${k}`} className="range-word">{prettyToken(t)}</span>
                                 ))
                               )}
                               {slot.distinctWords === 0 && (
@@ -287,5 +295,123 @@ export function ImagesModal({ entries, needsFolder, boundFolder, onPickFolder, o
         )}
       </div>
     </div>
+    {pickFor && (
+      <ImageSetPicker
+        need={pickFor.need}
+        onPick={(id) => {
+          setOverride(pickFor.name, pickFor.letter, id);
+          setPickFor(null);
+        }}
+        onClose={() => setPickFor(null)}
+      />
+    )}
+    </>
+  );
+}
+
+// Per-category availability: ✓ enough own pictures, ⚠ some but too few, — none.
+function OwnBadge({ slot }: { slot: ImageSlot }) {
+  if (slot.distinctWords === 0) return null;
+  const n = slot.ownImageCount;
+  if (n >= slot.distinctWords) {
+    return <span className="own-chip own-ok" title={`${n} pictures generated for this category`}>✓ images: {n}</span>;
+  }
+  if (n > 0) {
+    return (
+      <span className="own-chip own-few" title={`only ${n} pictures, need ${slot.distinctWords}`}>
+        ⚠ {n} &lt; {slot.distinctWords}
+      </span>
+    );
+  }
+  return <span className="own-chip own-none" title="no images generated for this category">— no images</span>;
+}
+
+// Searchable list of image sets (≥ the slot's word count) for manual override.
+function ImageSetPicker({
+  need,
+  onPick,
+  onClose,
+}: {
+  need: number;
+  onPick: (categoryId: string) => void;
+  onClose: () => void;
+}) {
+  const [query, setQuery] = useState('');
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        onClose();
+      }
+    }
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [onClose]);
+  const matches = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return imageCatsWithAtLeast(need)
+      .filter((c) => q === '' || c.categoryId.includes(q))
+      .sort((a, b) => a.categoryId.localeCompare(b.categoryId))
+      .slice(0, 60);
+  }, [query, need]);
+  return (
+    <div className="picker-overlay" onClick={onClose}>
+      <div className="picker-modal" onClick={(e) => e.stopPropagation()}>
+        <div className="picker-header">
+          <span>Pick an image set</span>
+          <span className="picker-constraint">≥ {need} picture{need === 1 ? '' : 's'}</span>
+          <button className="editor-btn small" onClick={onClose}>×</button>
+        </div>
+        <div className="picker-toolbar">
+          <input
+            autoFocus
+            type="text"
+            className="editor-input picker-search"
+            placeholder="Search image sets…"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+        </div>
+        <div className="picker-results">
+          {matches.length === 0 ? (
+            <div className="editor-empty">No image set has enough pictures.</div>
+          ) : (
+            matches.map((c) => (
+              <div key={c.categoryId} className="picker-row">
+                <span className="picker-kind kind-icon">icon</span>
+                <span className="picker-name">{c.categoryId}</span>
+                <span className="picker-count">{c.wordsIds.length}🖼</span>
+                <button className="editor-btn small primary" onClick={() => onPick(c.categoryId)}>
+                  Pick
+                </button>
+              </div>
+            ))
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// A picture thumbnail that falls back to a visible "missing" box if the PNG
+// isn't in public/images (e.g. a stale image id left over from another art set).
+function Thumb({ imageId }: { imageId: string }) {
+  const [broken, setBroken] = useState(false);
+  if (broken) {
+    return (
+      <span className="img-thumb missing" title={`missing: ${imageId}.png`}>
+        ?
+      </span>
+    );
+  }
+  return (
+    <img
+      className="img-thumb"
+      src={`${IMG_BASE}${imageId}.png`}
+      alt={imageId}
+      title={imageId}
+      draggable={false}
+      onError={() => setBroken(true)}
+    />
   );
 }

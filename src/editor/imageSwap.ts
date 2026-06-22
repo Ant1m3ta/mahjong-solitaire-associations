@@ -1,4 +1,5 @@
 import imageCatsRaw from './catalog/image_categories.json';
+import { AVAILABLE_IMAGES } from './catalog/images';
 import type { LevelData, WordData } from '../types';
 import type { LevelFileEntry } from './save';
 import { overridesForLevel } from './batchFill';
@@ -19,6 +20,12 @@ export function imageIdFor(categoryId: string, token: string): string {
   return `${categoryId}__${token}`;
 }
 
+// Image-catalog ids are snake_case; level category ids are often TitleCase
+// ("Birds"). Normalize before looking a category up in the catalog.
+function normId(s: string): string {
+  return s.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
+}
+
 export function prettyToken(token: string): string {
   return token.replace(/_/g, ' ').replace(/\b\w/g, (m) => m.toUpperCase());
 }
@@ -33,6 +40,25 @@ export function pickImageCategory(distinctWords: number, exclude: Set<string>): 
   return cands[Math.floor(Math.random() * cands.length)];
 }
 
+// The category's OWN image theme, if it exists in the catalog with enough
+// pictures — used to show a slot as its own pictures (keeping the category).
+// Matches by normalized name, so a level's "Birds" finds the "birds" set.
+export function ownImageCategory(categoryId: string, distinctWords: number): ImageCat | null {
+  const c = IMG_BY_ID.get(normId(categoryId));
+  return c && c.wordsIds.length >= distinctWords ? c : null;
+}
+
+// How many pictures the category's own theme has (0 if it has none) — for the
+// per-category availability badge, independent of how many the slot needs.
+export function ownImageTokenCount(categoryId: string): number {
+  return IMG_BY_ID.get(normId(categoryId))?.wordsIds.length ?? 0;
+}
+
+// All image categories with at least `n` pictures — backs the manual picker.
+export function imageCatsWithAtLeast(n: number): ImageCat[] {
+  return IMAGE_CATS.filter((c) => c.wordsIds.length >= n);
+}
+
 export interface ImageSlot {
   index: number; // position in level.categories
   letter: string; // stable display/override key
@@ -42,6 +68,9 @@ export interface ImageSlot {
   isImage: boolean; // currently renders as pictures
   swapped: boolean; // user replaced this slot with an image category
   tokens: string[]; // current word tokens (image tokens, or original wordIds)
+  imageIds: string[]; // resolved image keys to render (empty for text slots)
+  stale: boolean; // an image slot whose pictures are missing from public/images
+  ownImageCount: number; // pictures the slot's own category theme has (0 if none)
   ok: boolean;
   problem?: string;
 }
@@ -53,6 +82,8 @@ export interface ImageRow {
   slots: ImageSlot[];
   imageSlotCount: number;
   swapCount: number;
+  staleCount: number;
+  ownReadyCount: number; // categories that have enough of their own pictures
   hasProblem: boolean;
 }
 
@@ -68,18 +99,15 @@ interface SwapResult {
 function buildSwapResult(level: LevelData, swaps: Map<number, string>): SwapResult {
   const cats = level.categories;
   const origWords = cats.map((c) => c.wordsData.map((w) => w.wordId));
+  const origImageIds = cats.map((c) => c.wordsData.map((w) => w.imageId ?? ''));
   const origIsImage = cats.map(
     (c) => c.wordsData.length > 0 && c.wordsData.every((w) => w.icon),
   );
 
-  // Vocabulary the swapped words must avoid: every final category id plus the
-  // words of every untouched category. Swapped slots add their picks as we go.
+  // Image wordIds are namespaced ("<categoryId>__<token>"), so a swapped slot's
+  // words can never collide with another slot's or an untouched category — only
+  // a reused category id is ambiguous, guarded by idCounts below.
   const finalCatIds = cats.map((c, i) => (swaps.get(i) ?? c.categoryId));
-  const used = new Set<string>();
-  finalCatIds.forEach((id) => used.add(id.toLowerCase()));
-  cats.forEach((_c, i) => {
-    if (!swaps.has(i)) origWords[i].forEach((w) => used.add(w.toLowerCase()));
-  });
   // A category id reused across two final slots is an ambiguous collision.
   const idCounts = new Map<string, number>();
   finalCatIds.forEach((id) => idCounts.set(id.toLowerCase(), (idCounts.get(id.toLowerCase()) ?? 0) + 1));
@@ -101,20 +129,14 @@ function buildSwapResult(level: LevelData, swaps: Map<number, string>): SwapResu
       problem.set(i, `category "${id}" used by another slot`);
     }
     const need = origWords[i].length;
-    const tokens: string[] = [];
-    for (const t of cat.wordsIds) {
-      if (tokens.length >= need) break;
-      if (used.has(t.toLowerCase())) continue;
-      tokens.push(t);
-      used.add(t.toLowerCase());
-    }
+    const tokens = cat.wordsIds.slice(0, need);
     chosen.set(i, tokens);
     if (tokens.length < need && !problem.has(i)) {
-      problem.set(i, `only ${tokens.length}/${need} unique image words available`);
+      problem.set(i, `only ${tokens.length}/${need} pictures available`);
     }
     catMap.set(c.categoryId, id);
     origWords[i].forEach((ow, k) => {
-      if (k < tokens.length) wordMap.set(ow, tokens[k]);
+      if (k < tokens.length) wordMap.set(ow, imageIdFor(id, tokens[k]));
     });
   });
 
@@ -123,7 +145,7 @@ function buildSwapResult(level: LevelData, swaps: Map<number, string>): SwapResu
     const id = swaps.get(i)!;
     const tokens = chosen.get(i) ?? [];
     const wordsData: WordData[] = tokens.map((t) => ({
-      wordId: t,
+      wordId: imageIdFor(id, t),
       icon: true,
       imageId: imageIdFor(id, t),
     }));
@@ -136,6 +158,16 @@ function buildSwapResult(level: LevelData, swaps: Map<number, string>): SwapResu
 
   const slots: ImageSlot[] = cats.map((c, i) => {
     const swapped = swaps.has(i);
+    const swapId = swapped ? swaps.get(i)! : undefined;
+    const imageIds = swapped
+      ? (chosen.get(i) ?? []).map((t) => imageIdFor(swapId!, t))
+      : origIsImage[i]
+        ? origImageIds[i]
+        : [];
+    // A non-swapped image slot is stale when its pictures aren't in the current
+    // public/images set (e.g. left over from a previous art set) — re-imagize it.
+    const stale =
+      !swapped && origIsImage[i] && imageIds.some((id) => id !== '' && !AVAILABLE_IMAGES.has(id));
     return {
       index: i,
       letter: LETTERS[i] ?? String(i),
@@ -145,6 +177,9 @@ function buildSwapResult(level: LevelData, swaps: Map<number, string>): SwapResu
       isImage: swapped ? true : origIsImage[i],
       swapped,
       tokens: swapped ? (chosen.get(i) ?? []) : origWords[i],
+      imageIds,
+      stale,
+      ownImageCount: ownImageTokenCount(c.categoryId),
       ok: !problem.has(i),
       problem: problem.get(i),
     };
@@ -176,6 +211,9 @@ export function buildImagePlan(
         slots,
         imageSlotCount: slots.filter((s) => s.isImage).length,
         swapCount: slots.filter((s) => s.swapped).length,
+        staleCount: slots.filter((s) => s.stale).length,
+        ownReadyCount: slots.filter((s) => s.distinctWords > 0 && s.ownImageCount >= s.distinctWords)
+          .length,
         hasProblem: slots.some((s) => !s.ok),
       };
     } catch (e) {
@@ -186,6 +224,8 @@ export function buildImagePlan(
         slots: [],
         imageSlotCount: 0,
         swapCount: 0,
+        staleCount: 0,
+        ownReadyCount: 0,
         hasProblem: false,
       };
     }

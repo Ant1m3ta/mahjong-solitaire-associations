@@ -1103,6 +1103,16 @@
   border: 1px solid #3a3a5a;
   background: rgba(102, 204, 255, 0.06);
 }
+.img-thumb.missing {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: #ff8a8a;
+  border: 1px dashed #7a3a5a;
+  background: rgba(255, 100, 100, 0.08);
+}
 .range-slot-warn {
   margin-top: 6px;
   font-size: 11px;
@@ -1276,6 +1286,41 @@
   border: 1px dashed #4a4a6a;
   border-radius: 8px;
   padding: 1px 6px;
+}
+.batch-tag.warn {
+  opacity: 1;
+  color: #ffb088;
+  border: 1px solid rgba(255, 140, 90, 0.5);
+  background: rgba(255, 140, 90, 0.12);
+}
+.own-chip {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  padding: 2px 6px;
+  border-radius: 8px;
+  border: 1px solid #4a4a6a;
+  white-space: nowrap;
+}
+.own-chip.own-ok {
+  color: #9fe6b3;
+  border-color: rgba(120, 220, 140, 0.45);
+  background: rgba(120, 220, 140, 0.12);
+}
+.own-chip.own-few {
+  color: #ffb088;
+  border-color: rgba(255, 140, 90, 0.45);
+  background: rgba(255, 140, 90, 0.1);
+}
+.own-chip.own-none {
+  color: #8a8aa0;
+  background: rgba(255, 255, 255, 0.03);
+}
+.batch-cat-actions {
+  display: inline-flex;
+  gap: 6px;
+  margin-left: auto;
 }
 .batch-row {
   display: flex;

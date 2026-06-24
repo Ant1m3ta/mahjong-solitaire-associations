@@ -53,6 +53,27 @@ export function BoardCanvas({ state, dispatch, moveIndexByCellKey }: Props) {
     return keys;
   }, [level.board]);
 
+  // Per-category card counts on the layer currently being edited. Each board
+  // card references its category by `letter`, so we group by it and split out
+  // category (lock) cards from simple cards.
+  const layerCounts = useMemo(() => {
+    const m = new Map<string, { simple: number; category: number }>();
+    for (const c of level.board) {
+      if (c.z !== currentLayer) continue;
+      let e = m.get(c.letter);
+      if (!e) {
+        e = { simple: 0, category: 0 };
+        m.set(c.letter, e);
+      }
+      if (c.kind === 'category') e.category++;
+      else e.simple++;
+    }
+    return Array.from(m.entries())
+      .map(([letter, v]) => ({ letter, simple: v.simple, category: v.category, total: v.simple + v.category }))
+      .sort((a, b) => a.letter.localeCompare(b.letter));
+  }, [level.board, currentLayer]);
+  const layerTotal = layerCounts.reduce((s, r) => s + r.total, 0);
+
   const { gridW, gridH, maxZ, minZ } = useMemo(() => {
     let mx = 0;
     let my = 0;
@@ -172,7 +193,8 @@ export function BoardCanvas({ state, dispatch, moveIndexByCellKey }: Props) {
     : null;
 
   return (
-    <div className="editor-canvas">
+    <div className="editor-canvas-wrap">
+      <div className="editor-canvas">
       <div
         className="editor-board-area"
         style={{ width: areaW, height: areaH }}
@@ -292,6 +314,36 @@ export function BoardCanvas({ state, dispatch, moveIndexByCellKey }: Props) {
           );
         })()}
       </div>
+      </div>
+
+      <aside className="layer-counts">
+        <div className="layer-counts-head">
+          <span>Layer z={currentLayer}</span>
+          <span className="layer-counts-total">
+            {layerTotal} {layerTotal === 1 ? 'card' : 'cards'}
+          </span>
+        </div>
+        {layerCounts.length === 0 ? (
+          <div className="layer-counts-empty">No cards on this layer.</div>
+        ) : (
+          <ul className="layer-counts-list">
+            {layerCounts.map((r) => (
+              <li key={r.letter} className="layer-counts-row">
+                <span className="layer-counts-chip">{r.letter}</span>
+                <span className="layer-counts-n">{r.total}</span>
+                {r.category > 0 && (
+                  <span
+                    className="layer-counts-cat"
+                    title={`${r.category} category card${r.category > 1 ? 's' : ''} on this layer`}
+                  >
+                    {r.category} cat
+                  </span>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
+      </aside>
     </div>
   );
 }

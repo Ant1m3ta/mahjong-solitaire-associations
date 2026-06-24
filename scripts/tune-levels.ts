@@ -21,11 +21,16 @@
 // level the waste greedy can't finish but the single-card greedy can, the
 // single-card count is used as a safe (slightly loose) fallback.
 import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
-import { resolve, join } from 'node:path';
+import { resolve, join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { unfillLevel } from '../src/editor/unfill';
 import { analyzeGreedySkeleton } from '../src/editor/solver/greedy';
 import { analyzeWasteGreedySkeleton } from '../src/editor/solver/wasteGreedy';
 import type { LevelData } from '../src/types';
+
+// Keep the web play-order mirror (src/levels/order.json) in lockstep with the
+// Unity order file this script writes, so the editor/game never drift from it.
+const WEB_ORDER = resolve(dirname(fileURLToPath(import.meta.url)), '..', 'src', 'levels', 'order.json');
 
 const argv = process.argv.slice(2);
 const WRITE = argv.includes('--write');
@@ -209,6 +214,8 @@ const rawOrder = (() => {
 })();
 const serialized = '[\n' + order.map((l) => JSON.stringify(l.levelId)).join(',\n') + '\n]' + (rawOrder === '' || rawOrder.endsWith('\n') ? '\n' : '');
 writeFileSync(resolve(orderFile), serialized);
+writeFileSync(WEB_ORDER, serialized);
+console.log(`[synced] ${WEB_ORDER} (web play-order mirror).`);
 // Write changed move limits in place — surgical replacement of just the number,
 // so the rest of each level file (formatting, key order) is byte-identical.
 let changed = 0;

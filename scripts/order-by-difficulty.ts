@@ -27,11 +27,16 @@
 // LevelOrderProvider; array position = play order). DEBUG_RANK=1 dumps the
 // per-level ranking to stderr.
 import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { resolve, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { unfillLevel } from '../src/editor/unfill';
 import { analyzeGreedySkeleton } from '../src/editor/solver/greedy';
 import { solveSkeleton } from '../src/editor/solver/solverCore';
 import type { LevelData } from '../src/types';
+
+// Keep the web play-order mirror (src/levels/order.json) in lockstep with the
+// Unity order file this script writes, so the editor/game never drift from it.
+const WEB_ORDER = resolve(dirname(fileURLToPath(import.meta.url)), '..', 'src', 'levels', 'order.json');
 
 const argv = process.argv.slice(2);
 const WRITE = argv.includes('--write');
@@ -252,6 +257,8 @@ const serialized = '[\n' + order.map((id) => JSON.stringify(id)).join(',\n') + '
 if (WRITE) {
   writeFileSync(resolve(orderFile), serialized);
   console.log(`\n[written] ${orderFile} — ${N} levels.`);
+  writeFileSync(WEB_ORDER, serialized);
+  console.log(`[synced]  ${WEB_ORDER} (web play-order mirror).`);
   if (!freezeCount) {
     console.log(
       'note: full re-order — a returning player’s saved progress index now points at a different level. Use --from=<reached level + 1> to freeze the played prefix.',

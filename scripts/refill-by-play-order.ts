@@ -4,7 +4,8 @@
 // fill. Move limits, slot counts, board/stock layout, difficulty tags and the
 // play order itself are all preserved; only category/word identities change.
 //
-//   npx tsx scripts/refill-by-play-order.ts <levelsDir> <orderFile> [--generate] [--write]
+//   npx tsx scripts/refill-by-play-order.ts <levelsDir> [orderFile] [--generate] [--write]
+//     orderFile   play-order array (default: src/levels/order.json, the web mirror)
 //     --generate  AI-generate words for short categories (shells to `claude`,
 //                 grows src/editor/catalog/words.json — same as the dev middleware)
 //     --write     write the 50 level files (text-only, no icon/imageId)
@@ -35,9 +36,10 @@ const CATEGORY_LIST = categoryListRaw as string[];
 const argv = process.argv.slice(2);
 const GENERATE = argv.includes('--generate');
 const WRITE = argv.includes('--write');
-const [levelsDir, orderFile] = argv.filter((a) => !a.startsWith('--'));
-if (!levelsDir || !orderFile) {
-  console.error('usage: refill-by-play-order.ts <levelsDir> <orderFile> [--generate] [--write]');
+const [levelsDir, orderFileArg] = argv.filter((a) => !a.startsWith('--'));
+const orderFile = orderFileArg ?? resolve(__dirname, '..', 'src', 'levels', 'order.json');
+if (!levelsDir) {
+  console.error('usage: refill-by-play-order.ts <levelsDir> [orderFile] [--generate] [--write]');
   process.exit(1);
 }
 

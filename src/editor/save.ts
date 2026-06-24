@@ -1,4 +1,5 @@
 import type { LevelData } from '../types';
+import { playOrderRank } from '../levels/order';
 
 export const PREVIEW_KEY = 'editor.previewLevel';
 
@@ -87,7 +88,11 @@ export async function listLevelsInFolder(): Promise<LevelFileEntry[]> {
       // Skip unreadable / malformed entries.
     }
   }
-  entries.sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true }));
+  entries.sort(
+    (a, b) =>
+      playOrderRank(a.level.levelId) - playOrderRank(b.level.levelId) ||
+      a.name.localeCompare(b.name, undefined, { numeric: true }),
+  );
   return entries;
 }
 

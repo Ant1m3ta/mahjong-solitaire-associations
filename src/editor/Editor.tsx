@@ -482,6 +482,14 @@ export function Editor() {
                 />
                 ghost z&lt;{state.currentLayer}
               </label>
+              <label title="Preview in-game reveal: show every card face-up if it is uncovered (the shared isSlotRevealed rule) or face-down if covered, ignoring the current layer. Editing still acts on the current layer.">
+                <input
+                  type="checkbox"
+                  checked={state.revealPreview}
+                  onChange={() => dispatch({ type: 'TOGGLE_REVEAL_PREVIEW' })}
+                />
+                reveal preview
+              </label>
               <label title="After each placement, set brush to the next card in the stock. Use Shuffle to randomize the stock order.">
                 <input
                   type="checkbox"

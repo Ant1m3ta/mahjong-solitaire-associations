@@ -62,6 +62,7 @@ export interface EditorState {
   brush: BrushState;
   currentLayer: number;
   ghostBelow: boolean;
+  revealPreview: boolean;
   eraseMode: boolean;
   moveMode: boolean;
   pickedCard: PickedCard | null;
@@ -98,6 +99,7 @@ export type EditorAction =
   | { type: 'MOVE_BOARD'; from: PickedCard; to: PickedCard }
   | { type: 'SET_LAYER'; z: number }
   | { type: 'TOGGLE_GHOST_BELOW' }
+  | { type: 'TOGGLE_REVEAL_PREVIEW' }
   | { type: 'TOGGLE_STOCK_ADVANCE' }
   | { type: 'SET_DEFAULT_NEW_CATEGORY_SIZE'; size: number }
   | { type: 'SHUFFLE_STOCK' }

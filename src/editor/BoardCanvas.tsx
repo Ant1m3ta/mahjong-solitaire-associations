@@ -1,6 +1,7 @@
 import { useMemo, useState, type Dispatch, type MouseEvent } from 'react';
 import type { EditorAction, EditorState, SkeletonBoardCard } from './types';
 import { LAYER_LIFT } from '../layout';
+import { isSlotRevealed } from '../game/coverage';
 
 const HALF_W = 35;
 const HALF_H = 50;
@@ -24,7 +25,33 @@ interface HoverCell {
 
 export function BoardCanvas({ state, dispatch, moveIndexByCellKey }: Props) {
   const [hover, setHover] = useState<HoverCell | null>(null);
-  const { brush, eraseMode, moveMode, pickedCard, currentLayer, level, ghostBelow } = state;
+  const { brush, eraseMode, moveMode, pickedCard, currentLayer, level, ghostBelow, revealPreview } = state;
+
+  // Cells that would be face-up in the real game: the top of each (x, y) stack
+  // whose slot is uncovered per the shared `isSlotRevealed` rule. Reveal there
+  // ignores `currentLayer` entirely, so many z-layers can be revealed at once —
+  // the layer view dims by z and so blanks cards that actually play face-up.
+  const revealedKeys = useMemo(() => {
+    const slots = new Map<string, { x: number; y: number; cards: SkeletonBoardCard[] }>();
+    for (const c of level.board) {
+      const key = `${c.x},${c.y}`;
+      let s = slots.get(key);
+      if (!s) {
+        s = { x: c.x, y: c.y, cards: [] };
+        slots.set(key, s);
+      }
+      s.cards.push(c);
+    }
+    const all = Array.from(slots.values());
+    for (const s of all) s.cards.sort((a, b) => a.z - b.z);
+    const keys = new Set<string>();
+    for (const s of all) {
+      if (!isSlotRevealed(s, all)) continue;
+      const top = s.cards[s.cards.length - 1];
+      keys.add(`${top.x},${top.y},${top.z}`);
+    }
+    return keys;
+  }, [level.board]);
 
   const { gridW, gridH, maxZ, minZ } = useMemo(() => {
     let mx = 0;
@@ -161,6 +188,34 @@ export function BoardCanvas({ state, dispatch, moveIndexByCellKey }: Props) {
         />
 
         {level.board.map((card) => {
+          const cellKey = `${card.x},${card.y},${card.z}`;
+          const moveIdx = moveIndexByCellKey?.get(cellKey);
+
+          // Reveal preview: show every card, face-up if uncovered in-game,
+          // face-down if covered — independent of the current layer.
+          if (revealPreview) {
+            const left = card.x * HALF_W;
+            const top = offsetY + card.y * HALF_H - card.z * LAYER_LIFT;
+            const zIndex = Z_BASE + card.z * 100;
+            const cls = [
+              'editor-card',
+              card.kind === 'category' ? 'category' : 'simple',
+              revealedKeys.has(cellKey) ? 'reveal-up' : 'covered-preview',
+            ].join(' ');
+            return (
+              <div key={cellKey} className={cls} style={{ left, top, zIndex }}>
+                <span className="editor-card-letter">
+                  {card.kind === 'category' ? card.letter : card.letter.toLowerCase()}
+                </span>
+                {moveIdx !== undefined && (
+                  <span className="editor-card-move-badge" title={`Played on move ${moveIdx}`}>
+                    {moveIdx}
+                  </span>
+                )}
+              </div>
+            );
+          }
+
           const isCurrent = card.z === currentLayer;
           const isBelow = card.z < currentLayer;
           if (card.z > currentLayer) return null;
@@ -180,8 +235,6 @@ export function BoardCanvas({ state, dispatch, moveIndexByCellKey }: Props) {
           ]
             .filter(Boolean)
             .join(' ');
-          const cellKey = `${card.x},${card.y},${card.z}`;
-          const moveIdx = moveIndexByCellKey?.get(cellKey);
           return (
             <div
               key={cellKey}

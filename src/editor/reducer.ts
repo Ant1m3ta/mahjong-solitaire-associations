@@ -55,6 +55,7 @@ export function initialEditorState(): EditorState {
     brush: { letter: null, kind: 'simple' },
     currentLayer: topLayerOf(level),
     ghostBelow: true,
+    revealPreview: false,
     eraseMode: false,
     moveMode: false,
     pickedCard: null,
@@ -79,6 +80,7 @@ function loadPersistedEditorState(): EditorState | null {
       brush: parsed.brush,
       currentLayer: typeof parsed.currentLayer === 'number' ? parsed.currentLayer : 0,
       ghostBelow: parsed.ghostBelow ?? true,
+      revealPreview: parsed.revealPreview ?? false,
       eraseMode: parsed.eraseMode ?? false,
       moveMode: parsed.moveMode ?? false,
       pickedCard: parsed.pickedCard ?? null,
@@ -521,6 +523,9 @@ function reduceCore(state: EditorState, action: Exclude<EditorAction, { type: 'R
 
     case 'TOGGLE_GHOST_BELOW':
       return { ...state, ghostBelow: !state.ghostBelow };
+
+    case 'TOGGLE_REVEAL_PREVIEW':
+      return { ...state, revealPreview: !state.revealPreview };
 
     case 'TOGGLE_STOCK_ADVANCE': {
       const turningOn = !state.stockAdvance;

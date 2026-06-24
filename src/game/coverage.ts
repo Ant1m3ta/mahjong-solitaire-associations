@@ -1,5 +1,14 @@
 import type { BoardCardEntry, BoardSlot } from '../types';
 
+// Minimal shape the coverage rule needs: a position plus its z-sorted stack.
+// `BoardSlot` satisfies it, and the editor builds these straight from skeleton
+// cards, so its in-game-reveal preview uses the exact same rule as the game.
+export interface CoverageSlot {
+  x: number;
+  y: number;
+  cards: ReadonlyArray<{ z: number }>;
+}
+
 // A "chain" is the contiguous top suffix of a slot's stack whose entries are
 // all revealed and share the same `category`. Chains form via gameplay only —
 // pre-stacked cards from level data start unrevealed, so a multi-card stack at
@@ -25,7 +34,7 @@ export function footprintsOverlap(a: { x: number; y: number }, b: { x: number; y
   return Math.abs(a.x - b.x) <= 1 && Math.abs(a.y - b.y) <= 1;
 }
 
-function effectiveLayer(slot: BoardSlot): number {
+function effectiveLayer(slot: CoverageSlot): number {
   // Effective render layer = base z * 100 + stack-position-within-slot.
   // Lets a card stacked on top of another count as visually higher than a
   // same-z half-offset card next to it, matching the rendering z-index.
@@ -33,7 +42,7 @@ function effectiveLayer(slot: BoardSlot): number {
   return top.z * 100 + (slot.cards.length - 1);
 }
 
-export function isSlotRevealed(slot: BoardSlot, allSlots: BoardSlot[]): boolean {
+export function isSlotRevealed(slot: CoverageSlot, allSlots: CoverageSlot[]): boolean {
   if (slot.cards.length === 0) return false;
   const myLayer = effectiveLayer(slot);
   for (const other of allSlots) {

@@ -1,15 +1,18 @@
 // Re-fill level CATEGORY CONTENT so the category_list progression follows PLAY
-// order (the order file), not filename order. Structure-preserving: unfill →
-// reassign categories by a cursor walking category_list in play order → text-only
-// fill. Move limits, slot counts, board/stock layout, difficulty tags and the
-// play order itself are all preserved; only category/word identities change.
+// order (the order file), not filename order. IMAGE-SAFE: a category that renders
+// as pictures (every word has `icon`) is kept verbatim — its tokens aren't in the
+// text catalog — and only the TEXT categories are re-themed from category_list in
+// play order. Image slots still consume their play-position index, so a text slot
+// lands on the same category_list entry base-fill would give that position.
+// Structure-preserving: move limits, slot counts, board/stock layout, difficulty
+// tags and the play order itself are untouched; only text categories change.
 //
 //   npx tsx scripts/refill-by-play-order.ts <levelsDir> [orderFile] [--generate] [--write]
 //     orderFile   play-order array (default: src/levels/order.json, the web mirror)
-//     --generate  AI-generate words for short categories (shells to `claude`,
+//     --generate  AI-generate words for short text categories (shells to `claude`,
 //                 grows src/editor/catalog/words.json — same as the dev middleware)
-//     --write     write the 50 level files (text-only, no icon/imageId)
-//   default: dry-run (reports assignment + shortfall, no AI, no writes)
+//     --write     write the level files in place
+//   default: dry-run (reports per-level assignment + shortfall, no AI, no writes)
 import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
 import { resolve, join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -32,6 +35,13 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const WORDS_PATH = resolve(__dirname, '..', 'src', 'editor', 'catalog', 'words.json');
 const GEN_BUFFER = 2; // ask for a couple extra to absorb dedup/avoid collisions
 const CATEGORY_LIST = categoryListRaw as string[];
+const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+// A category renders as pictures when every word carries `icon`; its picture
+// tokens live in the image catalog (not the text catalog), so it is kept verbatim
+// rather than re-themed. Mirrors batchFix.ts / imageSwap.ts.
+const isImageCategory = (cat: LevelData['categories'][number]): boolean =>
+  cat.wordsData.length > 0 && cat.wordsData.every((w) => w.icon);
 
 const argv = process.argv.slice(2);
 const GENERATE = argv.includes('--generate');
@@ -57,25 +67,32 @@ if (missingFiles.length) {
 
 const wordsFor = (name: string): string[] => (pools().byId.get(name)?.wordsIds ?? []).slice();
 
-interface CatPick { letter: string; categoryId: string; need: number; chosen: string[] }
+interface CatPick { letter: string; categoryId: string; need: number; chosen: string[]; imaged: boolean }
 interface LevelPlan { id: string; skel: SkeletonLevel; picks: CatPick[] }
 
-// Walk category_list in play order; pick each category's first `need` unique
-// catalog words, deduped against the level's window (other chosen words and
-// every window category name). Mirrors editor/rangeAssign.ts computeAssignments.
+// Walk play order with a running category_list cursor. Image categories are kept
+// verbatim; only TEXT slots are re-themed from CATEGORY_LIST[cursor+i]. Image slots
+// still advance the cursor so a text slot lands on the same list entry base-fill
+// would assign that play position. Words are deduped against the level window
+// (other chosen words + every window category name).
 function assign(): LevelPlan[] {
   let cursor = 0;
   const out: LevelPlan[] = [];
   for (const id of order) {
-    const skel = unfillLevel(byId.get(id)!.level);
+    const orig = byId.get(id)!.level;
+    const skel = unfillLevel(orig);
     const cats = skel.categories;
+    const imaged = cats.map((_, i) => isImageCategory(orig.categories[i]));
     const reserved = new Set<string>();
-    for (let i = 0; i < cats.length; i++) {
-      const n = CATEGORY_LIST[cursor + i];
+    cats.forEach((_, i) => {
+      const n = imaged[i] ? orig.categories[i].categoryId : CATEGORY_LIST[cursor + i];
       if (n) reserved.add(n.toLowerCase());
-    }
+    });
     const used = new Set<string>();
     const picks: CatPick[] = cats.map((c, i) => {
+      if (imaged[i]) {
+        return { letter: c.letter, categoryId: orig.categories[i].categoryId, need: c.simpleCards, chosen: [], imaged: true };
+      }
       const categoryId = CATEGORY_LIST[cursor + i];
       const chosen: string[] = [];
       for (const w of wordsFor(categoryId)) {
@@ -85,7 +102,7 @@ function assign(): LevelPlan[] {
         used.add(k);
         chosen.push(w);
       }
-      return { letter: c.letter, categoryId, need: c.simpleCards, chosen };
+      return { letter: c.letter, categoryId, need: c.simpleCards, chosen, imaged: false };
     });
     out.push({ id, skel, picks });
     cursor += cats.length;
@@ -94,7 +111,7 @@ function assign(): LevelPlan[] {
 }
 
 const shortOf = (plan: LevelPlan[]): CatPick[] =>
-  plan.flatMap((l) => l.picks).filter((p) => p.chosen.length < p.need);
+  plan.flatMap((l) => l.picks).filter((p) => !p.imaged && p.chosen.length < p.need);
 
 type GenReq = WordGenReq;
 
@@ -140,7 +157,12 @@ async function main(): Promise<void> {
   let plan = assign();
   let short = shortOf(plan);
   const slots = plan.reduce((n, l) => n + l.picks.length, 0);
-  console.log(`play order: ${order.length} levels · uses category_list[0..${slots - 1}] · ${short.length} short category slots`);
+  const allPicks = plan.flatMap((l) => l.picks);
+  const textCount = allPicks.filter((p) => !p.imaged).length;
+  console.log(
+    `play order: ${order.length} levels · ${textCount} text slots re-themed from category_list[0..${slots - 1}]` +
+      ` · ${allPicks.length - textCount} image slots preserved · ${short.length} short`,
+  );
 
   if (short.length > 0 && GENERATE) {
     const byCat = new Map<string, GenReq>();
@@ -165,18 +187,34 @@ async function main(): Promise<void> {
     console.log(short.map((p) => `${p.categoryId} ${p.chosen.length}/${p.need}`).join('  ·  '));
   }
 
-  // Fill (text-only) in memory.
+  // Final per-level assignment (text categories in play order; image slots kept).
+  plan.forEach((l, i) => {
+    const text = l.picks.filter((p) => !p.imaged).map((p) => p.categoryId);
+    const img = l.picks.filter((p) => p.imaged).map((p) => p.categoryId);
+    console.log(`  ${String(i + 1).padStart(2)}. ${l.id.padEnd(6)} ${text.join(', ')}${img.length ? `  [img: ${img.join(', ')}]` : ''}`);
+  });
+
+  // Fill in memory: text slots re-themed (text-only); image categories + their
+  // board/stock cardIds spliced back verbatim (1:1 by index, mirroring fillFixRow).
   const filled = plan.map((l) => {
+    const orig = byId.get(l.id)!.level;
+    const imagedLetters = new Set(l.picks.filter((p) => p.imaged).map((p) => p.letter));
     const categories = l.skel.categories.map((c) => {
       const pick = l.picks.find((p) => p.letter === c.letter)!;
       return { ...c, pinnedCategoryId: pick.categoryId, pinnedWords: pick.chosen };
     });
-    return { file: byId.get(l.id)!.file, level: fillSkeleton({ ...l.skel, categories }, { padGaps: true, textOnly: true }) };
+    const out = fillSkeleton({ ...l.skel, categories }, { padGaps: true, textOnly: true });
+    if (imagedLetters.size > 0) {
+      out.categories = out.categories.map((c, i) => (imagedLetters.has(LETTERS[i]) ? orig.categories[i] : c));
+      out.board = out.board.map((b, j) => (imagedLetters.has(l.skel.board[j].letter) ? { ...b, cardId: orig.board[j].cardId } : b));
+      out.stock = out.stock.map((s, j) => (imagedLetters.has(l.skel.stock[j].letter) ? orig.stock[j] : s));
+    }
+    return { file: byId.get(l.id)!.file, level: out };
   });
 
   if (WRITE) {
     for (const f of filled) writeFileSync(join(resolve(levelsDir), f.file), JSON.stringify(f.level, null, 2) + '\n');
-    console.log(`\n[written] ${filled.length} level files (text-only, play-order categories; limits/layout/order preserved).`);
+    console.log(`\n[written] ${filled.length} level files (play-order text categories; images, limits, layout, order preserved).`);
   } else {
     console.log(`\n[dry-run] filled ${filled.length} levels in memory. Re-run with --generate --write to apply.`);
   }

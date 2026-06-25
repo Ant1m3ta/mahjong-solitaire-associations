@@ -103,12 +103,20 @@ function applyDraw(state: GameState): GameState {
   };
 }
 
+// Dropping a non-matching card/chain onto a slot already locked by a category
+// card costs a move but places nothing — a wrong-match penalty. (Dropping onto
+// an empty slot, which holds no category card, stays a free rejection.)
+function penaltyMove(state: GameState): GameState {
+  return { ...state, movesUsed: state.movesUsed + 1 };
+}
+
 function applyHandToCategory(state: GameState, slotIndex: number): GameState {
   if (state.hand === null) throw new Error('Hand empty');
   const slot = state.categorySlots[slotIndex];
   if (!slot) throw new Error('Invalid slot index');
   const card = state.hand;
   if (!canPlaceInCategorySlot(card, slot)) {
+    if (slot.lockedCategory !== null) return penaltyMove(state);
     throw new Error('Cannot place hand card here');
   }
   return placeCardInCategorySlot(
@@ -133,6 +141,7 @@ function applyBoardToCategory(
 
   if (chain.length === 1) {
     if (!canPlaceInCategorySlot(chainTop, catSlot)) {
+      if (catSlot.lockedCategory !== null) return penaltyMove(state);
       throw new Error('Cannot place this card in this category slot');
     }
     const newBoardSlots = removeChainFromSlot(state.boardSlots, sourceSlot, 1);
@@ -153,7 +162,7 @@ function applyBoardToCategory(
   }
 
   if (chainTop.category !== catSlot.lockedCategory) {
-    throw new Error('Category mismatch');
+    return penaltyMove(state);
   }
   const newBoardSlots = removeChainFromSlot(state.boardSlots, sourceSlot, chain.length);
   return consumeChainInCategorySlot(

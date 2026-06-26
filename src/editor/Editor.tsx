@@ -490,6 +490,14 @@ export function Editor() {
                 />
                 reveal preview
               </label>
+              <label title="Show a 5×5 full-card playfield outline at the origin as an authoring guide.">
+                <input
+                  type="checkbox"
+                  checked={state.gridOutline}
+                  onChange={() => dispatch({ type: 'TOGGLE_GRID_OUTLINE' })}
+                />
+                5×5 outline
+              </label>
               <label title="After each placement, set brush to the next card in the stock. Use Shuffle to randomize the stock order.">
                 <input
                   type="checkbox"

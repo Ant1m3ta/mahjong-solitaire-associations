@@ -56,6 +56,7 @@ export function initialEditorState(): EditorState {
     currentLayer: topLayerOf(level),
     ghostBelow: true,
     revealPreview: false,
+    gridOutline: true,
     eraseMode: false,
     moveMode: false,
     pickedCard: null,
@@ -81,6 +82,7 @@ function loadPersistedEditorState(): EditorState | null {
       currentLayer: typeof parsed.currentLayer === 'number' ? parsed.currentLayer : 0,
       ghostBelow: parsed.ghostBelow ?? true,
       revealPreview: parsed.revealPreview ?? false,
+      gridOutline: parsed.gridOutline ?? true,
       eraseMode: parsed.eraseMode ?? false,
       moveMode: parsed.moveMode ?? false,
       pickedCard: parsed.pickedCard ?? null,
@@ -526,6 +528,9 @@ function reduceCore(state: EditorState, action: Exclude<EditorAction, { type: 'R
 
     case 'TOGGLE_REVEAL_PREVIEW':
       return { ...state, revealPreview: !state.revealPreview };
+
+    case 'TOGGLE_GRID_OUTLINE':
+      return { ...state, gridOutline: !state.gridOutline };
 
     case 'TOGGLE_STOCK_ADVANCE': {
       const turningOn = !state.stockAdvance;

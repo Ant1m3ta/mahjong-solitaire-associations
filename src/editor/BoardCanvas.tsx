@@ -11,6 +11,8 @@ const GRID_PAD = 4;
 const MIN_GRID_W = 20;
 const MIN_GRID_H = 16;
 const Z_BASE = 10000;
+// Authoring guide: a square playfield this many full cards wide and tall.
+const OUTLINE_CARDS = 5;
 
 interface Props {
   state: EditorState;
@@ -25,7 +27,7 @@ interface HoverCell {
 
 export function BoardCanvas({ state, dispatch, moveIndexByCellKey }: Props) {
   const [hover, setHover] = useState<HoverCell | null>(null);
-  const { brush, eraseMode, moveMode, pickedCard, currentLayer, level, ghostBelow, revealPreview } = state;
+  const { brush, eraseMode, moveMode, pickedCard, currentLayer, level, ghostBelow, revealPreview, gridOutline } = state;
 
   // Cells that would be face-up in the real game: the top of each (x, y) stack
   // whose slot is uncovered per the shared `isSlotRevealed` rule. Reveal there
@@ -209,6 +211,10 @@ export function BoardCanvas({ state, dispatch, moveIndexByCellKey }: Props) {
           currentLayer={currentLayer}
         />
 
+        {gridOutline && (
+          <PlayfieldOutline offsetY={offsetY} currentLayer={currentLayer} />
+        )}
+
         {level.board.map((card) => {
           const cellKey = `${card.x},${card.y},${card.z}`;
           const moveIdx = moveIndexByCellKey?.get(cellKey);
@@ -376,6 +382,35 @@ function CurrentLayerGrid({
           'linear-gradient(to right, rgba(102,204,255,0.06) 1px, transparent 1px),' +
           'linear-gradient(to bottom, rgba(102,204,255,0.06) 1px, transparent 1px)',
         backgroundSize: `${HALF_W}px ${HALF_H}px`,
+        pointerEvents: 'none',
+        zIndex: Z_BASE + currentLayer * 100 - 1,
+      }}
+    />
+  );
+}
+
+// A bold OUTLINE_CARDS×OUTLINE_CARDS card playfield guide, anchored at the
+// origin and following the current layer's vertical lift like the half-cell
+// grid. Inner lines fall on full-card boundaries (every CARD_W / CARD_H).
+function PlayfieldOutline({ offsetY, currentLayer }: { offsetY: number; currentLayer: number }) {
+  const top = offsetY - currentLayer * LAYER_LIFT;
+  const w = OUTLINE_CARDS * CARD_W;
+  const h = OUTLINE_CARDS * CARD_H;
+  return (
+    <div
+      className="editor-playfield-outline"
+      style={{
+        position: 'absolute',
+        left: 0,
+        top,
+        width: w,
+        height: h,
+        border: '2px solid rgba(255,196,80,0.55)',
+        boxSizing: 'border-box',
+        backgroundImage:
+          'linear-gradient(to right, rgba(255,196,80,0.18) 1px, transparent 1px),' +
+          'linear-gradient(to bottom, rgba(255,196,80,0.18) 1px, transparent 1px)',
+        backgroundSize: `${CARD_W}px ${CARD_H}px`,
         pointerEvents: 'none',
         zIndex: Z_BASE + currentLayer * 100 - 1,
       }}

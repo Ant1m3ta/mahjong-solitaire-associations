@@ -63,6 +63,7 @@ export interface EditorState {
   currentLayer: number;
   ghostBelow: boolean;
   revealPreview: boolean;
+  gridOutline: boolean;
   eraseMode: boolean;
   moveMode: boolean;
   pickedCard: PickedCard | null;
@@ -100,6 +101,7 @@ export type EditorAction =
   | { type: 'SET_LAYER'; z: number }
   | { type: 'TOGGLE_GHOST_BELOW' }
   | { type: 'TOGGLE_REVEAL_PREVIEW' }
+  | { type: 'TOGGLE_GRID_OUTLINE' }
   | { type: 'TOGGLE_STOCK_ADVANCE' }
   | { type: 'SET_DEFAULT_NEW_CATEGORY_SIZE'; size: number }
   | { type: 'SHUFFLE_STOCK' }

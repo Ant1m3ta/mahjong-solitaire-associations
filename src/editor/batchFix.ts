@@ -1,9 +1,8 @@
 import type { CategoryData, LevelData } from '../types';
-import type { SkeletonLevel } from './types';
 import type { LevelFileEntry } from './save';
-import { unfillLevel, UnfillError } from './unfill';
-import { fillSkeleton, FillError } from './fill';
-import { computeAssignments, type SlotPreview } from './rangeAssign';
+import { FillError } from './fill';
+import { computeAssignments, type AssignSlot, type SlotPreview } from './rangeAssign';
+import { rewriteCategories, simpleTileCounts, RewriteError } from './rewrite';
 import { overridesForLevel } from './batchFill';
 
 const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -24,7 +23,6 @@ export interface FixRow {
   status: 'ok' | 'error';
   error?: string;
   level: LevelData;
-  skeleton?: SkeletonLevel;
   previews: SlotPreview[];
   // Letters (A, B, …) of categories that render as pictures — kept verbatim,
   // excluded from the text-catalog shortfall.
@@ -39,14 +37,19 @@ export function buildFixPlan(
   overrides: Record<string, string> = {},
 ): FixRow[] {
   return entries.map((entry) => {
-    let skeleton: SkeletonLevel;
+    let counts: number[];
     try {
-      skeleton = unfillLevel(entry.level);
+      if (entry.level.categories.length > LETTERS.length) {
+        throw new RewriteError(
+          `level has ${entry.level.categories.length} categories; editor supports up to ${LETTERS.length}.`,
+        );
+      }
+      counts = simpleTileCounts(entry.level);
     } catch (e) {
       return {
         name: entry.name,
         status: 'error',
-        error: e instanceof UnfillError ? e.message : String(e),
+        error: e instanceof RewriteError ? e.message : String(e),
         level: entry.level,
         previews: [],
         imageLetters: new Set(),
@@ -60,9 +63,10 @@ export function buildFixPlan(
       if (isImageCategory(c)) imageLetters.add(LETTERS[i]);
     });
     // Base each slot on the level's existing category; an override replaces it.
-    const baseNames = skeleton.categories.map((c) => c.pinnedCategoryId);
+    const baseNames = entry.level.categories.map((c) => c.categoryId);
+    const slots: AssignSlot[] = counts.map((n, i) => ({ letter: LETTERS[i], simpleCards: n }));
     const previews = computeAssignments(
-      skeleton.categories,
+      slots,
       0,
       overridesForLevel(overrides, entry.name),
       baseNames,
@@ -82,7 +86,6 @@ export function buildFixPlan(
       name: entry.name,
       status: 'ok',
       level: entry.level,
-      skeleton,
       previews,
       imageLetters,
       gapCount: previews.reduce((n, p) => n + p.shortfall, 0),
@@ -95,37 +98,19 @@ export function buildFixPlan(
 // Re-fill a level from its (possibly fixed) category assignment. padGaps keeps
 // it writable even if some gaps remain — those re-mark as placeholders.
 export function fillFixRow(row: FixRow): LevelData {
-  if (row.status !== 'ok' || !row.skeleton) {
+  if (row.status !== 'ok') {
     throw new FillError(row.error ?? 'row not fixable');
   }
-  const { skeleton } = row;
   const dup = row.previews.find((p) => p.duplicate);
   if (dup) {
     throw new FillError(`duplicate category "${dup.categoryId}"`);
   }
-  const byLetter = new Map(row.previews.map((p) => [p.letter, p]));
-  const categories = skeleton.categories.map((c) => {
-    const p = byLetter.get(c.letter);
-    return p ? { ...c, pinnedCategoryId: p.categoryId, pinnedWords: p.chosen } : c;
-  });
-  const filled = fillSkeleton({ ...skeleton, categories }, { padGaps: true });
-
-  // Image categories aren't in the text catalog, so fillSkeleton re-rolls them
-  // to text words. Splice the originals back: the category data plus every
-  // board/stock cardId that points into an image category. Order is 1:1 —
-  // unfill keeps category, board and stock positions, so index i ↔ LETTERS[i]
-  // ↔ the original entry.
-  if (row.imageLetters.size > 0) {
-    const orig = row.level;
-    filled.categories = filled.categories.map((c, i) =>
-      row.imageLetters.has(LETTERS[i]) ? orig.categories[i] : c,
-    );
-    filled.board = filled.board.map((b, j) =>
-      row.imageLetters.has(skeleton.board[j].letter) ? { ...b, cardId: orig.board[j].cardId } : b,
-    );
-    filled.stock = filled.stock.map((s, j) =>
-      row.imageLetters.has(skeleton.stock[j].letter) ? orig.stock[j] : s,
-    );
-  }
-  return filled;
+  // Rewrite only the non-image categories from their previewed assignment.
+  // Image categories (and the board/stock cardIds pointing into them) are left
+  // verbatim — fixing text gaps never disturbs imaged slots, so no splice-back.
+  const rewrites = row.previews
+    .map((p, i) => ({ p, i }))
+    .filter(({ i }) => !row.imageLetters.has(LETTERS[i]))
+    .map(({ p, i }) => ({ index: i, categoryId: p.categoryId, words: p.chosen }));
+  return rewriteCategories(row.level, rewrites);
 }

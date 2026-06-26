@@ -1,56 +1,28 @@
+import type { LevelData } from '../types';
+
 export type CardKind = 'category' | 'simple';
 
 // Bounding-box anchor for the board-align grid: start = left/top edge,
 // end = right/bottom edge, center = midpoint of the 5×5 outline.
 export type AlignAnchor = 'start' | 'center' | 'end';
 
-export interface SkeletonCategory {
-  letter: string;
-  simpleCards: number;
-  pinnedCategoryId?: string;
-  // Exact words to use, in order. When set, fill takes the first `simpleCards`
-  // of these verbatim instead of picking randomly from the catalog — so the
-  // editor preview is exactly what plays. Categories pinned this way need not
-  // exist in the catalog (AI-generated ranges resolve here).
-  pinnedWords?: string[];
-}
-
-export interface SkeletonBoardCard {
-  x: number;
-  y: number;
-  z: number;
-  letter: string;
-  kind: CardKind;
-}
-
-export interface SkeletonStockEntry {
-  letter: string;
-  kind: CardKind;
-}
-
-export interface SkeletonLevel {
-  levelId: string;
-  difficulty?: string;
-  slotsDefault: number;
-  movesLimit: number;
-  categories: SkeletonCategory[];
-  board: SkeletonBoardCard[];
-  stock: SkeletonStockEntry[];
-}
-
+// A category assignment from the range picker / basics: which category slot
+// (by index), the real categoryId to give it, and the exact words to use.
 export interface RangeAssignment {
-  letter: string;
+  index: number;
   categoryId: string;
   words: string[];
 }
 
+// The brush selects a category by its (stable) id plus which kind of card to
+// place. The category's display letter is derived from its position.
 export interface BrushState {
-  letter: string | null;
+  categoryId: string | null;
   kind: CardKind;
 }
 
 export interface HistoryEntry {
-  level: SkeletonLevel;
+  level: LevelData;
   currentLayer: number;
 }
 
@@ -61,7 +33,7 @@ export interface PickedCard {
 }
 
 export interface EditorState {
-  level: SkeletonLevel;
+  level: LevelData;
   history: HistoryEntry[];
   brush: BrushState;
   currentLayer: number;
@@ -83,21 +55,23 @@ export type EditorAction =
   | { type: 'SET_MOVES'; moves: number }
   | { type: 'SET_DIFFICULTY'; difficulty: string | undefined }
   | { type: 'ADD_CATEGORY' }
-  | { type: 'REMOVE_CATEGORY'; letter: string }
-  | { type: 'SET_PINNED_CATEGORY'; letter: string; categoryId: string | null }
+  | { type: 'REMOVE_CATEGORY'; index: number }
+  // Theme category[index] to a real categoryId (catalog words), or null to
+  // revert it to a fresh placeholder ("random / unpinned").
+  | { type: 'SET_PINNED_CATEGORY'; index: number; categoryId: string | null }
   | { type: 'APPLY_CATEGORY_RANGE'; assignments: RangeAssignment[] }
   | { type: 'FILL_BASIC' }
   | { type: 'FILL_WORDS' }
   | { type: 'CLEAR_PINS' }
-  | { type: 'INC_SIMPLE'; letter: string }
-  | { type: 'DEC_SIMPLE'; letter: string }
-  | { type: 'PLACE_BOARD'; x: number; y: number; z: number; letter: string; cardKind: CardKind }
+  | { type: 'INC_SIMPLE'; index: number }
+  | { type: 'DEC_SIMPLE'; index: number }
+  | { type: 'PLACE_BOARD'; x: number; y: number; z: number; categoryId: string; cardKind: CardKind }
   | { type: 'REMOVE_BOARD'; x: number; y: number; z: number }
   | { type: 'REORDER_STOCK'; from: number; to: number }
   | { type: 'PROMOTE_STOCK'; index: number }
-  | { type: 'APPLY_STOCK_ORDER'; stock: SkeletonStockEntry[] }
+  | { type: 'APPLY_STOCK_ORDER'; stock: string[] }
   | { type: 'DELETE_STOCK'; index: number }
-  | { type: 'SET_BRUSH_LETTER'; letter: string | null }
+  | { type: 'SET_BRUSH_CATEGORY'; categoryId: string | null }
   | { type: 'SET_BRUSH_KIND'; kind: CardKind }
   | { type: 'TOGGLE_ERASE' }
   | { type: 'TOGGLE_MOVE' }
@@ -121,5 +95,5 @@ export type EditorAction =
   | { type: 'SHUFFLE_BOARD' }
   | { type: 'NORMALIZE_LAYERS' }
   | { type: 'ALIGN_BOARD'; anchorX: AlignAnchor; anchorY: AlignAnchor }
-  | { type: 'LOAD_SKELETON'; level: SkeletonLevel }
+  | { type: 'LOAD_LEVEL'; level: LevelData }
   | { type: 'ROLLBACK' };

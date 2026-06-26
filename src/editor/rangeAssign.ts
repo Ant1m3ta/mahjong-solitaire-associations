@@ -1,7 +1,14 @@
 import categoryList from './catalog/category_list.json';
 import { pools } from './fill';
 import { isGenerated, type GenRequest } from './wordGen';
-import type { SkeletonCategory } from './types';
+
+// A category slot for assignment: its display key (letter) and how many simple
+// words it needs. Decoupled from SkeletonCategory so callers can build it from
+// either a skeleton or a concrete LevelData.
+export interface AssignSlot {
+  letter: string;
+  simpleCards: number;
+}
 
 export const CATEGORY_LIST = categoryList as string[];
 
@@ -33,12 +40,12 @@ export function wordsForName(name: string): string[] {
 // base comes from the list at startIndex+i (Tool 1); Tool 2 passes each level's
 // existing category ids.
 export function computeAssignments(
-  categories: SkeletonCategory[],
+  categories: AssignSlot[],
   startIndex: number,
   overrides?: Record<string, string>,
   baseNames?: (string | undefined)[],
 ): SlotPreview[] {
-  const nameFor = (cat: SkeletonCategory, i: number): string | undefined =>
+  const nameFor = (cat: AssignSlot, i: number): string | undefined =>
     overrides?.[cat.letter] ?? (baseNames ? baseNames[i] : CATEGORY_LIST[startIndex + i]);
 
   const reserved = new Set<string>(); // every window category name — words may not equal one

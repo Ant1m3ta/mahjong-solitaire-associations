@@ -1,18 +1,18 @@
 import { useCallback, useEffect, useMemo, useState, type Dispatch } from 'react';
 import { generateWords, wordGenAvailable } from './wordGen';
-import { CATEGORY_LIST, buildGenRequests, computeAssignments } from './rangeAssign';
-import type { EditorAction, RangeAssignment, SkeletonCategory } from './types';
+import { CATEGORY_LIST, buildGenRequests, computeAssignments, type AssignSlot } from './rangeAssign';
+import type { EditorAction, RangeAssignment } from './types';
 
 const LIST = CATEGORY_LIST;
 
 interface Props {
-  categories: SkeletonCategory[];
+  slots: AssignSlot[];
   dispatch: Dispatch<EditorAction>;
   onClose: () => void;
 }
 
-export function CategoryRangePicker({ categories, dispatch, onClose }: Props) {
-  const slotCount = categories.length;
+export function CategoryRangePicker({ slots, dispatch, onClose }: Props) {
+  const slotCount = slots.length;
   const maxStart = Math.max(0, LIST.length - slotCount);
   const [startIndex, setStartIndex] = useState(0);
   // Bumped after a generation run so the memo re-reads the localStorage cache.
@@ -34,9 +34,9 @@ export function CategoryRangePicker({ categories, dispatch, onClose }: Props) {
   }, [onClose]);
 
   const previews = useMemo(
-    () => computeAssignments(categories, startIndex),
+    () => computeAssignments(slots, startIndex),
     // cacheVersion is a deliberate dep: generation mutates the localStorage cache.
-    [categories, startIndex, cacheVersion],
+    [slots, startIndex, cacheVersion],
   );
 
   const outOfRange = previews.some((p) => !p.inRange);
@@ -66,8 +66,8 @@ export function CategoryRangePicker({ categories, dispatch, onClose }: Props) {
 
   function handleApply() {
     if (applyDisabled) return;
-    const assignments: RangeAssignment[] = previews.map((p) => ({
-      letter: p.letter,
+    const assignments: RangeAssignment[] = previews.map((p, i) => ({
+      index: i,
       categoryId: p.categoryId,
       words: p.chosen.slice(0, p.simpleCards),
     }));

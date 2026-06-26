@@ -1,4 +1,4 @@
-import type { SkeletonBoardCard, SkeletonLevel } from './types';
+import type { BoardCardData, LevelData } from '../types';
 
 export interface Warning {
   severity: 'error' | 'warn' | 'info';
@@ -8,7 +8,7 @@ export interface Warning {
 interface SlotView {
   x: number;
   y: number;
-  cards: SkeletonBoardCard[];
+  cards: BoardCardData[];
 }
 
 function footprintsOverlap(a: { x: number; y: number }, b: { x: number; y: number }): boolean {
@@ -16,9 +16,9 @@ function footprintsOverlap(a: { x: number; y: number }, b: { x: number; y: numbe
   return Math.abs(a.x - b.x) <= 1 && Math.abs(a.y - b.y) <= 1;
 }
 
-function buildSlots(skel: SkeletonLevel): SlotView[] {
+function buildSlots(level: LevelData): SlotView[] {
   const map = new Map<string, SlotView>();
-  for (const c of skel.board) {
+  for (const c of level.board) {
     const key = `${c.x},${c.y}`;
     let s = map.get(key);
     if (!s) {
@@ -43,12 +43,12 @@ export interface ValidationResult {
   totalStock: number;
 }
 
-export function validate(skel: SkeletonLevel): ValidationResult {
+export function validate(level: LevelData): ValidationResult {
   const warnings: Warning[] = [];
 
-  if (skel.board.length > 0) {
-    let lo = skel.board[0].z;
-    for (const c of skel.board) if (c.z < lo) lo = c.z;
+  if (level.board.length > 0) {
+    let lo = level.board[0].z;
+    for (const c of level.board) if (c.z < lo) lo = c.z;
     if (lo !== 0) {
       warnings.push({
         severity: 'info',
@@ -57,7 +57,7 @@ export function validate(skel: SkeletonLevel): ValidationResult {
     }
   }
 
-  const slots = buildSlots(skel);
+  const slots = buildSlots(level);
   let coveredCount = 0;
   for (const slot of slots) {
     if (slot.cards.length === 0) continue;
@@ -83,14 +83,14 @@ export function validate(skel: SkeletonLevel): ValidationResult {
     }
   }
 
-  if (skel.categories.length === 0 && skel.board.length === 0 && skel.stock.length === 0) {
+  if (level.categories.length === 0 && level.board.length === 0 && level.stock.length === 0) {
     warnings.push({ severity: 'info', text: 'Empty level. Add a category to begin.' });
   }
 
   return {
     warnings,
     coveredCount,
-    totalBoard: skel.board.length,
-    totalStock: skel.stock.length,
+    totalBoard: level.board.length,
+    totalStock: level.stock.length,
   };
 }

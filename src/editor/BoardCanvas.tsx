@@ -1,7 +1,9 @@
 import { useMemo, useState, type Dispatch, type MouseEvent } from 'react';
-import type { AlignAnchor, EditorAction, EditorState, SkeletonBoardCard } from './types';
+import type { AlignAnchor, EditorAction, EditorState } from './types';
+import type { BoardCardData } from '../types';
 import { LAYER_LIFT } from '../layout';
 import { isSlotRevealed } from '../game/coverage';
+import { buildResolver, categoryIndexById, displayLetter } from './editorLevel';
 
 const HALF_W = 35;
 const HALF_H = 50;
@@ -29,12 +31,20 @@ export function BoardCanvas({ state, dispatch, moveIndexByCellKey }: Props) {
   const [hover, setHover] = useState<HoverCell | null>(null);
   const { brush, eraseMode, moveMode, swapMode, pickedCard, currentLayer, level, ghostBelow, revealPreview, gridOutline } = state;
 
+  // cardId -> { category index, kind }. Each board/stock card references its
+  // category concretely; the display letter is derived from the category index.
+  const resolve = useMemo(() => buildResolver(level), [level.categories]);
+  const glyphOf = (cardId: string): { letter: string; kind: 'category' | 'simple' } => {
+    const r = resolve(cardId);
+    const letter = displayLetter(r.index);
+    return { letter: r.kind === 'category' ? letter : letter.toLowerCase(), kind: r.kind };
+  };
+
   // Cells that would be face-up in the real game: the top of each (x, y) stack
   // whose slot is uncovered per the shared `isSlotRevealed` rule. Reveal there
-  // ignores `currentLayer` entirely, so many z-layers can be revealed at once —
-  // the layer view dims by z and so blanks cards that actually play face-up.
+  // ignores `currentLayer` entirely, so many z-layers can be revealed at once.
   const revealedKeys = useMemo(() => {
-    const slots = new Map<string, { x: number; y: number; cards: SkeletonBoardCard[] }>();
+    const slots = new Map<string, { x: number; y: number; cards: BoardCardData[] }>();
     for (const c of level.board) {
       const key = `${c.x},${c.y}`;
       let s = slots.get(key);
@@ -55,25 +65,25 @@ export function BoardCanvas({ state, dispatch, moveIndexByCellKey }: Props) {
     return keys;
   }, [level.board]);
 
-  // Per-category card counts on the layer currently being edited. Each board
-  // card references its category by `letter`, so we group by it and split out
-  // category (lock) cards from simple cards.
+  // Per-category card counts on the layer currently being edited, grouped by the
+  // card's resolved category index (shown as its display letter).
   const layerCounts = useMemo(() => {
-    const m = new Map<string, { simple: number; category: number }>();
+    const m = new Map<number, { simple: number; category: number }>();
     for (const c of level.board) {
       if (c.z !== currentLayer) continue;
-      let e = m.get(c.letter);
+      const r = resolve(c.cardId);
+      let e = m.get(r.index);
       if (!e) {
         e = { simple: 0, category: 0 };
-        m.set(c.letter, e);
+        m.set(r.index, e);
       }
-      if (c.kind === 'category') e.category++;
+      if (r.kind === 'category') e.category++;
       else e.simple++;
     }
     return Array.from(m.entries())
-      .map(([letter, v]) => ({ letter, simple: v.simple, category: v.category, total: v.simple + v.category }))
+      .map(([index, v]) => ({ letter: displayLetter(index), simple: v.simple, category: v.category, total: v.simple + v.category }))
       .sort((a, b) => a.letter.localeCompare(b.letter));
-  }, [level.board, currentLayer]);
+  }, [level.board, resolve, currentLayer]);
   const layerTotal = layerCounts.reduce((s, r) => s + r.total, 0);
 
   const { gridW, gridH, maxZ, minZ } = useMemo(() => {
@@ -113,8 +123,8 @@ export function BoardCanvas({ state, dispatch, moveIndexByCellKey }: Props) {
     return { x, y };
   }
 
-  function findCardAtFootprint(cx: number, cy: number, z: number): SkeletonBoardCard | null {
-    let best: SkeletonBoardCard | null = null;
+  function findCardAtFootprint(cx: number, cy: number, z: number): BoardCardData | null {
+    let best: BoardCardData | null = null;
     for (const c of level.board) {
       if (c.z !== z) continue;
       if (cx >= c.x && cx <= c.x + 1 && cy >= c.y && cy <= c.y + 1) {
@@ -139,9 +149,6 @@ export function BoardCanvas({ state, dispatch, moveIndexByCellKey }: Props) {
   }
 
   function targetZFor(cx: number, cy: number, exclude: { x: number; y: number; z: number } | null = null): number {
-    // Start at the user's chosen layer; bump up only while a card at this
-    // footprint at the same z is in the way. Higher half-offset cards at z>cur
-    // do not push us up — they sit above the new card.
     let z = currentLayer;
     while (footprintOccupiedAt(cx, cy, z, exclude)) z++;
     return z;
@@ -175,14 +182,14 @@ export function BoardCanvas({ state, dispatch, moveIndexByCellKey }: Props) {
       dispatch({ type: 'MOVE_BOARD', from: pickedCard, to: { x, y, z } });
       return;
     }
-    if (!brush.letter) return;
+    if (!brush.categoryId) return;
     const z = targetZFor(x, y);
     dispatch({
       type: 'PLACE_BOARD',
       x,
       y,
       z,
-      letter: brush.letter,
+      categoryId: brush.categoryId,
       cardKind: brush.kind,
     });
   }
@@ -200,6 +207,10 @@ export function BoardCanvas({ state, dispatch, moveIndexByCellKey }: Props) {
   const pickedBoardCard = pickedCard
     ? level.board.find((c) => c.x === pickedCard.x && c.y === pickedCard.y && c.z === pickedCard.z) ?? null
     : null;
+
+  const brushIndex = brush.categoryId ? categoryIndexById(level, brush.categoryId) : -1;
+  const brushBase = displayLetter(brushIndex);
+  const brushGlyph = brush.kind === 'category' ? brushBase : brushBase.toLowerCase();
 
   return (
     <div className="editor-canvas-wrap">
@@ -225,6 +236,7 @@ export function BoardCanvas({ state, dispatch, moveIndexByCellKey }: Props) {
         {level.board.map((card) => {
           const cellKey = `${card.x},${card.y},${card.z}`;
           const moveIdx = moveIndexByCellKey?.get(cellKey);
+          const { letter: glyph, kind } = glyphOf(card.cardId);
 
           // Reveal preview: show every card, face-up if uncovered in-game,
           // face-down if covered — independent of the current layer.
@@ -234,14 +246,12 @@ export function BoardCanvas({ state, dispatch, moveIndexByCellKey }: Props) {
             const zIndex = Z_BASE + card.z * 100;
             const cls = [
               'editor-card',
-              card.kind === 'category' ? 'category' : 'simple',
+              kind === 'category' ? 'category' : 'simple',
               revealedKeys.has(cellKey) ? 'reveal-up' : 'covered-preview',
             ].join(' ');
             return (
               <div key={cellKey} className={cls} style={{ left, top, zIndex }}>
-                <span className="editor-card-letter">
-                  {card.kind === 'category' ? card.letter : card.letter.toLowerCase()}
-                </span>
+                <span className="editor-card-letter">{glyph}</span>
                 {moveIdx !== undefined && (
                   <span className="editor-card-move-badge" title={`Played on move ${moveIdx}`}>
                     {moveIdx}
@@ -261,7 +271,7 @@ export function BoardCanvas({ state, dispatch, moveIndexByCellKey }: Props) {
           const isPicked = pickedBoardCard === card;
           const cls = [
             'editor-card',
-            card.kind === 'category' ? 'category' : 'simple',
+            kind === 'category' ? 'category' : 'simple',
             isBelow ? 'ghost-below' : '',
             !isCurrent ? 'non-current' : '',
             hoverErase && hoverErase === card ? 'erase-target' : '',
@@ -277,9 +287,7 @@ export function BoardCanvas({ state, dispatch, moveIndexByCellKey }: Props) {
               className={cls}
               style={{ left, top, zIndex }}
             >
-              <span className="editor-card-letter">
-                {card.kind === 'category' ? card.letter : card.letter.toLowerCase()}
-              </span>
+              <span className="editor-card-letter">{glyph}</span>
               {moveIdx !== undefined && (
                 <span className="editor-card-move-badge" title={`Played on move ${moveIdx}`}>
                   {moveIdx}
@@ -289,7 +297,7 @@ export function BoardCanvas({ state, dispatch, moveIndexByCellKey }: Props) {
           );
         })}
 
-        {hover && !eraseMode && !moveMode && brush.letter && (() => {
+        {hover && !eraseMode && !moveMode && brush.categoryId && (() => {
           const previewZ = targetZFor(hover.x, hover.y);
           return (
             <div
@@ -300,9 +308,7 @@ export function BoardCanvas({ state, dispatch, moveIndexByCellKey }: Props) {
                 zIndex: Z_BASE + previewZ * 100 + 99,
               }}
             >
-              <span className="editor-card-letter">
-                {brush.kind === 'category' ? brush.letter : brush.letter.toLowerCase()}
-              </span>
+              <span className="editor-card-letter">{brushGlyph}</span>
             </div>
           );
         })()}
@@ -310,20 +316,17 @@ export function BoardCanvas({ state, dispatch, moveIndexByCellKey }: Props) {
           const sameAnchor = hover.x === pickedCard.x && hover.y === pickedCard.y;
           if (sameAnchor) return null;
           const previewZ = targetZFor(hover.x, hover.y, pickedCard);
+          const { letter: glyph, kind } = glyphOf(pickedBoardCard.cardId);
           return (
             <div
-              className={`editor-card hover-preview ${pickedBoardCard.kind === 'category' ? 'category' : 'simple'}`}
+              className={`editor-card hover-preview ${kind === 'category' ? 'category' : 'simple'}`}
               style={{
                 left: hover.x * HALF_W,
                 top: offsetY + hover.y * HALF_H - previewZ * LAYER_LIFT,
                 zIndex: Z_BASE + previewZ * 100 + 99,
               }}
             >
-              <span className="editor-card-letter">
-                {pickedBoardCard.kind === 'category'
-                  ? pickedBoardCard.letter
-                  : pickedBoardCard.letter.toLowerCase()}
-              </span>
+              <span className="editor-card-letter">{glyph}</span>
             </div>
           );
         })()}

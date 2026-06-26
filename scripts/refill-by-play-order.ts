@@ -18,8 +18,8 @@ import { resolve, join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
-import { unfillLevel } from '../src/editor/unfill';
-import { pools, addCatalogWords, fillSkeleton } from '../src/editor/fill';
+import { pools, addCatalogWords } from '../src/editor/fill';
+import { rewriteCategories, simpleTileCounts } from '../src/editor/rewrite';
 import categoryListRaw from '../src/editor/catalog/category_list.json';
 import {
   buildWordGenPrompt,
@@ -28,7 +28,6 @@ import {
   type WordGenReq,
 } from '../src/editor/wordGenPrompt';
 import type { LevelData } from '../src/types';
-import type { SkeletonLevel } from '../src/editor/types';
 
 const execFileAsync = promisify(execFile);
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -68,7 +67,7 @@ if (missingFiles.length) {
 const wordsFor = (name: string): string[] => (pools().byId.get(name)?.wordsIds ?? []).slice();
 
 interface CatPick { letter: string; categoryId: string; need: number; chosen: string[]; imaged: boolean }
-interface LevelPlan { id: string; skel: SkeletonLevel; picks: CatPick[] }
+interface LevelPlan { id: string; picks: CatPick[] }
 
 // Walk play order with a running category_list cursor. Image categories are kept
 // verbatim; only TEXT slots are re-themed from CATEGORY_LIST[cursor+i]. Image slots
@@ -80,32 +79,32 @@ function assign(): LevelPlan[] {
   const out: LevelPlan[] = [];
   for (const id of order) {
     const orig = byId.get(id)!.level;
-    const skel = unfillLevel(orig);
-    const cats = skel.categories;
-    const imaged = cats.map((_, i) => isImageCategory(orig.categories[i]));
+    const counts = simpleTileCounts(orig);
+    const imaged = orig.categories.map((c) => isImageCategory(c));
     const reserved = new Set<string>();
-    cats.forEach((_, i) => {
-      const n = imaged[i] ? orig.categories[i].categoryId : CATEGORY_LIST[cursor + i];
+    orig.categories.forEach((c, i) => {
+      const n = imaged[i] ? c.categoryId : CATEGORY_LIST[cursor + i];
       if (n) reserved.add(n.toLowerCase());
     });
     const used = new Set<string>();
-    const picks: CatPick[] = cats.map((c, i) => {
+    const picks: CatPick[] = orig.categories.map((c, i) => {
+      const letter = LETTERS[i];
       if (imaged[i]) {
-        return { letter: c.letter, categoryId: orig.categories[i].categoryId, need: c.simpleCards, chosen: [], imaged: true };
+        return { letter, categoryId: c.categoryId, need: counts[i], chosen: [], imaged: true };
       }
       const categoryId = CATEGORY_LIST[cursor + i];
       const chosen: string[] = [];
       for (const w of wordsFor(categoryId)) {
-        if (chosen.length >= c.simpleCards) break;
+        if (chosen.length >= counts[i]) break;
         const k = w.toLowerCase();
         if (used.has(k) || reserved.has(k)) continue;
         used.add(k);
         chosen.push(w);
       }
-      return { letter: c.letter, categoryId, need: c.simpleCards, chosen, imaged: false };
+      return { letter, categoryId, need: counts[i], chosen, imaged: false };
     });
-    out.push({ id, skel, picks });
-    cursor += cats.length;
+    out.push({ id, picks });
+    cursor += orig.categories.length;
   }
   return out;
 }
@@ -194,21 +193,15 @@ async function main(): Promise<void> {
     console.log(`  ${String(i + 1).padStart(2)}. ${l.id.padEnd(6)} ${text.join(', ')}${img.length ? `  [img: ${img.join(', ')}]` : ''}`);
   });
 
-  // Fill in memory: text slots re-themed (text-only); image categories + their
-  // board/stock cardIds spliced back verbatim (1:1 by index, mirroring fillFixRow).
+  // Re-theme TEXT categories in place (text-only). Image categories and the
+  // board/stock cardIds pointing into them are left verbatim — no splice needed.
   const filled = plan.map((l) => {
     const orig = byId.get(l.id)!.level;
-    const imagedLetters = new Set(l.picks.filter((p) => p.imaged).map((p) => p.letter));
-    const categories = l.skel.categories.map((c) => {
-      const pick = l.picks.find((p) => p.letter === c.letter)!;
-      return { ...c, pinnedCategoryId: pick.categoryId, pinnedWords: pick.chosen };
-    });
-    const out = fillSkeleton({ ...l.skel, categories }, { padGaps: true, textOnly: true });
-    if (imagedLetters.size > 0) {
-      out.categories = out.categories.map((c, i) => (imagedLetters.has(LETTERS[i]) ? orig.categories[i] : c));
-      out.board = out.board.map((b, j) => (imagedLetters.has(l.skel.board[j].letter) ? { ...b, cardId: orig.board[j].cardId } : b));
-      out.stock = out.stock.map((s, j) => (imagedLetters.has(l.skel.stock[j].letter) ? orig.stock[j] : s));
-    }
+    const rewrites = l.picks
+      .map((p, i) => ({ p, i }))
+      .filter(({ p }) => !p.imaged)
+      .map(({ p, i }) => ({ index: i, categoryId: p.categoryId, words: p.chosen }));
+    const out = rewriteCategories(orig, rewrites, { textOnly: true });
     return { file: byId.get(l.id)!.file, level: out };
   });
 

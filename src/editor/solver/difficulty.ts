@@ -3,9 +3,9 @@ import { applyAction, isWon } from '../../game/moves';
 import { getChainEntries } from '../../game/coverage';
 import { enumerateMoves } from './enumerate';
 import { hashState } from './hash';
-import { buildSolverInput, SolverInputError } from './buildState';
+import { solverStateFromLevel } from './levelState';
 import { DEFAULT_ENUMERATE_OPTS, solveGameState } from './solverCore';
-import type { SkeletonLevel } from '../types';
+import type { LevelData } from '../../types';
 
 export type DifficultyStatus = 'ok' | 'invalid' | 'empty';
 
@@ -77,8 +77,8 @@ interface QueueEntry {
   hash: string;
 }
 
-export function analyzeDifficulty(
-  skel: SkeletonLevel,
+export function analyzeDifficultyLevel(
+  level: LevelData,
   opts: DifficultyOptions = {},
 ): DifficultyResult {
   const startedAt = performance.now();
@@ -113,18 +113,15 @@ export function analyzeDifficulty(
     stats: buildStats(0, 0),
   });
 
-  if (skel.board.length === 0 && skel.stock.length === 0) {
+  if ((level.board?.length ?? 0) === 0 && (level.stock?.length ?? 0) === 0) {
     return emptyResult('empty');
   }
 
   let initialState: GameState;
   try {
-    initialState = buildSolverInput(skel).initialState;
+    initialState = solverStateFromLevel(level);
   } catch (err) {
-    return emptyResult(
-      'invalid',
-      err instanceof SolverInputError ? err.message : String(err),
-    );
+    return emptyResult('invalid', err instanceof Error ? err.message : String(err));
   }
 
   const cache = new Map<string, boolean>();

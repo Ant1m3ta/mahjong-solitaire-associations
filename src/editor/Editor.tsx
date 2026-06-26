@@ -11,8 +11,7 @@ import { BoardCanvas } from './BoardCanvas';
 import { useSolver, type SolverViewState } from './solver/useSolver';
 import { DifficultyChip } from './DifficultyChip';
 import { GreedyChip } from './GreedyChip';
-import { planStockReorder } from './reorderFix';
-import { fillSkeleton, FillError } from './fill';
+import { planStockReorderLevel } from './reorderFix';
 import {
   boundSaveFolder,
   listLevelsInFolder,
@@ -22,15 +21,15 @@ import {
   supportsFileSystemAccess,
   type LevelFileEntry,
 } from './save';
-import { unfillLevel, UnfillError } from './unfill';
 import { validate } from './validate';
 import { LEVELS } from '../levels';
+import { buildResolver, categoryIndexById, displayLetter, resolvePlaceholders, simpleCounts } from './editorLevel';
 import type { LevelData } from '../types';
 
 export function Editor() {
   const [state, dispatch] = useReducer(reduceEditor, undefined, initialEditorState);
   const [fillError, setFillError] = useState<string | null>(null);
-  const [pickerLetter, setPickerLetter] = useState<string | null>(null);
+  const [pickerIndex, setPickerIndex] = useState<number | null>(null);
   const [rangePickerOpen, setRangePickerOpen] = useState(false);
   const [toolsOpen, setToolsOpen] = useState(false);
   const [batchOpen, setBatchOpen] = useState(false);
@@ -47,11 +46,14 @@ export function Editor() {
     ? folderLevels.map((e) => ({ label: e.name.replace(/\.json$/, ''), level: e.level }))
     : LEVELS.map((lvl) => ({ label: `Level ${lvl.levelId}`, level: lvl }));
   const brush = state.brush;
-  const brushCat = brush.letter
-    ? state.level.categories.find((c) => c.letter === brush.letter) ?? null
+  const brushCat = brush.categoryId
+    ? state.level.categories.find((c) => c.categoryId === brush.categoryId) ?? null
     : null;
+  const brushLetter = brush.categoryId ? displayLetter(categoryIndexById(state.level, brush.categoryId)) : '';
+  const simpleCountsArr = useMemo(() => simpleCounts(state.level), [state.level]);
+  const stockResolve = useMemo(() => buildResolver(state.level), [state.level]);
   const pickerCategory =
-    pickerLetter ? state.level.categories.find((c) => c.letter === pickerLetter) ?? null : null;
+    pickerIndex !== null ? state.level.categories[pickerIndex] ?? null : null;
 
   useEffect(() => {
     persistEditorState(state);
@@ -63,7 +65,7 @@ export function Editor() {
   }, [greedy.status]);
 
   function handleFixOrder() {
-    const plan = planStockReorder(state.level);
+    const plan = planStockReorderLevel(state.level);
     if (plan.status === 'fixed' && plan.order) {
       const order = plan.order;
       dispatch({ type: 'APPLY_STOCK_ORDER', stock: order.map((i) => state.level.stock[i]) });
@@ -109,25 +111,23 @@ export function Editor() {
   async function handleSave() {
     try {
       const { level: normalized } = normalizeLevel(state.level);
-      const filled = fillSkeleton(normalized);
+      const filled = resolvePlaceholders(normalized);
       await saveLevelJSON(filled, suggestedLevelFilename());
       setFolderLevels(await listLevelsInFolder());
       setFillError(null);
     } catch (e) {
-      const msg = e instanceof FillError ? e.message : String(e);
-      setFillError(msg);
+      setFillError(String(e));
     }
   }
 
   function handlePlay() {
     try {
       const { level: normalized } = normalizeLevel(state.level);
-      const filled = fillSkeleton(normalized);
+      const filled = resolvePlaceholders(normalized);
       storePreviewAndPlay(filled);
       setFillError(null);
     } catch (e) {
-      const msg = e instanceof FillError ? e.message : String(e);
-      setFillError(msg);
+      setFillError(String(e));
     }
   }
 
@@ -137,14 +137,8 @@ export function Editor() {
     if (idx === '') return;
     const entry = dropdownEntries[Number(idx)];
     if (!entry) return;
-    try {
-      const skel = unfillLevel(entry.level);
-      dispatch({ type: 'LOAD_SKELETON', level: skel });
-      setFillError(null);
-    } catch (err) {
-      const msg = err instanceof UnfillError ? err.message : String(err);
-      setFillError(`Load: ${msg}`);
-    }
+    dispatch({ type: 'LOAD_LEVEL', level: entry.level });
+    setFillError(null);
   }
 
   const saveDisabled =
@@ -186,7 +180,7 @@ export function Editor() {
       } else if (/^[1-9]$/.test(e.key)) {
         const idx = parseInt(e.key, 10) - 1;
         const cat = state.level.categories[idx];
-        if (cat) dispatch({ type: 'SET_BRUSH_LETTER', letter: cat.letter });
+        if (cat) dispatch({ type: 'SET_BRUSH_CATEGORY', categoryId: cat.categoryId });
       }
     }
     window.addEventListener('keydown', onKey);
@@ -343,7 +337,7 @@ export function Editor() {
             title={
               needsFolder && !boundFolder
                 ? 'Pick a folder first to see its levels.'
-                : 'Load a level back into the editor (converts to a fully-pinned skeleton).'
+                : 'Load a level back into the editor.'
             }
           >
             <option value="">Load level…</option>
@@ -395,7 +389,7 @@ export function Editor() {
         <CategoriesRail
           state={state}
           dispatch={dispatch}
-          onOpenPicker={setPickerLetter}
+          onOpenPicker={setPickerIndex}
           onOpenRangePicker={() => setRangePickerOpen(true)}
         />
 
@@ -440,7 +434,7 @@ export function Editor() {
               ) : brushCat ? (
                 <>
                   <span className="brush-current">
-                    <span className="brush-letter">{brush.letter}</span>
+                    <span className="brush-letter">{brushLetter}</span>
                     <span className="brush-kind">·</span>
                     <span className="brush-kind">{brush.kind}</span>
                   </span>
@@ -568,8 +562,12 @@ export function Editor() {
               {state.level.stock.length === 0 ? (
                 <div className="editor-empty">Empty.</div>
               ) : (
-                state.level.stock.map((entry, i) => (
-                  <div key={i} className={`stock-chip kind-${entry.kind}${i === 0 ? ' is-next' : ''}`}>
+                state.level.stock.map((entry, i) => {
+                  const r = stockResolve(entry);
+                  const letter = displayLetter(r.index);
+                  const glyph = r.kind === 'category' ? letter : letter.toLowerCase();
+                  return (
+                  <div key={i} className={`stock-chip kind-${r.kind}${i === 0 ? ' is-next' : ''}`}>
                     <button
                       type="button"
                       className={`stock-chip-card${state.swapMode ? ' swap-armed' : ''}`}
@@ -586,7 +584,7 @@ export function Editor() {
                           : 'Select this card and move it to the top of the placement queue'
                       }
                     >
-                      <span>{entry.kind === 'category' ? entry.letter : entry.letter.toLowerCase()}</span>
+                      <span>{glyph}</span>
                     </button>
                     <div className="stock-chip-controls">
                       <button
@@ -614,7 +612,8 @@ export function Editor() {
                       </button>
                     </div>
                   </div>
-                ))
+                  );
+                })
               )}
             </div>
           </div>
@@ -649,17 +648,18 @@ export function Editor() {
           </div>
         </aside>
       </div>
-      {pickerLetter && pickerCategory && (
+      {pickerIndex !== null && pickerCategory && (
         <CategoryPicker
-          letter={pickerLetter}
+          index={pickerIndex}
           category={pickerCategory}
+          minWords={simpleCountsArr[pickerIndex] ?? 0}
           dispatch={dispatch}
-          onClose={() => setPickerLetter(null)}
+          onClose={() => setPickerIndex(null)}
         />
       )}
       {rangePickerOpen && (
         <CategoryRangePicker
-          categories={state.level.categories}
+          slots={state.level.categories.map((_, i) => ({ letter: displayLetter(i), simpleCards: simpleCountsArr[i] }))}
           dispatch={dispatch}
           onClose={() => setRangePickerOpen(false)}
         />

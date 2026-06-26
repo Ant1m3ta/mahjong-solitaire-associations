@@ -1,42 +1,39 @@
-import type {
-  AlignAnchor,
-  CardKind,
-  EditorAction,
-  EditorState,
-  SkeletonCategory,
-  SkeletonLevel,
-  SkeletonStockEntry,
-} from './types';
+import type { AlignAnchor, EditorAction, EditorState } from './types';
+import type { LevelData } from '../types';
 import { BASIC_FILL, WORD_FILL } from './basics';
+import {
+  LETTERS,
+  emptyLevel,
+  isPlaceholderCategory,
+  buildResolver,
+  categoryIndexById,
+  simpleCounts,
+  addPlaceholderCategory,
+  setCategory,
+  unsetCategory,
+  addSimpleWord,
+  removeSimpleFromStock,
+} from './editorLevel';
 
-const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+export { emptyLevel } from './editorLevel';
 
-export function emptyLevel(): SkeletonLevel {
-  return {
-    levelId: 'skeleton-1',
-    slotsDefault: 4,
-    movesLimit: 100,
-    categories: [],
-    board: [],
-    stock: [],
-  };
-}
-
-export function topLayerOf(level: SkeletonLevel): number {
+export function topLayerOf(level: LevelData): number {
   if (level.board.length === 0) return 0;
   let z = 0;
   for (const c of level.board) if (c.z > z) z = c.z;
   return z;
 }
 
-export function minZ(level: SkeletonLevel): number {
+export function minZ(level: LevelData): number {
   if (level.board.length === 0) return 0;
   let z = level.board[0].z;
   for (const c of level.board) if (c.z < z) z = c.z;
   return z;
 }
 
-export function normalizeLevel(level: SkeletonLevel): { level: SkeletonLevel; shift: number } {
+// Shift every board card so the lowest z = 0 (the canonical layout for a saved
+// level). Returns the new level and the z-shift applied (to follow currentLayer).
+export function normalizeLevel(level: LevelData): { level: LevelData; shift: number } {
   if (level.board.length === 0) return { level, shift: 0 };
   const m = minZ(level);
   if (m === 0) return { level, shift: 0 };
@@ -46,14 +43,10 @@ export function normalizeLevel(level: SkeletonLevel): { level: SkeletonLevel; sh
   };
 }
 
-// 5×5 playfield outline, in half-card units: a card footprint spans CARD_SPAN
-// (2) half-cells and the outline is 5 cards across. Mirrors BoardCanvas's
-// PlayfieldOutline (OUTLINE_CARDS × CARD_W).
+// 5×5 playfield outline, in half-card units (mirrors BoardCanvas's outline).
 const CARD_SPAN = 2;
 const OUTLINE_SPAN = 5 * CARD_SPAN;
 
-// Translation that lands a board extent (min..min+size, in half-cells) on the
-// requested edge/center of the outline. center rounds to the nearest half-cell.
 function alignOffset(anchor: AlignAnchor, min: number, size: number): number {
   if (anchor === 'start') return -min;
   if (anchor === 'end') return OUTLINE_SPAN - size - min;
@@ -67,7 +60,7 @@ export function initialEditorState(): EditorState {
   return {
     level,
     history: [],
-    brush: { letter: null, kind: 'simple' },
+    brush: { categoryId: null, kind: 'simple' },
     currentLayer: topLayerOf(level),
     ghostBelow: true,
     revealPreview: false,
@@ -82,7 +75,9 @@ export function initialEditorState(): EditorState {
   };
 }
 
-const STATE_STORAGE_KEY = 'editor.state.v1';
+// v2: the working state is now a LevelData (was a SkeletonLevel under v1), so a
+// stale v1 blob is ignored and the editor starts fresh.
+const STATE_STORAGE_KEY = 'editor.state.v2';
 const HISTORY_CAP = 100;
 
 function loadPersistedEditorState(): EditorState | null {
@@ -156,48 +151,28 @@ const HISTORY_ACTIONS: ReadonlySet<EditorAction['type']> = new Set([
   'SHUFFLE_BOARD',
   'NORMALIZE_LAYERS',
   'ALIGN_BOARD',
-  'LOAD_SKELETON',
+  'LOAD_LEVEL',
 ]);
-
-function nextAvailableLetter(categories: SkeletonCategory[]): string | null {
-  const used = new Set(categories.map((c) => c.letter));
-  for (const ch of LETTERS) if (!used.has(ch)) return ch;
-  return null;
-}
-
-function countOnBoard(level: SkeletonLevel, letter: string, kind: CardKind): number {
-  let n = 0;
-  for (const c of level.board) if (c.letter === letter && c.kind === kind) n++;
-  return n;
-}
-
-function countInStock(level: SkeletonLevel, letter: string, kind: CardKind): number {
-  let n = 0;
-  for (const c of level.stock) if (c.letter === letter && c.kind === kind) n++;
-  return n;
-}
-
-function findLastStockIndex(
-  stock: SkeletonStockEntry[],
-  letter: string,
-  kind: CardKind,
-): number {
-  for (let i = stock.length - 1; i >= 0; i--) {
-    if (stock[i].letter === letter && stock[i].kind === kind) return i;
-  }
-  return -1;
-}
-
-function findCategory(level: SkeletonLevel, letter: string): SkeletonCategory | null {
-  return level.categories.find((c) => c.letter === letter) ?? null;
-}
 
 function fail(state: EditorState, msg: string): EditorState {
   return { ...state, lastError: msg };
 }
 
-function ok(state: EditorState, level: SkeletonLevel): EditorState {
+function ok(state: EditorState, level: LevelData): EditorState {
   return { ...state, level, lastError: null };
+}
+
+// After a rewrite that may change category ids, keep the brush pointed at the
+// SAME category slot (by its pre-rewrite position).
+function brushAfterRewrite(
+  brush: EditorState['brush'],
+  oldLevel: LevelData,
+  newLevel: LevelData,
+): EditorState['brush'] {
+  if (!brush.categoryId) return brush;
+  const i = categoryIndexById(oldLevel, brush.categoryId);
+  if (i < 0 || i >= newLevel.categories.length) return brush;
+  return { ...brush, categoryId: newLevel.categories[i].categoryId };
 }
 
 export function reduceEditor(state: EditorState, action: EditorAction): EditorState {
@@ -245,171 +220,154 @@ function reduceCore(state: EditorState, action: Exclude<EditorAction, { type: 'R
     }
 
     case 'ADD_CATEGORY': {
-      const letter = nextAvailableLetter(level.categories);
-      if (!letter) return fail(state, 'No more letters available.');
-      const simpleCount = Math.max(0, state.defaultNewCategorySize | 0);
-      const newCat: SkeletonCategory = {
-        letter,
-        simpleCards: simpleCount,
-      };
-      const newStockEntries: SkeletonStockEntry[] = [{ letter, kind: 'category' }];
-      for (let i = 0; i < simpleCount; i++) {
-        newStockEntries.push({ letter, kind: 'simple' });
-      }
+      const size = Math.max(0, state.defaultNewCategorySize | 0);
+      const { level: next, categoryId } = addPlaceholderCategory(level, size);
       return {
         ...state,
-        level: {
-          ...level,
-          categories: [...level.categories, newCat],
-          stock: [...level.stock, ...newStockEntries],
-        },
-        brush: { letter, kind: state.brush.kind },
+        level: next,
+        brush: { categoryId, kind: state.brush.kind },
         lastError: null,
       };
     }
 
     case 'REMOVE_CATEGORY': {
-      const { letter } = action;
-      const filteredCats = level.categories.filter((c) => c.letter !== letter);
-      const filteredBoard = level.board.filter((c) => c.letter !== letter);
-      const filteredStock = level.stock.filter((s) => s.letter !== letter);
+      const { index } = action;
+      if (index < 0 || index >= level.categories.length) return state;
+      const removedId = level.categories[index].categoryId;
+      const resolve = buildResolver(level);
+      const board = level.board.filter((b) => resolve(b.cardId).index !== index);
+      const stock = level.stock.filter((id) => resolve(id).index !== index);
+      const categories = level.categories.filter((_, i) => i !== index);
       return {
         ...state,
-        level: {
-          ...level,
-          categories: filteredCats,
-          board: filteredBoard,
-          stock: filteredStock,
-        },
+        level: { ...level, categories, board, stock },
         brush:
-          state.brush.letter === letter
-            ? { letter: null, kind: state.brush.kind }
+          state.brush.categoryId === removedId
+            ? { categoryId: null, kind: state.brush.kind }
             : state.brush,
         lastError: null,
       };
     }
 
     case 'SET_PINNED_CATEGORY': {
-      const cats = level.categories.map((c) =>
-        c.letter === action.letter
-          ? { ...c, pinnedCategoryId: action.categoryId ?? undefined, pinnedWords: undefined }
-          : c,
-      );
-      return ok(state, { ...level, categories: cats });
+      const { index } = action;
+      if (index < 0 || index >= level.categories.length) return state;
+      const next = action.categoryId
+        ? setCategory(level, index, action.categoryId)
+        : unsetCategory(level, index);
+      return { ...ok(state, next), brush: brushAfterRewrite(state.brush, level, next) };
     }
 
     case 'APPLY_CATEGORY_RANGE': {
-      const byLetter = new Map(action.assignments.map((a) => [a.letter, a]));
-      const cats = level.categories.map((c) => {
-        const a = byLetter.get(c.letter);
-        return a ? { ...c, pinnedCategoryId: a.categoryId, pinnedWords: a.words } : c;
-      });
-      return ok(state, { ...level, categories: cats });
+      const next = applyRewrites(
+        level,
+        action.assignments.map((a) => ({ index: a.index, categoryId: a.categoryId, words: a.words })),
+      );
+      return { ...ok(state, next), brush: brushAfterRewrite(state.brush, level, next) };
     }
 
     case 'FILL_BASIC': {
-      const byLetter = new Map(BASIC_FILL.map((b) => [b.letter, b.categoryId]));
-      const cats = level.categories.map((c) => {
-        const id = byLetter.get(c.letter);
-        return id ? { ...c, pinnedCategoryId: id, pinnedWords: undefined } : c;
-      });
-      return ok(state, { ...level, categories: cats });
+      const next = applyRewrites(
+        level,
+        level.categories.map((_, i) => {
+          const basic = BASIC_FILL.find((b) => b.letter === LETTERS[i]);
+          if (!basic) return null;
+          return { index: i, categoryId: basic.categoryId, words: basic.words.slice(0, simpleCounts(level)[i]) };
+        }),
+      );
+      return { ...ok(state, next), brush: brushAfterRewrite(state.brush, level, next) };
     }
 
     case 'FILL_WORDS': {
-      const cats = level.categories.map((c) => {
-        const id = WORD_FILL[c.letter];
-        return id ? { ...c, pinnedCategoryId: id, pinnedWords: undefined } : c;
+      const rewrites = level.categories.map((_, i) => {
+        const categoryId = WORD_FILL[LETTERS[i]];
+        return categoryId ? { index: i, categoryId } : null;
       });
-      const next = ok(state, { ...level, categories: cats });
-      const missing = level.categories.filter((c) => !WORD_FILL[c.letter]).length;
+      const next = applyRewrites(level, rewrites);
+      const result = { ...ok(state, next), brush: brushAfterRewrite(state.brush, level, next) };
+      const missing = rewrites.filter((r) => r === null).length;
       if (missing > 0) {
         return {
-          ...next,
+          ...result,
           lastError: `${missing} categor${missing === 1 ? 'y' : 'ies'} left unpinned — no mapping in WORD_FILL.`,
         };
       }
-      return next;
+      return result;
     }
 
     case 'CLEAR_PINS': {
-      const cats = level.categories.map((c) =>
-        c.pinnedCategoryId === undefined && c.pinnedWords === undefined
-          ? c
-          : { ...c, pinnedCategoryId: undefined, pinnedWords: undefined },
-      );
-      return ok(state, { ...level, categories: cats });
+      let next = level;
+      level.categories.forEach((c, i) => {
+        if (!isPlaceholderCategory(c.categoryId)) next = unsetCategory(next, i);
+      });
+      if (next === level) return state;
+      return { ...ok(state, next), brush: brushAfterRewrite(state.brush, level, next) };
     }
 
     case 'INC_SIMPLE': {
-      const cat = findCategory(level, action.letter);
-      if (!cat) return fail(state, `Unknown category ${action.letter}.`);
-      const next: SkeletonCategory = { ...cat, simpleCards: cat.simpleCards + 1 };
-      const cats = level.categories.map((c) => (c.letter === action.letter ? next : c));
-      const newEntry: SkeletonStockEntry = { letter: action.letter, kind: 'simple' };
-      return ok(state, { ...level, categories: cats, stock: [...level.stock, newEntry] });
+      const { index } = action;
+      if (index < 0 || index >= level.categories.length) return fail(state, 'Unknown category.');
+      const { level: l2, cardId } = addSimpleWord(level, index);
+      return ok(state, { ...l2, stock: [...l2.stock, cardId] });
     }
 
     case 'DEC_SIMPLE': {
-      const cat = findCategory(level, action.letter);
-      if (!cat) return fail(state, `Unknown category ${action.letter}.`);
-      if (cat.simpleCards <= 0) return fail(state, 'Count already 0.');
-      const stockIdx = findLastStockIndex(level.stock, action.letter, 'simple');
-      if (stockIdx < 0) {
+      const { index } = action;
+      if (index < 0 || index >= level.categories.length) return fail(state, 'Unknown category.');
+      const next = removeSimpleFromStock(level, index);
+      if (!next) {
         return fail(
           state,
           'Cannot decrement — all simples are on the board. Remove one from the board first.',
         );
       }
-      const next: SkeletonCategory = { ...cat, simpleCards: cat.simpleCards - 1 };
-      const cats = level.categories.map((c) => (c.letter === action.letter ? next : c));
-      const stock = level.stock.filter((_, i) => i !== stockIdx);
-      return ok(state, { ...level, categories: cats, stock });
+      return ok(state, next);
     }
 
     case 'PLACE_BOARD': {
-      const cat = findCategory(level, action.letter);
-      if (!cat) return fail(state, `Unknown category ${action.letter}.`);
-      const occupied = level.board.some(
-        (c) => c.x === action.x && c.y === action.y && c.z === action.z,
-      );
-      if (occupied) return fail(state, 'Cell already has a card at this z.');
-      const stockIdx = level.stock.findIndex(
-        (s) => s.letter === action.letter && s.kind === action.cardKind,
-      );
-      let newStock = level.stock;
-      let newCats = level.categories;
-      if (stockIdx >= 0) {
-        newStock = level.stock.filter((_, i) => i !== stockIdx);
-      } else if (action.cardKind === 'simple') {
-        // Implicit simple-count bump.
-        const next: SkeletonCategory = { ...cat, simpleCards: cat.simpleCards + 1 };
-        newCats = level.categories.map((c) => (c.letter === action.letter ? next : c));
-      } else {
-        // Category card already placed somewhere — only one per group.
-        return fail(state, `Category ${action.letter} card already placed.`);
+      const idx = categoryIndexById(level, action.categoryId);
+      if (idx < 0) return fail(state, 'Unknown category.');
+      if (level.board.some((b) => b.x === action.x && b.y === action.y && b.z === action.z)) {
+        return fail(state, 'Cell already has a card at this z.');
       }
-      const newBoard = [
-        ...level.board,
-        {
-          x: action.x,
-          y: action.y,
-          z: action.z,
-          letter: action.letter,
-          kind: action.cardKind,
-        },
-      ];
-      let next = ok(state, {
-        ...level,
-        board: newBoard,
-        stock: newStock,
-        categories: newCats,
-      });
-      // Follow the placement: layer label tracks the just-placed card.
+      const resolve = buildResolver(level);
+      let working = level;
+      let cardId: string;
+      let newStock = level.stock;
+      if (action.cardKind === 'category') {
+        if (level.board.some((b) => b.cardId === action.categoryId)) {
+          return fail(state, 'Category card already placed.');
+        }
+        const si = level.stock.indexOf(action.categoryId);
+        if (si < 0) return fail(state, 'Category card is not available to place.');
+        cardId = action.categoryId;
+        newStock = level.stock.filter((_, i) => i !== si);
+      } else {
+        let si = -1;
+        for (let i = 0; i < level.stock.length; i++) {
+          const r = resolve(level.stock[i]);
+          if (r.index === idx && r.kind === 'simple') {
+            si = i;
+            break;
+          }
+        }
+        if (si >= 0) {
+          cardId = level.stock[si];
+          newStock = level.stock.filter((_, i) => i !== si);
+        } else {
+          const added = addSimpleWord(level, idx);
+          working = added.level;
+          cardId = added.cardId;
+          newStock = added.level.stock;
+        }
+      }
+      const board = [...working.board, { x: action.x, y: action.y, z: action.z, cardId }];
+      let next = ok(state, { ...working, board, stock: newStock });
       if (next.currentLayer !== action.z) next = { ...next, currentLayer: action.z };
       if (state.stockAdvance && newStock.length > 0) {
-        const head = newStock[0];
-        next = { ...next, brush: { letter: head.letter, kind: head.kind } };
+        const r = buildResolver({ ...working, stock: newStock })(newStock[0]);
+        const headCat = next.level.categories[r.index]?.categoryId ?? null;
+        next = { ...next, brush: { categoryId: headCat, kind: r.kind } };
       }
       return next;
     }
@@ -420,12 +378,9 @@ function reduceCore(state: EditorState, action: Exclude<EditorAction, { type: 'R
       );
       if (idx < 0) return state;
       const removed = level.board[idx];
-      const newBoard = level.board.filter((_, i) => i !== idx);
-      const newStock = [
-        ...level.stock,
-        { letter: removed.letter, kind: removed.kind },
-      ];
-      return ok(state, { ...level, board: newBoard, stock: newStock });
+      const board = level.board.filter((_, i) => i !== idx);
+      const stock = [...level.stock, removed.cardId];
+      return ok(state, { ...level, board, stock });
     }
 
     case 'REORDER_STOCK': {
@@ -442,14 +397,13 @@ function reduceCore(state: EditorState, action: Exclude<EditorAction, { type: 'R
       const idx = action.index;
       if (idx < 0 || idx >= level.stock.length) return state;
       const moved = level.stock[idx];
-      // Select the clicked card so it places next, like SET_BRUSH_LETTER.
+      const r = buildResolver(level)(moved);
       const select = {
-        brush: { letter: moved.letter, kind: moved.kind },
+        brush: { categoryId: level.categories[r.index]?.categoryId ?? null, kind: r.kind },
         eraseMode: false,
         moveMode: false,
         pickedCard: null,
       };
-      // Already the queue head: just select it, leave the order untouched.
       if (idx === 0) return { ...state, ...select, lastError: null };
       const stock = level.stock.slice();
       stock.splice(idx, 1);
@@ -466,24 +420,38 @@ function reduceCore(state: EditorState, action: Exclude<EditorAction, { type: 'R
       const idx = action.index;
       if (idx < 0 || idx >= level.stock.length) return state;
       const entry = level.stock[idx];
-      const cat = findCategory(level, entry.letter);
-      if (!cat) return state;
-      if (entry.kind === 'category') {
+      const r = buildResolver(level)(entry);
+      if (r.kind === 'category') {
         return fail(
           state,
-          `Cannot delete the category card for ${entry.letter}. Use the × on the category panel to remove the whole category.`,
+          'Cannot delete a category card from the stock. Use the × on the category panel to remove the whole category.',
         );
       }
-      const next: SkeletonCategory = { ...cat, simpleCards: Math.max(0, cat.simpleCards - 1) };
-      const cats = level.categories.map((c) => (c.letter === entry.letter ? next : c));
       const stock = level.stock.filter((_, i) => i !== idx);
-      return ok(state, { ...level, categories: cats, stock });
+      const stillReferenced = stock.includes(entry) || level.board.some((b) => b.cardId === entry);
+      const categories = stillReferenced
+        ? level.categories
+        : level.categories.map((c, i) => {
+            if (i !== r.index) return c;
+            let dropped = false;
+            return {
+              ...c,
+              wordsData: c.wordsData.filter((w) => {
+                if (!dropped && w.wordId === entry) {
+                  dropped = true;
+                  return false;
+                }
+                return true;
+              }),
+            };
+          });
+      return ok(state, { ...level, categories, stock });
     }
 
-    case 'SET_BRUSH_LETTER':
+    case 'SET_BRUSH_CATEGORY':
       return {
         ...state,
-        brush: { ...state.brush, letter: action.letter },
+        brush: { ...state.brush, categoryId: action.categoryId },
         eraseMode: false,
         moveMode: false,
         pickedCard: null,
@@ -493,81 +461,41 @@ function reduceCore(state: EditorState, action: Exclude<EditorAction, { type: 'R
       return { ...state, brush: { ...state.brush, kind: action.kind } };
 
     case 'TOGGLE_ERASE':
-      return {
-        ...state,
-        eraseMode: !state.eraseMode,
-        moveMode: false,
-        swapMode: false,
-        pickedCard: null,
-      };
+      return { ...state, eraseMode: !state.eraseMode, moveMode: false, swapMode: false, pickedCard: null };
 
     case 'TOGGLE_MOVE':
-      return {
-        ...state,
-        moveMode: !state.moveMode,
-        eraseMode: false,
-        swapMode: false,
-        pickedCard: null,
-      };
+      return { ...state, moveMode: !state.moveMode, eraseMode: false, swapMode: false, pickedCard: null };
 
     case 'TOGGLE_SWAP':
-      return {
-        ...state,
-        swapMode: !state.swapMode,
-        eraseMode: false,
-        moveMode: false,
-        pickedCard: null,
-      };
+      return { ...state, swapMode: !state.swapMode, eraseMode: false, moveMode: false, pickedCard: null };
 
     case 'SWAP_LOCK': {
       const t = action.target;
-      const board = level.board.slice();
-      const stock = level.stock.slice();
-
-      // Resolve the clicked card and stage promoting it to the category card.
-      let letter: string;
-      let clickedIsCategory: boolean;
-      let promoteClicked: () => void;
+      const resolve = buildResolver(level);
+      let clickedId: string;
       if (t.where === 'board') {
-        const i = board.findIndex((c) => c.x === t.x && c.y === t.y && c.z === t.z);
-        if (i < 0) return state;
-        letter = board[i].letter;
-        clickedIsCategory = board[i].kind === 'category';
-        promoteClicked = () => {
-          board[i] = { ...board[i], kind: 'category' };
-        };
+        const b = level.board.find((c) => c.x === t.x && c.y === t.y && c.z === t.z);
+        if (!b) return state;
+        clickedId = b.cardId;
       } else {
-        const i = t.index;
-        if (i < 0 || i >= stock.length) return state;
-        letter = stock[i].letter;
-        clickedIsCategory = stock[i].kind === 'category';
-        promoteClicked = () => {
-          stock[i] = { ...stock[i], kind: 'category' };
-        };
+        if (t.index < 0 || t.index >= level.stock.length) return state;
+        clickedId = level.stock[t.index];
       }
-      if (clickedIsCategory) {
+      const r = resolve(clickedId);
+      if (r.kind === 'category') {
         return fail(state, 'Already the category card — click a simple card to swap it here.');
       }
-
-      // Demote the category's current (unique) category card, wherever it sits.
-      const lb = board.findIndex((c) => c.letter === letter && c.kind === 'category');
-      if (lb >= 0) {
-        board[lb] = { ...board[lb], kind: 'simple' };
-      } else {
-        const ls = stock.findIndex((s) => s.letter === letter && s.kind === 'category');
-        if (ls < 0) return fail(state, `No category card for ${letter} to swap.`);
-        stock[ls] = { ...stock[ls], kind: 'simple' };
-      }
-      promoteClicked();
+      const catId = level.categories[r.index].categoryId;
+      // Swap the clicked card's id with the category's lock card (cardId === catId),
+      // wherever it sits. Only the two positions' ids change.
+      const swap = (id: string): string => (id === clickedId ? catId : id === catId ? clickedId : id);
+      const board = level.board.map((b) => (b.cardId === clickedId || b.cardId === catId ? { ...b, cardId: swap(b.cardId) } : b));
+      const stock = level.stock.map(swap);
       return ok(state, { ...level, board, stock });
     }
 
     case 'PICK_CARD':
-      return {
-        ...state,
-        pickedCard: { x: action.x, y: action.y, z: action.z },
-        lastError: null,
-      };
+      return { ...state, pickedCard: { x: action.x, y: action.y, z: action.z }, lastError: null };
 
     case 'CANCEL_PICK':
       return { ...state, pickedCard: null, lastError: null };
@@ -578,18 +506,13 @@ function reduceCore(state: EditorState, action: Exclude<EditorAction, { type: 'R
       );
       if (fromIdx < 0) return fail(state, 'Source card not found.');
       const occupied = level.board.some(
-        (c, i) =>
-          i !== fromIdx && c.x === action.to.x && c.y === action.to.y && c.z === action.to.z,
+        (c, i) => i !== fromIdx && c.x === action.to.x && c.y === action.to.y && c.z === action.to.z,
       );
       if (occupied) return fail(state, 'Target cell already has a card at this z.');
       const card = level.board[fromIdx];
-      const newBoard = level.board.slice();
-      newBoard[fromIdx] = { ...card, x: action.to.x, y: action.to.y, z: action.to.z };
-      return {
-        ...ok(state, { ...level, board: newBoard }),
-        pickedCard: null,
-        currentLayer: action.to.z,
-      };
+      const board = level.board.slice();
+      board[fromIdx] = { ...card, x: action.to.x, y: action.to.y, z: action.to.z };
+      return { ...ok(state, { ...level, board }), pickedCard: null, currentLayer: action.to.z };
     }
 
     case 'SET_LAYER':
@@ -598,12 +521,7 @@ function reduceCore(state: EditorState, action: Exclude<EditorAction, { type: 'R
     case 'NORMALIZE_LAYERS': {
       const { level: normalized, shift } = normalizeLevel(level);
       if (shift === 0) return state;
-      return {
-        ...state,
-        level: normalized,
-        currentLayer: state.currentLayer + shift,
-        lastError: null,
-      };
+      return { ...state, level: normalized, currentLayer: state.currentLayer + shift, lastError: null };
     }
 
     case 'ALIGN_BOARD': {
@@ -625,12 +543,12 @@ function reduceCore(state: EditorState, action: Exclude<EditorAction, { type: 'R
       return ok(state, { ...level, board });
     }
 
-    case 'LOAD_SKELETON':
+    case 'LOAD_LEVEL':
       return {
         ...state,
         level: action.level,
         currentLayer: topLayerOf(action.level),
-        brush: { letter: null, kind: 'simple' },
+        brush: { categoryId: null, kind: 'simple' },
         eraseMode: false,
         lastError: null,
       };
@@ -647,11 +565,11 @@ function reduceCore(state: EditorState, action: Exclude<EditorAction, { type: 'R
     case 'TOGGLE_STOCK_ADVANCE': {
       const turningOn = !state.stockAdvance;
       if (turningOn && level.stock.length > 0) {
-        const head = level.stock[0];
+        const r = buildResolver(level)(level.stock[0]);
         return {
           ...state,
           stockAdvance: true,
-          brush: { letter: head.letter, kind: head.kind },
+          brush: { categoryId: level.categories[r.index]?.categoryId ?? null, kind: r.kind },
           lastError: null,
         };
       }
@@ -670,36 +588,56 @@ function reduceCore(state: EditorState, action: Exclude<EditorAction, { type: 'R
       }
       const next = ok(state, { ...level, stock: shuffled });
       if (state.stockAdvance) {
-        const head = shuffled[0];
-        return { ...next, brush: { letter: head.letter, kind: head.kind } };
+        const r = buildResolver(level)(shuffled[0]);
+        return { ...next, brush: { categoryId: level.categories[r.index]?.categoryId ?? null, kind: r.kind } };
       }
       return next;
     }
 
     case 'SHUFFLE_BOARD': {
       if (level.board.length <= 1) return state;
-      const payloads = level.board.map((c) => ({ letter: c.letter, kind: c.kind }));
-      for (let i = payloads.length - 1; i > 0; i--) {
+      const ids = level.board.map((c) => c.cardId);
+      for (let i = ids.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [payloads[i], payloads[j]] = [payloads[j], payloads[i]];
+        [ids[i], ids[j]] = [ids[j], ids[i]];
       }
-      const reshuffled = level.board.map((c, i) => ({
-        x: c.x,
-        y: c.y,
-        z: c.z,
-        letter: payloads[i].letter,
-        kind: payloads[i].kind,
-      }));
-      return ok(state, { ...level, board: reshuffled });
+      const board = level.board.map((c, i) => ({ ...c, cardId: ids[i] }));
+      return ok(state, { ...level, board });
     }
   }
 }
 
-export function categoryCounts(state: EditorState, letter: string) {
-  return {
-    categoryOnBoard: countOnBoard(state.level, letter, 'category'),
-    categoryInStock: countInStock(state.level, letter, 'category'),
-    simpleOnBoard: countOnBoard(state.level, letter, 'simple'),
-    simpleInStock: countInStock(state.level, letter, 'simple'),
-  };
+// Apply a batch of (possibly null) rewrites, dropping the no-ops.
+function applyRewrites(
+  level: LevelData,
+  rewrites: ({ index: number; categoryId: string; words?: string[] } | null)[],
+): LevelData {
+  const real = rewrites.filter((r): r is { index: number; categoryId: string; words?: string[] } => r !== null);
+  if (real.length === 0) return level;
+  // Sequential so each catalog pick (words omitted, e.g. Fill words) dedups
+  // against categories already rewritten in this batch. Rewriting never changes
+  // tile counts, so per-call simpleCounts stays stable.
+  return real.reduce((lvl, r) => setCategory(lvl, r.index, r.categoryId, r.words), level);
+}
+
+export function categoryCounts(state: EditorState, index: number) {
+  const level = state.level;
+  const resolve = buildResolver(level);
+  let categoryOnBoard = 0;
+  let categoryInStock = 0;
+  let simpleOnBoard = 0;
+  let simpleInStock = 0;
+  for (const b of level.board) {
+    const r = resolve(b.cardId);
+    if (r.index !== index) continue;
+    if (r.kind === 'category') categoryOnBoard++;
+    else simpleOnBoard++;
+  }
+  for (const id of level.stock) {
+    const r = resolve(id);
+    if (r.index !== index) continue;
+    if (r.kind === 'category') categoryInStock++;
+    else simpleInStock++;
+  }
+  return { categoryOnBoard, categoryInStock, simpleOnBoard, simpleInStock };
 }

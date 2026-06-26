@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import type { SkeletonLevel } from '../types';
+import type { LevelData } from '../../types';
 import type { SolverResponse } from './solver.worker';
 import type { SolverResult } from './solverCore';
 import type { DifficultyResult } from './difficulty';
@@ -53,7 +53,7 @@ export interface SolverBundle {
   runDeepAnalysis: () => void;
 }
 
-export function useSolver(skeleton: SkeletonLevel, enabled: boolean): SolverBundle {
+export function useSolver(level: LevelData, enabled: boolean): SolverBundle {
   const [solverView, setSolverView] = useState<SolverViewState>(IDLE);
   const [difficultyView, setDifficultyView] = useState<DifficultyViewState>(IDLE_DIFFICULTY);
   const [greedyView, setGreedyView] = useState<GreedyViewState>(IDLE_GREEDY);
@@ -61,7 +61,7 @@ export function useSolver(skeleton: SkeletonLevel, enabled: boolean): SolverBund
   const solverRequestId = useRef(0);
   const difficultyRequestId = useRef(0);
   const greedyRequestId = useRef(0);
-  const lastSkeletonRef = useRef<SkeletonLevel | null>(null);
+  const lastLevelRef = useRef<LevelData | null>(null);
 
   useEffect(() => {
     if (!enabled) {
@@ -106,7 +106,7 @@ export function useSolver(skeleton: SkeletonLevel, enabled: boolean): SolverBund
   }, [enabled]);
 
   useEffect(() => {
-    lastSkeletonRef.current = skeleton;
+    lastLevelRef.current = level;
     if (!enabled) return;
     const w = workerRef.current;
     if (!w) return;
@@ -119,14 +119,14 @@ export function useSolver(skeleton: SkeletonLevel, enabled: boolean): SolverBund
     const solverTimer = window.setTimeout(() => {
       // Greedy first: it is sub-ms, and the worker runs messages serially — the
       // A* skeleton solve can take seconds, so queue greedy ahead of it.
-      w.postMessage({ requestId: greedyId, kind: 'greedy', skeleton });
-      w.postMessage({ requestId: solverId, kind: 'skeleton', skeleton });
+      w.postMessage({ requestId: greedyId, kind: 'greedy', level });
+      w.postMessage({ requestId: solverId, kind: 'solve', level });
     }, SOLVER_DEBOUNCE_MS);
     const difficultyTimer = window.setTimeout(() => {
       w.postMessage({
         requestId: difficultyId,
         kind: 'difficulty',
-        skeleton,
+        level,
         mode: 'auto',
       });
     }, DIFFICULTY_AUTO_DEBOUNCE_MS);
@@ -134,17 +134,17 @@ export function useSolver(skeleton: SkeletonLevel, enabled: boolean): SolverBund
       window.clearTimeout(solverTimer);
       window.clearTimeout(difficultyTimer);
     };
-  }, [skeleton, enabled]);
+  }, [level, enabled]);
 
   const runDeepAnalysis = useCallback(() => {
     if (!enabled) return;
     const w = workerRef.current;
     if (!w) return;
-    const skel = lastSkeletonRef.current;
-    if (!skel) return;
+    const lvl = lastLevelRef.current;
+    if (!lvl) return;
     const id = ++difficultyRequestId.current;
     setDifficultyView({ status: 'analyzing', mode: 'deep', result: null });
-    w.postMessage({ requestId: id, kind: 'difficulty', skeleton: skel, mode: 'deep' });
+    w.postMessage({ requestId: id, kind: 'difficulty', level: lvl, mode: 'deep' });
   }, [enabled]);
 
   return { solver: solverView, difficulty: difficultyView, greedy: greedyView, runDeepAnalysis };

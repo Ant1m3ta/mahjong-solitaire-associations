@@ -1,19 +1,24 @@
 import { useEffect, useMemo, useState, type Dispatch } from 'react';
-import type { EditorAction, SkeletonCategory } from './types';
+import type { CategoryData } from '../types';
+import type { EditorAction } from './types';
 import { categoryKind, pools } from './fill';
+import { displayLetter, isPlaceholderCategory } from './editorLevel';
 
 interface Props {
-  letter: string;
-  category: SkeletonCategory;
+  index: number;
+  category: CategoryData;
+  minWords: number;
   onClose: () => void;
   dispatch: Dispatch<EditorAction>;
 }
 
 const MAX_RESULTS = 50;
 
-export function CategoryPicker({ letter, category, onClose, dispatch }: Props) {
+export function CategoryPicker({ index, category, minWords, onClose, dispatch }: Props) {
   const [query, setQuery] = useState('');
-  const minWords = category.simpleCards;
+  const letter = displayLetter(index);
+  const pinned = !isPlaceholderCategory(category.categoryId);
+  const currentId = pinned ? category.categoryId : '';
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
@@ -39,12 +44,12 @@ export function CategoryPicker({ letter, category, onClose, dispatch }: Props) {
   }, [query, minWords]);
 
   function pick(categoryId: string) {
-    dispatch({ type: 'SET_PINNED_CATEGORY', letter, categoryId });
+    dispatch({ type: 'SET_PINNED_CATEGORY', index, categoryId });
     onClose();
   }
 
   function unpin() {
-    dispatch({ type: 'SET_PINNED_CATEGORY', letter, categoryId: null });
+    dispatch({ type: 'SET_PINNED_CATEGORY', index, categoryId: null });
     onClose();
   }
 
@@ -52,7 +57,7 @@ export function CategoryPicker({ letter, category, onClose, dispatch }: Props) {
     <div className="picker-overlay" onClick={onClose}>
       <div className="picker-modal" onClick={(e) => e.stopPropagation()}>
         <div className="picker-header">
-          <span>Pin <strong>{letter}</strong> to a real category</span>
+          <span>Theme <strong>{letter}</strong> with a real category</span>
           <span className="picker-constraint">≥ {minWords} word{minWords === 1 ? '' : 's'}</span>
           <button className="editor-btn small" onClick={onClose}>×</button>
         </div>
@@ -68,8 +73,8 @@ export function CategoryPicker({ letter, category, onClose, dispatch }: Props) {
           <button
             className="editor-btn"
             onClick={unpin}
-            disabled={!category.pinnedCategoryId}
-            title="Clear the pin; fill will pick randomly."
+            disabled={!pinned}
+            title="Revert to an unthemed placeholder; fill picks randomly at save."
           >
             Unpin
           </button>
@@ -81,7 +86,7 @@ export function CategoryPicker({ letter, category, onClose, dispatch }: Props) {
             matches.map((c) => (
               <div
                 key={c.categoryId}
-                className={`picker-row${c.categoryId === category.pinnedCategoryId ? ' selected' : ''}`}
+                className={`picker-row${c.categoryId === currentId ? ' selected' : ''}`}
               >
                 <span className={`picker-kind kind-${categoryKind(c.categoryId, c.wordsIds)}`}>
                   {categoryKind(c.categoryId, c.wordsIds)}

@@ -1,15 +1,18 @@
 import type { Dispatch } from 'react';
-import type { CardKind, EditorAction, EditorState, SkeletonCategory } from './types';
+import type { CategoryData } from '../types';
+import type { CardKind, EditorAction, EditorState } from './types';
 import { categoryCounts } from './reducer';
+import { displayLetter, isPlaceholderCategory, simpleCounts } from './editorLevel';
 
 interface Props {
   state: EditorState;
   dispatch: Dispatch<EditorAction>;
-  onOpenPicker: (letter: string) => void;
+  onOpenPicker: (index: number) => void;
   onOpenRangePicker: () => void;
 }
 
 export function CategoriesRail({ state, dispatch, onOpenPicker, onOpenRangePicker }: Props) {
+  const counts = simpleCounts(state.level);
   return (
     <aside className="editor-rail editor-rail-left">
       <div className="editor-rail-title">
@@ -18,7 +21,7 @@ export function CategoriesRail({ state, dispatch, onOpenPicker, onOpenRangePicke
           className="editor-btn small"
           disabled={state.level.categories.length === 0}
           onClick={() => dispatch({ type: 'FILL_BASIC' })}
-          title="Pin every category to its same-letter basic entry (A→A, B→B, …). On Save/Play, words become 'a','b','c'…"
+          title="Theme every category to its same-letter basic entry (A→A, B→B, …). Words become 'a','b','c'…"
         >
           Basicify
         </button>
@@ -27,10 +30,12 @@ export function CategoriesRail({ state, dispatch, onOpenPicker, onOpenRangePicke
         {state.level.categories.length === 0 ? (
           <div className="editor-empty">No categories yet.</div>
         ) : (
-          state.level.categories.map((cat) => (
+          state.level.categories.map((cat, i) => (
             <CategoryCard
-              key={cat.letter}
+              key={cat.categoryId}
               cat={cat}
+              index={i}
+              simpleTotal={counts[i]}
               state={state}
               dispatch={dispatch}
               onOpenPicker={onOpenPicker}
@@ -63,7 +68,7 @@ export function CategoriesRail({ state, dispatch, onOpenPicker, onOpenRangePicke
           className="editor-btn"
           disabled={state.level.categories.length === 0}
           onClick={onOpenRangePicker}
-          title="Fill every category from a contiguous slice of category_list.json, picking the start index. Words are locked exactly as previewed; missing ones can be generated."
+          title="Fill every category from a contiguous slice of category_list.json, picking the start index. Words are written exactly as previewed; missing ones can be generated."
         >
           From list…
         </button>
@@ -71,7 +76,7 @@ export function CategoriesRail({ state, dispatch, onOpenPicker, onOpenRangePicke
           className="editor-btn"
           disabled={state.level.categories.length === 0}
           onClick={() => dispatch({ type: 'FILL_WORDS' })}
-          title="Pin every category to its predefined real word category (A→Animals, B→Birds, …). Edit the mapping in basics.ts → WORD_FILL."
+          title="Theme every category to its predefined real word category (A→Animals, B→Birds, …). Edit the mapping in basics.ts → WORD_FILL."
         >
           Fill words
         </button>
@@ -79,7 +84,7 @@ export function CategoriesRail({ state, dispatch, onOpenPicker, onOpenRangePicke
           className="editor-btn"
           disabled={state.level.categories.length === 0}
           onClick={() => dispatch({ type: 'CLEAR_PINS' })}
-          title="Clear all pins back to ‘random’; the real category is then picked at Save/Play."
+          title="Revert every themed category to an unthemed placeholder; a real category is picked at Save/Play."
         >
           Clear pins
         </button>
@@ -89,19 +94,23 @@ export function CategoriesRail({ state, dispatch, onOpenPicker, onOpenRangePicke
 }
 
 interface CardProps {
-  cat: SkeletonCategory;
+  cat: CategoryData;
+  index: number;
+  simpleTotal: number;
   state: EditorState;
   dispatch: Dispatch<EditorAction>;
-  onOpenPicker: (letter: string) => void;
+  onOpenPicker: (index: number) => void;
 }
 
-function CategoryCard({ cat, state, dispatch, onOpenPicker }: CardProps) {
-  const counts = categoryCounts(state, cat.letter);
-  const active = state.brush.letter === cat.letter && !state.eraseMode;
+function CategoryCard({ cat, index, simpleTotal, state, dispatch, onOpenPicker }: CardProps) {
+  const counts = categoryCounts(state, index);
+  const letter = displayLetter(index);
+  const active = state.brush.categoryId === cat.categoryId && !state.eraseMode;
   const activeKind = state.brush.kind;
+  const pinned = !isPlaceholderCategory(cat.categoryId);
 
   function selectBrush(kind: CardKind) {
-    dispatch({ type: 'SET_BRUSH_LETTER', letter: cat.letter });
+    dispatch({ type: 'SET_BRUSH_CATEGORY', categoryId: cat.categoryId });
     dispatch({ type: 'SET_BRUSH_KIND', kind });
   }
 
@@ -110,21 +119,21 @@ function CategoryCard({ cat, state, dispatch, onOpenPicker }: CardProps) {
       <div className="cat-card-header">
         <button
           className="cat-letter-btn"
-          onClick={() => dispatch({ type: 'SET_BRUSH_LETTER', letter: cat.letter })}
+          onClick={() => dispatch({ type: 'SET_BRUSH_CATEGORY', categoryId: cat.categoryId })}
           title="Select as brush"
         >
-          <span className="cat-letter">{cat.letter}</span>
+          <span className="cat-letter">{letter}</span>
         </button>
         <button
-          className={`cat-pin${cat.pinnedCategoryId ? ' pinned' : ''}`}
-          onClick={() => onOpenPicker(cat.letter)}
-          title={cat.pinnedCategoryId ? `Pinned to ${cat.pinnedCategoryId}. Click to change.` : 'Random fill — click to pin a real category.'}
+          className={`cat-pin${pinned ? ' pinned' : ''}`}
+          onClick={() => onOpenPicker(index)}
+          title={pinned ? `Themed as ${cat.categoryId}. Click to change.` : 'Random fill — click to theme with a real category.'}
         >
-          📎 <span className="cat-pin-label">{cat.pinnedCategoryId ?? 'random'}</span>
+          📎 <span className="cat-pin-label">{pinned ? cat.categoryId : 'random'}</span>
         </button>
         <button
           className="cat-delete editor-btn small danger"
-          onClick={() => dispatch({ type: 'REMOVE_CATEGORY', letter: cat.letter })}
+          onClick={() => dispatch({ type: 'REMOVE_CATEGORY', index })}
           title="Remove category"
         >
           ×
@@ -139,13 +148,13 @@ function CategoryCard({ cat, state, dispatch, onOpenPicker }: CardProps) {
       />
       <CountRow
         label="simple"
-        total={cat.simpleCards}
+        total={simpleTotal}
         onBoard={counts.simpleOnBoard}
         inStock={counts.simpleInStock}
         active={active && activeKind === 'simple'}
         onSelect={() => selectBrush('simple')}
-        onInc={() => dispatch({ type: 'INC_SIMPLE', letter: cat.letter })}
-        onDec={() => dispatch({ type: 'DEC_SIMPLE', letter: cat.letter })}
+        onInc={() => dispatch({ type: 'INC_SIMPLE', index })}
+        onDec={() => dispatch({ type: 'DEC_SIMPLE', index })}
       />
     </div>
   );

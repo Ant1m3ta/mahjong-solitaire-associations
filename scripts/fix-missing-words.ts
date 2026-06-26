@@ -11,11 +11,10 @@
 //     --seed=N: seed the replacement RNG (default 1) so the plan is reproducible
 import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
-import { unfillLevel } from '../src/editor/unfill';
-import { fillSkeleton, pools } from '../src/editor/fill';
+import { pools } from '../src/editor/fill';
+import { rewriteCategories, simpleTileCounts, type CategoryRewrite } from '../src/editor/rewrite';
 import type { LevelData } from '../src/types';
 
-const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const argv = process.argv.slice(2);
 const WRITE = argv.includes('--write');
 const SEED = Number((argv.find((a) => a.startsWith('--seed=')) ?? '--seed=1').split('=')[1]) || 1;
@@ -75,29 +74,29 @@ let changedFiles = 0, fillN = 0, replaceN = 0, problems = 0;
 
 for (const { f, level } of levels) {
   const name = f.replace('.json', '');
-  const skel = unfillLevel(level);
+  const counts = simpleTileCounts(level);
   const reserved = new Set<string>(level.categories.map((c) => c.categoryId.toLowerCase()));
   const used = new Set<string>();
   const changes: Change[] = [];
-  const changedLetters = new Set<string>(); // only these slots get rewritten
+  // Only the filled/replaced slots are rewritten; image + complete text
+  // categories are left verbatim (absent from `rewrites`), so the diff is the fix.
+  const rewrites: CategoryRewrite[] = [];
 
-  // Build the pinned category list fillSkeleton will fill from.
-  const pinned = skel.categories.map((sc, i) => {
-    const cat = level.categories[i];
-    if (isImg(cat)) return sc; // untouched; spliced back from original after fill
-    const need = sc.simpleCards;
+  level.categories.forEach((cat, i) => {
+    if (isImg(cat)) return; // untouched
+    const need = counts[i];
     const existingReal = new Set(cat.wordsData.filter((w) => !w.missing).map((w) => w.wordId.toLowerCase()));
-    let words = pickWords(cat.categoryId, need, used, reserved);
+    const words = pickWords(cat.categoryId, need, used, reserved);
     if (words.length >= need) {
       const stubs = cat.wordsData.filter((w) => w.missing).length;
       if (stubs > 0) {
         const fresh = words.filter((w) => !existingReal.has(w.toLowerCase()));
         changes.push({ kind: 'fill', orig: cat.categoryId, got: need, need, newWords: fresh });
-        changedLetters.add(LETTERS[i]);
+        rewrites.push({ index: i, categoryId: cat.categoryId, words });
         fillN++;
       }
       words.forEach((w) => used.add(w.toLowerCase()));
-      return { ...sc, pinnedCategoryId: cat.categoryId, pinnedWords: words };
+      return; // complete category: reserve its words, keep verbatim
     }
     // REPLACE: random valid catalog category, unique to the game, fills cleanly.
     const cands = shuffle(pools().all.filter((c) => c.wordsIds.length >= need && !taken.has(c.categoryId.toLowerCase())));
@@ -109,27 +108,22 @@ for (const { f, level } of levels) {
     if (!chosen) {
       changes.push({ kind: 'replace', orig: cat.categoryId, to: '(NO CANDIDATE)', got: words.length, need, newWords: [] });
       problems++;
-      return { ...sc, pinnedCategoryId: cat.categoryId, pinnedWords: words };
+      return; // can't fix; keep verbatim
     }
     taken.add(chosen.id.toLowerCase());
     reserved.add(chosen.id.toLowerCase());
     chosen.words.forEach((w) => used.add(w.toLowerCase()));
     changes.push({ kind: 'replace', orig: cat.categoryId, to: chosen.id, got: words.length, need, newWords: chosen.words });
-    changedLetters.add(LETTERS[i]);
+    rewrites.push({ index: i, categoryId: chosen.id, words: chosen.words });
     replaceN++;
-    return { ...sc, pinnedCategoryId: chosen.id, pinnedWords: chosen.words };
   });
 
   if (changes.length === 0) continue;
   changedFiles++;
 
-  // Fill, then splice EVERY untouched slot (image categories and complete text
-  // categories alike) back verbatim — only the filled/replaced slots are
-  // rewritten, so the diff is exactly the fix.
-  const out = fillSkeleton({ ...skel, categories: pinned }, { padGaps: true });
-  out.categories = out.categories.map((c, i) => (changedLetters.has(LETTERS[i]) ? c : level.categories[i]));
-  out.board = out.board.map((b, j) => (changedLetters.has(skel.board[j].letter) ? b : { ...b, cardId: level.board[j].cardId }));
-  out.stock = out.stock.map((s, j) => (changedLetters.has(skel.stock[j].letter) ? s : level.stock[j]));
+  // Rewrite only the filled/replaced slots in place; image + complete text
+  // categories (and their cardIds) are left verbatim, so the diff is the fix.
+  const out = rewriteCategories(level, rewrites);
 
   // Validate: no word == a category name, no word shared across categories,
   // and every board/stock cardId resolves to a category or a known word.

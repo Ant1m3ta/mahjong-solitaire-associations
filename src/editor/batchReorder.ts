@@ -1,9 +1,8 @@
 import type { LevelData } from '../types';
-import type { SkeletonStockEntry } from './types';
 import type { LevelFileEntry } from './save';
-import { unfillLevel, UnfillError } from './unfill';
-import { analyzeGreedySkeleton, type GreedyResult } from './solver/greedy';
-import { applyOrderToLevel, applyOrderToSkeleton, planStockReorder } from './reorderFix';
+import { analyzeGreedyLevel, type GreedyResult } from './solver/greedy';
+import { applyOrderToLevel, planStockReorderLevel } from './reorderFix';
+import { buildResolver, displayLetter } from './editorLevel';
 
 // The modal classifies every level eagerly on open, so cap the per-level random
 // search lower than the CLI default to keep it responsive. Fixable levels are
@@ -30,33 +29,31 @@ export interface ReorderRow {
   level?: LevelData;
 }
 
-function token(e: SkeletonStockEntry): string {
-  return e.kind === 'category' ? e.letter : e.letter.toLowerCase();
+// Stock cardIds as the editor's short tokens: each card's display letter, upper
+// for the category (lock) card, lower for a simple.
+function stockTokens(level: LevelData): string[] {
+  const resolve = buildResolver(level);
+  return level.stock.map((cardId) => {
+    const r = resolve(cardId);
+    const letter = displayLetter(r.index);
+    return r.kind === 'category' ? letter : letter.toLowerCase();
+  });
 }
 
 export function buildReorderPlan(entries: LevelFileEntry[]): ReorderRow[] {
   return entries.map((entry) => {
-    let skel;
-    try {
-      skel = unfillLevel(entry.level);
-    } catch (e) {
-      return {
-        name: entry.name,
-        status: 'error',
-        error: e instanceof UnfillError ? e.message : String(e),
-        beforeStock: [],
-      };
+    const before = analyzeGreedyLevel(entry.level);
+    if (before.outcome === 'invalid') {
+      return { name: entry.name, status: 'error', error: before.message ?? 'invalid level', beforeStock: [] };
     }
-
-    const before = analyzeGreedySkeleton(skel);
-    const beforeStock = skel.stock.map(token);
-    const plan = planStockReorder(skel, MODAL_SEARCH_BUDGET);
+    const beforeStock = stockTokens(entry.level);
+    const plan = planStockReorderLevel(entry.level, MODAL_SEARCH_BUDGET);
 
     if (plan.status === 'already-fair') {
       return { name: entry.name, status: 'fair', before, beforeStock, level: entry.level };
     }
     if (plan.status === 'fixed' && plan.order) {
-      const afterStock = applyOrderToSkeleton(skel, plan.order).stock.map(token);
+      const afterStock = stockTokens(applyOrderToLevel(entry.level, plan.order));
       return {
         name: entry.name,
         status: 'trap-fixed',
@@ -86,7 +83,7 @@ export function applyReorderRow(row: ReorderRow): LevelData {
     throw new Error(row.reason ?? 'level is not reorder-fixable');
   }
   const out = applyOrderToLevel(row.level, row.order);
-  const verify = analyzeGreedySkeleton(unfillLevel(out));
+  const verify = analyzeGreedyLevel(out);
   if (verify.outcome !== 'won') {
     throw new Error('reorder failed verification (straightforward play still softlocks)');
   }

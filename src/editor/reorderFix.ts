@@ -1,10 +1,8 @@
 import type { Card, GameState, LevelData } from '../types';
 import { applyAction, isWon } from '../game/moves';
 import { getChainEntries, isSlotRevealed } from '../game/coverage';
-import type { SkeletonLevel } from './types';
-import { buildSolverInput, SolverInputError } from './solver/buildState';
 import { solverStateFromLevel } from './solver/levelState';
-import { analyzeGreedyLevel, analyzeGreedySkeleton, chooseGreedyAction, type GreedyResult } from './solver/greedy';
+import { analyzeGreedyLevel, chooseGreedyAction, type GreedyResult } from './solver/greedy';
 
 export type ReorderStatus = 'already-fair' | 'fixed' | 'unfixable';
 
@@ -17,12 +15,7 @@ export interface ReorderPlan {
   order?: number[];
 }
 
-// Apply a reorder permutation to a skeleton's stock (for the live editor).
-export function applyOrderToSkeleton(skel: SkeletonLevel, order: number[]): SkeletonLevel {
-  return { ...skel, stock: order.map((i) => skel.stock[i]) };
-}
-
-// Apply the same permutation to a concrete LevelData's stock cardIds. Lossless —
+// Apply a reorder permutation to a concrete LevelData's stock cardIds. Lossless —
 // just a permutation of the existing ids; board / words / images untouched.
 export function applyOrderToLevel(level: LevelData, order: number[]): LevelData {
   return { ...level, stock: order.map((i) => level.stock[i]) };
@@ -35,33 +28,6 @@ export function applyOrderToLevel(level: LevelData, order: number[]): LevelData 
 // smaller budget to stay responsive; the CLI uses the default.
 export const REORDER_SEARCH_BUDGET = 4000;
 
-export function planStockReorder(
-  skel: SkeletonLevel,
-  searchBudget: number = REORDER_SEARCH_BUDGET,
-): ReorderPlan {
-  const before = analyzeGreedySkeleton(skel);
-  const guard = guardReorder(before);
-  if (guard) return guard;
-
-  let initial: GameState;
-  try {
-    initial = buildSolverInput(skel).initialState;
-  } catch (err) {
-    return {
-      status: 'unfixable',
-      reason: err instanceof SolverInputError ? err.message : String(err),
-    };
-  }
-
-  const verify = (order: number[]): boolean =>
-    analyzeGreedySkeleton(applyOrderToSkeleton(skel, order)).outcome === 'won';
-
-  return planReorderCore(before, initial, skel.stock.length, verify, searchBudget);
-}
-
-// LevelData-native counterpart: identical search, but builds the solver state
-// from the concrete level (the real game path) and verifies on LevelData stock
-// permutations. Used by the batch tools and CLIs.
 export function planStockReorderLevel(
   level: LevelData,
   searchBudget: number = REORDER_SEARCH_BUDGET,

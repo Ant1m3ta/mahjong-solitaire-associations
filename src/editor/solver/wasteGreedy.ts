@@ -2,9 +2,7 @@ import type { Action, Card, GameState, LevelData } from '../../types';
 import { applyAction, isWon } from '../../game/moves';
 import { getChainEntries, isSlotRevealed } from '../../game/coverage';
 import { hashState } from './hash';
-import { buildSolverInput, SolverInputError } from './buildState';
 import { solverStateFromLevel } from './levelState';
-import type { SkeletonLevel } from '../types';
 
 // Straightforward (no-lookahead) player, faithful to the Unity SoliJong
 // MoveEngine — where the hand is an accumulating WASTE pile, not a single card:
@@ -201,20 +199,10 @@ function simulate(initial: GameState): WasteGreedyResult {
   return softlock(s);
 }
 
-export function analyzeWasteGreedySkeleton(skel: SkeletonLevel): WasteGreedyResult {
-  if (skel.board.length === 0 && skel.stock.length === 0) return blank('empty');
-  let initial: GameState;
-  try {
-    initial = buildSolverInput(skel).initialState;
-  } catch (err) {
-    return { ...blank('invalid'), message: err instanceof SolverInputError ? err.message : String(err) };
-  }
-  return simulate(initial);
-}
-
-// LevelData-native counterpart (real game path). Used by the batch tools/CLIs.
+// Real game path (createCardFromId / buildInitialState). The single entry point
+// for the waste-pile analyzer.
 export function analyzeWasteGreedyLevel(level: LevelData): WasteGreedyResult {
-  if (level.board.length === 0 && level.stock.length === 0) return blank('empty');
+  if ((level.board?.length ?? 0) === 0 && (level.stock?.length ?? 0) === 0) return blank('empty');
   let initial: GameState;
   try {
     initial = solverStateFromLevel(level);

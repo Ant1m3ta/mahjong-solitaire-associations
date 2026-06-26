@@ -2,9 +2,7 @@ import type { Action, GameState, LevelData } from '../../types';
 import { applyAction, isWon } from '../../game/moves';
 import { getChainEntries, isSlotRevealed } from '../../game/coverage';
 import { hashState } from './hash';
-import { buildSolverInput, SolverInputError } from './buildState';
 import { solverStateFromLevel } from './levelState';
-import type { SkeletonLevel } from '../types';
 
 export type GreedyOutcome = 'won' | 'softlock' | 'invalid' | 'empty';
 
@@ -189,26 +187,10 @@ export function simulateGreedy(
   return softlock(state, reportLimit, lockStep);
 }
 
-export function analyzeGreedySkeleton(skel: SkeletonLevel): GreedyResult {
-  if (skel.board.length === 0 && skel.stock.length === 0) {
-    return blank('empty');
-  }
-  let initial: GameState;
-  try {
-    initial = buildSolverInput(skel).initialState;
-  } catch (err) {
-    return {
-      ...blank('invalid'),
-      message: err instanceof SolverInputError ? err.message : String(err),
-    };
-  }
-  return simulateGreedy(initial, skel.movesLimit);
-}
-
-// LevelData-native counterpart — builds the solver state via the real game path
-// (createCardFromId / buildInitialState). Used by the batch tools and CLIs.
+// Builds the solver state via the real game path (createCardFromId /
+// buildInitialState). The single entry point for the straightforward analyzer.
 export function analyzeGreedyLevel(level: LevelData): GreedyResult {
-  if (level.board.length === 0 && level.stock.length === 0) {
+  if ((level.board?.length ?? 0) === 0 && (level.stock?.length ?? 0) === 0) {
     return blank('empty');
   }
   let initial: GameState;

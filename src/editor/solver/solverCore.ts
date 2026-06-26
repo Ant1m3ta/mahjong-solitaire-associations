@@ -2,9 +2,7 @@ import type { Action, GameState, LevelData } from '../../types';
 import { applyAction, isWon } from '../../game/moves';
 import { enumerateMoves, type EnumerateOpts } from './enumerate';
 import { hashState } from './hash';
-import { buildSolverInput, SolverInputError, type SolverInput } from './buildState';
 import { solverStateFromLevel } from './levelState';
-import type { SkeletonLevel } from '../types';
 import { admissibleHeuristic, searchHeuristic } from './heuristic';
 import { MinHeap } from './heap';
 
@@ -55,38 +53,6 @@ interface VisitedEntry {
   g: number;
 }
 
-export function solveSkeleton(
-  skel: SkeletonLevel,
-  options: Partial<SolverOptions> = {},
-): SolverResult {
-  const opts: SolverOptions = { ...DEFAULT_OPTIONS, ...options };
-  const startedAt = performance.now();
-
-  if (skel.board.length === 0 && skel.stock.length === 0) {
-    return {
-      status: 'empty',
-      optimalityProven: true,
-      moveIndexByCellKey: [],
-      stats: { statesExplored: 0, elapsedMs: 0, queuePeak: 0 },
-    };
-  }
-
-  let input: SolverInput;
-  try {
-    input = buildSolverInput(skel);
-  } catch (err) {
-    return {
-      status: 'invalid',
-      message: err instanceof SolverInputError ? err.message : String(err),
-      optimalityProven: false,
-      moveIndexByCellKey: [],
-      stats: { statesExplored: 0, elapsedMs: performance.now() - startedAt, queuePeak: 0 },
-    };
-  }
-
-  return runSearch(input.initialState, opts, startedAt);
-}
-
 // Run the solver from a live in-game state. movesLimit is stripped so the
 // search isn't bounded by the player's remaining moves — the result reports
 // how many moves the optimal path needs from here.
@@ -107,7 +73,7 @@ export function solveLevel(
   options: Partial<SolverOptions> = {},
 ): SolverResult {
   const startedAt = performance.now();
-  if (level.board.length === 0 && level.stock.length === 0) {
+  if ((level.board?.length ?? 0) === 0 && (level.stock?.length ?? 0) === 0) {
     return {
       status: 'empty',
       optimalityProven: true,

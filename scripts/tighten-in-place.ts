@@ -7,9 +7,8 @@
 import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
 import { resolve, join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { unfillLevel } from '../src/editor/unfill';
-import { analyzeGreedySkeleton } from '../src/editor/solver/greedy';
-import { analyzeWasteGreedySkeleton } from '../src/editor/solver/wasteGreedy';
+import { analyzeGreedyLevel } from '../src/editor/solver/greedy';
+import { analyzeWasteGreedyLevel } from '../src/editor/solver/wasteGreedy';
 import type { LevelData } from '../src/types';
 
 const argv = process.argv.slice(2);
@@ -57,9 +56,8 @@ for (const file of files) {
   const cyc = (pos % CYCLE) + 1;
   if (!TIGHT.has(cyc)) continue; // generous position — leave it
 
-  const skel = unfillLevel(data);
-  const single = analyzeGreedySkeleton(skel);
-  const waste = analyzeWasteGreedySkeleton(skel);
+  const single = analyzeGreedyLevel(data);
+  const waste = analyzeWasteGreedyLevel(data);
   if (single.outcome === 'invalid' || waste.outcome === 'invalid') {
     console.error(`ABORT: ${file} invalid — ${waste.message ?? single.message}`);
     process.exit(1);

@@ -3,7 +3,8 @@ import { applyAction, isWon } from '../game/moves';
 import { getChainEntries, isSlotRevealed } from '../game/coverage';
 import type { SkeletonLevel } from './types';
 import { buildSolverInput, SolverInputError } from './solver/buildState';
-import { analyzeGreedySkeleton, chooseGreedyAction } from './solver/greedy';
+import { solverStateFromLevel } from './solver/levelState';
+import { analyzeGreedyLevel, analyzeGreedySkeleton, chooseGreedyAction, type GreedyResult } from './solver/greedy';
 
 export type ReorderStatus = 'already-fair' | 'fixed' | 'unfixable';
 
@@ -39,11 +40,8 @@ export function planStockReorder(
   searchBudget: number = REORDER_SEARCH_BUDGET,
 ): ReorderPlan {
   const before = analyzeGreedySkeleton(skel);
-  if (before.outcome === 'won') return { status: 'already-fair' };
-  if (before.outcome === 'empty') return { status: 'already-fair' };
-  if (before.outcome === 'invalid') {
-    return { status: 'unfixable', reason: before.message ?? 'invalid level' };
-  }
+  const guard = guardReorder(before);
+  if (guard) return guard;
 
   let initial: GameState;
   try {
@@ -55,26 +53,71 @@ export function planStockReorder(
     };
   }
 
-  // Try a couple of deterministic scheduling heuristics; accept the first whose
-  // concrete order makes the straightforward player win (a greedy win is itself
-  // a proof the level stays solvable, so no A* re-check is needed).
   const verify = (order: number[]): boolean =>
     analyzeGreedySkeleton(applyOrderToSkeleton(skel, order)).outcome === 'won';
 
+  return planReorderCore(before, initial, skel.stock.length, verify, searchBudget);
+}
+
+// LevelData-native counterpart: identical search, but builds the solver state
+// from the concrete level (the real game path) and verifies on LevelData stock
+// permutations. Used by the batch tools and CLIs.
+export function planStockReorderLevel(
+  level: LevelData,
+  searchBudget: number = REORDER_SEARCH_BUDGET,
+): ReorderPlan {
+  const before = analyzeGreedyLevel(level);
+  const guard = guardReorder(before);
+  if (guard) return guard;
+
+  let initial: GameState;
+  try {
+    initial = solverStateFromLevel(level);
+  } catch (err) {
+    return {
+      status: 'unfixable',
+      reason: err instanceof Error ? err.message : String(err),
+    };
+  }
+
+  const verify = (order: number[]): boolean =>
+    analyzeGreedyLevel(applyOrderToLevel(level, order)).outcome === 'won';
+
+  return planReorderCore(before, initial, level.stock.length, verify, searchBudget);
+}
+
+// A level the straightforward player already wins (or that's empty) needs no
+// reorder; an invalid one can't be reordered into a fix.
+function guardReorder(before: GreedyResult): ReorderPlan | null {
+  if (before.outcome === 'won') return { status: 'already-fair' };
+  if (before.outcome === 'empty') return { status: 'already-fair' };
+  if (before.outcome === 'invalid') {
+    return { status: 'unfixable', reason: before.message ?? 'invalid level' };
+  }
+  return null;
+}
+
+function planReorderCore(
+  before: GreedyResult,
+  initial: GameState,
+  stockLen: number,
+  verify: (order: number[]) => boolean,
+  searchBudget: number,
+): ReorderPlan {
   // 1) Constructive greedy-safe scheduler — fast, and yields the smallest diff
-  //    when it works.
+  //    when it works. Accept the first order the straightforward player wins (a
+  //    greedy win itself proves solvability, so no A* re-check is needed).
   for (const pref of ['progress', 'close'] as const) {
     const order = buildSchedule(initial, pref);
     if (order && verify(order)) return { status: 'fixed', order };
   }
 
-  // 2) Randomized search over stock orderings. The constructive scheduler can
-  //    corner itself even when many winning orders exist (e.g. every category
-  //    card is in the stock and slots are tight), so fall back to verified
-  //    shuffles. Seeded, so a given level always resolves to the same fix.
-  const n = skel.stock.length;
-  const indices = Array.from({ length: n }, (_, i) => i);
-  const rng = mulberry32((0x9e3779b9 ^ Math.imul(n, 2654435761)) >>> 0);
+  // 2) Randomized verified search over stock orderings. The constructive
+  //    scheduler can corner itself even when many winning orders exist (e.g.
+  //    every category card is in the stock and slots are tight), so fall back to
+  //    verified shuffles. Seeded, so a given level always resolves the same way.
+  const indices = Array.from({ length: stockLen }, (_, i) => i);
+  const rng = mulberry32((0x9e3779b9 ^ Math.imul(stockLen, 2654435761)) >>> 0);
   for (let t = 0; t < searchBudget; t++) {
     const order = shuffleWith(indices.slice(), rng);
     if (verify(order)) return { status: 'fixed', order };

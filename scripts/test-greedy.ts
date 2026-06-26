@@ -1,9 +1,8 @@
 import { readFileSync, readdirSync } from 'node:fs';
 import { resolve, dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { unfillLevel } from '../src/editor/unfill';
-import { analyzeGreedySkeleton } from '../src/editor/solver/greedy';
-import { planStockReorder } from '../src/editor/reorderFix';
+import { analyzeGreedyLevel } from '../src/editor/solver/greedy';
+import { planStockReorderLevel } from '../src/editor/reorderFix';
 import type { LevelData } from '../src/types';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -23,15 +22,8 @@ let unfixable = 0;
 for (const file of files) {
   const path = join(levelsDir, file);
   const data = JSON.parse(readFileSync(path, 'utf-8')) as LevelData;
-  let skel;
-  try {
-    skel = unfillLevel(data);
-  } catch (e) {
-    console.log(`${file}: unfill failed — ${(e as Error).message}`);
-    continue;
-  }
 
-  const g = analyzeGreedySkeleton(skel);
+  const g = analyzeGreedyLevel(data);
   if (g.outcome === 'won') {
     fair++;
     const over = g.withinMoveLimit === false ? ' (OVER move limit)' : '';
@@ -39,7 +31,7 @@ for (const file of files) {
   } else if (g.outcome === 'softlock') {
     traps++;
     const diag = `dead-locked: [${g.deadLockedCategories.join(', ')}] starved: [${g.starvedCategories.join(', ')}]`;
-    const plan = planStockReorder(skel);
+    const plan = planStockReorderLevel(data);
     if (plan.status === 'fixed') {
       fixable++;
       console.log(`${file}: ORDER TRAP softlock@${g.movesUsed} · reorder FIXES · ${diag}`);

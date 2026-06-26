@@ -1,4 +1,5 @@
 import type {
+  AlignAnchor,
   CardKind,
   EditorAction,
   EditorState,
@@ -43,6 +44,20 @@ export function normalizeLevel(level: SkeletonLevel): { level: SkeletonLevel; sh
     level: { ...level, board: level.board.map((c) => ({ ...c, z: c.z - m })) },
     shift: -m,
   };
+}
+
+// 5×5 playfield outline, in half-card units: a card footprint spans CARD_SPAN
+// (2) half-cells and the outline is 5 cards across. Mirrors BoardCanvas's
+// PlayfieldOutline (OUTLINE_CARDS × CARD_W).
+const CARD_SPAN = 2;
+const OUTLINE_SPAN = 5 * CARD_SPAN;
+
+// Translation that lands a board extent (min..min+size, in half-cells) on the
+// requested edge/center of the outline. center rounds to the nearest half-cell.
+function alignOffset(anchor: AlignAnchor, min: number, size: number): number {
+  if (anchor === 'start') return -min;
+  if (anchor === 'end') return OUTLINE_SPAN - size - min;
+  return Math.round((OUTLINE_SPAN - size) / 2) - min;
 }
 
 export function initialEditorState(): EditorState {
@@ -140,7 +155,7 @@ const HISTORY_ACTIONS: ReadonlySet<EditorAction['type']> = new Set([
   'SHUFFLE_STOCK',
   'SHUFFLE_BOARD',
   'NORMALIZE_LAYERS',
-  'ALIGN_TOP_LEFT',
+  'ALIGN_BOARD',
   'LOAD_SKELETON',
 ]);
 
@@ -591,16 +606,22 @@ function reduceCore(state: EditorState, action: Exclude<EditorAction, { type: 'R
       };
     }
 
-    case 'ALIGN_TOP_LEFT': {
+    case 'ALIGN_BOARD': {
       if (level.board.length === 0) return state;
       let minX = level.board[0].x;
+      let maxX = minX;
       let minY = level.board[0].y;
+      let maxY = minY;
       for (const c of level.board) {
         if (c.x < minX) minX = c.x;
+        if (c.x > maxX) maxX = c.x;
         if (c.y < minY) minY = c.y;
+        if (c.y > maxY) maxY = c.y;
       }
-      if (minX === 0 && minY === 0) return state;
-      const board = level.board.map((c) => ({ ...c, x: c.x - minX, y: c.y - minY }));
+      const dx = alignOffset(action.anchorX, minX, maxX - minX + CARD_SPAN);
+      const dy = alignOffset(action.anchorY, minY, maxY - minY + CARD_SPAN);
+      if (dx === 0 && dy === 0) return state;
+      const board = level.board.map((c) => ({ ...c, x: c.x + dx, y: c.y + dy }));
       return ok(state, { ...level, board });
     }
 

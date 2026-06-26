@@ -1,5 +1,9 @@
 export type CardKind = 'category' | 'simple';
 
+// Bounding-box anchor for the board-align grid: start = left/top edge,
+// end = right/bottom edge, center = midpoint of the 5×5 outline.
+export type AlignAnchor = 'start' | 'center' | 'end';
+
 export interface SkeletonCategory {
   letter: string;
   simpleCards: number;
@@ -116,6 +120,6 @@ export type EditorAction =
   | { type: 'SHUFFLE_STOCK' }
   | { type: 'SHUFFLE_BOARD' }
   | { type: 'NORMALIZE_LAYERS' }
-  | { type: 'ALIGN_TOP_LEFT' }
+  | { type: 'ALIGN_BOARD'; anchorX: AlignAnchor; anchorY: AlignAnchor }
   | { type: 'LOAD_SKELETON'; level: SkeletonLevel }
   | { type: 'ROLLBACK' };

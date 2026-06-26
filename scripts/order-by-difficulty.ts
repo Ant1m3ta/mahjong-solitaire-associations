@@ -29,9 +29,8 @@
 import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { unfillLevel } from '../src/editor/unfill';
-import { analyzeGreedySkeleton } from '../src/editor/solver/greedy';
-import { solveSkeleton } from '../src/editor/solver/solverCore';
+import { analyzeGreedyLevel } from '../src/editor/solver/greedy';
+import { solveLevel } from '../src/editor/solver/solverCore';
 import type { LevelData } from '../src/types';
 
 // Keep the web play-order mirror (src/levels/order.json) in lockstep with the
@@ -82,15 +81,12 @@ for (const file of files) {
     problems.push({ file, reason: `parse error — ${(e as Error).message}` });
     continue;
   }
-  let skel;
-  try {
-    skel = unfillLevel(data);
-  } catch (e) {
-    problems.push({ file, reason: `unfill error — ${(e as Error).message}` });
+  const greedy = analyzeGreedyLevel(data);
+  const opt = solveLevel(data, SOLVE_OPTS);
+  if (greedy.outcome === 'invalid' || opt.status === 'invalid') {
+    problems.push({ file, reason: `invalid — ${opt.message ?? greedy.message ?? '?'}` });
     continue;
   }
-  const greedy = analyzeGreedySkeleton(skel);
-  const opt = solveSkeleton(skel, SOLVE_OPTS);
   if (opt.status === 'unsolvable') {
     problems.push({ file, reason: 'A* proved the level unsolvable (broken level)' });
     continue;

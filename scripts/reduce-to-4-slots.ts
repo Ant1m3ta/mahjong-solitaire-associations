@@ -8,11 +8,9 @@
 // default; --write applies in place (2-space JSON + trailing newline).
 import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
 import { resolve, join } from 'node:path';
-import { unfillLevel } from '../src/editor/unfill';
-import { analyzeWasteGreedySkeleton } from '../src/editor/solver/wasteGreedy';
-import { planStockReorder, applyOrderToSkeleton, applyOrderToLevel } from '../src/editor/reorderFix';
+import { analyzeWasteGreedyLevel } from '../src/editor/solver/wasteGreedy';
+import { planStockReorderLevel, applyOrderToLevel } from '../src/editor/reorderFix';
 import type { LevelData } from '../src/types';
-import type { SkeletonLevel } from '../src/editor/types';
 
 const WRITE = process.argv.includes('--write');
 const dirArg = process.argv.slice(2).find((a) => !a.startsWith('--'));
@@ -40,8 +38,8 @@ function shuffleWith(arr: number[], rng: () => number): number[] {
   return arr;
 }
 
-const wasteWins = (skel: SkeletonLevel) => {
-  const r = analyzeWasteGreedySkeleton(skel);
+const wasteWins = (level: LevelData) => {
+  const r = analyzeWasteGreedyLevel(level);
   return r.outcome === 'won' ? r.movesUsed : null;
 };
 
@@ -49,20 +47,20 @@ const wasteWins = (skel: SkeletonLevel) => {
 // win, picking the lowest competent cost found. Seeds with the single-card
 // planner's order (cheap, minimal-diff) before falling back to seeded shuffles.
 function findWasteWinningOrder(
-  skel: SkeletonLevel,
+  level: LevelData,
   budget = 8000,
   maxWins = 250,
 ): { order: number[]; cost: number } | null {
   const wins: { order: number[]; cost: number }[] = [];
   const tryOrder = (order: number[]) => {
-    const cost = wasteWins(applyOrderToSkeleton(skel, order));
+    const cost = wasteWins(applyOrderToLevel(level, order));
     if (cost != null) wins.push({ order, cost });
   };
 
-  const plan = planStockReorder(skel);
+  const plan = planStockReorderLevel(level);
   if (plan.status === 'fixed' && plan.order) tryOrder(plan.order);
 
-  const n = skel.stock.length;
+  const n = level.stock.length;
   const idx = Array.from({ length: n }, (_, i) => i);
   const rng = mulberry32((0x9e3779b9 ^ Math.imul(n, 2654435761)) >>> 0);
   for (let t = 0; t < budget && wins.length < maxWins; t++) {
@@ -93,11 +91,11 @@ for (const file of files) {
   const data = JSON.parse(raw) as LevelData;
   if (data.slotsDefault !== 5) continue;
 
-  const skel4: SkeletonLevel = { ...unfillLevel(data), slotsDefault: 4 };
-  const cats = skel4.categories.length;
+  const data4: LevelData = { ...data, slotsDefault: 4 };
+  const cats = data4.categories.length;
   const origLimit = data.movesLimit;
 
-  const direct = wasteWins(skel4);
+  const direct = wasteWins(data4);
   let plan: Plan;
 
   if (direct != null) {
@@ -115,7 +113,7 @@ for (const file of files) {
           : `wins in ${direct}, within limit ${origLimit}`,
     };
   } else {
-    const fix = findWasteWinningOrder(skel4);
+    const fix = findWasteWinningOrder(data4);
     if (fix) {
       const diffStock = fix.order.reduce((n, srcIdx, pos) => n + (srcIdx !== pos ? 1 : 0), 0);
       const newLimit = origLimit >= 0 && fix.cost > origLimit ? fix.cost : origLimit;
@@ -133,7 +131,7 @@ for (const file of files) {
           (newLimit !== origLimit ? `; raise limit ${origLimit}→${newLimit}` : `, within limit ${origLimit}`),
       };
     } else {
-      const r = analyzeWasteGreedySkeleton(skel4);
+      const r = analyzeWasteGreedyLevel(data4);
       const why = [
         r.deadLockedCategories.length ? `dead-locked: ${r.deadLockedCategories.join(',')}` : '',
         r.starvedCategories.length ? `starved: ${r.starvedCategories.join(',')}` : '',

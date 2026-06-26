@@ -335,14 +335,6 @@ export function Editor() {
           >
             Normalize
           </button>
-          <button
-            className="editor-btn"
-            disabled={state.level.board.length === 0}
-            onClick={() => dispatch({ type: 'ALIGN_TOP_LEFT' })}
-            title="Shift the whole board so its top-left card sits at the origin (top-left of the 5×5 outline). x/y only — layers unchanged."
-          >
-            ↖ Corner
-          </button>
           <select
             className="level-select"
             value=""

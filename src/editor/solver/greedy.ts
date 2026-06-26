@@ -1,8 +1,9 @@
-import type { Action, GameState } from '../../types';
+import type { Action, GameState, LevelData } from '../../types';
 import { applyAction, isWon } from '../../game/moves';
 import { getChainEntries, isSlotRevealed } from '../../game/coverage';
 import { hashState } from './hash';
 import { buildSolverInput, SolverInputError } from './buildState';
+import { solverStateFromLevel } from './levelState';
 import type { SkeletonLevel } from '../types';
 
 export type GreedyOutcome = 'won' | 'softlock' | 'invalid' | 'empty';
@@ -202,6 +203,24 @@ export function analyzeGreedySkeleton(skel: SkeletonLevel): GreedyResult {
     };
   }
   return simulateGreedy(initial, skel.movesLimit);
+}
+
+// LevelData-native counterpart — builds the solver state via the real game path
+// (createCardFromId / buildInitialState). Used by the batch tools and CLIs.
+export function analyzeGreedyLevel(level: LevelData): GreedyResult {
+  if (level.board.length === 0 && level.stock.length === 0) {
+    return blank('empty');
+  }
+  let initial: GameState;
+  try {
+    initial = solverStateFromLevel(level);
+  } catch (err) {
+    return {
+      ...blank('invalid'),
+      message: err instanceof Error ? err.message : String(err),
+    };
+  }
+  return simulateGreedy(initial, level.movesLimit);
 }
 
 function recordLocks(state: GameState, map: Map<string, number>, step: number): void {

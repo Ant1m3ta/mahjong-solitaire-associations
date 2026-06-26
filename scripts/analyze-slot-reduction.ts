@@ -2,13 +2,11 @@
 // of reducing the category-slot count to 4. Faithful Unity model = waste greedy.
 import { readFileSync, readdirSync } from 'node:fs';
 import { resolve, join } from 'node:path';
-import { unfillLevel } from '../src/editor/unfill';
-import { analyzeWasteGreedySkeleton } from '../src/editor/solver/wasteGreedy';
-import { analyzeGreedySkeleton } from '../src/editor/solver/greedy';
-import { solveSkeleton } from '../src/editor/solver/solverCore';
-import { planStockReorder } from '../src/editor/reorderFix';
+import { analyzeWasteGreedyLevel } from '../src/editor/solver/wasteGreedy';
+import { analyzeGreedyLevel } from '../src/editor/solver/greedy';
+import { solveLevel } from '../src/editor/solver/solverCore';
+import { planStockReorderLevel } from '../src/editor/reorderFix';
 import type { LevelData } from '../src/types';
-import type { SkeletonLevel } from '../src/editor/types';
 
 const levelsDir = process.argv[2]
   ? resolve(process.argv[2])
@@ -20,14 +18,14 @@ const levelsDir = process.argv[2]
 // approx cost) rather than proving optimal. Single-card-solvable ⟹ waste-solvable.
 const A_STAR = { maxStates: 2_000_000, maxMs: 30000, greedyWeight: 3 };
 
-function waste(skel: SkeletonLevel, slots: number) {
-  return analyzeWasteGreedySkeleton({ ...skel, slotsDefault: slots });
+function waste(level: LevelData, slots: number) {
+  return analyzeWasteGreedyLevel({ ...level, slotsDefault: slots });
 }
-function single(skel: SkeletonLevel, slots: number) {
-  return analyzeGreedySkeleton({ ...skel, slotsDefault: slots });
+function single(level: LevelData, slots: number) {
+  return analyzeGreedyLevel({ ...level, slotsDefault: slots });
 }
-function astar(skel: SkeletonLevel, slots: number) {
-  return solveSkeleton({ ...skel, slotsDefault: slots }, A_STAR);
+function astar(level: LevelData, slots: number) {
+  return solveLevel({ ...level, slotsDefault: slots }, A_STAR);
 }
 
 const files = readdirSync(levelsDir)
@@ -55,24 +53,16 @@ for (const file of files) {
   const data = JSON.parse(readFileSync(join(levelsDir, file), 'utf-8')) as LevelData;
   if (data.slotsDefault !== 5) continue;
 
-  let skel: SkeletonLevel;
-  try {
-    skel = unfillLevel(data);
-  } catch (e) {
-    console.log(`${file}: unfill failed — ${(e as Error).message}`);
-    continue;
-  }
-
-  const cats = skel.categories.length;
-  const totalSimples = skel.categories.reduce((s, c) => s + c.simpleCards, 0);
-  const w5 = waste(skel, 5);
-  const w4 = waste(skel, 4);
-  const g5 = single(skel, 5);
-  const g4 = single(skel, 4);
+  const cats = data.categories.length;
+  const totalSimples = data.categories.reduce((s, c) => s + c.wordsData.length, 0);
+  const w5 = waste(data, 5);
+  const w4 = waste(data, 4);
+  const g5 = single(data, 5);
+  const g4 = single(data, 4);
 
   // A* (solvability witness) only where a greedy heuristic softlocks at that slot count.
-  const a5 = w5.outcome !== 'won' && g5.outcome !== 'won' ? astar(skel, 5) : undefined;
-  const a4 = w4.outcome !== 'won' && g4.outcome !== 'won' ? astar(skel, 4) : undefined;
+  const a5 = w5.outcome !== 'won' && g5.outcome !== 'won' ? astar(data, 5) : undefined;
+  const a4 = w4.outcome !== 'won' && g4.outcome !== 'won' ? astar(data, 4) : undefined;
 
   // Does straightforward (no-lookahead) play still win at 4 slots?
   const straightWins4 = w4.outcome === 'won' || g4.outcome === 'won';
@@ -98,7 +88,7 @@ for (const file of files) {
   } else {
     // Straightforward play softlocks at 4 slots. Was it fine at 5?
     if (a4 && a4.status === 'solved') {
-      const plan = planStockReorder({ ...skel, slotsDefault: 4 });
+      const plan = planStockReorderLevel({ ...data, slotsDefault: 4 });
       reorderable4 = plan.status === 'fixed';
       if (straightWins5) {
         verdict = `ORDER TRAP (regression: 5-slot straightforward won in ${cost5}; 4-slot softlocks but A* solvable in ${a4.movesUsed}; reorder ${reorderable4 ? 'FIXES' : 'cannot fix'})`;

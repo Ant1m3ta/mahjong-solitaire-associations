@@ -1,8 +1,9 @@
-import type { Action, Card, GameState } from '../../types';
+import type { Action, Card, GameState, LevelData } from '../../types';
 import { applyAction, isWon } from '../../game/moves';
 import { getChainEntries, isSlotRevealed } from '../../game/coverage';
 import { hashState } from './hash';
 import { buildSolverInput, SolverInputError } from './buildState';
+import { solverStateFromLevel } from './levelState';
 import type { SkeletonLevel } from '../types';
 
 // Straightforward (no-lookahead) player, faithful to the Unity SoliJong
@@ -207,6 +208,18 @@ export function analyzeWasteGreedySkeleton(skel: SkeletonLevel): WasteGreedyResu
     initial = buildSolverInput(skel).initialState;
   } catch (err) {
     return { ...blank('invalid'), message: err instanceof SolverInputError ? err.message : String(err) };
+  }
+  return simulate(initial);
+}
+
+// LevelData-native counterpart (real game path). Used by the batch tools/CLIs.
+export function analyzeWasteGreedyLevel(level: LevelData): WasteGreedyResult {
+  if (level.board.length === 0 && level.stock.length === 0) return blank('empty');
+  let initial: GameState;
+  try {
+    initial = solverStateFromLevel(level);
+  } catch (err) {
+    return { ...blank('invalid'), message: err instanceof Error ? err.message : String(err) };
   }
   return simulate(initial);
 }

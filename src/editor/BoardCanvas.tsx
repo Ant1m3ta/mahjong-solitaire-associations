@@ -1,5 +1,5 @@
 import { useMemo, useState, type Dispatch, type MouseEvent } from 'react';
-import type { EditorAction, EditorState, SkeletonBoardCard } from './types';
+import type { AlignAnchor, EditorAction, EditorState, SkeletonBoardCard } from './types';
 import { LAYER_LIFT } from '../layout';
 import { isSlotRevealed } from '../game/coverage';
 
@@ -330,34 +330,78 @@ export function BoardCanvas({ state, dispatch, moveIndexByCellKey }: Props) {
       </div>
       </div>
 
-      <aside className="layer-counts">
-        <div className="layer-counts-head">
-          <span>Layer z={currentLayer}</span>
-          <span className="layer-counts-total">
-            {layerTotal} {layerTotal === 1 ? 'card' : 'cards'}
-          </span>
-        </div>
-        {layerCounts.length === 0 ? (
-          <div className="layer-counts-empty">No cards on this layer.</div>
-        ) : (
-          <ul className="layer-counts-list">
-            {layerCounts.map((r) => (
-              <li key={r.letter} className="layer-counts-row">
-                <span className="layer-counts-chip">{r.letter}</span>
-                <span className="layer-counts-n">{r.total}</span>
-                {r.category > 0 && (
-                  <span
-                    className="layer-counts-cat"
-                    title={`${r.category} category card${r.category > 1 ? 's' : ''} on this layer`}
-                  >
-                    {r.category} cat
-                  </span>
-                )}
-              </li>
-            ))}
-          </ul>
-        )}
-      </aside>
+      <div className="layer-overlay">
+        <aside className="layer-counts">
+          <div className="layer-counts-head">
+            <span>Layer z={currentLayer}</span>
+            <span className="layer-counts-total">
+              {layerTotal} {layerTotal === 1 ? 'card' : 'cards'}
+            </span>
+          </div>
+          {layerCounts.length === 0 ? (
+            <div className="layer-counts-empty">No cards on this layer.</div>
+          ) : (
+            <ul className="layer-counts-list">
+              {layerCounts.map((r) => (
+                <li key={r.letter} className="layer-counts-row">
+                  <span className="layer-counts-chip">{r.letter}</span>
+                  <span className="layer-counts-n">{r.total}</span>
+                  {r.category > 0 && (
+                    <span
+                      className="layer-counts-cat"
+                      title={`${r.category} category card${r.category > 1 ? 's' : ''} on this layer`}
+                    >
+                      {r.category} cat
+                    </span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          )}
+        </aside>
+        <AlignGrid disabled={level.board.length === 0} dispatch={dispatch} />
+      </div>
+    </div>
+  );
+}
+
+// 3×3 anchor picker: each icon button snaps the whole board to a corner / edge /
+// center of the 5×5 outline (fires ALIGN_BOARD). Arrows point toward the anchor.
+const ALIGN_BUTTONS: { icon: string; ax: AlignAnchor; ay: AlignAnchor; title: string }[] = [
+  { icon: '↖', ax: 'start', ay: 'start', title: 'Top-left' },
+  { icon: '↑', ax: 'center', ay: 'start', title: 'Top' },
+  { icon: '↗', ax: 'end', ay: 'start', title: 'Top-right' },
+  { icon: '←', ax: 'start', ay: 'center', title: 'Left' },
+  { icon: '⊙', ax: 'center', ay: 'center', title: 'Center' },
+  { icon: '→', ax: 'end', ay: 'center', title: 'Right' },
+  { icon: '↙', ax: 'start', ay: 'end', title: 'Bottom-left' },
+  { icon: '↓', ax: 'center', ay: 'end', title: 'Bottom' },
+  { icon: '↘', ax: 'end', ay: 'end', title: 'Bottom-right' },
+];
+
+function AlignGrid({
+  disabled,
+  dispatch,
+}: {
+  disabled: boolean;
+  dispatch: Dispatch<EditorAction>;
+}) {
+  return (
+    <div
+      className="align-grid"
+      title="Snap the whole board to a corner / side / center of the 5×5 outline"
+    >
+      {ALIGN_BUTTONS.map((b) => (
+        <button
+          key={`${b.ax}-${b.ay}`}
+          className="align-btn"
+          disabled={disabled}
+          title={`Align ${b.title.toLowerCase()}`}
+          onClick={() => dispatch({ type: 'ALIGN_BOARD', anchorX: b.ax, anchorY: b.ay })}
+        >
+          {b.icon}
+        </button>
+      ))}
     </div>
   );
 }

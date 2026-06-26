@@ -10,9 +10,8 @@
 import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
 import { resolve, dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { unfillLevel } from '../src/editor/unfill';
-import { analyzeGreedySkeleton } from '../src/editor/solver/greedy';
-import { planStockReorder, applyOrderToLevel } from '../src/editor/reorderFix';
+import { analyzeGreedyLevel } from '../src/editor/solver/greedy';
+import { planStockReorderLevel, applyOrderToLevel } from '../src/editor/reorderFix';
 import type { LevelData } from '../src/types';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -31,16 +30,7 @@ for (const file of files) {
   const raw = readFileSync(path, 'utf-8');
   const data = JSON.parse(raw) as LevelData;
 
-  let skel;
-  try {
-    skel = unfillLevel(data);
-  } catch (e) {
-    errors++;
-    console.log(`${file}: unfill error — ${(e as Error).message}`);
-    continue;
-  }
-
-  const plan = planStockReorder(skel);
+  const plan = planStockReorderLevel(data);
   if (plan.status === 'already-fair') {
     fair++;
     continue;
@@ -54,7 +44,7 @@ for (const file of files) {
   // Safety gate before touching disk: must be a pure permutation and verified
   // to make the straightforward player win.
   const lossless = [...data.stock].sort().join('|') === [...out.stock].sort().join('|');
-  const greedy = analyzeGreedySkeleton(unfillLevel(out)).outcome;
+  const greedy = analyzeGreedyLevel(out).outcome;
   if (!lossless || greedy !== 'won') {
     errors++;
     console.log(`${file}: VERIFY FAILED (lossless=${lossless} greedy=${greedy}) — skipped`);

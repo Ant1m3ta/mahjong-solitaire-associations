@@ -23,9 +23,8 @@
 import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
 import { resolve, join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { unfillLevel } from '../src/editor/unfill';
-import { analyzeGreedySkeleton } from '../src/editor/solver/greedy';
-import { analyzeWasteGreedySkeleton } from '../src/editor/solver/wasteGreedy';
+import { analyzeGreedyLevel } from '../src/editor/solver/greedy';
+import { analyzeWasteGreedyLevel } from '../src/editor/solver/wasteGreedy';
 import type { LevelData } from '../src/types';
 
 // Keep the web play-order mirror (src/levels/order.json) in lockstep with the
@@ -78,9 +77,8 @@ const files = readdirSync(resolve(levelsDir))
 const lvls: Lvl[] = [];
 for (const file of files) {
   const data = JSON.parse(readFileSync(join(levelsDir, file), 'utf-8')) as LevelData;
-  const skel = unfillLevel(data);
-  const single = analyzeGreedySkeleton(skel);
-  const waste = analyzeWasteGreedySkeleton(skel);
+  const single = analyzeGreedyLevel(data);
+  const waste = analyzeWasteGreedyLevel(data);
   if (single.outcome === 'invalid' || waste.outcome === 'invalid') {
     console.error(`ABORT: ${file} invalid — ${waste.message ?? single.message ?? '?'}`);
     process.exit(1);

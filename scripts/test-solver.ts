@@ -1,8 +1,7 @@
 import { readFileSync, readdirSync } from 'node:fs';
 import { resolve, dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { unfillLevel } from '../src/editor/unfill';
-import { solveSkeleton } from '../src/editor/solver/solverCore';
+import { solveLevel } from '../src/editor/solver/solverCore';
 import type { LevelData } from '../src/types';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -17,20 +16,13 @@ const files =
 for (const file of files) {
   const path = join(levelsDir, file);
   const data = JSON.parse(readFileSync(path, 'utf-8')) as LevelData;
-  let skel;
-  try {
-    skel = unfillLevel(data);
-  } catch (e) {
-    console.log(`${file}: unfill failed — ${(e as Error).message}`);
-    continue;
-  }
   const t0 = performance.now();
-  const result = solveSkeleton(skel, { maxStates: 200000, maxMs: 6000 });
+  const result = solveLevel(data, { maxStates: 200000, maxMs: 6000 });
   const elapsed = performance.now() - t0;
   const totals =
-    `board=${skel.board.length} stock=${skel.stock.length} cats=${skel.categories.length} ` +
-    `simples=${skel.categories.reduce((s, c) => s + c.simpleCards, 0)} ` +
-    `movesLimit=${skel.movesLimit}`;
+    `board=${data.board.length} stock=${data.stock.length} cats=${data.categories.length} ` +
+    `simples=${data.categories.reduce((s, c) => s + c.wordsData.length, 0)} ` +
+    `movesLimit=${data.movesLimit}`;
   if (result.status === 'solved') {
     console.log(
       `${file}: solved in ${result.movesUsed} moves · ${result.stats.statesExplored} states · ${Math.round(elapsed)}ms · ${totals}`,

@@ -1,8 +1,9 @@
-import type { Action, GameState } from '../../types';
+import type { Action, GameState, LevelData } from '../../types';
 import { applyAction, isWon } from '../../game/moves';
 import { enumerateMoves, type EnumerateOpts } from './enumerate';
 import { hashState } from './hash';
 import { buildSolverInput, SolverInputError, type SolverInput } from './buildState';
+import { solverStateFromLevel } from './levelState';
 import type { SkeletonLevel } from '../types';
 import { admissibleHeuristic, searchHeuristic } from './heuristic';
 import { MinHeap } from './heap';
@@ -97,6 +98,36 @@ export function solveGameState(
   const startedAt = performance.now();
   const initial: GameState = { ...state, movesUsed: 0, movesLimit: -1 };
   return runSearch(initial, opts, startedAt);
+}
+
+// LevelData-native A* entry. Builds the solver state via the real game path and
+// runs the same search. Used by the batch tools and CLIs.
+export function solveLevel(
+  level: LevelData,
+  options: Partial<SolverOptions> = {},
+): SolverResult {
+  const startedAt = performance.now();
+  if (level.board.length === 0 && level.stock.length === 0) {
+    return {
+      status: 'empty',
+      optimalityProven: true,
+      moveIndexByCellKey: [],
+      stats: { statesExplored: 0, elapsedMs: 0, queuePeak: 0 },
+    };
+  }
+  let initial: GameState;
+  try {
+    initial = solverStateFromLevel(level);
+  } catch (err) {
+    return {
+      status: 'invalid',
+      message: err instanceof Error ? err.message : String(err),
+      optimalityProven: false,
+      moveIndexByCellKey: [],
+      stats: { statesExplored: 0, elapsedMs: performance.now() - startedAt, queuePeak: 0 },
+    };
+  }
+  return solveGameState(initial, options);
 }
 
 function runSearch(

@@ -173,6 +173,8 @@ export function Editor() {
         dispatch({ type: 'TOGGLE_ERASE' });
       } else if (e.key === 'm' || e.key === 'M') {
         dispatch({ type: 'TOGGLE_MOVE' });
+      } else if (e.key === 's' || e.key === 'S') {
+        dispatch({ type: 'TOGGLE_SWAP' });
       } else if (e.key === 'Escape' && state.pickedCard) {
         dispatch({ type: 'CANCEL_PICK' });
       } else if (e.key === 'Tab') {
@@ -333,6 +335,14 @@ export function Editor() {
           >
             Normalize
           </button>
+          <button
+            className="editor-btn"
+            disabled={state.level.board.length === 0}
+            onClick={() => dispatch({ type: 'ALIGN_TOP_LEFT' })}
+            title="Shift the whole board so its top-left card sits at the origin (top-left of the 5×5 outline). x/y only — layers unchanged."
+          >
+            ↖ Corner
+          </button>
           <select
             className="level-select"
             value=""
@@ -472,6 +482,13 @@ export function Editor() {
               >
                 Move
               </button>
+              <button
+                className={`editor-btn small${state.swapMode ? ' active swap-active' : ''}`}
+                onClick={() => dispatch({ type: 'TOGGLE_SWAP' })}
+                title="Swap mode (S): click a simple card (board or stock) to swap it with its category card. The clicked card becomes the category card; the previous category card becomes simple."
+              >
+                Swap
+              </button>
             </div>
             <div className="ghost-toggles">
               <label title="Show cards on lower layers as ghosts">
@@ -497,14 +514,6 @@ export function Editor() {
                   onChange={() => dispatch({ type: 'TOGGLE_GRID_OUTLINE' })}
                 />
                 5×5 outline
-              </label>
-              <label title="After each placement, set brush to the next card in the stock. Use Shuffle to randomize the stock order.">
-                <input
-                  type="checkbox"
-                  checked={state.stockAdvance}
-                  onChange={() => dispatch({ type: 'TOGGLE_STOCK_ADVANCE' })}
-                />
-                auto-advance from stock
               </label>
             </div>
             <div className="solver-control">
@@ -543,6 +552,17 @@ export function Editor() {
               <span>
                 Stock <span className="dim">({state.level.stock.length} cards, first drawn →)</span>
               </span>
+              <label
+                className="editor-stock-advance"
+                title="After each placement, set brush to the next card in the stock. Use Shuffle to randomize the stock order."
+              >
+                <input
+                  type="checkbox"
+                  checked={state.stockAdvance}
+                  onChange={() => dispatch({ type: 'TOGGLE_STOCK_ADVANCE' })}
+                />
+                auto-advance from stock
+              </label>
               <button
                 className="editor-btn small editor-stock-shuffle"
                 onClick={() => dispatch({ type: 'SHUFFLE_STOCK' })}
@@ -557,10 +577,25 @@ export function Editor() {
                 <div className="editor-empty">Empty.</div>
               ) : (
                 state.level.stock.map((entry, i) => (
-                  <div key={i} className={`stock-chip kind-${entry.kind}`}>
-                    <div className="stock-chip-card">
+                  <div key={i} className={`stock-chip kind-${entry.kind}${i === 0 ? ' is-next' : ''}`}>
+                    <button
+                      type="button"
+                      className={`stock-chip-card${state.swapMode ? ' swap-armed' : ''}`}
+                      onClick={() =>
+                        dispatch(
+                          state.swapMode
+                            ? { type: 'SWAP_LOCK', target: { where: 'stock', index: i } }
+                            : { type: 'PROMOTE_STOCK', index: i },
+                        )
+                      }
+                      title={
+                        state.swapMode
+                          ? 'Swap mode: swap this card with its category card (this becomes the category card)'
+                          : 'Select this card and move it to the top of the placement queue'
+                      }
+                    >
                       <span>{entry.kind === 'category' ? entry.letter : entry.letter.toLowerCase()}</span>
-                    </div>
+                    </button>
                     <div className="stock-chip-controls">
                       <button
                         className="editor-btn small"

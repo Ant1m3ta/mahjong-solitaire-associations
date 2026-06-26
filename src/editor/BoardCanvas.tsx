@@ -27,7 +27,7 @@ interface HoverCell {
 
 export function BoardCanvas({ state, dispatch, moveIndexByCellKey }: Props) {
   const [hover, setHover] = useState<HoverCell | null>(null);
-  const { brush, eraseMode, moveMode, pickedCard, currentLayer, level, ghostBelow, revealPreview, gridOutline } = state;
+  const { brush, eraseMode, moveMode, swapMode, pickedCard, currentLayer, level, ghostBelow, revealPreview, gridOutline } = state;
 
   // Cells that would be face-up in the real game: the top of each (x, y) stack
   // whose slot is uncovered per the shared `isSlotRevealed` rule. Reveal there
@@ -156,6 +156,11 @@ export function BoardCanvas({ state, dispatch, moveIndexByCellKey }: Props) {
       if (card) dispatch({ type: 'REMOVE_BOARD', x: card.x, y: card.y, z: card.z });
       return;
     }
+    if (swapMode) {
+      const card = findCardAtFootprint(x, y, currentLayer);
+      if (card) dispatch({ type: 'SWAP_LOCK', target: { where: 'board', x: card.x, y: card.y, z: card.z } });
+      return;
+    }
     if (moveMode) {
       if (!pickedCard) {
         const card = findCardAtFootprint(x, y, currentLayer);
@@ -188,6 +193,8 @@ export function BoardCanvas({ state, dispatch, moveIndexByCellKey }: Props) {
 
   const hoverErase =
     hover && eraseMode ? findCardAtFootprint(hover.x, hover.y, currentLayer) : null;
+  const hoverSwap =
+    hover && swapMode ? findCardAtFootprint(hover.x, hover.y, currentLayer) : null;
   const hoverPick =
     hover && moveMode && !pickedCard ? findCardAtFootprint(hover.x, hover.y, currentLayer) : null;
   const pickedBoardCard = pickedCard
@@ -258,6 +265,7 @@ export function BoardCanvas({ state, dispatch, moveIndexByCellKey }: Props) {
             isBelow ? 'ghost-below' : '',
             !isCurrent ? 'non-current' : '',
             hoverErase && hoverErase === card ? 'erase-target' : '',
+            hoverSwap && hoverSwap === card ? 'swap-target' : '',
             hoverPick && hoverPick === card ? 'pick-target' : '',
             isPicked ? 'picked' : '',
           ]

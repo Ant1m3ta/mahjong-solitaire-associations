@@ -59,6 +59,7 @@ export function initialEditorState(): EditorState {
     gridOutline: true,
     eraseMode: false,
     moveMode: false,
+    swapMode: false,
     pickedCard: null,
     stockAdvance: false,
     defaultNewCategorySize: 4,
@@ -85,6 +86,7 @@ function loadPersistedEditorState(): EditorState | null {
       gridOutline: parsed.gridOutline ?? true,
       eraseMode: parsed.eraseMode ?? false,
       moveMode: parsed.moveMode ?? false,
+      swapMode: parsed.swapMode ?? false,
       pickedCard: parsed.pickedCard ?? null,
       stockAdvance: parsed.stockAdvance ?? false,
       defaultNewCategorySize:
@@ -130,12 +132,15 @@ const HISTORY_ACTIONS: ReadonlySet<EditorAction['type']> = new Set([
   'PLACE_BOARD',
   'REMOVE_BOARD',
   'MOVE_BOARD',
+  'SWAP_LOCK',
   'REORDER_STOCK',
+  'PROMOTE_STOCK',
   'APPLY_STOCK_ORDER',
   'DELETE_STOCK',
   'SHUFFLE_STOCK',
   'SHUFFLE_BOARD',
   'NORMALIZE_LAYERS',
+  'ALIGN_TOP_LEFT',
   'LOAD_SKELETON',
 ]);
 
@@ -418,6 +423,25 @@ function reduceCore(state: EditorState, action: Exclude<EditorAction, { type: 'R
       return ok(state, { ...level, stock: copy });
     }
 
+    case 'PROMOTE_STOCK': {
+      const idx = action.index;
+      if (idx < 0 || idx >= level.stock.length) return state;
+      const moved = level.stock[idx];
+      // Select the clicked card so it places next, like SET_BRUSH_LETTER.
+      const select = {
+        brush: { letter: moved.letter, kind: moved.kind },
+        eraseMode: false,
+        moveMode: false,
+        pickedCard: null,
+      };
+      // Already the queue head: just select it, leave the order untouched.
+      if (idx === 0) return { ...state, ...select, lastError: null };
+      const stock = level.stock.slice();
+      stock.splice(idx, 1);
+      stock.unshift(moved);
+      return { ...ok(state, { ...level, stock }), ...select };
+    }
+
     case 'APPLY_STOCK_ORDER': {
       if (action.stock.length !== level.stock.length) return state;
       return ok(state, { ...level, stock: action.stock });
@@ -458,6 +482,7 @@ function reduceCore(state: EditorState, action: Exclude<EditorAction, { type: 'R
         ...state,
         eraseMode: !state.eraseMode,
         moveMode: false,
+        swapMode: false,
         pickedCard: null,
       };
 
@@ -466,8 +491,61 @@ function reduceCore(state: EditorState, action: Exclude<EditorAction, { type: 'R
         ...state,
         moveMode: !state.moveMode,
         eraseMode: false,
+        swapMode: false,
         pickedCard: null,
       };
+
+    case 'TOGGLE_SWAP':
+      return {
+        ...state,
+        swapMode: !state.swapMode,
+        eraseMode: false,
+        moveMode: false,
+        pickedCard: null,
+      };
+
+    case 'SWAP_LOCK': {
+      const t = action.target;
+      const board = level.board.slice();
+      const stock = level.stock.slice();
+
+      // Resolve the clicked card and stage promoting it to the category card.
+      let letter: string;
+      let clickedIsCategory: boolean;
+      let promoteClicked: () => void;
+      if (t.where === 'board') {
+        const i = board.findIndex((c) => c.x === t.x && c.y === t.y && c.z === t.z);
+        if (i < 0) return state;
+        letter = board[i].letter;
+        clickedIsCategory = board[i].kind === 'category';
+        promoteClicked = () => {
+          board[i] = { ...board[i], kind: 'category' };
+        };
+      } else {
+        const i = t.index;
+        if (i < 0 || i >= stock.length) return state;
+        letter = stock[i].letter;
+        clickedIsCategory = stock[i].kind === 'category';
+        promoteClicked = () => {
+          stock[i] = { ...stock[i], kind: 'category' };
+        };
+      }
+      if (clickedIsCategory) {
+        return fail(state, 'Already the category card — click a simple card to swap it here.');
+      }
+
+      // Demote the category's current (unique) category card, wherever it sits.
+      const lb = board.findIndex((c) => c.letter === letter && c.kind === 'category');
+      if (lb >= 0) {
+        board[lb] = { ...board[lb], kind: 'simple' };
+      } else {
+        const ls = stock.findIndex((s) => s.letter === letter && s.kind === 'category');
+        if (ls < 0) return fail(state, `No category card for ${letter} to swap.`);
+        stock[ls] = { ...stock[ls], kind: 'simple' };
+      }
+      promoteClicked();
+      return ok(state, { ...level, board, stock });
+    }
 
     case 'PICK_CARD':
       return {
@@ -511,6 +589,19 @@ function reduceCore(state: EditorState, action: Exclude<EditorAction, { type: 'R
         currentLayer: state.currentLayer + shift,
         lastError: null,
       };
+    }
+
+    case 'ALIGN_TOP_LEFT': {
+      if (level.board.length === 0) return state;
+      let minX = level.board[0].x;
+      let minY = level.board[0].y;
+      for (const c of level.board) {
+        if (c.x < minX) minX = c.x;
+        if (c.y < minY) minY = c.y;
+      }
+      if (minX === 0 && minY === 0) return state;
+      const board = level.board.map((c) => ({ ...c, x: c.x - minX, y: c.y - minY }));
+      return ok(state, { ...level, board });
     }
 
     case 'LOAD_SKELETON':

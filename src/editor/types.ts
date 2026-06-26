@@ -66,6 +66,7 @@ export interface EditorState {
   gridOutline: boolean;
   eraseMode: boolean;
   moveMode: boolean;
+  swapMode: boolean;
   pickedCard: PickedCard | null;
   stockAdvance: boolean;
   defaultNewCategorySize: number;
@@ -89,12 +90,20 @@ export type EditorAction =
   | { type: 'PLACE_BOARD'; x: number; y: number; z: number; letter: string; cardKind: CardKind }
   | { type: 'REMOVE_BOARD'; x: number; y: number; z: number }
   | { type: 'REORDER_STOCK'; from: number; to: number }
+  | { type: 'PROMOTE_STOCK'; index: number }
   | { type: 'APPLY_STOCK_ORDER'; stock: SkeletonStockEntry[] }
   | { type: 'DELETE_STOCK'; index: number }
   | { type: 'SET_BRUSH_LETTER'; letter: string | null }
   | { type: 'SET_BRUSH_KIND'; kind: CardKind }
   | { type: 'TOGGLE_ERASE' }
   | { type: 'TOGGLE_MOVE' }
+  | { type: 'TOGGLE_SWAP' }
+  | {
+      type: 'SWAP_LOCK';
+      target:
+        | { where: 'board'; x: number; y: number; z: number }
+        | { where: 'stock'; index: number };
+    }
   | { type: 'PICK_CARD'; x: number; y: number; z: number }
   | { type: 'CANCEL_PICK' }
   | { type: 'MOVE_BOARD'; from: PickedCard; to: PickedCard }
@@ -107,5 +116,6 @@ export type EditorAction =
   | { type: 'SHUFFLE_STOCK' }
   | { type: 'SHUFFLE_BOARD' }
   | { type: 'NORMALIZE_LAYERS' }
+  | { type: 'ALIGN_TOP_LEFT' }
   | { type: 'LOAD_SKELETON'; level: SkeletonLevel }
   | { type: 'ROLLBACK' };

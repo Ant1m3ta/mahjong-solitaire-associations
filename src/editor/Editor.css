@@ -384,8 +384,21 @@
   text-transform: none;
   letter-spacing: 0.2px;
 }
-.editor-stock-shuffle {
+.editor-stock-advance {
   margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  text-transform: none;
+  letter-spacing: normal;
+  font-weight: 400;
+  opacity: 0.85;
+  cursor: pointer;
+}
+.editor-stock-advance input[type="checkbox"] {
+  margin: 0;
+}
+.editor-stock-shuffle {
   text-transform: none;
   letter-spacing: normal;
   font-weight: 600;
@@ -730,6 +743,11 @@
   color: #ffe6a3;
   border-color: #b88f00;
 }
+.editor-btn.small.swap-active {
+  background: #3a2a4a;
+  color: #d9bbff;
+  border-color: #8a5ad0;
+}
 .brush-letter {
   font-size: 14px;
   font-weight: 800;
@@ -757,6 +775,7 @@
 .stock-chip-card {
   width: 42px;
   height: 60px;
+  padding: 0;
   border-radius: 5px;
   border: 2px solid #888;
   background: #fafafa;
@@ -766,11 +785,24 @@
   justify-content: center;
   font-size: 18px;
   font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
   box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.4);
+}
+.stock-chip-card:hover {
+  border-color: #66ccff;
+  box-shadow: 0 0 0 2px rgba(102, 204, 255, 0.5), 1px 2px 4px rgba(0, 0, 0, 0.4);
 }
 .stock-chip.kind-category .stock-chip-card {
   background: linear-gradient(135deg, #ffd966, #f2a72e);
   border-color: #b88f00;
+}
+.stock-chip.is-next .stock-chip-card {
+  border-color: #66ccff;
+}
+.stock-chip-card.swap-armed:hover {
+  border-color: #c084fc;
+  box-shadow: 0 0 0 2px rgba(192, 132, 252, 0.55), 1px 2px 4px rgba(0, 0, 0, 0.4);
 }
 .stock-chip-controls {
   display: flex;
@@ -892,6 +924,12 @@
   outline: 3px solid #ffd966;
   outline-offset: 1px;
   cursor: grab;
+}
+.editor-card.swap-target {
+  outline: 3px solid #c084fc;
+  outline-offset: 1px;
+  filter: brightness(1.1);
+  cursor: pointer;
 }
 .editor-card.picked {
   outline: 3px dashed #ffd966;

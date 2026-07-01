@@ -37,7 +37,10 @@ export interface EditorState {
   history: HistoryEntry[];
   brush: BrushState;
   currentLayer: number;
-  ghostBelow: boolean;
+  // Layer peeking: by default the canvas shows one layer below and one above the
+  // editing layer. These extend that to every layer in each direction.
+  showAllBelow: boolean;
+  showAllAbove: boolean;
   gridOutline: boolean;
   eraseMode: boolean;
   moveMode: boolean;
@@ -85,7 +88,8 @@ export type EditorAction =
   | { type: 'CANCEL_PICK' }
   | { type: 'MOVE_BOARD'; from: PickedCard; to: PickedCard }
   | { type: 'SET_LAYER'; z: number }
-  | { type: 'TOGGLE_GHOST_BELOW' }
+  | { type: 'TOGGLE_SHOW_ALL_BELOW' }
+  | { type: 'TOGGLE_SHOW_ALL_ABOVE' }
   | { type: 'TOGGLE_GRID_OUTLINE' }
   | { type: 'TOGGLE_STOCK_ADVANCE' }
   | { type: 'SET_DEFAULT_NEW_CATEGORY_SIZE'; size: number }

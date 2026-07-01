@@ -16,6 +16,13 @@ const Z_BASE = 10000;
 // Authoring guide: a square playfield this many full cards wide and tall.
 const OUTLINE_CARDS = 5;
 
+// Above-layer ghosts fade with distance from the editing layer (dz = card.z −
+// currentLayer, ≥ 1) so their stacking order is readable: the nearest covering
+// card is most solid, each higher one fainter, floored so it stays visible.
+function aboveGhostOpacity(dz: number): number {
+  return Math.max(0.15, 0.55 - (dz - 1) * 0.15);
+}
+
 interface Props {
   state: EditorState;
   dispatch: Dispatch<EditorAction>;
@@ -29,7 +36,7 @@ interface HoverCell {
 
 export function BoardCanvas({ state, dispatch, moveIndexByCellKey }: Props) {
   const [hover, setHover] = useState<HoverCell | null>(null);
-  const { brush, eraseMode, moveMode, swapMode, pickedCard, currentLayer, level, ghostBelow, gridOutline } = state;
+  const { brush, eraseMode, moveMode, swapMode, pickedCard, currentLayer, level, showAllBelow, showAllAbove, gridOutline } = state;
 
   // cardId -> { category index, kind }. Each board/stock card references its
   // category concretely; the display letter is derived from the category index.
@@ -238,27 +245,35 @@ export function BoardCanvas({ state, dispatch, moveIndexByCellKey }: Props) {
           const moveIdx = moveIndexByCellKey?.get(cellKey);
           const { letter: glyph, kind } = glyphOf(card.cardId);
 
-          if (card.z > currentLayer) return null; // above current layer: hidden
-
           const isCurrent = card.z === currentLayer;
           const isBelow = card.z < currentLayer;
-          // A below-layer card that is the uncovered top of its (x, y) stack
-          // plays face-up in-game (shared isSlotRevealed rule) — always show it
-          // readable, tagged with its real layer, regardless of the ghost
-          // toggle. Every other below card stays a dimmed ghost.
+          const isAbove = card.z > currentLayer;
+          // Layer peeking: show one layer below and one above by default; the
+          // "show all" toggles extend that to every layer in that direction.
+          if (isBelow && !showAllBelow && card.z !== currentLayer - 1) return null;
+          if (isAbove && !showAllAbove && card.z !== currentLayer + 1) return null;
+
+          // A visible below-layer card that is the uncovered top of its (x, y)
+          // stack plays face-up in-game (shared isSlotRevealed rule) — show it
+          // readable with a green outline; every other below card is a ghost.
+          // Above-layer cards render as a semi-transparent, non-interactive ghost.
           const revealedBelow = isBelow && revealedKeys.has(cellKey);
           const ghost = isBelow && !revealedBelow;
-          if (ghost && !ghostBelow) return null;
 
           const left = card.x * HALF_W;
           const top = offsetY + card.y * HALF_H - card.z * LAYER_LIFT;
           const zIndex = Z_BASE + card.z * 100 + (isCurrent ? 50 : 0);
+          // Above-layer ghosts fade with distance from the editing layer so the
+          // stacking order of overlaying cards reads at a glance (nearest = most
+          // solid). Opacity comes from CSS for every other card.
+          const opacity = isAbove ? aboveGhostOpacity(card.z - currentLayer) : undefined;
           const isPicked = pickedBoardCard === card;
           const cls = [
             'editor-card',
             kind === 'category' ? 'category' : 'simple',
             ghost ? 'ghost-below' : '',
             revealedBelow ? 'revealed-below' : '',
+            isAbove ? 'ghost-above' : '',
             !isCurrent ? 'non-current' : '',
             hoverErase && hoverErase === card ? 'erase-target' : '',
             hoverSwap && hoverSwap === card ? 'swap-target' : '',
@@ -271,7 +286,7 @@ export function BoardCanvas({ state, dispatch, moveIndexByCellKey }: Props) {
             <div
               key={cellKey}
               className={cls}
-              style={{ left, top, zIndex }}
+              style={{ left, top, zIndex, opacity }}
             >
               <span className="editor-card-layer-badge" title={`Layer z=${card.z}`}>
                 {card.z}

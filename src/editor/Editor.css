@@ -938,6 +938,15 @@
 .editor-card.non-current {
   box-shadow: none;
 }
+/* A card on a layer above the one being edited: shown semi-transparent (so you
+   see the card it covers) and, like every editor card, non-interactive. Its
+   opacity is set inline, fading with distance from the editing layer so the
+   stacking order reads at a glance. Amber dashed outline distinguishes "above". */
+.editor-card.ghost-above {
+  box-shadow: none;
+  outline: 2px dashed rgba(255, 150, 90, 0.85);
+  outline-offset: 1px;
+}
 /* A below-layer card that is uncovered in-game: shown face-up (readable) with a
    green outline to signal it plays revealed but isn't on the editing layer. */
 .editor-card.revealed-below {

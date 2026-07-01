@@ -478,13 +478,21 @@ export function Editor() {
               </button>
             </div>
             <div className="ghost-toggles">
-              <label title="Show cards on lower layers as ghosts">
+              <label title="Show every layer below the editing layer (default: only one layer below)">
                 <input
                   type="checkbox"
-                  checked={state.ghostBelow}
-                  onChange={() => dispatch({ type: 'TOGGLE_GHOST_BELOW' })}
+                  checked={state.showAllBelow}
+                  onChange={() => dispatch({ type: 'TOGGLE_SHOW_ALL_BELOW' })}
                 />
-                ghost z&lt;{state.currentLayer}
+                all z&lt;{state.currentLayer}
+              </label>
+              <label title="Show every layer above the editing layer (default: only one layer above)">
+                <input
+                  type="checkbox"
+                  checked={state.showAllAbove}
+                  onChange={() => dispatch({ type: 'TOGGLE_SHOW_ALL_ABOVE' })}
+                />
+                all z&gt;{state.currentLayer}
               </label>
               <label title="Show a 5×5 full-card playfield outline at the origin as an authoring guide.">
                 <input

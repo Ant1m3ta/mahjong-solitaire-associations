@@ -49,7 +49,13 @@ export function validate(level: LevelData): ValidationResult {
   if (level.board.length > 0) {
     let lo = level.board[0].z;
     for (const c of level.board) if (c.z < lo) lo = c.z;
-    if (lo !== 0) {
+    if (lo < 0) {
+      const belowZero = level.board.filter((c) => c.z < 0).length;
+      warnings.push({
+        severity: 'error',
+        text: `Negative layer: ${belowZero} card(s) below z=0 (lowest z=${lo}). Layers can't go below 0 — click Normalize to lift the board.`,
+      });
+    } else if (lo > 0) {
       warnings.push({
         severity: 'info',
         text: `Lowest z is ${lo}. Save & Play normalize automatically; click Normalize to do it now.`,

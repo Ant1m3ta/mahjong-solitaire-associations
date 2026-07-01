@@ -89,7 +89,8 @@ function loadPersistedEditorState(): EditorState | null {
       level: parsed.level,
       history: parsed.history,
       brush: parsed.brush,
-      currentLayer: typeof parsed.currentLayer === 'number' ? parsed.currentLayer : 0,
+      currentLayer:
+        typeof parsed.currentLayer === 'number' ? Math.max(0, parsed.currentLayer) : 0,
       ghostBelow: parsed.ghostBelow ?? true,
       gridOutline: parsed.gridOutline ?? true,
       eraseMode: parsed.eraseMode ?? false,
@@ -514,7 +515,7 @@ function reduceCore(state: EditorState, action: Exclude<EditorAction, { type: 'R
     }
 
     case 'SET_LAYER':
-      return { ...state, currentLayer: action.z | 0 };
+      return { ...state, currentLayer: Math.max(0, action.z | 0) };
 
     case 'NORMALIZE_LAYERS': {
       const { level: normalized, shift } = normalizeLevel(level);

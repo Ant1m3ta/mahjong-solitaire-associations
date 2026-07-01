@@ -407,7 +407,8 @@ export function Editor() {
               <button
                 className="editor-btn small"
                 onClick={() => dispatch({ type: 'SET_LAYER', z: state.currentLayer - 1 })}
-                title="Go down a layer (↓ or [). Negative z is fine; Normalize before save."
+                disabled={state.currentLayer <= 0}
+                title="Go down a layer (↓ or [). Can't go below z=0."
               >
                 ▼
               </button>

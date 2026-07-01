@@ -88,14 +88,25 @@ export function CategoryPicker({ index, category, minWords, onClose, dispatch }:
                 key={c.categoryId}
                 className={`picker-row${c.categoryId === currentId ? ' selected' : ''}`}
               >
-                <span className={`picker-kind kind-${categoryKind(c.categoryId, c.wordsIds)}`}>
-                  {categoryKind(c.categoryId, c.wordsIds)}
-                </span>
-                <span className="picker-name">{c.categoryId}</span>
-                <span className="picker-count">{c.wordsIds.length}w</span>
-                <button className="editor-btn small primary" onClick={() => pick(c.categoryId)}>
-                  Pick
-                </button>
+                <div className="picker-row-head">
+                  <span className={`picker-kind kind-${categoryKind(c.categoryId, c.wordsIds)}`}>
+                    {categoryKind(c.categoryId, c.wordsIds)}
+                  </span>
+                  <span className="picker-name">{c.categoryId}</span>
+                  <span className="picker-count">{c.wordsIds.length}w</span>
+                  <button className="editor-btn small primary" onClick={() => pick(c.categoryId)}>
+                    Pick
+                  </button>
+                </div>
+                {c.wordsIds.length > 0 && (
+                  <div className="picker-words">
+                    {c.wordsIds.map((w, i) => (
+                      <span key={`${w}-${i}`} className="picker-word">
+                        {w}
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
             ))
           )}

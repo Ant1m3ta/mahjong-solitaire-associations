@@ -6,6 +6,7 @@ import { CategoryRangePicker } from './CategoryRangePicker';
 import { BatchFillModal } from './BatchFillModal';
 import { BatchFixModal } from './BatchFixModal';
 import { ImagesModal } from './ImagesModal';
+import { LevelContentModal } from './LevelContentModal';
 import { ReorderModal } from './ReorderModal';
 import { BoardCanvas } from './BoardCanvas';
 import { useSolver, type SolverViewState } from './solver/useSolver';
@@ -32,6 +33,7 @@ export function Editor() {
   const [pickerIndex, setPickerIndex] = useState<number | null>(null);
   const [rangePickerOpen, setRangePickerOpen] = useState(false);
   const [toolsOpen, setToolsOpen] = useState(false);
+  const [contentOpen, setContentOpen] = useState(false);
   const [batchOpen, setBatchOpen] = useState(false);
   const [fixOpen, setFixOpen] = useState(false);
   const [imagesOpen, setImagesOpen] = useState(false);
@@ -261,6 +263,20 @@ export function Editor() {
               <>
                 <div className="editor-menu-backdrop" onClick={() => setToolsOpen(false)} />
                 <div className="editor-menu">
+                  <button
+                    className="editor-menu-item"
+                    onClick={() => {
+                      setToolsOpen(false);
+                      setContentOpen(true);
+                    }}
+                    disabled={state.level.categories.length === 0}
+                  >
+                    Words &amp; images (this level)…
+                    <span className="editor-menu-hint">
+                      Replace a category, roll fresh words, or swap tiles to pictures — on the loaded
+                      level. No folder needed; live &amp; undoable.
+                    </span>
+                  </button>
                   <button
                     className="editor-menu-item"
                     onClick={() => {
@@ -676,6 +692,13 @@ export function Editor() {
           slots={state.level.categories.map((_, i) => ({ letter: displayLetter(i), simpleCards: simpleCountsArr[i] }))}
           dispatch={dispatch}
           onClose={() => setRangePickerOpen(false)}
+        />
+      )}
+      {contentOpen && (
+        <LevelContentModal
+          level={state.level}
+          dispatch={dispatch}
+          onClose={() => setContentOpen(false)}
         />
       )}
       {batchOpen && (

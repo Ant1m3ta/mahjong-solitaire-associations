@@ -257,6 +257,29 @@ function buildSwapResult(level: LevelData, swaps: Map<number, string>): SwapResu
   return { level: { ...level, categories, board, stock }, slots };
 }
 
+// Per-category state of the current level, computed with the exact same logic
+// the Images tool uses (an empty swap map leaves every slot at its original
+// vocabulary). Backs the current-level "Words & images" tool.
+export function describeImageSlots(level: LevelData): ImageSlot[] {
+  return buildSwapResult(level, new Map()).slots;
+}
+
+// Apply a single-category image reskin (target = an image categoryId) or a
+// rollback to text words (target = TO_WORDS) to the current level. A short or
+// otherwise unresolved swap is NOT applied — it would leave board/stock cardIds
+// pointing at dropped wordIds — so the original level is returned with the
+// problem message instead.
+export function swapCategoryImage(
+  level: LevelData,
+  index: number,
+  target: string,
+): { level: LevelData; ok: boolean; problem?: string } {
+  const { level: next, slots } = buildSwapResult(level, new Map([[index, target]]));
+  const slot = slots[index];
+  if (!slot || !slot.ok) return { level, ok: false, problem: slot?.problem ?? 'swap failed' };
+  return { level: next, ok: true };
+}
+
 function swapsFromOverrides(level: LevelData, lvlOverrides: Record<string, string>): Map<number, string> {
   const swaps = new Map<number, string>();
   for (const [letter, id] of Object.entries(lvlOverrides)) {

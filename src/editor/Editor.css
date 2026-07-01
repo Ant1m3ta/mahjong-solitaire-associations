@@ -589,12 +589,33 @@
   padding: 6px 8px;
 }
 .picker-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+.picker-row-head {
   display: grid;
   grid-template-columns: 56px 1fr 50px 60px;
   align-items: center;
   gap: 10px;
-  padding: 6px 10px;
-  border-radius: 4px;
+}
+/* All the category's words, shown under its header so you can see the contents
+   before picking. */
+.picker-words {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.picker-word {
+  font-size: 11px;
+  padding: 1px 6px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid #33334d;
+  color: #c8c8d8;
+  white-space: nowrap;
 }
 /* Image-set picker: a header line + a strip of preview thumbnails. */
 .imgset-row {
@@ -1453,8 +1474,12 @@
   cursor: pointer;
   font: inherit;
 }
-.editor-menu-item:hover {
+.editor-menu-item:hover:not(:disabled) {
   background: rgba(102, 204, 255, 0.12);
+}
+.editor-menu-item:disabled {
+  opacity: 0.4;
+  cursor: default;
 }
 .editor-menu-hint {
   font-size: 11px;
@@ -1684,6 +1709,16 @@
   display: flex;
   flex-direction: column;
   gap: 9px;
+}
+/* Words & images (current-level) tool: the category list is the modal's main
+   scroll region, so it drops the nested indent/border of .batch-cats. */
+.level-content-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 .batch-cat-head {
   display: flex;

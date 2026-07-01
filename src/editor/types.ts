@@ -64,6 +64,9 @@ export type EditorAction =
   // revert it to a fresh placeholder ("random / unpinned").
   | { type: 'SET_PINNED_CATEGORY'; index: number; categoryId: string | null }
   | { type: 'APPLY_CATEGORY_RANGE'; assignments: RangeAssignment[] }
+  // Reskin category[index] to an image category (target = its categoryId) or roll
+  // it back to text words (target = TO_WORDS). Delegates to imageSwap's remap.
+  | { type: 'SET_CATEGORY_IMAGE'; index: number; target: string }
   | { type: 'FILL_BASIC' }
   | { type: 'FILL_WORDS' }
   | { type: 'CLEAR_PINS' }

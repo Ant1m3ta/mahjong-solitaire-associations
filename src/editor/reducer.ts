@@ -1,5 +1,6 @@
 import type { AlignAnchor, EditorAction, EditorState } from './types';
 import type { LevelData } from '../types';
+import { swapCategoryImage } from './imageSwap';
 import { BASIC_FILL, WORD_FILL } from './basics';
 import {
   LETTERS,
@@ -137,6 +138,7 @@ const HISTORY_ACTIONS: ReadonlySet<EditorAction['type']> = new Set([
   'REMOVE_CATEGORY',
   'SET_PINNED_CATEGORY',
   'APPLY_CATEGORY_RANGE',
+  'SET_CATEGORY_IMAGE',
   'FILL_BASIC',
   'FILL_WORDS',
   'CLEAR_PINS',
@@ -267,6 +269,14 @@ function reduceCore(state: EditorState, action: Exclude<EditorAction, { type: 'R
         action.assignments.map((a) => ({ index: a.index, categoryId: a.categoryId, words: a.words })),
       );
       return { ...ok(state, next), brush: brushAfterRewrite(state.brush, level, next) };
+    }
+
+    case 'SET_CATEGORY_IMAGE': {
+      const { index } = action;
+      if (index < 0 || index >= level.categories.length) return fail(state, 'Unknown category.');
+      const res = swapCategoryImage(level, index, action.target);
+      if (!res.ok) return fail(state, res.problem ?? 'Image swap failed.');
+      return { ...ok(state, res.level), brush: brushAfterRewrite(state.brush, level, res.level) };
     }
 
     case 'FILL_BASIC': {

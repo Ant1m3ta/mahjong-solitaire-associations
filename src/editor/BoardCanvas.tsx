@@ -18,9 +18,9 @@ const OUTLINE_CARDS = 5;
 
 // Above-layer ghosts fade with distance from the editing layer (dz = card.z −
 // currentLayer, ≥ 1) so their stacking order is readable: the nearest covering
-// card is most solid, each higher one fainter, floored so it stays visible.
+// card starts at 20% and each higher one is fainter, floored so it stays visible.
 function aboveGhostOpacity(dz: number): number {
-  return Math.max(0.15, 0.55 - (dz - 1) * 0.15);
+  return Math.max(0.08, 0.2 - (dz - 1) * 0.06);
 }
 
 interface Props {

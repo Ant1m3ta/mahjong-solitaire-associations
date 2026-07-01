@@ -42,6 +42,8 @@ export interface EditorState {
   showAllBelow: boolean;
   showAllAbove: boolean;
   gridOutline: boolean;
+  // Overlay each board card with its optimal-solver move number. Off by default.
+  showMoveNumbers: boolean;
   eraseMode: boolean;
   moveMode: boolean;
   swapMode: boolean;
@@ -91,6 +93,7 @@ export type EditorAction =
   | { type: 'TOGGLE_SHOW_ALL_BELOW' }
   | { type: 'TOGGLE_SHOW_ALL_ABOVE' }
   | { type: 'TOGGLE_GRID_OUTLINE' }
+  | { type: 'TOGGLE_MOVE_NUMBERS' }
   | { type: 'TOGGLE_STOCK_ADVANCE' }
   | { type: 'SET_DEFAULT_NEW_CATEGORY_SIZE'; size: number }
   | { type: 'SHUFFLE_STOCK' }

@@ -65,6 +65,7 @@ export function initialEditorState(): EditorState {
     showAllBelow: false,
     showAllAbove: false,
     gridOutline: true,
+    showMoveNumbers: false,
     eraseMode: false,
     moveMode: false,
     swapMode: false,
@@ -95,6 +96,7 @@ function loadPersistedEditorState(): EditorState | null {
       showAllBelow: parsed.showAllBelow ?? false,
       showAllAbove: parsed.showAllAbove ?? false,
       gridOutline: parsed.gridOutline ?? true,
+      showMoveNumbers: parsed.showMoveNumbers ?? false,
       eraseMode: parsed.eraseMode ?? false,
       moveMode: parsed.moveMode ?? false,
       swapMode: parsed.swapMode ?? false,
@@ -562,6 +564,9 @@ function reduceCore(state: EditorState, action: Exclude<EditorAction, { type: 'R
 
     case 'TOGGLE_GRID_OUTLINE':
       return { ...state, gridOutline: !state.gridOutline };
+
+    case 'TOGGLE_MOVE_NUMBERS':
+      return { ...state, showMoveNumbers: !state.showMoveNumbers };
 
     case 'TOGGLE_STOCK_ADVANCE': {
       const turningOn = !state.stockAdvance;

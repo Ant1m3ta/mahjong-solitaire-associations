@@ -514,6 +514,14 @@ export function Editor() {
               </label>
               {solverEnabled && (
                 <>
+                  <label title="Overlay each board card with the optimal-solver move number on which it leaves the board.">
+                    <input
+                      type="checkbox"
+                      checked={state.showMoveNumbers}
+                      onChange={() => dispatch({ type: 'TOGGLE_MOVE_NUMBERS' })}
+                    />
+                    move #s
+                  </label>
                   <SolverStatus status={solver} movesLimit={state.level.movesLimit} />
                   <DifficultyChip
                     difficulty={difficulty}
@@ -532,12 +540,14 @@ export function Editor() {
           <BoardCanvas
             state={state}
             dispatch={dispatch}
-            moveIndexByCellKey={solverEnabled ? solver.moveIndexByCellKey : undefined}
+            moveIndexByCellKey={
+              solverEnabled && state.showMoveNumbers ? solver.moveIndexByCellKey : undefined
+            }
           />
           <div className="editor-stock">
             <div className="editor-stock-title">
               <span>
-                Stock <span className="dim">({state.level.stock.length} cards, first drawn →)</span>
+                Stock <span className="dim">({state.level.stock.length} cards, ← first drawn)</span>
               </span>
               <label
                 className="editor-stock-advance"
@@ -563,7 +573,10 @@ export function Editor() {
               {state.level.stock.length === 0 ? (
                 <div className="editor-empty">Empty.</div>
               ) : (
-                state.level.stock.map((entry, i) => {
+                state.level.stock
+                  .map((entry, i) => ({ entry, i }))
+                  .reverse()
+                  .map(({ entry, i }) => {
                   const r = stockResolve(entry);
                   const letter = displayLetter(r.index);
                   const glyph = r.kind === 'category' ? letter : letter.toLowerCase();
@@ -590,17 +603,17 @@ export function Editor() {
                     <div className="stock-chip-controls">
                       <button
                         className="editor-btn small"
-                        onClick={() => dispatch({ type: 'REORDER_STOCK', from: i, to: i - 1 })}
-                        disabled={i === 0}
-                        title="Move earlier"
+                        onClick={() => dispatch({ type: 'REORDER_STOCK', from: i, to: i + 1 })}
+                        disabled={i === state.level.stock.length - 1}
+                        title="Move left (drawn earlier)"
                       >
                         ◂
                       </button>
                       <button
                         className="editor-btn small"
-                        onClick={() => dispatch({ type: 'REORDER_STOCK', from: i, to: i + 1 })}
-                        disabled={i === state.level.stock.length - 1}
-                        title="Move later"
+                        onClick={() => dispatch({ type: 'REORDER_STOCK', from: i, to: i - 1 })}
+                        disabled={i === 0}
+                        title="Move right (drawn later)"
                       >
                         ▸
                       </button>

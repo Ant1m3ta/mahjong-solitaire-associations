@@ -938,25 +938,12 @@
 .editor-card.non-current {
   box-shadow: none;
 }
-/* Reveal preview: uncovered cards play face-up in-game (green outline);
-   covered cards render face-down, matching the game's hidden tiles. */
-.editor-card.reveal-up {
-  outline: 2px solid rgba(80, 220, 140, 0.75);
+/* A below-layer card that is uncovered in-game: shown face-up (readable) with a
+   green outline to signal it plays revealed but isn't on the editing layer. */
+.editor-card.revealed-below {
+  outline: 2px solid rgba(80, 220, 140, 0.7);
   outline-offset: 1px;
-}
-.editor-card.covered-preview {
-  background: repeating-linear-gradient(
-    45deg,
-    #3a3a5a,
-    #3a3a5a 8px,
-    #2e2e4a 8px,
-    #2e2e4a 16px
-  );
-  border-color: #4a4a6a;
-  box-shadow: none;
-}
-.editor-card.covered-preview .editor-card-letter {
-  color: transparent;
+  opacity: 0.92;
 }
 .editor-card.hover-preview {
   opacity: 0.6;
@@ -1017,6 +1004,29 @@
 }
 .editor-card.ghost-below .editor-card-move-badge {
   opacity: 0.6;
+}
+/* Real layer (z) of a card shown from a layer above it. */
+.editor-card-layer-badge {
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  border-radius: 9px;
+  background: #1a1a2e;
+  color: #9fb4ff;
+  border: 1.5px solid #5a6fb0;
+  font-size: 11px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+  letter-spacing: 0;
+  z-index: 1;
 }
 
 /* ================ Solver status ================ */

@@ -29,7 +29,7 @@ interface HoverCell {
 
 export function BoardCanvas({ state, dispatch, moveIndexByCellKey }: Props) {
   const [hover, setHover] = useState<HoverCell | null>(null);
-  const { brush, eraseMode, moveMode, swapMode, pickedCard, currentLayer, level, ghostBelow, revealPreview, gridOutline } = state;
+  const { brush, eraseMode, moveMode, swapMode, pickedCard, currentLayer, level, ghostBelow, gridOutline } = state;
 
   // cardId -> { category index, kind }. Each board/stock card references its
   // category concretely; the display letter is derived from the category index.
@@ -238,33 +238,18 @@ export function BoardCanvas({ state, dispatch, moveIndexByCellKey }: Props) {
           const moveIdx = moveIndexByCellKey?.get(cellKey);
           const { letter: glyph, kind } = glyphOf(card.cardId);
 
-          // Reveal preview: show every card, face-up if uncovered in-game,
-          // face-down if covered — independent of the current layer.
-          if (revealPreview) {
-            const left = card.x * HALF_W;
-            const top = offsetY + card.y * HALF_H - card.z * LAYER_LIFT;
-            const zIndex = Z_BASE + card.z * 100;
-            const cls = [
-              'editor-card',
-              kind === 'category' ? 'category' : 'simple',
-              revealedKeys.has(cellKey) ? 'reveal-up' : 'covered-preview',
-            ].join(' ');
-            return (
-              <div key={cellKey} className={cls} style={{ left, top, zIndex }}>
-                <span className="editor-card-letter">{glyph}</span>
-                {moveIdx !== undefined && (
-                  <span className="editor-card-move-badge" title={`Played on move ${moveIdx}`}>
-                    {moveIdx}
-                  </span>
-                )}
-              </div>
-            );
-          }
+          if (card.z > currentLayer) return null; // above current layer: hidden
 
           const isCurrent = card.z === currentLayer;
           const isBelow = card.z < currentLayer;
-          if (card.z > currentLayer) return null;
-          if (isBelow && !ghostBelow) return null;
+          // A below-layer card that is the uncovered top of its (x, y) stack
+          // plays face-up in-game (shared isSlotRevealed rule) — always show it
+          // readable, tagged with its real layer, regardless of the ghost
+          // toggle. Every other below card stays a dimmed ghost.
+          const revealedBelow = isBelow && revealedKeys.has(cellKey);
+          const ghost = isBelow && !revealedBelow;
+          if (ghost && !ghostBelow) return null;
+
           const left = card.x * HALF_W;
           const top = offsetY + card.y * HALF_H - card.z * LAYER_LIFT;
           const zIndex = Z_BASE + card.z * 100 + (isCurrent ? 50 : 0);
@@ -272,7 +257,8 @@ export function BoardCanvas({ state, dispatch, moveIndexByCellKey }: Props) {
           const cls = [
             'editor-card',
             kind === 'category' ? 'category' : 'simple',
-            isBelow ? 'ghost-below' : '',
+            ghost ? 'ghost-below' : '',
+            revealedBelow ? 'revealed-below' : '',
             !isCurrent ? 'non-current' : '',
             hoverErase && hoverErase === card ? 'erase-target' : '',
             hoverSwap && hoverSwap === card ? 'swap-target' : '',
@@ -287,6 +273,9 @@ export function BoardCanvas({ state, dispatch, moveIndexByCellKey }: Props) {
               className={cls}
               style={{ left, top, zIndex }}
             >
+              <span className="editor-card-layer-badge" title={`Layer z=${card.z}`}>
+                {card.z}
+              </span>
               <span className="editor-card-letter">{glyph}</span>
               {moveIdx !== undefined && (
                 <span className="editor-card-move-badge" title={`Played on move ${moveIdx}`}>

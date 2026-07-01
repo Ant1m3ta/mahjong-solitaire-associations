@@ -63,7 +63,6 @@ export function initialEditorState(): EditorState {
     brush: { categoryId: null, kind: 'simple' },
     currentLayer: topLayerOf(level),
     ghostBelow: true,
-    revealPreview: false,
     gridOutline: true,
     eraseMode: false,
     moveMode: false,
@@ -92,7 +91,6 @@ function loadPersistedEditorState(): EditorState | null {
       brush: parsed.brush,
       currentLayer: typeof parsed.currentLayer === 'number' ? parsed.currentLayer : 0,
       ghostBelow: parsed.ghostBelow ?? true,
-      revealPreview: parsed.revealPreview ?? false,
       gridOutline: parsed.gridOutline ?? true,
       eraseMode: parsed.eraseMode ?? false,
       moveMode: parsed.moveMode ?? false,
@@ -555,9 +553,6 @@ function reduceCore(state: EditorState, action: Exclude<EditorAction, { type: 'R
 
     case 'TOGGLE_GHOST_BELOW':
       return { ...state, ghostBelow: !state.ghostBelow };
-
-    case 'TOGGLE_REVEAL_PREVIEW':
-      return { ...state, revealPreview: !state.revealPreview };
 
     case 'TOGGLE_GRID_OUTLINE':
       return { ...state, gridOutline: !state.gridOutline };
